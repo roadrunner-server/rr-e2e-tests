@@ -1,0 +1,4 @@
+logs:
+  mode: raw
+  line_ending: ""
+  level: error
