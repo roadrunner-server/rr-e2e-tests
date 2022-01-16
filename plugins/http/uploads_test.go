@@ -17,8 +17,8 @@ import (
 
 	"github.com/goccy/go-json"
 	"github.com/spiral/roadrunner-plugins/v2/http/handler"
+	"github.com/spiral/roadrunner/v2/ipc/pipe"
 	poolImpl "github.com/spiral/roadrunner/v2/pool"
-	"github.com/spiral/roadrunner/v2/transport/pipe"
 	"github.com/stretchr/testify/assert"
 )
 
