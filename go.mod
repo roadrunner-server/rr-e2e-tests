@@ -9,12 +9,44 @@ require (
 	github.com/goccy/go-json v0.9.3
 	github.com/google/uuid v1.3.0
 	github.com/prometheus/client_golang v1.11.0
-	github.com/roadrunner-server/api v0.0.0-20220108004512-4970c1a12540
-	github.com/spiral/endure v1.1.0
-	github.com/spiral/errors v1.0.12
-	github.com/spiral/goridge/v3 v3.2.7
-	github.com/spiral/roadrunner-plugins/v2 v2.7.1
-	github.com/spiral/roadrunner/v2 v2.7.1
+	github.com/roadrunner-server/amqp/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/api/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/beanstalk/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/boltdb/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/broadcast/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/cache/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/config/v2 v2.0.0-rc.3
+	github.com/roadrunner-server/endure v1.2.1
+	github.com/roadrunner-server/errors v1.1.0
+	github.com/roadrunner-server/fileserver/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/goridge/v3 v3.3.0
+	github.com/roadrunner-server/grpc/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/gzip/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/headers/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/http/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/informer/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/jobs/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/kv/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/logger/v2 v2.0.0-rc.3
+	github.com/roadrunner-server/memcached/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/memory/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/metrics/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/nats/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/new_relic/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/prometheus/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/redis/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/reload/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/resetter/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/rpc/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/sdk/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/send/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/server/v2 v2.0.0-rc.2
+	github.com/roadrunner-server/service/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/sqs/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/static/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/status/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/tcp/v2 v2.0.0-rc.1
+	github.com/roadrunner-server/websockets/v2 v2.0.0-rc.2
 	github.com/stretchr/testify v1.7.0
 	github.com/yookoala/gofast v0.6.0
 	go.uber.org/zap v1.20.0
@@ -24,18 +56,18 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/aws/aws-sdk-go-v2 v1.12.0 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.12.0 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.7.0 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.9.0 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.3 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.1.0 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.3 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.6.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sqs v1.15.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.8.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.13.0 // indirect
-	github.com/aws/smithy-go v1.9.1 // indirect
+	github.com/aws/aws-sdk-go-v2 v1.13.0 // indirect
+	github.com/aws/aws-sdk-go-v2/config v1.13.0 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.8.0 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.10.0 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.4 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.2.0 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.4 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.7.0 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sqs v1.16.0 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.9.0 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.14.0 // indirect
+	github.com/aws/smithy-go v1.10.0 // indirect
 	github.com/beanstalkd/go-beanstalk v0.1.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20220106215444-fb4bf637b56d // indirect
@@ -68,8 +100,8 @@ require (
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
-	github.com/nats-io/jwt/v2 v2.0.3 // indirect
-	github.com/nats-io/nats.go v1.13.0 // indirect
+	github.com/nats-io/jwt/v2 v2.2.1-0.20220113022732-58e87895b296 // indirect
+	github.com/nats-io/nats.go v1.13.1-0.20211122170419-d7c1d78a50fc // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/newrelic/go-agent/v3 v3.15.2 // indirect
@@ -78,15 +110,14 @@ require (
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect
 	github.com/prometheus/procfs v0.7.3 // indirect
-	github.com/rabbitmq/amqp091-go v1.2.0 // indirect
-	github.com/roadrunner-server/api/v2 v2.0.0-rc.1 // indirect
+	github.com/rabbitmq/amqp091-go v1.3.0 // indirect
+	github.com/roadrunner-server/tcplisten v1.1.0 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
 	github.com/spf13/afero v1.8.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.10.1 // indirect
-	github.com/spiral/tcplisten v1.0.0 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.9 // indirect
 	github.com/tklauser/numcpus v0.3.0 // indirect
@@ -101,14 +132,14 @@ require (
 	go.uber.org/multierr v1.7.0 // indirect
 	golang.org/x/crypto v0.0.0-20220112180741-5e0467b6c7ce // indirect
 	golang.org/x/mod v0.5.1 // indirect
-	golang.org/x/net v0.0.0-20220111093109-d55c255bac03 // indirect
+	golang.org/x/net v0.0.0-20220114011407-0dd24b26b47d // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220111092808-5a964db01320 // indirect
+	golang.org/x/sys v0.0.0-20220114195835-da31bd327af9 // indirect
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1 // indirect
+	golang.org/x/time v0.0.0-20211116232009-f0f3c7e86c11 // indirect
 	golang.org/x/tools v0.1.8 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-	google.golang.org/genproto v0.0.0-20220112215332-a9c7c0acf9f2 // indirect
+	google.golang.org/genproto v0.0.0-20220118154757-00ab72f36ad5 // indirect
 	gopkg.in/ini.v1 v1.66.2 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/roadrunner-server/api/plugins/v2/config"
-	"github.com/spiral/errors"
+	"github.com/roadrunner-server/api/v2/plugins/config"
+	"github.com/roadrunner-server/errors"
 )
 
 type Foo2 struct {

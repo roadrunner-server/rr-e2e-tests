@@ -9,18 +9,18 @@ import (
 	"time"
 
 	toxiproxy "github.com/Shopify/toxiproxy/client"
-	endure "github.com/spiral/endure/pkg/container"
-	"github.com/spiral/roadrunner-plugins/v2/amqp"
-	"github.com/spiral/roadrunner-plugins/v2/beanstalk"
-	"github.com/spiral/roadrunner-plugins/v2/config"
-	"github.com/spiral/roadrunner-plugins/v2/informer"
-	"github.com/spiral/roadrunner-plugins/v2/jobs"
-	"github.com/spiral/roadrunner-plugins/v2/logger"
-	"github.com/spiral/roadrunner-plugins/v2/nats"
-	"github.com/spiral/roadrunner-plugins/v2/resetter"
-	rpcPlugin "github.com/spiral/roadrunner-plugins/v2/rpc"
-	"github.com/spiral/roadrunner-plugins/v2/server"
-	"github.com/spiral/roadrunner-plugins/v2/sqs"
+	"github.com/roadrunner-server/amqp/v2"
+	"github.com/roadrunner-server/beanstalk/v2"
+	"github.com/roadrunner-server/config/v2"
+	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/informer/v2"
+	"github.com/roadrunner-server/jobs/v2"
+	"github.com/roadrunner-server/logger/v2"
+	"github.com/roadrunner-server/nats/v2"
+	"github.com/roadrunner-server/resetter/v2"
+	rpcPlugin "github.com/roadrunner-server/rpc/v2"
+	"github.com/roadrunner-server/server/v2"
+	"github.com/roadrunner-server/sqs/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -117,6 +117,10 @@ func TestDurabilityAMQP(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	t.Cleanup(func() {
+		destroyPipelines("test-1", "test-2")
+	})
 }
 
 func TestDurabilitySQS(t *testing.T) {
@@ -212,6 +216,10 @@ func TestDurabilitySQS(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	t.Cleanup(func() {
+		destroyPipelines("test-1", "test-2")
+	})
 }
 
 func TestDurabilityBeanstalk(t *testing.T) {
@@ -306,6 +314,10 @@ func TestDurabilityBeanstalk(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	t.Cleanup(func() {
+		destroyPipelines("test-1", "test-2")
+	})
 }
 
 func TestDurabilityNATS(t *testing.T) {
@@ -402,4 +414,8 @@ func TestDurabilityNATS(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	t.Cleanup(func() {
+		destroyPipelines("test-1", "test-2")
+	})
 }

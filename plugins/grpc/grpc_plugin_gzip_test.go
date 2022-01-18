@@ -4,8 +4,6 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
-	"net"
-	"net/rpc"
 	"os"
 	"os/signal"
 	"runtime"
@@ -19,7 +17,6 @@ import (
 
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
-	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	grpcPlugin "github.com/roadrunner-server/grpc/v2"
 	"github.com/roadrunner-server/logger/v2"
 	"github.com/roadrunner-server/resetter/v2"
@@ -32,236 +29,7 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
-func TestGrpcInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-init.yaml",
-		Prefix: "rr",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&grpcPlugin.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
-		&server.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ch, err := cont.Serve()
-	assert.NoError(t, err)
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	stopCh := make(chan struct{}, 1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-ch:
-				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	time.Sleep(time.Second * 1)
-	stopCh <- struct{}{}
-
-	wg.Wait()
-}
-
-// test panics -> https://github.com/grpc/grpc-go/blob/master/server.go#L644
-func TestGrpcInitDuplicate(t *testing.T) {
-	t.Skip("test panics, use locally")
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-init-duplicate.yaml",
-		Prefix: "rr",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&grpcPlugin.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
-		&server.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	assert.NoError(t, err)
-
-	_, err = cont.Serve()
-	assert.NoError(t, err)
-}
-
-// different services, same methods inside
-func TestGrpcInitDup2(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-init-duplicate-2.yaml",
-		Prefix: "rr",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&grpcPlugin.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
-		&server.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ch, err := cont.Serve()
-	assert.NoError(t, err)
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	stopCh := make(chan struct{}, 1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-ch:
-				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	time.Sleep(time.Second * 2)
-	stopCh <- struct{}{}
-
-	wg.Wait()
-}
-
-func TestGrpcInitMultiple(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-init-multiple.yaml",
-		Prefix: "rr",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&grpcPlugin.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
-		&server.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ch, err := cont.Serve()
-	assert.NoError(t, err)
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	stopCh := make(chan struct{}, 1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-ch:
-				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	time.Sleep(time.Second * 1)
-	stopCh <- struct{}{}
-
-	wg.Wait()
-}
-
-func TestGrpcRqRs(t *testing.T) {
+func TestGrpcRqRsGzip(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
@@ -324,7 +92,7 @@ func TestGrpcRqRs(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	conn, err := grpc.Dial("127.0.0.1:9001", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("127.0.0.1:9001", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 
@@ -338,7 +106,7 @@ func TestGrpcRqRs(t *testing.T) {
 	wg.Wait()
 }
 
-func TestGrpcRqRsMultiple(t *testing.T) {
+func TestGrpcRqRsMultipleGzip(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
@@ -401,7 +169,7 @@ func TestGrpcRqRsMultiple(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	conn, err := grpc.Dial("127.0.0.1:9001", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial("127.0.0.1:9001", grpc.WithTransportCredentials(insecure.NewCredentials()), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 
@@ -420,7 +188,7 @@ func TestGrpcRqRsMultiple(t *testing.T) {
 	wg.Wait()
 }
 
-func TestGrpcRqRsTLS(t *testing.T) {
+func TestGrpcRqRsTLSGzip(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
@@ -486,7 +254,7 @@ func TestGrpcRqRsTLS(t *testing.T) {
 	creds, err := credentials.NewClientTLSFromFile("./configs/test-certs/test.pem", "")
 	require.NoError(t, err)
 
-	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(creds))
+	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(creds), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 
@@ -500,7 +268,7 @@ func TestGrpcRqRsTLS(t *testing.T) {
 	wg.Wait()
 }
 
-func TestGrpcRqRsTLSRootCA(t *testing.T) {
+func TestGrpcRqRsTLSRootCAGzip(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("root pool is not available on Windows")
 	}
@@ -582,7 +350,7 @@ func TestGrpcRqRsTLSRootCA(t *testing.T) {
 		ClientCAs:          pool,
 	}
 
-	conn, err := grpc.Dial("127.0.0.1:9003", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)))
+	conn, err := grpc.Dial("127.0.0.1:9003", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 
@@ -596,7 +364,7 @@ func TestGrpcRqRsTLSRootCA(t *testing.T) {
 	wg.Wait()
 }
 
-func TestGrpcRqRsTLS_WithReset(t *testing.T) {
+func TestGrpcRqRsTLS_WithResetGzip(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
@@ -663,7 +431,7 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 	creds, err := credentials.NewClientTLSFromFile("./configs/test-certs/test.pem", "")
 	require.NoError(t, err)
 
-	conn, err := grpc.Dial("localhost:9002", grpc.WithTransportCredentials(creds))
+	conn, err := grpc.Dial("localhost:9002", grpc.WithTransportCredentials(creds), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 
@@ -681,23 +449,4 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
-}
-
-func sendReset(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	assert.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-	// WorkerList contains list of workers.
-
-	var ret bool
-	err = client.Call("resetter.Reset", "grpc", &ret)
-	assert.NoError(t, err)
-	assert.True(t, ret)
-	ret = false
-
-	var services []string
-	err = client.Call("resetter.List", nil, &services)
-	assert.NotNil(t, services)
-	assert.NoError(t, err)
-	require.Equal(t, []string{"grpc"}, services)
 }

@@ -4,12 +4,12 @@ import (
 	"context"
 	"time"
 
-	"github.com/roadrunner-server/api/plugins/v2/config"
-	"github.com/roadrunner-server/api/plugins/v2/server"
-	poolImpl "github.com/spiral/roadrunner/v2/pool"
+	"github.com/roadrunner-server/api/v2/plugins/config"
+	"github.com/roadrunner-server/api/v2/plugins/server"
+	poolImpl "github.com/roadrunner-server/sdk/v2/pool"
 )
 
-var testPoolConfig = &poolImpl.Config{
+var testPoolConfig = &poolImpl.Config{ //nolint:gochecknoglobals
 	NumWorkers:      10,
 	MaxJobs:         100,
 	AllocateTimeout: time.Second * 10,

@@ -3,10 +3,10 @@ package http
 import (
 	"testing"
 
-	handler "github.com/spiral/roadrunner-plugins/v2/http/handler"
+	"github.com/roadrunner-server/http/v2/handler"
 )
 
-var samples = []struct {
+var samples = []struct { //nolint:gochecknoglobals
 	in  string
 	out []string
 }{

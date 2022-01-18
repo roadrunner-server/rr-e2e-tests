@@ -14,22 +14,22 @@ import (
 
 	"github.com/gobwas/ws"
 	"github.com/gobwas/ws/wsutil"
+	"github.com/roadrunner-server/broadcast/v2"
+	"github.com/roadrunner-server/config/v2"
+	"github.com/roadrunner-server/logger/v2"
+	"github.com/roadrunner-server/memory/v2"
+	"github.com/roadrunner-server/redis/v2"
+	"github.com/roadrunner-server/server/v2"
+	"github.com/roadrunner-server/websockets/v2"
 	"github.com/stretchr/testify/require"
 
 	"github.com/goccy/go-json"
-	websocketsv1 "github.com/roadrunner-server/api/proto/websockets/v1beta"
-	endure "github.com/spiral/endure/pkg/container"
-	goridgeRpc "github.com/spiral/goridge/v3/pkg/rpc"
-	"github.com/spiral/roadrunner-plugins/v2/broadcast"
-	"github.com/spiral/roadrunner-plugins/v2/config"
-	httpPlugin "github.com/spiral/roadrunner-plugins/v2/http"
-	"github.com/spiral/roadrunner-plugins/v2/http/middleware/websockets"
-	"github.com/spiral/roadrunner-plugins/v2/logger"
-	"github.com/spiral/roadrunner-plugins/v2/memory"
-	"github.com/spiral/roadrunner-plugins/v2/redis"
-	rpcPlugin "github.com/spiral/roadrunner-plugins/v2/rpc"
-	"github.com/spiral/roadrunner-plugins/v2/server"
-	"github.com/spiral/roadrunner/v2/utils"
+	websocketsv1 "github.com/roadrunner-server/api/v2/proto/websockets/v1beta"
+	endure "github.com/roadrunner-server/endure/pkg/container"
+	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
+	httpPlugin "github.com/roadrunner-server/http/v2"
+	rpcPlugin "github.com/roadrunner-server/rpc/v2"
+	"github.com/roadrunner-server/sdk/v2/utils"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -816,20 +816,6 @@ func publishAsync(t *testing.T, topics ...string) {
 
 	ret := &websocketsv1.Response{}
 	err = client.Call("broadcast.PublishAsync", makeMessage([]byte("hello, PHP"), topics...), ret)
-	assert.NoError(t, err)
-	assert.True(t, ret.Ok)
-}
-
-func publish2(t *testing.T, topics ...string) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	if err != nil {
-		panic(err)
-	}
-
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
-	ret := &websocketsv1.Response{}
-	err = client.Call("broadcast.Publish", makeMessage([]byte("hello, PHP2"), topics...), ret)
 	assert.NoError(t, err)
 	assert.True(t, ret.Ok)
 }

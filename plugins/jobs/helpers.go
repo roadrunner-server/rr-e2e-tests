@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	jobState "github.com/roadrunner-server/api/plugins/v2/jobs"
-	jobsv1beta "github.com/roadrunner-server/api/proto/jobs/v1beta"
-	goridgeRpc "github.com/spiral/goridge/v3/pkg/rpc"
+	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
+	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1beta"
+	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

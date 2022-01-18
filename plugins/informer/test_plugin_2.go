@@ -5,25 +5,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/roadrunner-server/api/plugins/v2/config"
-	"github.com/roadrunner-server/api/plugins/v2/server"
-	"github.com/spiral/roadrunner/v2/pool"
-	"github.com/spiral/roadrunner/v2/state/process"
+	"github.com/roadrunner-server/api/v2/plugins/config"
+	"github.com/roadrunner-server/api/v2/plugins/server"
+	"github.com/roadrunner-server/sdk/v2/pool"
+	"github.com/roadrunner-server/sdk/v2/state/process"
 )
-
-var testPoolConfig2 = &pool.Config{
-	NumWorkers:      10,
-	MaxJobs:         100,
-	AllocateTimeout: time.Second * 10,
-	DestroyTimeout:  time.Second * 10,
-	Supervisor: &pool.SupervisorConfig{
-		WatchTick:       60 * time.Second,
-		TTL:             1000 * time.Second,
-		IdleTTL:         10 * time.Second,
-		ExecTTL:         10 * time.Second,
-		MaxWorkerMemory: 1000,
-	},
-}
 
 // Gauge //////////////
 type Plugin2 struct {

@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/roadrunner-server/config/v2"
+	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/logger/v2"
 	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	endure "github.com/spiral/endure/pkg/container"
-	"github.com/spiral/roadrunner-plugins/v2/config"
-	"github.com/spiral/roadrunner-plugins/v2/logger"
-	"github.com/spiral/roadrunner-plugins/v2/server"
+	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
@@ -144,6 +144,7 @@ func TestAppTCPOnInit(t *testing.T) {
 		&server.Plugin{},
 		&Foo2{},
 	)
+	require.NoError(t, err)
 
 	err = container.Init()
 	require.NoError(t, err)
@@ -217,6 +218,7 @@ func TestAppSocketsOnInit(t *testing.T) {
 		&server.Plugin{},
 		&Foo2{},
 	)
+	require.NoError(t, err)
 
 	err = container.Init()
 	require.NoError(t, err)
@@ -290,6 +292,7 @@ func TestAppSocketsOnInitFastClose(t *testing.T) {
 		&server.Plugin{},
 		&Foo2{},
 	)
+	require.NoError(t, err)
 
 	err = container.Init()
 	require.NoError(t, err)

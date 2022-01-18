@@ -5,11 +5,11 @@ import (
 	"net/rpc"
 	"time"
 
-	"github.com/spiral/errors"
-	goridgeRpc "github.com/spiral/goridge/v3/pkg/rpc"
+	"github.com/roadrunner-server/errors"
+	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 )
 
-// plugin2 makes a call to the plugin1 via RPC
+// Plugin2 makes a call to the plugin1 via RPC
 // this is just a simulation of external call FOR TEST
 // you don't need to do such things :)
 type Plugin2 struct {

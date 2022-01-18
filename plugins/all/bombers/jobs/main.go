@@ -14,8 +14,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	jobsv1beta "github.com/roadrunner-server/api/proto/jobs/v1beta"
-	goridgeRpc "github.com/spiral/goridge/v3/pkg/rpc"
+	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1beta"
+	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 )
 
 const (
@@ -24,7 +24,7 @@ const (
 	destroy string = "jobs.Destroy"
 	declare string = "jobs.Declare"
 	resume  string = "jobs.Resume"
-	stat    string = "jobs.Stat"
+	stat    string = "jobs.Stat" //nolint:unused,deadcode,varcheck
 )
 
 func main() {
@@ -55,26 +55,26 @@ func main() {
 		}
 	}()
 
-	//go func() {
-	//	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	//	if err != nil {
-	//		log.Fatal(err)
-	//	}
-	//	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-	//	for i := 0; i < 10; i++ {
-	//		go func() {
-	//			for j := 0; j < 10; j++ {
-	//				n := uuid.NewString()
-	//				declareBeanstalkPipe(client, n)
-	//				startPipelines(client, n)
-	//				push100(client, n)
-	//				atomic.AddUint64(&rate, 1)
-	//				delayedCloseCh <- n
-	//			}
-	//			wg.Done()
-	//		}()
-	//	}
-	//}()
+	go func() {
+		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		if err != nil {
+			log.Fatal(err)
+		}
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+		for i := 0; i < 10; i++ {
+			go func() {
+				for j := 0; j < 10; j++ {
+					n := uuid.NewString()
+					declareBeanstalkPipe(client, n)
+					startPipelines(client, n)
+					push100(client, n)
+					atomic.AddUint64(&rate, 1)
+					delayedCloseCh <- n
+				}
+				wg.Done()
+			}()
+		}
+	}()
 
 	go func() {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
@@ -147,10 +147,10 @@ func main() {
 
 	go func() {
 		tt := time.NewTicker(time.Second)
-		for {
+		for { //nolint:gosimple
 			select {
 			case <-tt.C:
-				fmt.Println(fmt.Sprintf("-- RATE: %d --", atomic.LoadUint64(&rate)*100))
+				fmt.Println(fmt.Sprintf("-- RATE: %d --", atomic.LoadUint64(&rate)*100)) //nolint:gosimple
 				atomic.StoreUint64(&rate, 0)
 			}
 		}
@@ -178,17 +178,6 @@ func main() {
 
 	wg.Wait()
 	stopCh <- struct{}{}
-
-	//conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-	//ll := list(client)
-	//
-	//for i := 0; i < len(ll); i++ {
-	//	destroyPipelines(delayedCloseCh, client, ll[i])
-	//}
 }
 
 func push100(client *rpc.Client, pipe string) {
@@ -197,10 +186,10 @@ func push100(client *rpc.Client, pipe string) {
 			Job: &jobsv1beta.Job{
 				Job:     "Some/Super/PHP/Class",
 				Id:      uuid.NewString(),
-				Payload: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+				Payload: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
 				Headers: map[string]*jobsv1beta.HeaderValue{"test": {Value: []string{"hello"}}},
 				Options: &jobsv1beta.Options{
-					Priority: int64(rand2.Intn(100) + 1),
+					Priority: int64(rand2.Intn(100) + 1), //nolint:gosec
 					Pipeline: pipe,
 				},
 			},
@@ -257,7 +246,7 @@ func destroyPipelines(rest chan<- string, client *rpc.Client, p string) {
 	}
 }
 
-func list(client *rpc.Client) []string {
+func list(client *rpc.Client) []string { //nolint:unused,deadcode
 	resp := &jobsv1beta.Pipelines{}
 	er := &jobsv1beta.Empty{}
 	err := client.Call("jobs.List", er, resp)

@@ -46,7 +46,7 @@ fileserver:
       # Directory to serve
       #
       # Default: "."
-      root: "../../../tests"
+      root: "../../"
 
       # When set to true, the server tries minimizing CPU usage by caching compressed files
       #

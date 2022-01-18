@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/spiral/roadrunner-plugins/v2/http/attributes"
+	"github.com/roadrunner-server/http/v2/attributes"
 	"github.com/stretchr/testify/assert"
 )
 

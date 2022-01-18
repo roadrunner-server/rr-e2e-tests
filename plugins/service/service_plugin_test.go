@@ -11,10 +11,10 @@ import (
 	"testing"
 	"time"
 
-	endure "github.com/spiral/endure/pkg/container"
-	"github.com/spiral/roadrunner-plugins/v2/config"
-	"github.com/spiral/roadrunner-plugins/v2/logger"
-	"github.com/spiral/roadrunner-plugins/v2/service"
+	"github.com/roadrunner-server/config/v2"
+	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/logger/v2"
+	"github.com/roadrunner-server/service/v2"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -19,27 +19,27 @@ import (
 	"testing"
 	"time"
 
+	"github.com/roadrunner-server/config/v2"
+	endure "github.com/roadrunner-server/endure/pkg/container"
+	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
+	"github.com/roadrunner-server/gzip/v2"
+	httpPlugin "github.com/roadrunner-server/http/v2"
+	"github.com/roadrunner-server/informer/v2"
+	"github.com/roadrunner-server/logger/v2"
+	"github.com/roadrunner-server/resetter/v2"
+	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	endure "github.com/spiral/endure/pkg/container"
-	goridgeRpc "github.com/spiral/goridge/v3/pkg/rpc"
-	"github.com/spiral/roadrunner-plugins/v2/config"
-	httpPlugin "github.com/spiral/roadrunner-plugins/v2/http"
-	"github.com/spiral/roadrunner-plugins/v2/http/middleware/gzip"
-	"github.com/spiral/roadrunner-plugins/v2/http/middleware/send"
-	"github.com/spiral/roadrunner-plugins/v2/http/middleware/static"
-	"github.com/spiral/roadrunner-plugins/v2/informer"
-	"github.com/spiral/roadrunner-plugins/v2/logger"
-	"github.com/spiral/roadrunner-plugins/v2/resetter"
-	rpcPlugin "github.com/spiral/roadrunner-plugins/v2/rpc"
-	"github.com/spiral/roadrunner-plugins/v2/server"
-	"github.com/spiral/roadrunner/v2/state/process"
+	"github.com/roadrunner-server/sdk/v2/state/process"
+	"github.com/roadrunner-server/send/v2"
+	"github.com/roadrunner-server/server/v2"
+	"github.com/roadrunner-server/static/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/yookoala/gofast"
 	"go.uber.org/zap"
 )
 
-var sslClient = &http.Client{
+var sslClient = &http.Client{ //nolint:gochecknoglobals
 	Transport: &http.Transport{
 		TLSClientConfig: &tls.Config{
 			InsecureSkipVerify: true, //nolint:gosec
@@ -1647,7 +1647,7 @@ func echoHTTP2(t *testing.T) {
 // sleep
 // supervisor destroy worker
 // compare pid's
-var workerPid int = 0
+var workerPid int = 0 //nolint:gochecknoglobals
 
 func informerTestBefore(t *testing.T) {
 	conn, err := net.Dial("tcp", "127.0.0.1:15432")
@@ -1909,8 +1909,8 @@ func noStaticHeaders(t *testing.T) {
 	// OK 200 response
 	_, r, err := get("http://127.0.0.1:21603")
 	assert.NoError(t, err)
-	assert.NotContains(t, r.Header["input"], "custom-header")
-	assert.NotContains(t, r.Header["output"], "output-header")
+	assert.NotContains(t, r.Header["input"], "custom-header")  //nolint:staticcheck
+	assert.NotContains(t, r.Header["output"], "output-header") //nolint:staticcheck
 	assert.Equal(t, r.StatusCode, http.StatusOK)
 
 	_ = r.Body.Close()
@@ -2059,7 +2059,7 @@ func serveStaticSampleNotAllowedPath(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
 	_ = resp.Body.Close()
 
-	_, r, err := get("http://127.0.0.1:21603/../../../../tests/../static/sample.txt")
+	_, r, err := get("http://127.0.0.1:21603/../../sample.txt")
 	assert.NoError(t, err)
 	assert.Equal(t, 403, r.StatusCode)
 	_ = r.Body.Close()
