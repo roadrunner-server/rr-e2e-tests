@@ -83,7 +83,6 @@ func TestGrpcInit(t *testing.T) {
 				}
 				return
 			case <-stopCh:
-				// timeout
 				err = cont.Stop()
 				if err != nil {
 					assert.FailNow(t, "error", err.Error())
