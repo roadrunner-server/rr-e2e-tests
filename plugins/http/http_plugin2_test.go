@@ -680,7 +680,6 @@ func TestHTTPBigResp(t *testing.T) {
 		require.NoError(t, err1)
 		require.Equal(t, 200, r.StatusCode)
 		_ = r.Body.Close()
-
 	}()
 
 	go func() {
