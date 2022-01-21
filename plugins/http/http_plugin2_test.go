@@ -17,6 +17,7 @@ import (
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	"github.com/roadrunner-server/fileserver/v2"
+	"github.com/roadrunner-server/gzip/v2"
 	httpPlugin "github.com/roadrunner-server/http/v2"
 	"github.com/roadrunner-server/logger/v2"
 	"github.com/roadrunner-server/memory/v2"
@@ -461,7 +462,6 @@ func TestHTTPCache(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 100)
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -603,4 +603,102 @@ func TestHTTPCacheDifferentRqs(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
+}
+
+func TestHTTPBigResp(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Path:   "configs/.rr-init-big-resp.yaml",
+		Prefix: "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&gzip.Plugin{},
+		&logger.ZapLogger{},
+		&server.Plugin{},
+		&memory.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 5)
+
+	wg2 := &sync.WaitGroup{}
+	wg2.Add(2)
+	go func() {
+		defer wg2.Done()
+		req, err1 := http.NewRequest(http.MethodGet, "http://127.0.0.1:15399", nil)
+		require.NoError(t, err1)
+
+		r, err1 := http.DefaultClient.Do(req)
+		require.NoError(t, err1)
+		require.Equal(t, 200, r.StatusCode)
+		_ = r.Body.Close()
+
+	}()
+
+	go func() {
+		defer wg2.Done()
+		req, err2 := http.NewRequest(http.MethodGet, "http://127.0.0.1:15399", nil)
+		require.NoError(t, err2)
+
+		r, err2 := http.DefaultClient.Do(req)
+		require.NoError(t, err2)
+		require.Equal(t, 200, r.StatusCode)
+		_ = r.Body.Close()
+	}()
+
+	wg2.Wait()
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	t.Cleanup(func() {
+		_ = os.RemoveAll("/well")
+	})
 }

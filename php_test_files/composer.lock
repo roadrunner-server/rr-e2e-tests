@@ -1431,16 +1431,16 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "bd934bb4dcdcb65e183ad642de3071a712fd618b"
+                "reference": "b49a0b183b234efcbd5e58bea5433439ab037a84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/bd934bb4dcdcb65e183ad642de3071a712fd618b",
-                "reference": "bd934bb4dcdcb65e183ad642de3071a712fd618b",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/b49a0b183b234efcbd5e58bea5433439ab037a84",
+                "reference": "b49a0b183b234efcbd5e58bea5433439ab037a84",
                 "shasum": ""
             },
             "require": {
@@ -1466,22 +1466,22 @@
             "description": "RoadRunner: High-performance PHP application server, load-balancer and process manager written in Golang",
             "support": {
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.7.2"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.7.3"
             },
-            "time": "2022-01-17T17:18:39+00:00"
+            "time": "2022-01-19T07:21:55+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",
-            "version": "v2.0.14",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-cli.git",
-                "reference": "211a9c4a5d52f762c6698c02f0a7f5af67c826bf"
+                "reference": "8a42aeed24939c64bccbaa179d473f9c57393dc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-cli/zipball/211a9c4a5d52f762c6698c02f0a7f5af67c826bf",
-                "reference": "211a9c4a5d52f762c6698c02f0a7f5af67c826bf",
+                "url": "https://api.github.com/repos/spiral/roadrunner-cli/zipball/8a42aeed24939c64bccbaa179d473f9c57393dc1",
+                "reference": "8a42aeed24939c64bccbaa179d473f9c57393dc1",
                 "shasum": ""
             },
             "require": {
@@ -1529,9 +1529,9 @@
             "description": "RoadRunner: Command Line Interface",
             "support": {
                 "issues": "https://github.com/spiral/roadrunner-cli/issues",
-                "source": "https://github.com/spiral/roadrunner-cli/tree/v2.0.14"
+                "source": "https://github.com/spiral/roadrunner-cli/tree/v2.1.0"
             },
-            "time": "2021-12-23T07:40:46+00:00"
+            "time": "2022-01-20T07:51:22+00:00"
         },
         {
             "name": "spiral/roadrunner-grpc",
@@ -1659,16 +1659,16 @@
         },
         {
             "name": "spiral/roadrunner-jobs",
-            "version": "v2.0.2",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-jobs.git",
-                "reference": "bee80476ddc39346c54efb057d63206a4b9f4fd7"
+                "reference": "de1c101c951767c4c0fa8bfd376891f5bc1cf95e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-jobs/zipball/bee80476ddc39346c54efb057d63206a4b9f4fd7",
-                "reference": "bee80476ddc39346c54efb057d63206a4b9f4fd7",
+                "url": "https://api.github.com/repos/spiral/roadrunner-jobs/zipball/de1c101c951767c4c0fa8bfd376891f5bc1cf95e",
+                "reference": "de1c101c951767c4c0fa8bfd376891f5bc1cf95e",
                 "shasum": ""
             },
             "require": {
@@ -1676,7 +1676,7 @@
                 "google/protobuf": "^3.7",
                 "opis/closure": "^3.6",
                 "php": ">=7.4",
-                "ramsey/uuid": "^4.1",
+                "ramsey/uuid": "^3 || ^4",
                 "spiral/goridge": "^3.1",
                 "spiral/roadrunner": "^2.0",
                 "spiral/roadrunner-worker": "^2.0"
@@ -1724,9 +1724,9 @@
             "description": "RoadRunner Queues (Jobs) plugin API library",
             "support": {
                 "issues": "https://github.com/spiral/roadrunner-jobs/issues",
-                "source": "https://github.com/spiral/roadrunner-jobs/tree/v2.0.2"
+                "source": "https://github.com/spiral/roadrunner-jobs/tree/v2.0.5"
             },
-            "time": "2021-11-26T15:10:46+00:00"
+            "time": "2022-01-19T09:34:18+00:00"
         },
         {
             "name": "spiral/roadrunner-metrics",
