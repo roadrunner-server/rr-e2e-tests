@@ -4,7 +4,7 @@ server:
   relay_timeout: "20s"
 
 http:
-  address: :8083
+  address: :8989
   max_request_size: 1024
   middleware: []
   pool:
@@ -12,8 +12,16 @@ http:
     max_jobs: 0
     allocate_timeout: 60s
     destroy_timeout: 60s
+
+  ssl:
+    address: :23452
+    redirect: false
+    key: "fixtures/test-certs/test.key"
+    cert: "fixtures/test-certs/test.pem"
+    root_ca: "fixtures/test-certs/ca.cert"
+
   http2:
-    h2c: true
+    h2c: false
     max_concurrent_streams: 128
 logs:
   mode: production

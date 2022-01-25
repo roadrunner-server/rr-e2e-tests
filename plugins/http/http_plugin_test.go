@@ -37,6 +37,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/yookoala/gofast"
 	"go.uber.org/zap"
+	"golang.org/x/net/http2"
 )
 
 var sslClient = &http.Client{ //nolint:gochecknoglobals
@@ -1003,6 +1004,99 @@ func fcgiReqURI(t *testing.T) {
 	assert.Contains(t, string(body), "ddddd")
 }
 
+func TestHTTP2Req(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*5))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Path:   "configs/.rr-h2-ssl.yaml",
+		Prefix: "rr",
+	}
+
+	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&rpcPlugin.Plugin{},
+		l,
+		&server.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 1)
+
+	tr := &http2.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, //nolint:gosec
+	}
+	client := &http.Client{
+		Transport:     tr,
+		CheckRedirect: nil,
+		Jar:           nil,
+		Timeout:       0,
+	}
+
+	req, err := http.NewRequest(http.MethodGet, "https://127.0.0.1:23452?hello=world", nil)
+	require.NoError(t, err)
+
+	r, err := client.Do(req)
+	require.NoError(t, err)
+
+	assert.Equal(t, r.StatusCode, http.StatusCreated)
+	data, err := io.ReadAll(r.Body)
+	require.NoError(t, err)
+	require.Equal(t, data, []byte("WORLD"))
+	require.NoError(t, r.Body.Close())
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("http server was started").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("http log").Len())
+}
+
 func TestH2CUpgrade(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*5))
 	assert.NoError(t, err)
@@ -1066,36 +1160,26 @@ func TestH2CUpgrade(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 1)
-	t.Run("H2cUpgrade", h2cUpgrade)
+
+	req, err := http.NewRequest("PRI", "http://127.0.0.1:8083?hello=world", nil)
+	require.NoError(t, err)
+
+	req.Header.Add("Upgrade", "h2c")
+	req.Header.Add("Connection", "HTTP2-Settings")
+	req.Header.Add("Connection", "Upgrade")
+	req.Header.Add("HTTP2-Settings", "AAMAAABkAARAAAAAAAIAAAAA")
+
+	r, err := http.DefaultClient.Do(req)
+	require.NoError(t, err)
+
+	assert.Equal(t, "101 Switching Protocols", r.Status)
+	require.NoError(t, r.Body.Close())
 
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("http server was started").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("hijacked").Len())
-}
-
-func h2cUpgrade(t *testing.T) {
-	req, err := http.NewRequest("PRI", "http://127.0.0.1:8083?hello=world", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	req.Header.Add("Upgrade", "h2c")
-	req.Header.Add("Connection", "HTTP2-Settings")
-	req.Header.Add("HTTP2-Settings", "")
-
-	r, err2 := http.DefaultClient.Do(req)
-	if err2 != nil {
-		t.Fatal(err)
-	}
-
-	assert.Equal(t, "101 Switching Protocols", r.Status)
-
-	err3 := r.Body.Close()
-	if err3 != nil {
-		t.Fatal(err)
-	}
 }
 
 func TestH2C(t *testing.T) {
@@ -1107,10 +1191,11 @@ func TestH2C(t *testing.T) {
 		Prefix: "rr",
 	}
 
+	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		l,
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -1159,33 +1244,38 @@ func TestH2C(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 1)
-	t.Run("H2c", h2c)
+	time.Sleep(time.Second * 2)
+
+	tr := &http2.Transport{
+		AllowHTTP: true,
+		DialTLS: func(network, addr string, cfg *tls.Config) (net.Conn, error) {
+			// use the http dial (w/o tls)
+			return net.Dial(network, addr)
+		},
+	}
+	client := &http.Client{
+		Transport: tr,
+	}
+
+	req, err := http.NewRequest(http.MethodGet, "http://127.0.0.1:8083?hello=world", nil)
+	require.NoError(t, err)
+
+	r, err := client.Do(req)
+	require.NoError(t, err)
+
+	assert.Equal(t, "201 Created", r.Status)
+	data, err := io.ReadAll(r.Body)
+	require.NoError(t, err)
+
+	require.Equal(t, []byte("WORLD"), data)
+
+	require.NoError(t, r.Body.Close())
 
 	stopCh <- struct{}{}
 	wg.Wait()
-}
 
-func h2c(t *testing.T) {
-	req, err := http.NewRequest("PRI", "http://127.0.0.1:8083?hello=world", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	req.Header.Add("Connection", "HTTP2-Settings")
-	req.Header.Add("HTTP2-Settings", "")
-
-	r, err2 := http.DefaultClient.Do(req)
-	if err2 != nil {
-		t.Fatal(err)
-	}
-
-	assert.Equal(t, "201 Created", r.Status)
-
-	err3 := r.Body.Close()
-	if err3 != nil {
-		t.Fatal(err)
-	}
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("http server was started").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("http log").Len())
 }
 
 func TestHttpMiddleware(t *testing.T) {

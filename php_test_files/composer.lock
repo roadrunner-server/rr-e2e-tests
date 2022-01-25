@@ -1431,16 +1431,16 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2.7.3",
+            "version": "v2.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "b49a0b183b234efcbd5e58bea5433439ab037a84"
+                "reference": "def609ffe7ec1cf510564f610f56a5e570d43168"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/b49a0b183b234efcbd5e58bea5433439ab037a84",
-                "reference": "b49a0b183b234efcbd5e58bea5433439ab037a84",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/def609ffe7ec1cf510564f610f56a5e570d43168",
+                "reference": "def609ffe7ec1cf510564f610f56a5e570d43168",
                 "shasum": ""
             },
             "require": {
@@ -1466,9 +1466,9 @@
             "description": "RoadRunner: High-performance PHP application server, load-balancer and process manager written in Golang",
             "support": {
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.7.3"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.7.4"
             },
-            "time": "2022-01-19T07:21:55+00:00"
+            "time": "2022-01-21T22:49:04+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",
@@ -3198,16 +3198,16 @@
         },
         {
             "name": "temporal/sdk",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/temporalio/sdk-php.git",
-                "reference": "e997931c2ef4d52492ac625d0b963e276a084d6b"
+                "reference": "7eb089f8279d10defc5e8277ea90ef9fef4b82b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/e997931c2ef4d52492ac625d0b963e276a084d6b",
-                "reference": "e997931c2ef4d52492ac625d0b963e276a084d6b",
+                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/7eb089f8279d10defc5e8277ea90ef9fef4b82b4",
+                "reference": "7eb089f8279d10defc5e8277ea90ef9fef4b82b4",
                 "shasum": ""
             },
             "require": {
@@ -3275,7 +3275,7 @@
                 "issues": "https://github.com/temporalio/sdk-php/issues",
                 "source": "https://github.com/temporalio/sdk-php"
             },
-            "time": "2021-12-28T11:43:53+00:00"
+            "time": "2022-01-23T19:09:03+00:00"
         }
     ],
     "packages-dev": [],
