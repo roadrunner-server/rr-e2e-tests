@@ -10,7 +10,7 @@ http:
   max_request_size: 1024
   middleware: [ "http_metrics" ]
   pool:
-    num_workers: 1
+    num_workers: 10
 
 metrics:
   address: 127.0.0.1:2112

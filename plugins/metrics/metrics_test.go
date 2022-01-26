@@ -917,12 +917,13 @@ func TestHTTPMetrics(t *testing.T) {
 	cfg.Prefix = "rr"
 	cfg.Path = "configs/.rr-http-metrics.yaml"
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&metrics.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
-		&logger.ZapLogger{},
+		l,
 		&prometheus.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -939,9 +940,12 @@ func TestHTTPMetrics(t *testing.T) {
 	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	tt := time.NewTimer(time.Minute * 3)
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
 
 	go func() {
 		defer tt.Stop()
+		defer wg.Done()
 		for {
 			select {
 			case e := <-ch:
@@ -971,6 +975,7 @@ func TestHTTPMetrics(t *testing.T) {
 	t.Run("req1", echoHTTP("13223"))
 	t.Run("req2", echoHTTP("13223"))
 
+	time.Sleep(time.Millisecond * 500)
 	genericOut, err := get()
 	assert.NoError(t, err)
 	assert.Contains(t, genericOut, `rr_http_request_duration_seconds_bucket`)
@@ -978,8 +983,14 @@ func TestHTTPMetrics(t *testing.T) {
 	assert.Contains(t, genericOut, `rr_http_request_duration_seconds_count{status="200"}`)
 	assert.Contains(t, genericOut, `rr_http_request_total{status="200"}`)
 	assert.Contains(t, genericOut, "rr_http_workers_memory_bytes")
+	assert.Contains(t, genericOut, `state="ready"}`)
+	assert.Contains(t, genericOut, `{pid=`)
+	assert.Contains(t, genericOut, `rr_http_total_workers 10`)
 
 	close(sig)
+	wg.Wait()
+
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("http log").Len())
 }
 
 func echoHTTP(port string) func(t *testing.T) {
@@ -988,7 +999,7 @@ func echoHTTP(port string) func(t *testing.T) {
 		assert.NoError(t, err)
 
 		r, err := http.DefaultClient.Do(req)
-		assert.NoError(t, err)
+		require.NoError(t, err)
 		_, err = ioutil.ReadAll(r.Body)
 		assert.NoError(t, err)
 
