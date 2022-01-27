@@ -361,9 +361,10 @@ func TestReloadCopy100(t *testing.T) {
 	assert.NoError(t, os.Mkdir(testCopyToDir, 0755))
 	assert.NoError(t, os.Mkdir(dir1, 0755))
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		l,
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&reload.Plugin{},
@@ -448,6 +449,11 @@ func TestReloadCopy100(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	require.Greater(t, oLogger.FilterMessageSnippet("file was updated").Len(), 1)
+	require.Greater(t, oLogger.FilterMessageSnippet("file added to the list of removed files").Len(), 1)
+	require.Greater(t, oLogger.FilterMessageSnippet("file was added to watcher").Len(), 1)
+	require.GreaterOrEqual(t, oLogger.FilterMessageSnippet("reset signal was received").Len(), 1)
 }
 
 func reloadMoveSupport(t *testing.T) {

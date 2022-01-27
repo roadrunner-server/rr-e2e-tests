@@ -179,8 +179,12 @@ func TestJOBSMetrics(t *testing.T) {
 	assert.Contains(t, genericOut, `rr_jobs_push_err 0`)
 	assert.Contains(t, genericOut, `rr_jobs_push_ok 3`)
 	assert.Contains(t, genericOut, "workers_memory_bytes")
+	assert.Contains(t, genericOut, `state="ready"}`)
+	assert.Contains(t, genericOut, `{pid=`)
+	assert.Contains(t, genericOut, `rr_jobs_total_workers 1`)
 
 	close(sig)
+
 	wg.Wait()
 }
 

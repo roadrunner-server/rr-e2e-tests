@@ -131,7 +131,7 @@ func TestMetricsIssue571(t *testing.T) {
 	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	// give some time to wait http
-	time.Sleep(time.Second * 2)
+	time.Sleep(time.Second)
 	_, err = issue571Http()
 	assert.NoError(t, err)
 
