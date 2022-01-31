@@ -484,8 +484,8 @@ github.com/roadrunner-server/jobs/v2 v2.8.0-rc.2 h1:bl+8dVz3YMFCEP+J+Z3sj8k4/h+s
 github.com/roadrunner-server/jobs/v2 v2.8.0-rc.2/go.mod h1:HtIcD3aIN7nby5t8ey/ok4ZLLLiutcrWeQOPq3sIZVM=
 github.com/roadrunner-server/kv/v2 v2.8.0-rc.1 h1:lYE05NB5CwN8RX+sDZTG6pSi/UEecss+1aOZP2BYvgI=
 github.com/roadrunner-server/kv/v2 v2.8.0-rc.1/go.mod h1:hGQWEIzguFhQxd4kkXLiBLCVaSA8Wtvhw5O4+i0b2NI=
-github.com/roadrunner-server/logger/v2 v2.8.0-rc.1 h1:BbdGDEKz11z8QKO5ck12c0onsZ7Y2/ZYnPYhmYFyXxw=
-github.com/roadrunner-server/logger/v2 v2.8.0-rc.1/go.mod h1:roSavcWv98Q7mlq+ycgfkv8H/nQZByZ90430ZKBv2b8=
+github.com/roadrunner-server/logger/v2 v2.8.0-rc.2 h1:Ijt/MNCTg+rEEJ/S8jVrdFjcLgRojfs8cFFjjn/wPQE=
+github.com/roadrunner-server/logger/v2 v2.8.0-rc.2/go.mod h1:roSavcWv98Q7mlq+ycgfkv8H/nQZByZ90430ZKBv2b8=
 github.com/roadrunner-server/memcached/v2 v2.8.0-rc.1 h1:osG8Ze7cY7rFLUytfnanhuvgjBEZiOYLD/ncjAB0ty4=
 github.com/roadrunner-server/memcached/v2 v2.8.0-rc.1/go.mod h1:RQThLMVWkNHX4xqOpbtPlrx+nXaVyl8w3zmzrHuszh8=
 github.com/roadrunner-server/memory/v2 v2.8.0-rc.1 h1:gv1ve8pb1v2kR28vpM5r1jKJuPH0VKSQ+96vV2DWwCE=
