@@ -8,7 +8,7 @@ require (
 	github.com/gobwas/ws v1.1.0
 	github.com/goccy/go-json v0.9.4
 	github.com/google/uuid v1.3.0
-	github.com/prometheus/client_golang v1.12.0
+	github.com/prometheus/client_golang v1.12.1
 	github.com/roadrunner-server/amqp/v2 v2.8.0-rc.1
 	github.com/roadrunner-server/api/v2 v2.8.0-rc.1
 	github.com/roadrunner-server/beanstalk/v2 v2.8.0-rc.1
