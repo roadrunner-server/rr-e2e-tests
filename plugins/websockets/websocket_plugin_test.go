@@ -45,7 +45,7 @@ func TestWebsocketsInit(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&redis.Plugin{},
 		&websockets.Plugin{},
@@ -123,7 +123,7 @@ func TestWSRedis(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&redis.Plugin{},
 		&websockets.Plugin{},
@@ -198,7 +198,7 @@ func TestWSRedisNoSection(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&redis.Plugin{},
 		&websockets.Plugin{},
@@ -228,7 +228,7 @@ func TestWSDeny(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&websockets.Plugin{},
 		&httpPlugin.Plugin{},
@@ -302,7 +302,7 @@ func TestWSDeny2(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&websockets.Plugin{},
 		&httpPlugin.Plugin{},
@@ -376,7 +376,7 @@ func TestWSStop(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&redis.Plugin{},
 		&websockets.Plugin{},
@@ -463,7 +463,7 @@ func TestWSAllow(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&redis.Plugin{},
 		&websockets.Plugin{},
@@ -538,7 +538,7 @@ func TestWSAllow2(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&redis.Plugin{},
 		&websockets.Plugin{},

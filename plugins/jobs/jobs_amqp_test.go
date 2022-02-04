@@ -756,7 +756,7 @@ func TestAMQPNoGlobalSection(t *testing.T) {
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},

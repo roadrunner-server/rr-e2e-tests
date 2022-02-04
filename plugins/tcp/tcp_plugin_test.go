@@ -34,7 +34,7 @@ func TestTCPInit(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&tcp.Plugin{},
 	)
@@ -153,7 +153,7 @@ func TestTCPEmptySend(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&tcp.Plugin{},
 	)
@@ -236,7 +236,7 @@ func TestTCPConnClose(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&tcp.Plugin{},
 	)
@@ -319,7 +319,7 @@ func TestTCPFull(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&tcp.Plugin{},
 	)

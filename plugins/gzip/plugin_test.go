@@ -32,7 +32,7 @@ func TestGzipPlugin(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&gzip.Plugin{},

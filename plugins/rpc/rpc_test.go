@@ -46,7 +46,7 @@ func TestRpcInit(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	err = cont.Register(&logger.ZapLogger{})
+	err = cont.Register(&logger.Plugin{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -123,7 +123,7 @@ func TestRpcDisabled(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	err = cont.Register(&logger.ZapLogger{})
+	err = cont.Register(&logger.Plugin{})
 	if err != nil {
 		t.Fatal(err)
 	}

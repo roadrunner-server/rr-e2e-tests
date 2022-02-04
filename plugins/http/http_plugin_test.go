@@ -59,7 +59,7 @@ func TestHTTPInit(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -123,7 +123,7 @@ func TestHTTPAccessLogs(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -207,7 +207,7 @@ func TestHTTPXSendFile(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&send.Plugin{},
 		&httpPlugin.Plugin{},
@@ -299,7 +299,7 @@ func TestHTTPNoConfigSection(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -364,7 +364,7 @@ func TestHTTPInformerReset(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&informer.Plugin{},
@@ -438,7 +438,7 @@ func TestSSL(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -574,7 +574,7 @@ func TestSSLRedirect(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -663,7 +663,7 @@ func TestSSLPushPipes(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -753,7 +753,7 @@ func TestFastCGI_Echo(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&static.Plugin{},
@@ -839,7 +839,7 @@ func TestFastCGI_EchoUnix(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&static.Plugin{},
@@ -929,7 +929,7 @@ func TestFastCGI_RequestUri(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -1290,7 +1290,7 @@ func TestHttpMiddleware(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&PluginMiddleware{},
@@ -1419,7 +1419,7 @@ logs:
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&PluginMiddleware{},
@@ -1506,7 +1506,7 @@ func TestHttpEnvVariables(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&PluginMiddleware{},
@@ -1593,7 +1593,7 @@ func TestHttpBrokenPipes(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&PluginMiddleware{},
@@ -1655,7 +1655,7 @@ func TestHTTPSupervisedPool(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&informer.Plugin{},
@@ -1816,7 +1816,7 @@ func TestHTTPBigRequestSize(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -1906,7 +1906,7 @@ func TestStaticEtagPlugin(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&gzip.Plugin{},
@@ -2017,7 +2017,7 @@ func TestStaticPluginSecurity(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&gzip.Plugin{},
@@ -2166,7 +2166,7 @@ func TestStaticPlugin(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&gzip.Plugin{},
@@ -2280,7 +2280,7 @@ func TestStaticDisabled_Error(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&gzip.Plugin{},
@@ -2301,7 +2301,7 @@ func TestStaticFilesDisabled(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&gzip.Plugin{},
@@ -2481,7 +2481,7 @@ func TestHTTPIssue659(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -2550,7 +2550,7 @@ func TestHTTPIPv6Long(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -2619,7 +2619,7 @@ func TestHTTPIPv6Short(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)

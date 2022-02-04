@@ -35,7 +35,7 @@ func TestStatusHttp(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&status.Plugin{},
@@ -122,7 +122,7 @@ func TestStatusRPC(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&status.Plugin{},
@@ -201,7 +201,7 @@ func TestReadyHttp(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&status.Plugin{},
@@ -288,7 +288,7 @@ func TestReadinessRPCWorkerNotReady(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&status.Plugin{},

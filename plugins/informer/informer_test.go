@@ -39,7 +39,7 @@ func TestInformerInit(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&informer.Plugin{},
 		&rpcPlugin.Plugin{},
 		&Plugin1{},
@@ -109,7 +109,7 @@ func TestInformerEarlyCall(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&http.Plugin{},
 		&informer.Plugin{},
 		&resetter.Plugin{},

@@ -30,7 +30,7 @@ func TestHeadersInit(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&headers.Plugin{},
@@ -96,7 +96,7 @@ func TestRequestHeaders(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&headers.Plugin{},
@@ -181,7 +181,7 @@ func TestResponseHeaders(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&headers.Plugin{},
@@ -267,7 +267,7 @@ func TestCORSHeaders(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&headers.Plugin{},

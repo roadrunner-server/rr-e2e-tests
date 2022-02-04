@@ -29,7 +29,7 @@ func TestServiceInit(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&service.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -94,7 +94,7 @@ func TestServiceInitStdout(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&service.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -159,7 +159,7 @@ func TestServiceEnv(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&service.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -224,7 +224,7 @@ func TestServiceError(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&service.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -286,7 +286,7 @@ func TestServiceRestarts(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&service.Plugin{},
 	)
 	assert.NoError(t, err)

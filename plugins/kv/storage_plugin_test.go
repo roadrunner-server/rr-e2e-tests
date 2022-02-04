@@ -43,7 +43,7 @@ func TestKVInit(t *testing.T) {
 		&memcached.Plugin{},
 		&redis.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&kv.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -118,7 +118,7 @@ func TestKVNoInterval(t *testing.T) {
 		cfg,
 		&boltdb.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&kv.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -193,7 +193,7 @@ func TestKVCreateToReopenWithPerms(t *testing.T) {
 		cfg,
 		&boltdb.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&kv.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -261,7 +261,7 @@ func TestKVCreateToReopenWithPerms2(t *testing.T) {
 		cfg,
 		&boltdb.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&kv.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -378,7 +378,7 @@ func TestBoltDb(t *testing.T) {
 		&kv.Plugin{},
 		&boltdb.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&memory.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -641,7 +641,7 @@ func TestMemcached(t *testing.T) {
 		&kv.Plugin{},
 		&memcached.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&memory.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -904,7 +904,7 @@ func TestInMemory(t *testing.T) {
 		&kv.Plugin{},
 		&memory.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -1165,7 +1165,7 @@ func TestRedis(t *testing.T) {
 		&kv.Plugin{},
 		&redis.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&memory.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -1233,7 +1233,7 @@ func TestRedisGlobalSection(t *testing.T) {
 		&kv.Plugin{},
 		&redis.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&memory.Plugin{},
 	)
 	assert.NoError(t, err)

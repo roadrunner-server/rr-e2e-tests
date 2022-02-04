@@ -85,7 +85,7 @@ func TestConfigOverwriteFail(t *testing.T) {
 	vp.Flags = []string{"rpc.listen=tcp//not_exist"}
 
 	err = container.RegisterAll(
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
 		&Foo2{},
@@ -107,7 +107,7 @@ func TestConfigOverwriteFail_2(t *testing.T) {
 	vp.Flags = []string{"rpc.listen="}
 
 	err = container.RegisterAll(
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
 		&Foo2{},
@@ -129,7 +129,7 @@ func TestConfigOverwriteFail_3(t *testing.T) {
 	vp.Flags = []string{"="}
 
 	err = container.RegisterAll(
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
 		&Foo2{},
@@ -151,7 +151,7 @@ func TestConfigOverwriteValid(t *testing.T) {
 	vp.Flags = []string{"rpc.listen=tcp://127.0.0.1:36643"}
 
 	err = container.RegisterAll(
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
 		&Foo2{},
@@ -202,7 +202,7 @@ func TestConfigEnvVariables(t *testing.T) {
 	vp.Prefix = "rr"
 
 	err = container.RegisterAll(
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
 		&Foo2{},
@@ -253,7 +253,7 @@ func TestConfigEnvVariablesFail(t *testing.T) {
 	vp.Prefix = "rr"
 
 	err = container.RegisterAll(
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
 		&Foo2{},
@@ -340,7 +340,7 @@ func TestViperProvider_Init_Version(t *testing.T) {
 		&jobs.Plugin{},
 		&amqp.Plugin{},
 		&beanstalk.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		vp,
 	)
@@ -410,7 +410,7 @@ func TestViperProvider_Init_Version27(t *testing.T) {
 		&jobs.Plugin{},
 		&amqp.Plugin{},
 		&beanstalk.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		vp,
 	)

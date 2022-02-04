@@ -40,7 +40,7 @@ func TestHTTPPost(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -149,7 +149,7 @@ func TestSSLNoHTTP(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -237,7 +237,7 @@ func TestFileServer(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&fileserver.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -333,7 +333,7 @@ func TestHTTPNewRelic(t *testing.T) {
 		cfg,
 		&newrelic.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -412,7 +412,7 @@ func TestHTTPCache(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&cache.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&memory.Plugin{},
 		&httpPlugin.Plugin{},
@@ -478,7 +478,7 @@ func TestHTTPCacheDifferentRqs(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&cache.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&memory.Plugin{},
 		&httpPlugin.Plugin{},
@@ -617,7 +617,7 @@ func TestHTTPBigResp(t *testing.T) {
 	err = cont.RegisterAll(
 		cfg,
 		&gzip.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&memory.Plugin{},
 		&httpPlugin.Plugin{},

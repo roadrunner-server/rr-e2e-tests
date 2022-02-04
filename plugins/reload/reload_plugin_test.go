@@ -245,7 +245,7 @@ func TestReloadFilterFileExt(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&reload.Plugin{},
@@ -645,7 +645,7 @@ func TestReloadNoRecursion(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&reload.Plugin{},

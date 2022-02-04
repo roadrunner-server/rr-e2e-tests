@@ -31,7 +31,7 @@ func TestAppPipes(t *testing.T) {
 		vp,
 		&server.Plugin{},
 		&Foo{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 	)
 	require.NoError(t, err)
 
@@ -89,7 +89,7 @@ func TestAppSockets(t *testing.T) {
 	err = container.Register(&Foo2{})
 	require.NoError(t, err)
 
-	err = container.Register(&logger.ZapLogger{})
+	err = container.Register(&logger.Plugin{})
 	require.NoError(t, err)
 
 	err = container.Init()
@@ -360,7 +360,7 @@ func TestAppTCP(t *testing.T) {
 	err = container.Register(&Foo3{})
 	require.NoError(t, err)
 
-	err = container.Register(&logger.ZapLogger{})
+	err = container.Register(&logger.Plugin{})
 	require.NoError(t, err)
 
 	err = container.Init()
@@ -412,7 +412,7 @@ func TestAppWrongConfig(t *testing.T) {
 	err = container.Register(&Foo3{})
 	require.NoError(t, err)
 
-	err = container.Register(&logger.ZapLogger{})
+	err = container.Register(&logger.Plugin{})
 	require.NoError(t, err)
 
 	require.Error(t, container.Init())
@@ -435,7 +435,7 @@ func TestAppWrongRelay(t *testing.T) {
 	err = container.Register(&Foo3{})
 	require.NoError(t, err)
 
-	err = container.Register(&logger.ZapLogger{})
+	err = container.Register(&logger.Plugin{})
 	require.NoError(t, err)
 
 	err = container.Init()
@@ -464,7 +464,7 @@ func TestAppWrongCommand(t *testing.T) {
 	err = container.Register(&Foo3{})
 	require.NoError(t, err)
 
-	err = container.Register(&logger.ZapLogger{})
+	err = container.Register(&logger.Plugin{})
 	require.NoError(t, err)
 
 	err = container.Init()
@@ -491,7 +491,7 @@ func TestAppWrongCommandOnInit(t *testing.T) {
 	err = container.Register(&Foo3{})
 	require.NoError(t, err)
 
-	err = container.Register(&logger.ZapLogger{})
+	err = container.Register(&logger.Plugin{})
 	require.NoError(t, err)
 
 	err = container.Init()
@@ -518,7 +518,7 @@ func TestAppNoAppSectionInConfig(t *testing.T) {
 	err = container.Register(&Foo3{})
 	require.NoError(t, err)
 
-	err = container.Register(&logger.ZapLogger{})
+	err = container.Register(&logger.Plugin{})
 	require.NoError(t, err)
 
 	err = container.Init()

@@ -32,7 +32,7 @@ func TestLogger(t *testing.T) {
 	err = container.RegisterAll(
 		vp,
 		&Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -89,7 +89,7 @@ func TestLoggerRawErr(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -155,7 +155,7 @@ func TestLoggerNoConfig(t *testing.T) {
 	err = container.RegisterAll(
 		vp,
 		&Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -215,7 +215,7 @@ func TestLoggerNoConfig2(t *testing.T) {
 	err = container.RegisterAll(
 		vp,
 		&rpc.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&httpPlugin.Plugin{},
 		&server.Plugin{},
 	)
@@ -276,7 +276,7 @@ func TestFileLogger(t *testing.T) {
 	err = container.RegisterAll(
 		vp,
 		&rpc.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&httpPlugin.Plugin{},
 		&server.Plugin{},
 	)
@@ -362,7 +362,7 @@ func TestMarshalObjectLogging(t *testing.T) {
 	err = container.RegisterAll(
 		vp,
 		&Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 	)
 	assert.NoError(t, err)
 

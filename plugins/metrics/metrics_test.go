@@ -47,7 +47,7 @@ func TestMetricsInit(t *testing.T) {
 		cfg,
 		&metrics.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&Plugin1{},
 	)
 	assert.NoError(t, err)
@@ -241,7 +241,7 @@ func TestMetricsGaugeCollector(t *testing.T) {
 		cfg,
 		&metrics.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&Plugin1{},
 	)
 	assert.NoError(t, err)
@@ -1023,7 +1023,7 @@ func TestHTTPMetricsNoFreeWorkers(t *testing.T) {
 		&metrics.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&prometheus.Plugin{},
 	)
 	assert.NoError(t, err)

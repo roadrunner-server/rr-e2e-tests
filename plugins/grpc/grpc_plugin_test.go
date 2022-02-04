@@ -52,7 +52,7 @@ func TestGrpcInit(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -120,7 +120,7 @@ func TestGrpcInitDuplicate(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -146,7 +146,7 @@ func TestGrpcInitDup2(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -213,7 +213,7 @@ func TestGrpcInitMultiple(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -280,7 +280,7 @@ func TestGrpcRqRs(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -357,7 +357,7 @@ func TestGrpcRqRsMultiple(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -439,7 +439,7 @@ func TestGrpcRqRsTLS(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -522,7 +522,7 @@ func TestGrpcRqRsTLSRootCA(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -615,7 +615,7 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&resetter.Plugin{},
 	)

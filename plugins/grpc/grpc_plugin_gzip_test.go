@@ -42,7 +42,7 @@ func TestGrpcRqRsGzip(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -119,7 +119,7 @@ func TestGrpcRqRsMultipleGzip(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -201,7 +201,7 @@ func TestGrpcRqRsTLSGzip(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -284,7 +284,7 @@ func TestGrpcRqRsTLSRootCAGzip(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -377,7 +377,7 @@ func TestGrpcRqRsTLS_WithResetGzip(t *testing.T) {
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&server.Plugin{},
 		&resetter.Plugin{},
 	)

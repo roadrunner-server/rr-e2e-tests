@@ -37,7 +37,7 @@ func TestJobsInit(t *testing.T) {
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
@@ -111,7 +111,7 @@ func TestJOBSMetrics(t *testing.T) {
 		&rpcPlugin.Plugin{},
 		&server.Plugin{},
 		&jobs.Plugin{},
-		&logger.ZapLogger{},
+		&logger.Plugin{},
 		&metrics.Plugin{},
 		&memory.Plugin{},
 	)
