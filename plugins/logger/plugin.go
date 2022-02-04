@@ -9,26 +9,25 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-type Plugin struct {
+type TestPlugin struct {
 	config config.Configurer
 	log    *zap.Logger
 }
 
-type Loggable struct {
-}
+type Loggable struct{}
 
 func (l *Loggable) MarshalLogObject(encoder zapcore.ObjectEncoder) error {
 	encoder.AddString("error", "Example marshaller error")
 	return nil
 }
 
-func (p1 *Plugin) Init(cfg config.Configurer, log *zap.Logger) error {
+func (p1 *TestPlugin) Init(cfg config.Configurer, log *zap.Logger) error {
 	p1.config = cfg
 	p1.log = log
 	return nil
 }
 
-func (p1 *Plugin) Serve() chan error {
+func (p1 *TestPlugin) Serve() chan error {
 	errCh := make(chan error, 1)
 	p1.log.Error("error", zap.Error(errors.E(errors.Str("test"))))
 	p1.log.Info("error", zap.Error(errors.E(errors.Str("test"))))
@@ -61,10 +60,10 @@ func (p1 *Plugin) Serve() chan error {
 	return errCh
 }
 
-func (p1 *Plugin) Stop() error {
+func (p1 *TestPlugin) Stop() error {
 	return nil
 }
 
-func (p1 *Plugin) Name() string {
+func (p1 *TestPlugin) Name() string {
 	return "logger_plugin"
 }

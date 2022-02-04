@@ -31,7 +31,7 @@ func TestLogger(t *testing.T) {
 
 	err = container.RegisterAll(
 		vp,
-		&Plugin{},
+		&TestPlugin{},
 		&logger.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -154,7 +154,7 @@ func TestLoggerNoConfig(t *testing.T) {
 
 	err = container.RegisterAll(
 		vp,
-		&Plugin{},
+		&TestPlugin{},
 		&logger.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -361,7 +361,7 @@ func TestMarshalObjectLogging(t *testing.T) {
 
 	err = container.RegisterAll(
 		vp,
-		&Plugin{},
+		&TestPlugin{},
 		&logger.Plugin{},
 	)
 	assert.NoError(t, err)
