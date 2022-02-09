@@ -1,3 +1,0 @@
-{"level":"DEBUG","ts":"2022-02-09T10:28:45.137+0300","logger":"server      ","msg":"worker is allocated","pid":150747,"internal_event_name":"EventWorkerConstruct"}
-{"level":"DEBUG","ts":"2022-02-09T10:28:45.137+0300","logger":"server      ","msg":"worker is allocated","pid":150748,"internal_event_name":"EventWorkerConstruct"}
-{"level":"DEBUG","ts":"2022-02-09T10:28:45.137+0300","logger":"http        ","msg":"http server was started","address":"127.0.0.1:54224"}
