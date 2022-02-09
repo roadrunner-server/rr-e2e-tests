@@ -55,8 +55,6 @@ require (
 	google.golang.org/protobuf v1.27.1
 )
 
-replace github.com/roadrunner-server/grpc/v2 => ../plugins/grpc
-
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.13.0 // indirect
