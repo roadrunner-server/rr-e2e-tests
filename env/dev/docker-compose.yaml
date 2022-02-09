@@ -5,11 +5,15 @@ services:
     image: memcached:latest
     ports:
       - "127.0.0.1:11211:11211"
+    networks:
+      - rr
 
   redis:
     image: redis:6
     ports:
       - "127.0.0.1:6379:6379"
+    networks:
+      - rr
 
   nats:
     image: nats:latest
@@ -17,21 +21,16 @@ services:
       - "-js"
     ports:
       - "127.0.0.1:4222:4222"
-
-  redis2:
-    image: redis:6
-    ports:
-      - "127.0.0.1:6378:6379"
+    networks:
+      - rr
 
   grafana:
     image: grafana/grafana-enterprise:8.2.0
     ports:
       - "3000:3000"
     user: '104'
-
-  toxicproxy:
-    image: shopify/toxiproxy:latest
-    network_mode: "host"
+    networks:
+      - rr
 
   beanstalk:
     build:
@@ -39,6 +38,8 @@ services:
       dockerfile: Dockerfile-beanstalkd.yaml
     ports:
       - "127.0.0.1:11300:11300"
+    networks:
+      - rr
 
   sqs:
     build:
@@ -46,14 +47,35 @@ services:
       dockerfile: Dockerfile-elastic-mq.yaml
     ports:
       - "127.0.0.1:9324:9324"
+    networks:
+      - rr
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "127.0.0.1:15672:15672"
       - "127.0.0.1:5672:5672"
+    networks:
+      - rr
 
   prometheus:
     image: prom/prometheus
     ports:
       - "9090:9090"
+    networks:
+      - rr
+
+  roadrunner:
+    container_name: roadrunner
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - rr
+    ports:
+      - "127.0.0.1:15389:15389"
+    command: "serve -c /src/.rr.yaml"
+
+networks:
+  rr:
+    driver: bridge

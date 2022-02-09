@@ -34,12 +34,12 @@ services:
     ports:
       - "127.0.0.1:11300:11300"
 
-  sqs:
-    build:
-      context: .
-      dockerfile: Dockerfile-elastic-mq.yaml
-    ports:
-      - "127.0.0.1:9324:9324"
+  #  sqs:
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile-elastic-mq.yaml
+  #    ports:
+  #      - "127.0.0.1:9324:9324"
 
   rabbitmq:
     image: rabbitmq:3-management

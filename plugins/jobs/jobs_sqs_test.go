@@ -175,6 +175,82 @@ func TestSQSInitV27(t *testing.T) {
 	wg.Wait()
 }
 
+func TestSQSInitV27Attributes(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Path:    "sqs/.rr-sqs-attr.yaml",
+		Prefix:  "rr",
+		Version: "2.7.6",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&logger.Plugin{},
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&sqs.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	t.Run("PushPipeline", pushToPipe("test-1"))
+	t.Run("PushPipeline", pushToPipe("test-1"))
+	time.Sleep(time.Second)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
 func TestSQSInitV27BadResp(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
@@ -322,7 +398,7 @@ func TestSQSDeclare(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe)
+	t.Run("DeclarePipeline", declareSQSPipe("default"))
 	t.Run("ConsumePipeline", resumePipes("test-3"))
 	t.Run("PushPipeline", pushToPipe("test-3"))
 	time.Sleep(time.Second)
@@ -403,7 +479,7 @@ func TestSQSJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe)
+	t.Run("DeclarePipeline", declareSQSPipe("default"))
 	t.Run("ConsumePipeline", resumePipes("test-3"))
 	t.Run("PushPipeline", pushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
@@ -516,7 +592,7 @@ func TestSQSStat(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe)
+	t.Run("DeclarePipeline", declareSQSPipe("default-stat"))
 	t.Run("ConsumePipeline", resumePipes("test-3"))
 	t.Run("PushPipeline", pushToPipe("test-3"))
 	time.Sleep(time.Second)
@@ -532,10 +608,10 @@ func TestSQSStat(t *testing.T) {
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "http://127.0.0.1:9324/000000000000/default")
+	assert.Equal(t, out.Queue, "https://sqs.us-east-2.amazonaws.com/049607556677/default-stat")
 
-	assert.Equal(t, int64(1), out.Active)
-	assert.Equal(t, int64(1), out.Delayed)
+	assert.LessOrEqual(t, out.Active, int64(1))
+	assert.LessOrEqual(t, out.Delayed, int64(1))
 	assert.Equal(t, int64(0), out.Reserved)
 
 	time.Sleep(time.Second)
@@ -547,10 +623,10 @@ func TestSQSStat(t *testing.T) {
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "http://127.0.0.1:9324/000000000000/default")
+	assert.Equal(t, out.Queue, "https://sqs.us-east-2.amazonaws.com/049607556677/default-stat")
 
-	assert.Equal(t, int64(0), out.Active)
-	assert.Equal(t, int64(0), out.Delayed)
+	assert.GreaterOrEqual(t, out.Active, int64(0))
+	assert.GreaterOrEqual(t, out.Delayed, int64(0))
 	assert.Equal(t, int64(0), out.Reserved)
 
 	t.Run("DestroyPipeline", destroyPipelines("test-3"))
@@ -628,7 +704,7 @@ func TestSQSRespond(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe)
+	t.Run("DeclarePipeline", declareSQSPipe("default"))
 	t.Run("ConsumePipeline", resumePipes("test-3"))
 	t.Run("PushPipeline", pushToPipe("test-3"))
 	time.Sleep(time.Second)
@@ -640,23 +716,25 @@ func TestSQSRespond(t *testing.T) {
 	wg.Wait()
 }
 
-func declareSQSPipe(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	assert.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+func declareSQSPipe(queue string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		assert.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
-		"driver":             "sqs",
-		"name":               "test-3",
-		"queue":              "default",
-		"prefetch":           "10",
-		"priority":           "3",
-		"visibility_timeout": "0",
-		"wait_time_seconds":  "3",
-		"tags":               `{"key":"value"}`,
-	}}
+		pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+			"driver":             "sqs",
+			"name":               "test-3",
+			"queue":              queue,
+			"prefetch":           "10",
+			"priority":           "3",
+			"visibility_timeout": "0",
+			"wait_time_seconds":  "3",
+			"tags":               `{"key":"value"}`,
+		}}
 
-	er := &jobsv1beta.Empty{}
-	err = client.Call("jobs.Declare", pipe, er)
-	assert.NoError(t, err)
+		er := &jobsv1beta.Empty{}
+		err = client.Call("jobs.Declare", pipe, er)
+		assert.NoError(t, err)
+	}
 }
