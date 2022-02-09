@@ -416,6 +416,5 @@ func TestMarshalObjectLogging(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
-
 	_ = os.Remove("test.log")
 }
