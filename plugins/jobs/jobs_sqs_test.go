@@ -327,7 +327,7 @@ func TestSQSInitV27BadResp(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("response handler error").Len())
+	require.GreaterOrEqual(t, 2, oLogger.FilterMessageSnippet("response handler error").Len())
 }
 
 func TestSQSDeclare(t *testing.T) {
