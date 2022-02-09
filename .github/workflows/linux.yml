@@ -77,6 +77,11 @@ jobs:
         env:
           NEW_RELIC_APP_NAME: ${{ secrets.NEW_RELIC_APP_NAME }}
           NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+          RR_TEST_ENV: ${{ secrets.RR_TEST_ENV }}
+          RR_SQS_TEST_ENDPOINT: ${{ secrets.RR_SQS_TEST_ENDPOINT }}
+          RR_SQS_TEST_REGION: ${{ secrets.RR_SQS_TEST_REGION }}
+          RR_SQS_TEST_KEY: ${{ secrets.RR_SQS_TEST_KEY }}
+          RR_SQS_TEST_SECRET: ${{ secrets.RR_SQS_TEST_SECRET }}
         run: make test_coverage
 
       - uses: codecov/codecov-action@v2 # Docs: <https://github.com/codecov/codecov-action>
