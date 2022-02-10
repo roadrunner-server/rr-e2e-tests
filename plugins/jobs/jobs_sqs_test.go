@@ -608,7 +608,7 @@ func TestSQSStat(t *testing.T) {
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "http://localhost:9324/000000000000/default-stat")
+	assert.Equal(t, out.Queue, "https://sqs.us-east-2.amazonaws.com/049607556677/default-stat")
 
 	assert.LessOrEqual(t, out.Active, int64(1))
 	assert.LessOrEqual(t, out.Delayed, int64(1))
@@ -623,7 +623,7 @@ func TestSQSStat(t *testing.T) {
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "http://localhost:9324/000000000000/default-stat")
+	assert.Equal(t, out.Queue, "https://sqs.us-east-2.amazonaws.com/049607556677/default-stat")
 
 	assert.GreaterOrEqual(t, out.Active, int64(0))
 	assert.GreaterOrEqual(t, out.Delayed, int64(0))

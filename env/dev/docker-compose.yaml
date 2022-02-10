@@ -41,12 +41,14 @@ services:
     networks:
       - rr
 
-  sqs:
-    build:
-      context: .
-      dockerfile: Dockerfile-elastic-mq.yaml
+  localstack:
+    image: localstack/localstack:latest
+    environment:
+      - AWS_DEFAULT_REGION=us-west-1
+      - EDGE_PORT=9324
+      - SERVICES=sqs
     ports:
-      - "127.0.0.1:9324:9324"
+      - '127.0.0.1:9324:9324'
     networks:
       - rr
 
