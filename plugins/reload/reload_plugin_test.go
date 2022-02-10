@@ -120,6 +120,100 @@ func reloadTestInit(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestReloadBadWorker(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Path:   "configs/.rr-reload-bad-worker.yaml",
+		Prefix: "rr",
+	}
+
+	// try to remove, skip error
+	assert.NoError(t, freeResources(testDir))
+	err = os.Mkdir(testDir, 0755)
+	assert.NoError(t, err)
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		l,
+		&server.Plugin{},
+		&httpPlugin.Plugin{},
+		&reload.Plugin{},
+		&resetter.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	assert.NoError(t, err)
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Error(t, e.Error)
+				return
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+
+	orig, err := os.ReadFile("../../php_test_files/psr-worker-bench-reload.php")
+	require.NoError(t, err)
+
+	f, err := os.OpenFile("../../php_test_files/psr-worker-bench-reload.php", os.O_RDWR, os.ModePerm)
+	require.NoError(t, err)
+	defer func() {
+		_ = f.Truncate(0)
+		_, _ = f.Seek(0, 0)
+		_, _ = f.Write(orig)
+		_ = f.Close()
+	}()
+
+	_, err = f.Write([]byte("foo"))
+	require.NoError(t, err)
+
+	t.Run("ReloadTestInit", reloadTestInit)
+	time.Sleep(time.Second * 3)
+	wg.Wait()
+
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("http server was started").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("file was created").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("file was added to watcher").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("reset signal was received").Len())
+
+	t.Cleanup(func() {
+		_ = os.RemoveAll(testDir)
+	})
+}
+
 func TestReloadHugeNumberOfFiles(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
