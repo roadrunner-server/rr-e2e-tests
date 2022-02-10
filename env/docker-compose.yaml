@@ -34,12 +34,14 @@ services:
     ports:
       - "127.0.0.1:11300:11300"
 
-  #  sqs:
-  #    build:
-  #      context: .
-  #      dockerfile: Dockerfile-elastic-mq.yaml
-  #    ports:
-  #      - "127.0.0.1:9324:9324"
+  localstack:
+    image: localstack/localstack:latest
+    environment:
+      - AWS_DEFAULT_REGION=us-west-1
+      - EDGE_PORT=9324
+      - SERVICES=sqs
+    ports:
+      - '127.0.0.1:9324:9324'
 
   rabbitmq:
     image: rabbitmq:3-management
