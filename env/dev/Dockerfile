@@ -1,4 +1,4 @@
-FROM ghcr.io/spiral/roadrunner:2.7.6 AS roadrunner
+FROM ghcr.io/roadrunner-server/roadrunner:2.7.7 AS roadrunner
 FROM php:7.4-cli
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
