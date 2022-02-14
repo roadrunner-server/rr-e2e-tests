@@ -10,7 +10,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/prometheus/client_golang v1.12.1
 	github.com/roadrunner-server/amqp/v2 v2.8.0
-	github.com/roadrunner-server/api/v2 v2.8.0-rc.6
+	github.com/roadrunner-server/api/v2 v2.8.0
 	github.com/roadrunner-server/beanstalk/v2 v2.8.0
 	github.com/roadrunner-server/boltdb/v2 v2.8.0
 	github.com/roadrunner-server/broadcast/v2 v2.8.0
@@ -38,9 +38,9 @@ require (
 	github.com/roadrunner-server/reload/v2 v2.8.0
 	github.com/roadrunner-server/resetter/v2 v2.8.0
 	github.com/roadrunner-server/rpc/v2 v2.8.0
-	github.com/roadrunner-server/sdk/v2 v2.8.0
+	github.com/roadrunner-server/sdk/v2 v2.8.1
 	github.com/roadrunner-server/send/v2 v2.8.0
-	github.com/roadrunner-server/server/v2 v2.8.0
+	github.com/roadrunner-server/server/v2 v2.8.1
 	github.com/roadrunner-server/service/v2 v2.8.0
 	github.com/roadrunner-server/sqs/v2 v2.8.0
 	github.com/roadrunner-server/static/v2 v2.8.0
@@ -83,7 +83,7 @@ require (
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
 	github.com/gobwas/pool v0.2.1 // indirect
-	github.com/gofiber/fiber/v2 v2.26.0 // indirect
+	github.com/gofiber/fiber/v2 v2.27.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/go-version v1.4.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
