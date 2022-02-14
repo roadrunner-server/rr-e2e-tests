@@ -489,8 +489,8 @@ github.com/roadrunner-server/memcached/v2 v2.8.0 h1:8LW7rUQYu2h9pZ5nYJx6FvODZpMB
 github.com/roadrunner-server/memcached/v2 v2.8.0/go.mod h1:gGBF8Hnoz+pFyG0fvojzIjNgT2pa5rMdWGdqE1g5krg=
 github.com/roadrunner-server/memory/v2 v2.8.0 h1:YY7F+/7KyKWHWJtdHd1tEbwrs5TDDncAaaF6WGFKQ8o=
 github.com/roadrunner-server/memory/v2 v2.8.0/go.mod h1:IlXBg4q0RpTGeWv3nyRapa7rXyQ3486yrD0hf8tNVzA=
-github.com/roadrunner-server/metrics/v2 v2.8.0 h1:aqjS+dRE7i9f5U1UKsByAZFGeb8xeSnDjlbjIVRU374=
-github.com/roadrunner-server/metrics/v2 v2.8.0/go.mod h1:d1Yob5DHsn/dNEztOiQtrKTGJjFu5Gag4iJUxd+tNR8=
+github.com/roadrunner-server/metrics/v2 v2.8.1 h1:A702HwzpLAwXbtmJIxzwO0ZJbG8KryiMSKtSv2lZVHA=
+github.com/roadrunner-server/metrics/v2 v2.8.1/go.mod h1:qr+PM7ZqMGbcW49O7nQeecy0YYFFSjTuMnH9Hb2fCWE=
 github.com/roadrunner-server/nats/v2 v2.8.0 h1:PxXNtHGkHc8E1p4Tu3RmSlw88C9ujI2jzoAlnMOIU+k=
 github.com/roadrunner-server/nats/v2 v2.8.0/go.mod h1:cYLVS/9L0of/gkr1yl0DKQXFzrCWiT8wlSppxNVk2dA=
 github.com/roadrunner-server/new_relic/v2 v2.8.0 h1:cVVmbESRbKcESxP6xRTFF5FRBqTLf5W4tYGH209+EUg=
@@ -632,8 +632,9 @@ golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a/go.mod h1:P+XmwS30IXTQdn5
 golang.org/x/crypto v0.0.0-20210817164053-32db794688a5/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
 golang.org/x/crypto v0.0.0-20211108221036-ceb1ce70b4fa/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
 golang.org/x/crypto v0.0.0-20220112180741-5e0467b6c7ce/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
-golang.org/x/crypto v0.0.0-20220210151621-f4118a5b28e2 h1:XdAboW3BNMv9ocSCOk/u1MFioZGzCNkiJZ19v9Oe3Ig=
 golang.org/x/crypto v0.0.0-20220210151621-f4118a5b28e2/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
+golang.org/x/crypto v0.0.0-20220213190939-1e6e3497d506 h1:EuGTJDfeg/PGZJp3gq1K+14eSLFTsrj1eg8KQuiUyKg=
+golang.org/x/crypto v0.0.0-20220213190939-1e6e3497d506/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/exp v0.0.0-20190306152737-a1d7652674e8/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/exp v0.0.0-20190510132918-efd6b22b2522/go.mod h1:ZjyILWgesfNpC6sMxTJOJm9Kp84zZh5NQWvqDGG3Qr8=

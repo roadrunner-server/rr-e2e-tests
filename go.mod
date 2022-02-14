@@ -30,7 +30,7 @@ require (
 	github.com/roadrunner-server/logger/v2 v2.8.0
 	github.com/roadrunner-server/memcached/v2 v2.8.0
 	github.com/roadrunner-server/memory/v2 v2.8.0
-	github.com/roadrunner-server/metrics/v2 v2.8.0
+	github.com/roadrunner-server/metrics/v2 v2.8.1
 	github.com/roadrunner-server/nats/v2 v2.8.0
 	github.com/roadrunner-server/new_relic/v2 v2.8.0
 	github.com/roadrunner-server/prometheus/v2 v2.8.0
@@ -128,7 +128,7 @@ require (
 	go.etcd.io/bbolt v1.3.6 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
-	golang.org/x/crypto v0.0.0-20220210151621-f4118a5b28e2 // indirect
+	golang.org/x/crypto v0.0.0-20220213190939-1e6e3497d506 // indirect
 	golang.org/x/mod v0.5.1 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20220209214540-3681064d5158 // indirect
