@@ -4,11 +4,12 @@ import (
 	"context"
 	"time"
 
+	"github.com/roadrunner-server/api/v2/payload"
 	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/api/v2/plugins/server"
+	"github.com/roadrunner-server/api/v2/pool"
 	"github.com/roadrunner-server/errors"
-	"github.com/roadrunner-server/sdk/v2/payload"
-	"github.com/roadrunner-server/sdk/v2/pool"
+	poolImpl "github.com/roadrunner-server/sdk/v2/pool"
 	"github.com/roadrunner-server/sdk/v2/worker"
 	serverImpl "github.com/roadrunner-server/server/v2"
 )
@@ -16,12 +17,12 @@ import (
 const ConfigSection = "server"
 const Response = "test"
 
-var testPoolConfig = &pool.Config{ //nolint:gochecknoglobals
+var testPoolConfig = &poolImpl.Config{ //nolint:gochecknoglobals
 	NumWorkers:      10,
 	MaxJobs:         100,
 	AllocateTimeout: time.Second * 10,
 	DestroyTimeout:  time.Second * 10,
-	Supervisor: &pool.SupervisorConfig{
+	Supervisor: &poolImpl.SupervisorConfig{
 		WatchTick:       60 * time.Second,
 		TTL:             1000 * time.Second,
 		IdleTTL:         10 * time.Second,
@@ -101,7 +102,7 @@ func (f *Foo) Serve() chan error {
 	}
 
 	// test pool
-	f.pool, err = f.wf.NewWorkerPool(context.Background(), testPoolConfig, nil)
+	f.pool, err = f.wf.NewWorkerPool(context.Background(), testPoolConfig, nil, nil)
 	if err != nil {
 		errCh <- err
 		return errCh

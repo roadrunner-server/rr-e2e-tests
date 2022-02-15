@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/roadrunner-server/api/v2/state/process"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -18,7 +19,6 @@ import (
 	"github.com/roadrunner-server/logger/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
-	"github.com/roadrunner-server/sdk/v2/state/process"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/roadrunner-server/status/v2"
 	"github.com/stretchr/testify/assert"

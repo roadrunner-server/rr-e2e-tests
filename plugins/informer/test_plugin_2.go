@@ -7,8 +7,9 @@ import (
 
 	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/api/v2/plugins/server"
-	"github.com/roadrunner-server/sdk/v2/pool"
-	"github.com/roadrunner-server/sdk/v2/state/process"
+	"github.com/roadrunner-server/api/v2/pool"
+	"github.com/roadrunner-server/api/v2/state/process"
+	processImpl "github.com/roadrunner-server/sdk/v2/state/process"
 )
 
 // Gauge //////////////
@@ -34,7 +35,7 @@ func (p2 *Plugin2) Serve() chan error {
 		p2.Lock()
 		defer p2.Unlock()
 		var err error
-		p2.pool, err = p2.server.NewWorkerPool(context.Background(), testPoolConfig, nil)
+		p2.pool, err = p2.server.NewWorkerPool(context.Background(), testPoolConfig, nil, nil)
 		if err != nil {
 			panic(err)
 		}
@@ -57,7 +58,7 @@ func (p2 *Plugin2) Workers() []*process.State {
 	ps := make([]*process.State, 0, len(p2.pool.Workers()))
 	workers := p2.pool.Workers()
 	for i := 0; i < len(workers); i++ {
-		state, err := process.WorkerProcessState(workers[i])
+		state, err := processImpl.WorkerProcessState(workers[i])
 		if err != nil {
 			return nil
 		}

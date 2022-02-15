@@ -6,6 +6,7 @@ import (
 
 	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/api/v2/plugins/server"
+	"github.com/roadrunner-server/api/v2/pool"
 	poolImpl "github.com/roadrunner-server/sdk/v2/pool"
 )
 
@@ -28,7 +29,7 @@ type Plugin1 struct {
 	config config.Configurer
 	server server.Server
 
-	p poolImpl.Pool
+	p pool.Pool
 }
 
 func (p1 *Plugin1) Init(cfg config.Configurer, server server.Server) error {
@@ -40,7 +41,7 @@ func (p1 *Plugin1) Init(cfg config.Configurer, server server.Server) error {
 func (p1 *Plugin1) Serve() chan error {
 	errCh := make(chan error, 1)
 	var err error
-	p1.p, err = p1.server.NewWorkerPool(context.Background(), testPoolConfig, nil)
+	p1.p, err = p1.server.NewWorkerPool(context.Background(), testPoolConfig, nil, nil)
 	if err != nil {
 		errCh <- err
 		return errCh

@@ -6,8 +6,9 @@ import (
 
 	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/api/v2/plugins/server"
+	"github.com/roadrunner-server/api/v2/state/process"
 	"github.com/roadrunner-server/sdk/v2/pool"
-	"github.com/roadrunner-server/sdk/v2/state/process"
+	processImpl "github.com/roadrunner-server/sdk/v2/state/process"
 )
 
 var testPoolConfig = &pool.Config{ //nolint:gochecknoglobals
@@ -50,7 +51,7 @@ func (p1 *Plugin1) Name() string {
 }
 
 func (p1 *Plugin1) Workers() []*process.State {
-	p, err := p1.server.NewWorkerPool(context.Background(), testPoolConfig, nil)
+	p, err := p1.server.NewWorkerPool(context.Background(), testPoolConfig, nil, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -58,7 +59,7 @@ func (p1 *Plugin1) Workers() []*process.State {
 	ps := make([]*process.State, 0, len(p.Workers()))
 	workers := p.Workers()
 	for i := 0; i < len(workers); i++ {
-		state, err := process.WorkerProcessState(workers[i])
+		state, err := processImpl.WorkerProcessState(workers[i])
 		if err != nil {
 			return nil
 		}

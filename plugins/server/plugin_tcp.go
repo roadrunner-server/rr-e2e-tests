@@ -3,11 +3,11 @@ package server
 import (
 	"context"
 
+	"github.com/roadrunner-server/api/v2/payload"
 	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/api/v2/plugins/server"
+	"github.com/roadrunner-server/api/v2/pool"
 	"github.com/roadrunner-server/errors"
-	"github.com/roadrunner-server/sdk/v2/payload"
-	"github.com/roadrunner-server/sdk/v2/pool"
 	"github.com/roadrunner-server/sdk/v2/worker"
 	serverImpl "github.com/roadrunner-server/server/v2"
 )
@@ -82,7 +82,7 @@ func (f *Foo3) Serve() chan error {
 	}
 
 	// test pool
-	f.pool, err = f.wf.NewWorkerPool(context.Background(), testPoolConfig, nil)
+	f.pool, err = f.wf.NewWorkerPool(context.Background(), testPoolConfig, nil, nil)
 	if err != nil {
 		errCh <- err
 		return errCh
