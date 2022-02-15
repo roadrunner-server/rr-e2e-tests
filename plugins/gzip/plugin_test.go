@@ -52,7 +52,6 @@ func TestGzipPlugin(t *testing.T) {
 
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
-
 	stopCh := make(chan struct{}, 1)
 
 	go func() {
