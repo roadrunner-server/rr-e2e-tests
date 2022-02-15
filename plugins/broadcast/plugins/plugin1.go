@@ -29,7 +29,6 @@ func (p *Plugin1) Init(log *zap.Logger, b pubsub.Broadcaster) error {
 
 func (p *Plugin1) Serve() chan error {
 	errCh := make(chan error, 1)
-
 	var err error
 	p.driver, err = p.b.GetDriver("test")
 	if err != nil {
