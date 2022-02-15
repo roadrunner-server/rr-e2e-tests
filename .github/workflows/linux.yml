@@ -27,8 +27,8 @@ jobs:
       fail-fast: true
       matrix:
         php: ["8.1"]
-        go: ["1.17.6"]
-        os: ["ubuntu-latest"]
+        go: ["1.17.7"]
+        os: ["ubuntu-latest", "freebsd"]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
