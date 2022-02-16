@@ -14,7 +14,7 @@ grpc:
     # proto root file
     proto:
         - "proto/test/test.proto"
-        - "proto/health/health.proto"
+        - "proto/service/service.proto"
 
     # max send limit (MB)
     max_send_msg_size: 50

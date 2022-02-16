@@ -18,9 +18,9 @@ import (
 
 	"github.com/roadrunner-server/metrics/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	"github.com/roadrunner-server/rr-e2e-tests/plugins/grpc/proto/health"
 	"go.uber.org/zap"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/health/grpc_health_v1"
 
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
@@ -494,10 +494,22 @@ func TestGrpcRqRsMultiple(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, "TOST", resp.Msg)
 
-	hc := health.NewHealthClient(conn)
-	hr, err := hc.Check(context.Background(), &health.HealthCheckRequest{})
+	hc := grpc_health_v1.NewHealthClient(conn)
+	hr, err := hc.Check(context.Background(), &grpc_health_v1.HealthCheckRequest{})
 	require.NoError(t, err)
 	require.Equal(t, "SERVING", hr.Status.String())
+
+	watch, err := hc.Watch(context.Background(), &grpc_health_v1.HealthCheckRequest{})
+	require.NoError(t, err)
+
+	msg := &grpc_health_v1.HealthCheckResponse{}
+
+	err = watch.RecvMsg(msg)
+	require.NoError(t, err)
+	require.Equal(t, "SERVING", msg.Status.String())
+
+	err = watch.CloseSend()
+	require.NoError(t, err)
 
 	stopCh <- struct{}{}
 
