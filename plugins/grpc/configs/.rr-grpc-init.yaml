@@ -20,6 +20,7 @@ grpc:
   ping_time: 1s
   timeout: 200s
   pool:
+    command: "php ../../php_test_files/worker-grpc.php"
     num_workers: 2
     max_jobs: 0
     allocate_timeout: 60s
