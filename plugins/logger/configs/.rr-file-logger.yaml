@@ -18,6 +18,6 @@ http:
 
 logs:
   mode: development
-  level: error
+  level: debug
   file_logger_options:
     log_output: "test.log"
