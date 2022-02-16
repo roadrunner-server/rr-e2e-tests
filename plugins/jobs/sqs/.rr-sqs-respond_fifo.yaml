@@ -1,3 +1,5 @@
+version: "2.7"
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -6,18 +8,12 @@ server:
   relay: "pipes"
   relay_timeout: "20s"
 
-# amazon sqs configuration
-# General section
 sqs:
   key: api-key
   secret: api-secret
   region: us-west-1
   endpoint: http://127.0.0.1:9324
 
-logs:
-  level: error
-  encoding: console
-  mode: development
 
 jobs:
   num_pollers: 1
@@ -31,9 +27,16 @@ jobs:
   pipelines:
     test-1:
       driver: sqs
-      prefetch: 1000
-      visibility_timeout: 0
-      wait_time_seconds: 0
-      queue: "test-1-queue"
+      config:
+        prefetch: 1000
+        visibility_timeout: 0
+        wait_time_seconds: 0
+        message_group_id: 'RR'
+        queue: default-respond.fifo
+        attributes:
+          FifoQueue: 'true'
+        tags:
+          test: "tag"
+
 
   consume: [ "test-1" ]

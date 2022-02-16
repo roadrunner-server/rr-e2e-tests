@@ -31,4 +31,4 @@ jobs:
   consume: [ "test-1" ]
 
 endure:
-  log_level: debug
+  log_level: error

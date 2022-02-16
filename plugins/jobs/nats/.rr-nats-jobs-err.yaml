@@ -19,6 +19,6 @@ jobs:
     destroy_timeout: 60s
 
 logs:
-  level: debug
+  level: error
   encoding: console
   mode: development

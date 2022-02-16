@@ -10,7 +10,7 @@ boltdb:
   permissions: 0777
 
 logs:
-  level: debug
+  level: error
   encoding: console
   mode: development
 

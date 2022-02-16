@@ -7,7 +7,7 @@ service:
     exec_timeout: 2s
 
 logs:
-  level: debug
+  level: error
   mode: raw
 
 endure:

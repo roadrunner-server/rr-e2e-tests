@@ -1,3 +1,5 @@
+version: "2.7"
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -6,11 +8,11 @@ server:
   relay: "pipes"
   relay_timeout: "20s"
 
-beanstalk:
-  # beanstalk address
-  addr: tcp://127.0.0.1:11300
-  # connect timeout
-  timeout: 10s
+sqs:
+  key: api-key
+  secret: api-secret
+  region: us-west-1
+  endpoint: http://127.0.0.1:9324
 
 logs:
   level: error
@@ -18,10 +20,10 @@ logs:
   mode: development
 
 jobs:
-  num_pollers: 10
+  num_pollers: 1
   pipeline_size: 100000
   pool:
-    num_workers: 2
+    num_workers: 10
     max_jobs: 0
     allocate_timeout: 60s
     destroy_timeout: 60s

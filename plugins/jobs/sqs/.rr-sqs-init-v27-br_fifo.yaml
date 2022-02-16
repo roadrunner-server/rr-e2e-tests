@@ -4,7 +4,7 @@ rpc:
   listen: tcp://127.0.0.1:6001
 
 server:
-  command: "php ../../php_test_files/client.php echo pipes"
+  command: "php ../../php_test_files/jobs_bad_resp.php"
   relay: "pipes"
   relay_timeout: "20s"
 
@@ -35,8 +35,10 @@ jobs:
         prefetch: 1000
         visibility_timeout: 0
         wait_time_seconds: 0
-        queue: default
+        message_group_id: "RR"
+        queue: default-br-1.fifo
         attributes:
+          FifoQueue: 'true'
           DelaySeconds: 0
           MaximumMessageSize: 262144
           MessageRetentionPeriod: 345600
@@ -49,8 +51,10 @@ jobs:
       driver: sqs
       config:
         prefetch: 1000
-        queue: default-2
+        queue: default-br-2.fifo
+        message_group_id: "RR"
         attributes:
+          FifoQueue: 'true'
           MessageRetentionPeriod: 86400
         tags:
           test: "tag"

@@ -10,7 +10,7 @@ http:
     num_workers: 5
 
 logs:
-  level: debug
+  level: error
 
 metrics:
   address: "0.0.0.0:23557"

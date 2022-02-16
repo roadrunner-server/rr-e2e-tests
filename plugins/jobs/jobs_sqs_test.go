@@ -95,6 +95,9 @@ func TestSQSInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
+	t.Run("PushPipeline", pushToPipe("test-1"))
+	t.Run("PushPipeline", pushToPipe("test-2"))
+	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -730,6 +733,31 @@ func declareSQSPipe(queue string) func(t *testing.T) {
 			"priority":           "3",
 			"visibility_timeout": "0",
 			"wait_time_seconds":  "3",
+			"tags":               `{"key":"value"}`,
+		}}
+
+		er := &jobsv1beta.Empty{}
+		err = client.Call("jobs.Declare", pipe, er)
+		assert.NoError(t, err)
+	}
+}
+
+func declareSQSPipeFifo(queue string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		assert.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+		pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+			"driver":             "sqs",
+			"name":               "test-3",
+			"queue":              queue,
+			"prefetch":           "10",
+			"priority":           "3",
+			"visibility_timeout": "0",
+			"message_group_id":   "RR",
+			"wait_time_seconds":  "3",
+			"attributes":         `{"FifoQueue":"true"}`,
 			"tags":               `{"key":"value"}`,
 		}}
 

@@ -7,7 +7,7 @@ server:
   relay_timeout: "20s"
 
 logs:
-  level: debug
+  level: error
   mode: development
 
 jobs:

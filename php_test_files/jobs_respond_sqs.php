@@ -20,7 +20,7 @@ while ($in = $rr->waitPayload()) {
         $rr->respond(new RoadRunner\Payload(json_encode([
             'type' => 2,
             'data' => [
-                'queue' => 'http://127.0.0.1:9324/000000000000/test-1-queue',
+                'queue' => 'https://sqs.us-east-2.amazonaws.com/049607556677/resp-queue',
                 'payload' => 'foo'
             ]
         ])));

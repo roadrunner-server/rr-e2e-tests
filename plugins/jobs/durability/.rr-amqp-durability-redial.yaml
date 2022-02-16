@@ -10,7 +10,7 @@ amqp:
   addr: amqp://guest:guest@127.0.0.1:23679/
 
 logs:
-  level: debug
+  level: error
   encoding: console
   mode: development
 

@@ -42,7 +42,7 @@ require (
 	github.com/roadrunner-server/send/v2 v2.8.0
 	github.com/roadrunner-server/server/v2 v2.9.2
 	github.com/roadrunner-server/service/v2 v2.9.0
-	github.com/roadrunner-server/sqs/v2 v2.9.0
+	github.com/roadrunner-server/sqs/v2 v2.10.0
 	github.com/roadrunner-server/static/v2 v2.9.0
 	github.com/roadrunner-server/status/v2 v2.9.0
 	github.com/roadrunner-server/tcp/v2 v2.9.0
@@ -136,7 +136,7 @@ require (
 	golang.org/x/time v0.0.0-20211116232009-f0f3c7e86c11 // indirect
 	golang.org/x/tools v0.1.9 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-	google.golang.org/genproto v0.0.0-20220211171837-173942840c17 // indirect
+	google.golang.org/genproto v0.0.0-20220215190005-e57b466719ef // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

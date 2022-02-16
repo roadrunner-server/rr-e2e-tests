@@ -10,7 +10,7 @@ nats:
   addr: "nats://127.0.0.1:19224"
 
 logs:
-  level: debug
+  level: error
   encoding: console
   mode: development
 
