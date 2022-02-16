@@ -21,13 +21,8 @@ $psr7 = new RoadRunner\Http\PSR7Worker(
 while ($req = $psr7->waitRequest()) {
     try {
         $resp = new \Nyholm\Psr7\Response();
-        $rrNewRelic = [
-            'shopId:1', //custom data
-            'auth:password', //custom data
-            'transaction_name:test_transaction' //name - special key to override the name. By default it will use requestUri.
-        ];
-
-        $resp = $resp->withHeader('rr_newrelic', $rrNewRelic);
+        $resp = $resp->withHeader('rr_newrelic_ignore', 'true');
+        $resp = $resp->withHeader('Content-Type','application/json');
 
         $psr7->respond($resp);
     } catch (\Throwable $e) {
