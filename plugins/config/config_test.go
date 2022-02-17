@@ -463,3 +463,73 @@ func TestViperProvider_Init_Version27(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 }
+
+func TestViperProvider_Init_Version28(t *testing.T) {
+	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	vp := &configImpl.Plugin{}
+	vp.Path = "configs/.rr-init-version-2.7.yaml"
+	vp.Prefix = "rr"
+	vp.Flags = nil
+	vp.Version = "2.8.0"
+
+	err = container.RegisterAll(
+		&jobs.Plugin{},
+		&amqp.Plugin{},
+		&beanstalk.Plugin{},
+		&logger.Plugin{},
+		&server.Plugin{},
+		vp,
+	)
+
+	require.NoError(t, err)
+
+	err = container.Init()
+	require.NoError(t, err)
+
+	ch, err := container.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = container.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-sig:
+				err = container.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = container.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+	stopCh <- struct{}{}
+	wg.Wait()
+}
