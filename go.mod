@@ -18,12 +18,12 @@ require (
 	github.com/roadrunner-server/config/v2 v2.9.0
 	github.com/roadrunner-server/endure v1.2.1
 	github.com/roadrunner-server/errors v1.1.1
-	github.com/roadrunner-server/fileserver/v2 v2.9.0
+	github.com/roadrunner-server/fileserver/v2 v2.9.1
 	github.com/roadrunner-server/goridge/v3 v3.3.1
-	github.com/roadrunner-server/grpc/v2 v2.10.2
-	github.com/roadrunner-server/gzip/v2 v2.8.0
+	github.com/roadrunner-server/grpc/v2 v2.10.3
+	github.com/roadrunner-server/gzip/v2 v2.8.1
 	github.com/roadrunner-server/headers/v2 v2.9.0
-	github.com/roadrunner-server/http/v2 v2.10.0
+	github.com/roadrunner-server/http/v2 v2.10.1
 	github.com/roadrunner-server/informer/v2 v2.9.0
 	github.com/roadrunner-server/jobs/v2 v2.9.0
 	github.com/roadrunner-server/kv/v2 v2.9.0
@@ -32,7 +32,7 @@ require (
 	github.com/roadrunner-server/memory/v2 v2.9.0
 	github.com/roadrunner-server/metrics/v2 v2.9.0
 	github.com/roadrunner-server/nats/v2 v2.9.0
-	github.com/roadrunner-server/new_relic/v2 v2.10.1
+	github.com/roadrunner-server/new_relic/v2 v2.10.2
 	github.com/roadrunner-server/prometheus/v2 v2.8.0
 	github.com/roadrunner-server/redis/v2 v2.9.0
 	github.com/roadrunner-server/reload/v2 v2.9.0
@@ -44,7 +44,7 @@ require (
 	github.com/roadrunner-server/service/v2 v2.9.0
 	github.com/roadrunner-server/sqs/v2 v2.10.0
 	github.com/roadrunner-server/static/v2 v2.9.0
-	github.com/roadrunner-server/status/v2 v2.9.0
+	github.com/roadrunner-server/status/v2 v2.9.1
 	github.com/roadrunner-server/tcp/v2 v2.9.0
 	github.com/roadrunner-server/websockets/v2 v2.9.0
 	github.com/stretchr/testify v1.7.0
@@ -136,7 +136,7 @@ require (
 	golang.org/x/time v0.0.0-20211116232009-f0f3c7e86c11 // indirect
 	golang.org/x/tools v0.1.9 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-	google.golang.org/genproto v0.0.0-20220216160803-4663080d8bc8 // indirect
+	google.golang.org/genproto v0.0.0-20220218161850-94dd64e39d7c // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
