@@ -23,7 +23,7 @@ require (
 	github.com/roadrunner-server/grpc/v2 v2.10.2
 	github.com/roadrunner-server/gzip/v2 v2.8.0
 	github.com/roadrunner-server/headers/v2 v2.9.0
-	github.com/roadrunner-server/http/v2 v2.9.2
+	github.com/roadrunner-server/http/v2 v2.10.0
 	github.com/roadrunner-server/informer/v2 v2.9.0
 	github.com/roadrunner-server/jobs/v2 v2.9.0
 	github.com/roadrunner-server/kv/v2 v2.9.0
@@ -87,7 +87,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/go-version v1.4.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/klauspost/compress v1.14.2 // indirect
+	github.com/klauspost/compress v1.14.3 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.11 // indirect
 	github.com/libdns/libdns v0.2.1 // indirect
 	github.com/magiconair/properties v1.8.5 // indirect

@@ -319,8 +319,9 @@ github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.13.4/go.mod h1:8dP1Hq4DHOhN9w426knH3Rhby4rFm6D8eO+e+Dq5Gzg=
 github.com/klauspost/compress v1.14.1/go.mod h1:/3/Vjq9QcHkK5uEr5lBEmyoZ1iFhe47etQ6QUkpK6sk=
-github.com/klauspost/compress v1.14.2 h1:S0OHlFk/Gbon/yauFJ4FfJJF5V0fc5HbBTJazi28pRw=
 github.com/klauspost/compress v1.14.2/go.mod h1:/3/Vjq9QcHkK5uEr5lBEmyoZ1iFhe47etQ6QUkpK6sk=
+github.com/klauspost/compress v1.14.3 h1:DQv1WP+iS4srNjibdnHtqu8JNWCDMluj5NzPnFJsnvk=
+github.com/klauspost/compress v1.14.3/go.mod h1:/3/Vjq9QcHkK5uEr5lBEmyoZ1iFhe47etQ6QUkpK6sk=
 github.com/klauspost/cpuid/v2 v2.0.9/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa0213Md/qVLRg=
 github.com/klauspost/cpuid/v2 v2.0.11 h1:i2lw1Pm7Yi/4O6XCSyJWqEHI2MDw2FzUK6o/D21xn2A=
 github.com/klauspost/cpuid/v2 v2.0.11/go.mod h1:g2LTdtYhdyuGPqyWyv7qRAmj1WBqxuObKfj5c0PQa7c=
@@ -471,8 +472,8 @@ github.com/roadrunner-server/gzip/v2 v2.8.0 h1:DZEOG/Kjze0b+S0iqlhNNt49fzgoqE1zc
 github.com/roadrunner-server/gzip/v2 v2.8.0/go.mod h1:OiDW9xk7Uncl5gFYdIntHlLwBl/qEcbB+F/1m0EK2eM=
 github.com/roadrunner-server/headers/v2 v2.9.0 h1:FHKslcx6BDkb4QOSmml344IeweeCu/HiOrKN+uWxUPU=
 github.com/roadrunner-server/headers/v2 v2.9.0/go.mod h1:At8/4jZCe8b7wPi7DS8NE87gvCVbQMujlqxBSJypUqY=
-github.com/roadrunner-server/http/v2 v2.9.2 h1:HVF/7Zxebk7BOPmhEDyiynKFyV8CvR00bHxWhHTqc18=
-github.com/roadrunner-server/http/v2 v2.9.2/go.mod h1:xniGuiW4YwGp6N9euCJ2S1jreXK2ynTYb8bpALQbXC0=
+github.com/roadrunner-server/http/v2 v2.10.0 h1:eEg6OTn0sOPfMZZWY+2s4Isdz2savCexsQVVL70dIXA=
+github.com/roadrunner-server/http/v2 v2.10.0/go.mod h1:u5Q2otXr1mMUEv0JzBYbwohLBFwjR8nGwyqjDhUMouo=
 github.com/roadrunner-server/informer/v2 v2.9.0 h1:u0BAyiPftbsyNKqF6zSa1FDvknYCU0JyWTH0yK3aWYk=
 github.com/roadrunner-server/informer/v2 v2.9.0/go.mod h1:byiaGs6+/+/wWt31VPuoh3zGKbpcs/IPEQAJac8ax0o=
 github.com/roadrunner-server/jobs/v2 v2.9.0 h1:UegaewZxcC0w+a+c5gZwmcz1OSvPC6LC6W3eQ7tXGDE=
