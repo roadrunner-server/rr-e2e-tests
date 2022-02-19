@@ -18,7 +18,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	roadrunnerTemporal "github.com/temporalio/roadrunner-temporal"
-	"github.com/temporalio/roadrunner-temporal/internal/data_converter"
+	"github.com/temporalio/roadrunner-temporal/data_converter"
 	"go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/history/v1"
 	temporalClient "go.temporal.io/sdk/client"
