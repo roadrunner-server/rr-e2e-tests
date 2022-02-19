@@ -9,44 +9,44 @@ require (
 	github.com/goccy/go-json v0.9.4
 	github.com/google/uuid v1.3.0
 	github.com/prometheus/client_golang v1.12.1
-	github.com/roadrunner-server/amqp/v2 v2.9.0
+	github.com/roadrunner-server/amqp/v2 v2.9.1
 	github.com/roadrunner-server/api/v2 v2.10.0
-	github.com/roadrunner-server/beanstalk/v2 v2.9.0
-	github.com/roadrunner-server/boltdb/v2 v2.9.0
-	github.com/roadrunner-server/broadcast/v2 v2.9.0
-	github.com/roadrunner-server/cache/v2 v2.9.0
-	github.com/roadrunner-server/config/v2 v2.9.0
+	github.com/roadrunner-server/beanstalk/v2 v2.9.1
+	github.com/roadrunner-server/boltdb/v2 v2.9.1
+	github.com/roadrunner-server/broadcast/v2 v2.9.1
+	github.com/roadrunner-server/cache/v2 v2.9.1
+	github.com/roadrunner-server/config/v2 v2.9.1
 	github.com/roadrunner-server/endure v1.2.1
 	github.com/roadrunner-server/errors v1.1.1
-	github.com/roadrunner-server/fileserver/v2 v2.9.1
+	github.com/roadrunner-server/fileserver/v2 v2.9.2
 	github.com/roadrunner-server/goridge/v3 v3.3.1
-	github.com/roadrunner-server/grpc/v2 v2.10.3
+	github.com/roadrunner-server/grpc/v2 v2.10.4
 	github.com/roadrunner-server/gzip/v2 v2.8.2
-	github.com/roadrunner-server/headers/v2 v2.9.0
-	github.com/roadrunner-server/http/v2 v2.10.3
-	github.com/roadrunner-server/informer/v2 v2.9.0
-	github.com/roadrunner-server/jobs/v2 v2.9.0
-	github.com/roadrunner-server/kv/v2 v2.9.0
-	github.com/roadrunner-server/logger/v2 v2.9.0
-	github.com/roadrunner-server/memcached/v2 v2.9.0
-	github.com/roadrunner-server/memory/v2 v2.9.0
-	github.com/roadrunner-server/metrics/v2 v2.9.0
-	github.com/roadrunner-server/nats/v2 v2.9.0
-	github.com/roadrunner-server/new_relic/v2 v2.10.2
+	github.com/roadrunner-server/headers/v2 v2.9.1
+	github.com/roadrunner-server/http/v2 v2.10.4
+	github.com/roadrunner-server/informer/v2 v2.9.1
+	github.com/roadrunner-server/jobs/v2 v2.9.1
+	github.com/roadrunner-server/kv/v2 v2.9.1
+	github.com/roadrunner-server/logger/v2 v2.9.1
+	github.com/roadrunner-server/memcached/v2 v2.9.1
+	github.com/roadrunner-server/memory/v2 v2.9.1
+	github.com/roadrunner-server/metrics/v2 v2.9.1
+	github.com/roadrunner-server/nats/v2 v2.9.1
+	github.com/roadrunner-server/new_relic/v2 v2.10.3
 	github.com/roadrunner-server/prometheus/v2 v2.8.0
-	github.com/roadrunner-server/redis/v2 v2.9.0
-	github.com/roadrunner-server/reload/v2 v2.9.0
-	github.com/roadrunner-server/resetter/v2 v2.9.0
-	github.com/roadrunner-server/rpc/v2 v2.9.0
+	github.com/roadrunner-server/redis/v2 v2.9.1
+	github.com/roadrunner-server/reload/v2 v2.9.1
+	github.com/roadrunner-server/resetter/v2 v2.9.1
+	github.com/roadrunner-server/rpc/v2 v2.9.1
 	github.com/roadrunner-server/sdk/v2 v2.10.0
 	github.com/roadrunner-server/send/v2 v2.8.0
-	github.com/roadrunner-server/server/v2 v2.9.2
-	github.com/roadrunner-server/service/v2 v2.9.0
-	github.com/roadrunner-server/sqs/v2 v2.10.0
-	github.com/roadrunner-server/static/v2 v2.9.0
-	github.com/roadrunner-server/status/v2 v2.9.1
-	github.com/roadrunner-server/tcp/v2 v2.9.0
-	github.com/roadrunner-server/websockets/v2 v2.9.0
+	github.com/roadrunner-server/server/v2 v2.9.3
+	github.com/roadrunner-server/service/v2 v2.9.1
+	github.com/roadrunner-server/sqs/v2 v2.10.1
+	github.com/roadrunner-server/static/v2 v2.9.1
+	github.com/roadrunner-server/status/v2 v2.9.2
+	github.com/roadrunner-server/tcp/v2 v2.9.1
+	github.com/roadrunner-server/websockets/v2 v2.9.1
 	github.com/stretchr/testify v1.7.0
 	github.com/yookoala/gofast v0.6.0
 	go.uber.org/zap v1.21.0
