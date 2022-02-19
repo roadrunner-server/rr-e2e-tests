@@ -10,7 +10,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/prometheus/client_golang v1.12.1
 	github.com/roadrunner-server/amqp/v2 v2.9.0
-	github.com/roadrunner-server/api/v2 v2.9.0
+	github.com/roadrunner-server/api/v2 v2.10.0
 	github.com/roadrunner-server/beanstalk/v2 v2.9.0
 	github.com/roadrunner-server/boltdb/v2 v2.9.0
 	github.com/roadrunner-server/broadcast/v2 v2.9.0
@@ -38,7 +38,7 @@ require (
 	github.com/roadrunner-server/reload/v2 v2.9.0
 	github.com/roadrunner-server/resetter/v2 v2.9.0
 	github.com/roadrunner-server/rpc/v2 v2.9.0
-	github.com/roadrunner-server/sdk/v2 v2.9.1
+	github.com/roadrunner-server/sdk/v2 v2.10.0
 	github.com/roadrunner-server/send/v2 v2.8.0
 	github.com/roadrunner-server/server/v2 v2.9.2
 	github.com/roadrunner-server/service/v2 v2.9.0
