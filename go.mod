@@ -50,7 +50,7 @@ require (
 	github.com/roadrunner-server/tcp/v2 v2.9.1
 	github.com/roadrunner-server/websockets/v2 v2.9.1
 	github.com/stretchr/testify v1.7.0
-	github.com/temporalio/roadrunner-temporal v1.3.0
+	github.com/temporalio/roadrunner-temporal v1.3.1
 	github.com/yookoala/gofast v0.6.0
 	go.temporal.io/api v1.7.0
 	go.temporal.io/sdk v1.13.1
@@ -58,10 +58,6 @@ require (
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
 	google.golang.org/grpc v1.44.0
 	google.golang.org/protobuf v1.27.1
-)
-
-replace (
-	github.com/temporalio/roadrunner-temporal => ../plugins/roadrunner-temporal
 )
 
 require (
