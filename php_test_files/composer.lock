@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a26597dbcd7fc4f69ee7eb346ab65cf8",
+    "content-hash": "53d433f4ef2b3cbf83f61eb4d1c70f9c",
     "packages": [
         {
             "name": "arku31/roadrunner-newrelic",
@@ -1852,25 +1852,7 @@
                     "Spiral\\RoadRunner\\Tcp\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Spiral\\RoadRunner\\Tcp\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "tests": [
-                    "phpunit"
-                ],
-                "cs-fix": [
-                    "spiral-cs fix src"
-                ],
-                "cs-check": [
-                    "spiral-cs check src"
-                ],
-                "psalm": [
-                    "psalm --no-cache"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1886,8 +1868,8 @@
             ],
             "description": "RoadRunner: TCP worker",
             "support": {
-                "source": "https://github.com/spiral/roadrunner-tcp/tree/v2.0.0",
-                "issues": "https://github.com/spiral/roadrunner-tcp/issues"
+                "issues": "https://github.com/spiral/roadrunner-tcp/issues",
+                "source": "https://github.com/spiral/roadrunner-tcp/tree/v2.0.0"
             },
             "time": "2021-11-01T21:40:01+00:00"
         },
