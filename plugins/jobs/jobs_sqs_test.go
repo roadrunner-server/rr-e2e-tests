@@ -613,8 +613,8 @@ func TestSQSStat(t *testing.T) {
 	assert.Equal(t, out.Driver, "sqs")
 	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
 
-	assert.GreaterOrEqual(t, int64(1), out.Active)
-	assert.LessOrEqual(t, out.Delayed, int64(1))
+	assert.Greater(t, out.Active, int64(0))
+	assert.Greater(t, out.Delayed, int64(0))
 	assert.Equal(t, int64(0), out.Reserved)
 
 	time.Sleep(time.Second)
