@@ -1,4 +1,4 @@
-package jobs
+package memory
 
 import (
 	"net"
@@ -18,34 +18,35 @@ import (
 	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/jobs/v2"
 	"github.com/roadrunner-server/logger/v2"
+	"github.com/roadrunner-server/memory/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v2"
-	"github.com/roadrunner-server/sqs/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 )
 
-func TestSQSInit(t *testing.T) {
+func TestMemoryInit(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-init.yaml",
+		Path:   "memory/.rr-memory-init.yaml",
 		Prefix: "rr",
 	}
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
+		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&memory.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -94,172 +95,19 @@ func TestSQSInit(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
-	time.Sleep(time.Second * 2)
+	time.Sleep(time.Second * 1)
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("plugin was started").Len())
 }
 
-func TestSQSInitV27(t *testing.T) {
+func TestMemoryInitV27(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "sqs/.rr-sqs-init-v27.yaml",
-		Prefix:  "rr",
-		Version: "2.7.0",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&server.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
-		&jobs.Plugin{},
-		&resetter.Plugin{},
-		&informer.Plugin{},
-		&sqs.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ch, err := cont.Serve()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	stopCh := make(chan struct{}, 1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-ch:
-				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
-	time.Sleep(time.Second)
-
-	stopCh <- struct{}{}
-	wg.Wait()
-}
-
-func TestSQSInitV27Attributes(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:    "sqs/.rr-sqs-attr.yaml",
-		Prefix:  "rr",
-		Version: "2.7.6",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&server.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
-		&jobs.Plugin{},
-		&resetter.Plugin{},
-		&informer.Plugin{},
-		&sqs.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ch, err := cont.Serve()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	stopCh := make(chan struct{}, 1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-ch:
-				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	time.Sleep(time.Second)
-
-	stopCh <- struct{}{}
-	wg.Wait()
-}
-
-func TestSQSInitV27BadResp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:    "sqs/.rr-sqs-init-v27-br.yaml",
+		Path:    "memory/.rr-memory-init-v27.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -273,7 +121,7 @@ func TestSQSInitV27BadResp(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&memory.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -322,23 +170,105 @@ func TestSQSInitV27BadResp(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 3)
+	time.Sleep(time.Second * 1)
 	t.Run("PushPipeline", pushToPipe("test-1"))
 	t.Run("PushPipeline", pushToPipe("test-2"))
-	time.Sleep(time.Second)
+	time.Sleep(time.Second * 1)
 
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.GreaterOrEqual(t, oLogger.FilterMessageSnippet("response handler error").Len(), 2)
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 }
 
-func TestSQSDeclare(t *testing.T) {
+func TestMemoryInitV27BadResp(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-declare.yaml",
+		Path:   "memory/.rr-memory-init-v27-br.yaml",
+		Prefix: "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&memory.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 1)
+	t.Run("PushPipeline", pushToPipe("test-1"))
+	t.Run("PushPipeline", pushToPipe("test-2"))
+	time.Sleep(time.Second * 1)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("response handler error").Len())
+}
+
+func TestMemoryCreate(t *testing.T) {
+	t.Skip("not for the CI")
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Path:   "memory/.rr-memory-create.yaml",
 		Prefix: "rr",
 	}
 
@@ -350,7 +280,80 @@ func TestSQSDeclare(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&memory.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 5)
+	t.Run("PushPipeline", pushToPipe("example"))
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
+func TestMemoryDeclare(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Path:   "memory/.rr-memory-declare.yaml",
+		Prefix: "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&memory.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -401,37 +404,129 @@ func TestSQSDeclare(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe("default"))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
+	t.Run("DeclarePipeline", declareMemoryPipe)
+	t.Run("ConsumePipeline", consumeMemoryPipe)
 	t.Run("PushPipeline", pushToPipe("test-3"))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", pausePipelines("test-3"))
 	time.Sleep(time.Second)
 	t.Run("DestroyPipeline", destroyPipelines("test-3"))
 
-	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 }
 
-func TestSQSJobsError(t *testing.T) {
+func TestMemoryPauseResume(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-jobs-err.yaml",
+		Path:   "memory/.rr-memory-pause-resume.yaml",
 		Prefix: "rr",
 	}
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
+		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&memory.Plugin{},
+	)
+
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+
+	t.Run("Pause", pausePipelines("test-local"))
+	t.Run("pushToDisabledPipe", pushToDisabledPipe("test-local"))
+	t.Run("Resume", resumePipes("test-local"))
+	t.Run("pushToEnabledPipe", pushToPipe("test-local"))
+	time.Sleep(time.Second * 1)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
+	require.Equal(t, 3, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+}
+
+func TestMemoryJobsError(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Path:   "memory/.rr-memory-jobs-err.yaml",
+		Prefix: "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&memory.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -482,7 +577,7 @@ func TestSQSJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe("default"))
+	t.Run("DeclarePipeline", declareMemoryPipe)
 	t.Run("ConsumePipeline", resumePipes("test-3"))
 	t.Run("PushPipeline", pushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
@@ -490,61 +585,37 @@ func TestSQSJobsError(t *testing.T) {
 	time.Sleep(time.Second)
 	t.Run("DestroyPipeline", destroyPipelines("test-3"))
 
-	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	time.Sleep(time.Second * 5)
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 4, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 4, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was paused").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 3, oLogger.FilterMessageSnippet("jobs protocol error").Len())
 }
 
-func TestSQSNoGlobalSection(t *testing.T) {
+func TestMemoryStats(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-no-global.yaml",
+		Path:   "memory/.rr-memory-declare.yaml",
 		Prefix: "rr",
 	}
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
+		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	_, err = cont.Serve()
-	require.Error(t, err)
-}
-
-func TestSQSStat(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-declare.yaml",
-		Prefix: "rr",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&server.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
-		&jobs.Plugin{},
-		&resetter.Plugin{},
-		&informer.Plugin{},
-		&sqs.Plugin{},
+		&memory.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -595,174 +666,81 @@ func TestSQSStat(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe("default-stat"))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
+	t.Run("DeclarePipeline", declareMemoryPipe)
+	t.Run("ConsumePipeline", consumeMemoryPipe)
 	t.Run("PushPipeline", pushToPipe("test-3"))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", pausePipelines("test-3"))
 	time.Sleep(time.Second)
 
-	t.Run("PushPipelineDelayed", pushToPipeDelayed("test-3", 5))
+	t.Run("PushPipeline", pushToPipeDelayed("test-3", 5))
 	t.Run("PushPipeline", pushToPipe("test-3"))
-	time.Sleep(time.Second)
 
+	time.Sleep(time.Second)
 	out := &jobState.State{}
 	t.Run("Stats", stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
-	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
+	assert.Equal(t, out.Driver, "memory")
+	assert.Equal(t, out.Queue, "test-3")
 
-	assert.Greater(t, out.Active, int64(0))
-	assert.Greater(t, out.Delayed, int64(0))
-	assert.Equal(t, int64(0), out.Reserved)
+	assert.Equal(t, out.Active, int64(1))
+	assert.Equal(t, out.Delayed, int64(1))
+	assert.Equal(t, out.Reserved, int64(0))
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", resumePipes("test-3"))
+	t.Run("ConsumePipeline", consumeMemoryPipe)
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
 	t.Run("Stats", stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
-	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
+	assert.Equal(t, out.Driver, "memory")
+	assert.Equal(t, out.Queue, "test-3")
 
-	assert.GreaterOrEqual(t, out.Active, int64(0))
-	assert.GreaterOrEqual(t, out.Delayed, int64(0))
-	assert.Equal(t, int64(0), out.Reserved)
+	assert.Equal(t, out.Active, int64(0))
+	assert.Equal(t, out.Delayed, int64(0))
+	assert.Equal(t, out.Reserved, int64(0))
 
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyEphemeralPipeline", destroyPipelines("test-3"))
 
-	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	require.Equal(t, 3, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 3, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 3, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was paused").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 }
 
-func TestSQSRespond(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+func declareMemoryPipe(t *testing.T) {
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
 	assert.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-respond.yaml",
-		Prefix: "rr",
-	}
+	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+		"driver":   "memory",
+		"name":     "test-3",
+		"prefetch": "10000",
+	}}
 
-	err = cont.RegisterAll(
-		cfg,
-		&server.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
-		&jobs.Plugin{},
-		&resetter.Plugin{},
-		&informer.Plugin{},
-		&sqs.Plugin{},
-	)
+	er := &jobsv1beta.Empty{}
+	err = client.Call("jobs.Declare", pipe, er)
 	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ch, err := cont.Serve()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	stopCh := make(chan struct{}, 1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-ch:
-				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	time.Sleep(time.Second * 3)
-
-	t.Run("DeclarePipeline", declareSQSPipe("default"))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
-	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
-	t.Run("DestroyPipeline", destroyPipelines("test-1"))
-
-	time.Sleep(time.Second * 5)
-	stopCh <- struct{}{}
-	wg.Wait()
 }
 
-func declareSQSPipe(queue string) func(t *testing.T) {
-	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
-		assert.NoError(t, err)
-		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+func consumeMemoryPipe(t *testing.T) {
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
+	assert.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
-			"driver":             "sqs",
-			"name":               "test-3",
-			"queue":              queue,
-			"prefetch":           "10",
-			"priority":           "3",
-			"visibility_timeout": "0",
-			"wait_time_seconds":  "3",
-			"tags":               `{"key":"value"}`,
-		}}
+	pipe := &jobsv1beta.Pipelines{Pipelines: make([]string, 1)}
+	pipe.GetPipelines()[0] = "test-3"
 
-		er := &jobsv1beta.Empty{}
-		err = client.Call("jobs.Declare", pipe, er)
-		assert.NoError(t, err)
-	}
-}
-
-func declareSQSPipeFifo(queue string) func(t *testing.T) {
-	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
-		assert.NoError(t, err)
-		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
-		pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
-			"driver":             "sqs",
-			"name":               "test-3",
-			"queue":              queue,
-			"prefetch":           "10",
-			"priority":           "3",
-			"visibility_timeout": "0",
-			"message_group_id":   "RR",
-			"wait_time_seconds":  "3",
-			"attributes":         `{"FifoQueue":"true"}`,
-			"tags":               `{"key":"value"}`,
-		}}
-
-		er := &jobsv1beta.Empty{}
-		err = client.Call("jobs.Declare", pipe, er)
-		assert.NoError(t, err)
-	}
+	er := &jobsv1beta.Empty{}
+	err = client.Call("jobs.Resume", pipe, er)
+	assert.NoError(t, err)
 }

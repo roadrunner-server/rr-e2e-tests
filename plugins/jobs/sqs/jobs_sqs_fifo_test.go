@@ -1,8 +1,6 @@
-package jobs
+package sqs
 
 import (
-	"net"
-	"net/rpc"
 	"os"
 	"os/signal"
 	"sync"
@@ -10,30 +8,27 @@ import (
 	"testing"
 	"time"
 
-	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1beta"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
-	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/jobs/v2"
 	"github.com/roadrunner-server/logger/v2"
-	"github.com/roadrunner-server/nats/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v2"
+	"github.com/roadrunner-server/sqs/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 )
 
-func TestNATSInit(t *testing.T) {
+func TestSQSInitFifo(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-init.yaml",
+		Path:   "sqs/.rr-sqs-init_fifo.yaml",
 		Prefix: "rr",
 	}
 
@@ -45,7 +40,7 @@ func TestNATSInit(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&sqs.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -95,92 +90,19 @@ func TestNATSInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
+	t.Run("PushPipelineFifo", pushToPipe("test-1"))
+	t.Run("PushPipelineFifo", pushToPipe("test-2"))
+	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
-func TestNATSInitV27(t *testing.T) {
+func TestSQSInitV27BadRespFifo(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "nats/.rr-nats-init-v27.yaml",
-		Prefix:  "rr",
-		Version: "2.7.0",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&server.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
-		&jobs.Plugin{},
-		&resetter.Plugin{},
-		&informer.Plugin{},
-		&nats.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ch, err := cont.Serve()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	stopCh := make(chan struct{}, 1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-ch:
-				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
-	time.Sleep(time.Second)
-
-	stopCh <- struct{}{}
-	wg.Wait()
-}
-
-func TestNATSInitV27BadResp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:    "nats/.rr-nats-init-v27-br.yaml",
+		Path:    "sqs/.rr-sqs-init-v27-br_fifo.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -194,7 +116,7 @@ func TestNATSInitV27BadResp(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&sqs.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -244,22 +166,22 @@ func TestNATSInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
-	time.Sleep(time.Second * 2)
+	t.Run("PushPipelineFifo", pushToPipe("test-1"))
+	t.Run("PushPipelineFifo", pushToPipe("test-2"))
+	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("response handler error").Len())
+	require.GreaterOrEqual(t, oLogger.FilterMessageSnippet("response handler error").Len(), 2)
 }
 
-func TestNATSDeclare(t *testing.T) {
+func TestSQSDeclareFifo(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-declare.yaml",
+		Path:   "sqs/.rr-sqs-declare_fifo.yaml",
 		Prefix: "rr",
 	}
 
@@ -271,7 +193,7 @@ func TestNATSDeclare(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&sqs.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -322,24 +244,25 @@ func TestNATSDeclare(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("DeclarePipelineFifo", declareSQSPipeFifo("default-decl.fifo"))
+	t.Run("ConsumePipelineFifo", resumePipes("test-3"))
+	t.Run("PushPipelineFifo", pushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipelineFifo", pausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipelineFifo", destroyPipelines("test-3"))
 
+	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
-func TestNATSJobsError(t *testing.T) {
+func TestSQSJobsErrorFifo(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-jobs-err.yaml",
+		Path:   "sqs/.rr-sqs-jobs-err_fifo.yaml",
 		Prefix: "rr",
 	}
 
@@ -351,7 +274,7 @@ func TestNATSJobsError(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&sqs.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -402,24 +325,27 @@ func TestNATSJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("DeclarePipelineFifo", declareSQSPipeFifo("default-err.fifo"))
+	t.Run("ConsumePipelineFifo", resumePipes("test-3"))
+	t.Run("PushPipelineFifo", pushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", pausePipelines("test-3"))
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("PausePipelineFifo", pausePipelines("test-3"))
+	time.Sleep(time.Second)
+	t.Run("DestroyPipelineFifo", destroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	time.Sleep(time.Second * 5)
 }
 
-func TestNATSRespond(t *testing.T) {
+func TestSQSRespondFifo(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-respond.yaml",
+		Path:   "sqs/.rr-sqs-respond_fifo.yaml",
 		Prefix: "rr",
 	}
 
@@ -431,7 +357,7 @@ func TestNATSRespond(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&sqs.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -482,174 +408,14 @@ func TestNATSRespond(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("DeclarePipelineFifo", declareSQSPipe("default"))
+	t.Run("ConsumePipelineFifo", resumePipes("test-3"))
+	t.Run("PushPipelineFifo", pushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
-
-	stopCh <- struct{}{}
-	wg.Wait()
-}
-
-func TestNATSNoGlobalSection(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:   "nats/.rr-no-global.yaml",
-		Prefix: "rr",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&server.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
-		&jobs.Plugin{},
-		&resetter.Plugin{},
-		&informer.Plugin{},
-		&nats.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	_, err = cont.Serve()
-	require.Error(t, err)
-}
-
-func TestNATSStats(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-stat.yaml",
-		Prefix: "rr",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&server.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
-		&jobs.Plugin{},
-		&resetter.Plugin{},
-		&informer.Plugin{},
-		&nats.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ch, err := cont.Serve()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	stopCh := make(chan struct{}, 1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-ch:
-				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	time.Sleep(time.Second * 3)
-
-	t.Run("DeclarePipeline", declareNATSPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
-	time.Sleep(time.Second * 2)
-	t.Run("PausePipeline", pausePipelines("test-3"))
-	time.Sleep(time.Second * 2)
-	t.Run("PushPipeline", pushToPipe("test-3"))
-
-	out := &jobState.State{}
-	t.Run("Stats", stats(out))
-
-	assert.Equal(t, "test-3", out.Pipeline)
-	assert.Equal(t, "nats", out.Driver)
-	assert.Equal(t, "default", out.Queue)
-
-	assert.Equal(t, int64(0), out.Active)
-	assert.Equal(t, int64(0), out.Delayed)
-	assert.Equal(t, int64(0), out.Reserved)
-	assert.Equal(t, false, out.Ready)
-
-	time.Sleep(time.Second)
-	t.Run("ResumePipeline", resumePipes("test-3"))
-	time.Sleep(time.Second * 7)
-
-	out = &jobState.State{}
-	t.Run("Stats", stats(out))
-
-	assert.Equal(t, out.Pipeline, "test-3")
-	assert.Equal(t, out.Driver, "nats")
-	assert.Equal(t, out.Queue, "default")
-
-	assert.Equal(t, int64(0), out.Active)
-	assert.Equal(t, int64(0), out.Delayed)
-	assert.Equal(t, int64(0), out.Reserved)
-	assert.Equal(t, true, out.Ready)
-
-	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipelineFifo", destroyPipelines("test-3"))
+	t.Run("DestroyPipelineFifo", destroyPipelines("test-1"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
-}
-
-func declareNATSPipe(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	require.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
-		"driver":      "nats",
-		"name":        "test-3",
-		"subject":     "default",
-		"stream":      "foo",
-		"deliver_new": "true",
-		"prefetch":    "100",
-		"priority":    "3",
-	}}
-
-	er := &jobsv1beta.Empty{}
-	err = client.Call("jobs.Declare", pipe, er)
-	require.NoError(t, err)
 }

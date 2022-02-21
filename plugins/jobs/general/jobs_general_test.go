@@ -1,4 +1,4 @@
-package jobs
+package general
 
 import (
 	"io/ioutil"
