@@ -4,11 +4,15 @@
 
 SHELL = /bin/sh
 
-test_coverage:
+run_docker:
 	docker-compose -f env/docker-compose.yaml up -d --remove-orphans
+
+sleep-%:
+	sleep $(@:sleep-%=%)
+
+test_coverage: run_docker sleep-30
 	rm -rf coverage-ci
 	mkdir ./coverage-ci
-	sleep 30
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
 	go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/jobs_core.out -covermode=atomic ./plugins/jobs
@@ -35,28 +39,26 @@ test_coverage:
 	docker-compose -f env/docker-compose.yaml kill
 	docker-compose -f env/docker-compose.yaml down
 
-test: ## Run application tests
-	docker compose -f env/docker-compose.yaml up -d --remove-orphans
-	sleep 10
-	go test -timeout 20m -v -race -tags=debug ./plugins/jobs
-	go test -v -race -tags=debug ./plugins/kv
-	go test -v -race -tags=debug ./plugins/tcp
-	go test -v -race -tags=debug ./plugins/broadcast
-	go test -v -race -tags=debug ./plugins/websockets
-	go test -v -race -tags=debug ./plugins/http
-	go test -v -race -tags=debug ./plugins/informer
-	go test -v -race -tags=debug ./plugins/reload
-	go test -v -race -tags=debug ./plugins/websockets
-	go test -v -race -tags=debug ./plugins/grpc
-	go test -v -race -tags=debug ./plugins/server
-	go test -v -race -tags=debug ./plugins/service
-	go test -v -race -tags=debug ./plugins/status
-	go test -v -race -tags=debug ./plugins/config
-	go test -v -race -tags=debug ./plugins/gzip
-	go test -v -race -tags=debug ./plugins/headers
-	go test -v -race -tags=debug ./plugins/logger
-	go test -v -race -tags=debug ./plugins/metrics
-	go test -v -race -tags=debug ./plugins/resetter
-	go test -v -race -tags=debug ./plugins/rpc
+test:
+	go test -v -race -cover -tags=debug ./plugins/temporal
+	go test -v -race -cover -tags=debug ./plugins/service
+	go test -v -race -cover -tags=debug -timeout 20m ./plugins/jobs
+	go test -v -race -cover -tags=debug ./plugins/kv
+	go test -v -race -cover -tags=debug ./plugins/tcp
+	go test -v -race -cover -tags=debug ./plugins/reload
+	go test -v -race -cover -tags=debug ./plugins/broadcast
+	go test -v -race -cover -tags=debug ./plugins/websockets
+	go test -v -race -cover -tags=debug ./plugins/http
+	go test -v -race -cover -tags=debug ./plugins/grpc
+	go test -v -race -cover -tags=debug ./plugins/informer
+	go test -v -race -cover -tags=debug ./plugins/server
+	go test -v -race -cover -tags=debug ./plugins/status
+	go test -v -race -cover -tags=debug ./plugins/config
+	go test -v -race -cover -tags=debug ./plugins/gzip
+	go test -v -race -cover -tags=debug ./plugins/headers
+	go test -v -race -cover -tags=debug ./plugins/logger
+	go test -v -race -cover -tags=debug ./plugins/metrics
+	go test -v -race -cover -tags=debug ./plugins/resetter
+	go test -v -race -cover -tags=debug ./plugins/rpc
 	docker compose -f env/docker-compose.yaml kill
 	docker compose -f env/docker-compose.yaml down
