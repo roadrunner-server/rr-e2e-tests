@@ -24,7 +24,7 @@ const (
 	stat    string = "jobs.Stat"
 )
 
-func resumePipes(pipes ...string) func(t *testing.T) {
+func ResumePipes(pipes ...string) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)
@@ -42,7 +42,7 @@ func resumePipes(pipes ...string) func(t *testing.T) {
 	}
 }
 
-func pushToDisabledPipe(pipeline string) func(t *testing.T) {
+func PushToDisabledPipe(pipeline string) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)
@@ -65,7 +65,7 @@ func pushToDisabledPipe(pipeline string) func(t *testing.T) {
 	}
 }
 
-func pushToPipe(pipeline string) func(t *testing.T) {
+func PushToPipe(pipeline string) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)
@@ -89,7 +89,7 @@ func pushToPipe(pipeline string) func(t *testing.T) {
 	}
 }
 
-func pushToPipeDelayed(pipeline string, delay int64) func(t *testing.T) {
+func PushToPipeDelayed(pipeline string, delay int64) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		assert.NoError(t, err)
@@ -113,7 +113,7 @@ func pushToPipeDelayed(pipeline string, delay int64) func(t *testing.T) {
 	}
 }
 
-func pushToPipeErr(pipeline string) func(t *testing.T) {
+func PushToPipeErr(pipeline string) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)
@@ -136,7 +136,7 @@ func pushToPipeErr(pipeline string) func(t *testing.T) {
 		require.Error(t, err)
 	}
 }
-func pausePipelines(pipes ...string) func(t *testing.T) {
+func PausePipelines(pipes ...string) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		assert.NoError(t, err)
@@ -154,7 +154,7 @@ func pausePipelines(pipes ...string) func(t *testing.T) {
 	}
 }
 
-func destroyPipelines(pipes ...string) func(t *testing.T) {
+func DestroyPipelines(pipes ...string) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		assert.NoError(t, err)
@@ -179,7 +179,7 @@ func destroyPipelines(pipes ...string) func(t *testing.T) {
 	}
 }
 
-func enableProxy(name string, t *testing.T) {
+func EnableProxy(name string, t *testing.T) {
 	buf := new(bytes.Buffer)
 	buf.WriteString(`{"enabled":true}`)
 
@@ -191,7 +191,7 @@ func enableProxy(name string, t *testing.T) {
 	}
 }
 
-func disableProxy(name string, t *testing.T) {
+func DisableProxy(name string, t *testing.T) {
 	buf := new(bytes.Buffer)
 	buf.WriteString(`{"enabled":false}`)
 
@@ -203,7 +203,7 @@ func disableProxy(name string, t *testing.T) {
 	}
 }
 
-func deleteProxy(name string, t *testing.T) {
+func DeleteProxy(name string, t *testing.T) {
 	client := &http.Client{}
 
 	req, err := http.NewRequest(http.MethodDelete, "http://127.0.0.1:8474/proxies/"+name, nil) //nolint:noctx
@@ -219,7 +219,7 @@ func deleteProxy(name string, t *testing.T) {
 	}
 }
 
-func stats(state *jobState.State) func(t *testing.T) {
+func Stats(state *jobState.State) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)

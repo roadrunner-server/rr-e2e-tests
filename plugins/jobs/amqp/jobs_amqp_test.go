@@ -1,4 +1,4 @@
-package jobs
+package amqp
 
 import (
 	"net"
@@ -22,6 +22,7 @@ import (
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -33,7 +34,7 @@ func TestAMQPInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/.rr-amqp-init.yaml",
+		Path:   "amqp/configs/.rr-amqp-init.yaml",
 		Prefix: "rr",
 	}
 
@@ -96,8 +97,8 @@ func TestAMQPInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", pushToPipe("test-1"))
-	t.Run("PushToPipeline", pushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -110,7 +111,7 @@ func TestAMQPInit(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -119,7 +120,7 @@ func TestAMQPInitV27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "amqp/.rr-amqp-init.yaml",
+		Path:    "amqp/configs/.rr-amqp-init.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -183,8 +184,8 @@ func TestAMQPInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", pushToPipe("test-1"))
-	t.Run("PushToPipeline", pushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -197,7 +198,7 @@ func TestAMQPInitV27(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -206,7 +207,7 @@ func TestAMQPInitV27RR27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "amqp/.rr-amqp-init-v27.yaml",
+		Path:    "amqp/configs/.rr-amqp-init-v27.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -270,8 +271,8 @@ func TestAMQPInitV27RR27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", pushToPipe("test-1"))
-	t.Run("PushToPipeline", pushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -284,7 +285,7 @@ func TestAMQPInitV27RR27(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -293,7 +294,7 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "amqp/.rr-amqp-init-v27-durable.yaml",
+		Path:    "amqp/configs/.rr-amqp-init-v27-durable.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -357,8 +358,8 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", pushToPipe("test-1"))
-	t.Run("PushToPipeline", pushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -371,7 +372,7 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -380,7 +381,7 @@ func TestAMQPReset(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/.rr-amqp-init.yaml",
+		Path:   "amqp/configs/.rr-amqp-init.yaml",
 		Prefix: "rr",
 	}
 
@@ -443,12 +444,12 @@ func TestAMQPReset(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", pushToPipe("test-1"))
-	t.Run("PushToPipeline", pushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 	reset(t)
-	t.Run("PushToPipeline", pushToPipe("test-1"))
-	t.Run("PushToPipeline", pushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -462,7 +463,7 @@ func TestAMQPReset(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -471,7 +472,7 @@ func TestAMQPDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/.rr-amqp-declare.yaml",
+		Path:   "amqp/configs/.rr-amqp-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -536,12 +537,12 @@ func TestAMQPDeclare(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
-	t.Run("ConsumeAMQPPipeline", resumePipes("test-3"))
-	t.Run("PushAMQPPipeline", pushToPipe("test-3"))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PauseAMQPPipeline", pausePipelines("test-3"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyAMQPPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -554,7 +555,7 @@ func TestAMQPDeclare(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -563,7 +564,7 @@ func TestAMQPDeclareDurable(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/.rr-amqp-declare.yaml",
+		Path:   "amqp/configs/.rr-amqp-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -628,12 +629,12 @@ func TestAMQPDeclareDurable(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipeDurable)
-	t.Run("ConsumeAMQPPipeline", resumePipes("test-3"))
-	t.Run("PushAMQPPipeline", pushToPipe("test-3"))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PauseAMQPPipeline", pausePipelines("test-3"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyAMQPPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -646,7 +647,7 @@ func TestAMQPDeclareDurable(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -655,7 +656,7 @@ func TestAMQPJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/.rr-amqp-jobs-err.yaml",
+		Path:   "amqp/configs/.rr-amqp-jobs-err.yaml",
 		Prefix: "rr",
 	}
 
@@ -720,11 +721,11 @@ func TestAMQPJobsError(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
-	t.Run("ConsumeAMQPPipeline", resumePipes("test-3"))
-	t.Run("PushAMQPPipeline", pushToPipe("test-3"))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
-	t.Run("PauseAMQPPipeline", pausePipelines("test-3"))
-	t.Run("DestroyAMQPPipeline", destroyPipelines("test-3"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -739,7 +740,7 @@ func TestAMQPJobsError(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -748,7 +749,7 @@ func TestAMQPNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/.rr-no-global.yaml",
+		Path:   "amqp/configs/.rr-no-global.yaml",
 		Prefix: "rr",
 	}
 
@@ -779,7 +780,7 @@ func TestAMQPStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/.rr-amqp-declare.yaml",
+		Path:   "amqp/configs/.rr-amqp-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -844,16 +845,16 @@ func TestAMQPStats(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
-	t.Run("ConsumeAMQPPipeline", resumePipes("test-3"))
-	t.Run("PushAMQPPipeline", pushToPipe("test-3"))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PauseAMQPPipeline", pausePipelines("test-3"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushAMQPPipeline", pushToPipe("test-3"))
-	t.Run("PushPipelineDelayed", pushToPipeDelayed("test-3", 5))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
 
 	out := &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "amqp")
@@ -865,11 +866,11 @@ func TestAMQPStats(t *testing.T) {
 	assert.Equal(t, false, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", resumePipes("test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "amqp")
@@ -881,7 +882,7 @@ func TestAMQPStats(t *testing.T) {
 	assert.Equal(t, true, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("DestroyAMQPPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -895,7 +896,7 @@ func TestAMQPStats(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -904,7 +905,7 @@ func TestAMQPRespondOk(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/.rr-amqp-resp-jobs-ok.yaml",
+		Path:   "amqp/configs/.rr-amqp-resp-jobs-ok.yaml",
 		Prefix: "rr",
 	}
 
@@ -969,11 +970,11 @@ func TestAMQPRespondOk(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
-	t.Run("ConsumeAMQPPipeline", resumePipes("test-3"))
-	t.Run("PushAMQPPipeline", pushToPipe("test-3"))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 5)
-	t.Run("DestroyAMQPPipeline", destroyPipelines("test-3"))
-	t.Run("DestroyAMQPPipeline", destroyPipelines("test-1"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-1"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -987,7 +988,7 @@ func TestAMQPRespondOk(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3", "test-1")
+		helpers.DestroyPipelines("test-3", "test-1")
 	})
 }
 
@@ -996,7 +997,7 @@ func TestAMQPBadResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/.rr-amqp-init-br.yaml",
+		Path:   "amqp/configs/.rr-amqp-init-br.yaml",
 		Prefix: "rr",
 	}
 
@@ -1059,8 +1060,8 @@ func TestAMQPBadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", pushToPipe("test-1"))
-	t.Run("PushToPipeline", pushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -1074,7 +1075,7 @@ func TestAMQPBadResp(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 

@@ -119,7 +119,7 @@ jobs:
           name: coverage
           path: ./coverage-ci/service.out
 
-  jobs_test:
+  amqp_test:
     name: Build (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
@@ -169,14 +169,11 @@ jobs:
         run: go mod download
 
       - name: Run golang tests with coverage
-        env:
-          RR_TEST_ENV: ${{ secrets.RR_TEST_ENV }}
-          RR_SQS_TEST_ENDPOINT: ${{ secrets.RR_SQS_TEST_ENDPOINT }}
-          RR_SQS_TEST_REGION: ${{ secrets.RR_SQS_TEST_REGION }}
-          RR_SQS_TEST_KEY: ${{ secrets.RR_SQS_TEST_KEY }}
-          RR_SQS_TEST_SECRET: ${{ secrets.RR_SQS_TEST_SECRET }}
-
-        run: make jobs_test
+        run: |
+          docker-compose -f env/docker-compose-jobs.yaml up -d --remove-orphans
+          sleep 30
+          mkdir ./coverage-ci
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v2
@@ -190,7 +187,7 @@ jobs:
     needs:
       - service_test
       - temporal_test
-      - jobs_test
+      - amqp_test
     timeout-minutes: 60
     steps:
       - name: Download code coverage results
