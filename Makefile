@@ -7,6 +7,9 @@ SHELL = /bin/sh
 temporal_docker_up:
 	docker-compose -f env/docker-compose-temporal.yaml up -d --remove-orphans
 
+jobs_docker_up:
+	docker-compose -f env/docker-compose-jobs.yaml up -d --remove-orphans
+
 remove_prev_ci:
 	rm -rf coverage-ci
 	mkdir ./coverage-ci
@@ -16,16 +19,17 @@ temporal_test: temporal_docker_up remove_prev_ci
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
 
 service_test: remove_prev_ci
-	sleep 30
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
+
+jobs_test: jobs_docker_up remove_prev_ci
+	sleep 30
+	go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/jobs_core.out -covermode=atomic ./plugins/jobs
 
 test_coverage:
 	docker-compose -f env/docker-compose.yaml up -d --remove-orphans
 	rm -rf coverage-ci
 	mkdir ./coverage-ci
 	sleep 30
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
-	go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/jobs_core.out -covermode=atomic ./plugins/jobs
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/kv_plugin.out -covermode=atomic ./plugins/kv
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/tcp_plugin.out -covermode=atomic ./plugins/tcp
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/reload.out -covermode=atomic ./plugins/reload

@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  nats:
+    image: nats:latest
+    command:
+      - "-js"
+    ports:
+      - "127.0.0.1:4222:4222"
+
+  toxicproxy:
+    image: shopify/toxiproxy:latest
+    network_mode: "host"
+
+  beanstalk:
+    build:
+      context: .
+      dockerfile: Dockerfile-beanstalkd.yaml
+    ports:
+      - "127.0.0.1:11300:11300"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "127.0.0.1:15672:15672"
+      - "127.0.0.1:5672:5672"
