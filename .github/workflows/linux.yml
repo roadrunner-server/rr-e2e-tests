@@ -354,6 +354,13 @@ jobs:
         run: go mod download
 
       - name: Run golang tests with coverage
+        env:
+          RR_TEST_ENV: ${{ secrets.RR_TEST_ENV }}
+          RR_SQS_TEST_ENDPOINT: ${{ secrets.RR_SQS_TEST_ENDPOINT }}
+          RR_SQS_TEST_REGION: ${{ secrets.RR_SQS_TEST_REGION }}
+          RR_SQS_TEST_KEY: ${{ secrets.RR_SQS_TEST_KEY }}
+          RR_SQS_TEST_SECRET: ${{ secrets.RR_SQS_TEST_SECRET }}
+
         run: |
           docker-compose -f env/docker-compose.yaml up -d --remove-orphans
           sleep 30
