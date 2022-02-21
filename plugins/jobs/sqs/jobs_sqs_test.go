@@ -21,6 +21,7 @@ import (
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/roadrunner-server/sqs/v2"
 	"github.com/stretchr/testify/assert"
@@ -33,7 +34,7 @@ func TestSQSInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-init.yaml",
+		Path:   "configs/.rr-sqs-init.yaml",
 		Prefix: "rr",
 	}
 
@@ -95,8 +96,8 @@ func TestSQSInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -107,7 +108,7 @@ func TestSQSInitV27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "sqs/.rr-sqs-init-v27.yaml",
+		Path:    "configs/.rr-sqs-init-v27.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -170,8 +171,8 @@ func TestSQSInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -183,7 +184,7 @@ func TestSQSInitV27Attributes(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "sqs/.rr-sqs-attr.yaml",
+		Path:    "configs/.rr-sqs-attr.yaml",
 		Prefix:  "rr",
 		Version: "2.7.6",
 	}
@@ -246,8 +247,8 @@ func TestSQSInitV27Attributes(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -259,7 +260,7 @@ func TestSQSInitV27BadResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "sqs/.rr-sqs-init-v27-br.yaml",
+		Path:    "configs/.rr-sqs-init-v27-br.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -323,8 +324,8 @@ func TestSQSInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -338,7 +339,7 @@ func TestSQSDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-declare.yaml",
+		Path:   "configs/.rr-sqs-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -402,12 +403,12 @@ func TestSQSDeclare(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareSQSPipe("default"))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -419,7 +420,7 @@ func TestSQSJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-jobs-err.yaml",
+		Path:   "configs/.rr-sqs-jobs-err.yaml",
 		Prefix: "rr",
 	}
 
@@ -483,12 +484,12 @@ func TestSQSJobsError(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareSQSPipe("default"))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -502,7 +503,7 @@ func TestSQSNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-no-global.yaml",
+		Path:   "configs/.rr-no-global.yaml",
 		Prefix: "rr",
 	}
 
@@ -532,7 +533,7 @@ func TestSQSStat(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-declare.yaml",
+		Path:   "configs/.rr-sqs-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -596,18 +597,18 @@ func TestSQSStat(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareSQSPipe("default-stat"))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
 
-	t.Run("PushPipelineDelayed", pushToPipeDelayed("test-3", 5))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
 
 	out := &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "sqs")
@@ -618,11 +619,11 @@ func TestSQSStat(t *testing.T) {
 	assert.Equal(t, int64(0), out.Reserved)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", resumePipes("test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "sqs")
@@ -632,7 +633,7 @@ func TestSQSStat(t *testing.T) {
 	assert.GreaterOrEqual(t, out.Delayed, int64(0))
 	assert.Equal(t, int64(0), out.Reserved)
 
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -644,7 +645,7 @@ func TestSQSRespond(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-respond.yaml",
+		Path:   "configs/.rr-sqs-respond.yaml",
 		Prefix: "rr",
 	}
 
@@ -708,11 +709,11 @@ func TestSQSRespond(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareSQSPipe("default"))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
-	t.Run("DestroyPipeline", destroyPipelines("test-1"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-1"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}

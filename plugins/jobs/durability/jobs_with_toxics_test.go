@@ -19,6 +19,7 @@ import (
 	"github.com/roadrunner-server/nats/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
+	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/roadrunner-server/sqs/v2"
 	"github.com/stretchr/testify/assert"
@@ -30,13 +31,13 @@ func TestDurabilityAMQP(t *testing.T) {
 
 	_, err := client.CreateProxy("redial", "127.0.0.1:23679", "127.0.0.1:5672")
 	require.NoError(t, err)
-	defer deleteProxy("redial", t)
+	defer helpers.DeleteProxy("redial", t)
 
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "durability/.rr-amqp-durability-redial.yaml",
+		Path:   "configs/.rr-amqp-durability-redial.yaml",
 		Prefix: "rr",
 	}
 
@@ -98,20 +99,20 @@ func TestDurabilityAMQP(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	disableProxy("redial", t)
+	helpers.DisableProxy("redial", t)
 	time.Sleep(time.Second * 3)
 
 	go func() {
 		time.Sleep(time.Second * 5)
-		enableProxy("redial", t)
+		helpers.EnableProxy("redial", t)
 	}()
 
-	t.Run("PushPipelineWhileRedialing-1", pushToPipeErr("test-1"))
-	t.Run("PushPipelineWhileRedialing-2", pushToPipeErr("test-2"))
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipeErr("test-1"))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipeErr("test-2"))
 
 	time.Sleep(time.Second * 15)
-	t.Run("PushPipelineWhileRedialing-1", pushToPipe("test-1"))
-	t.Run("PushPipelineWhileRedialing-2", pushToPipe("test-2"))
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
 
 	time.Sleep(time.Second * 5)
 
@@ -119,7 +120,7 @@ func TestDurabilityAMQP(t *testing.T) {
 	wg.Wait()
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -128,13 +129,13 @@ func TestDurabilitySQS(t *testing.T) {
 
 	_, err := client.CreateProxy("redial", "127.0.0.1:19324", "127.0.0.1:9324")
 	require.NoError(t, err)
-	defer deleteProxy("redial", t)
+	defer helpers.DeleteProxy("redial", t)
 
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "durability/.rr-sqs-durability-redial.yaml",
+		Path:   "configs/.rr-sqs-durability-redial.yaml",
 		Prefix: "rr",
 	}
 
@@ -196,21 +197,21 @@ func TestDurabilitySQS(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	disableProxy("redial", t)
+	helpers.DisableProxy("redial", t)
 
 	go func() {
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-1", pushToPipe("test-1"))
+		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-2", pushToPipe("test-2"))
+		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
 	}()
 
 	time.Sleep(time.Second * 5)
-	enableProxy("redial", t)
+	helpers.EnableProxy("redial", t)
 	time.Sleep(time.Second * 5)
 
-	t.Run("PushPipelineWhileRedialing-3", pushToPipe("test-1"))
-	t.Run("PushPipelineWhileRedialing-4", pushToPipe("test-2"))
+	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1"))
+	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2"))
 
 	time.Sleep(time.Second * 10)
 
@@ -218,7 +219,7 @@ func TestDurabilitySQS(t *testing.T) {
 	wg.Wait()
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -227,13 +228,13 @@ func TestDurabilityBeanstalk(t *testing.T) {
 
 	_, err := client.CreateProxy("redial", "127.0.0.1:11400", "127.0.0.1:11300")
 	require.NoError(t, err)
-	defer deleteProxy("redial", t)
+	defer helpers.DeleteProxy("redial", t)
 
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
 	require.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "durability/.rr-beanstalk-durability-redial.yaml",
+		Path:   "configs/.rr-beanstalk-durability-redial.yaml",
 		Prefix: "rr",
 	}
 
@@ -295,20 +296,20 @@ func TestDurabilityBeanstalk(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	disableProxy("redial", t)
+	helpers.DisableProxy("redial", t)
 
 	go func() {
 		time.Sleep(time.Second * 2)
-		t.Run("PushPipelineWhileRedialing-1", pushToPipe("test-1"))
-		t.Run("PushPipelineWhileRedialing-2", pushToPipe("test-2"))
+		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
+		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
 	}()
 
 	time.Sleep(time.Second * 5)
-	enableProxy("redial", t)
+	helpers.EnableProxy("redial", t)
 	time.Sleep(time.Second * 2)
 
-	t.Run("PushPipelineWhileRedialing-1", pushToPipe("test-1"))
-	t.Run("PushPipelineWhileRedialing-2", pushToPipe("test-2"))
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
 
 	time.Sleep(time.Second * 10)
 
@@ -316,7 +317,7 @@ func TestDurabilityBeanstalk(t *testing.T) {
 	wg.Wait()
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -325,13 +326,13 @@ func TestDurabilityNATS(t *testing.T) {
 
 	_, err := client.CreateProxy("redial", "127.0.0.1:19224", "127.0.0.1:4222")
 	require.NoError(t, err)
-	defer deleteProxy("redial", t)
+	defer helpers.DeleteProxy("redial", t)
 
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "durability/.rr-nats-durability-redial.yaml",
+		Path:   "configs/.rr-nats-durability-redial.yaml",
 		Prefix: "rr",
 	}
 
@@ -393,22 +394,22 @@ func TestDurabilityNATS(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	disableProxy("redial", t)
+	helpers.DisableProxy("redial", t)
 	time.Sleep(time.Second * 3)
 
 	go func() {
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-1", pushToPipe("test-1"))
+		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-2", pushToPipe("test-2"))
+		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
 	}()
 
 	time.Sleep(time.Second * 5)
-	enableProxy("redial", t)
+	helpers.EnableProxy("redial", t)
 	time.Sleep(time.Second * 2)
 
-	t.Run("PushPipelineWhileRedialing-3", pushToPipe("test-1"))
-	t.Run("PushPipelineWhileRedialing-4", pushToPipe("test-2"))
+	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1"))
+	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2"))
 
 	time.Sleep(time.Second * 2)
 
@@ -416,6 +417,6 @@ func TestDurabilityNATS(t *testing.T) {
 	wg.Wait()
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }

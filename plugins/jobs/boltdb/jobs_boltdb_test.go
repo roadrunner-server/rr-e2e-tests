@@ -22,6 +22,7 @@ import (
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -38,7 +39,7 @@ func TestBoltDBInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "boltdb/.rr-boltdb-init.yaml",
+		Path:   "configs/.rr-boltdb-init.yaml",
 		Prefix: "rr",
 	}
 
@@ -107,7 +108,7 @@ func TestBoltDBInit(t *testing.T) {
 	assert.NoError(t, os.Remove(rr2db))
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -116,7 +117,7 @@ func TestBoltDBInitV27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "boltdb/.rr-boltdb-init-v27.yaml",
+		Path:   "configs/.rr-boltdb-init-v27.yaml",
 		Prefix: "rr",
 	}
 
@@ -178,8 +179,8 @@ func TestBoltDBInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -188,7 +189,7 @@ func TestBoltDBInitV27(t *testing.T) {
 	assert.NoError(t, os.Remove(rr2db))
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -197,7 +198,7 @@ func TestBoltDBInitV27BadResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "boltdb/.rr-boltdb-init-v27-br.yaml",
+		Path:   "configs/.rr-boltdb-init-v27-br.yaml",
 		Prefix: "rr",
 	}
 
@@ -260,8 +261,8 @@ func TestBoltDBInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -272,7 +273,7 @@ func TestBoltDBInitV27BadResp(t *testing.T) {
 	assert.NoError(t, os.Remove(rr2db))
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -281,7 +282,7 @@ func TestBoltDBDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "boltdb/.rr-boltdb-declare.yaml",
+		Path:   "configs/.rr-boltdb-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -345,12 +346,12 @@ func TestBoltDBDeclare(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareBoltDBPipe(rr1db))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -358,7 +359,7 @@ func TestBoltDBDeclare(t *testing.T) {
 	assert.NoError(t, os.Remove(rr1db))
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -367,7 +368,7 @@ func TestBoltDBJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "boltdb/.rr-boltdb-jobs-err.yaml",
+		Path:   "configs/.rr-boltdb-jobs-err.yaml",
 		Prefix: "rr",
 	}
 
@@ -431,11 +432,11 @@ func TestBoltDBJobsError(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareBoltDBPipe(rr1db))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", pausePipelines("test-3"))
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -443,7 +444,7 @@ func TestBoltDBJobsError(t *testing.T) {
 	assert.NoError(t, os.Remove(rr1db))
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -452,7 +453,7 @@ func TestBoltDBNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "boltdb/.rr-no-global.yaml",
+		Path:   "configs/.rr-no-global.yaml",
 		Prefix: "rr",
 	}
 
@@ -482,7 +483,7 @@ func TestBoltDBStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "boltdb/.rr-boltdb-declare.yaml",
+		Path:   "configs/.rr-boltdb-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -546,16 +547,16 @@ func TestBoltDBStats(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareBoltDBPipe(rr1db))
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushPipeline", pushToPipe("test-3"))
-	t.Run("PushPipelineDelayed", pushToPipeDelayed("test-3", 5))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
 
 	out := &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "boltdb", out.Driver)
@@ -567,11 +568,11 @@ func TestBoltDBStats(t *testing.T) {
 	assert.Equal(t, false, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", resumePipes("test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "boltdb", out.Driver)
@@ -583,7 +584,7 @@ func TestBoltDBStats(t *testing.T) {
 	assert.Equal(t, true, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -591,7 +592,7 @@ func TestBoltDBStats(t *testing.T) {
 	assert.NoError(t, os.Remove(rr1db))
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 

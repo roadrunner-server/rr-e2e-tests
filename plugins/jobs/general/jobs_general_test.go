@@ -2,7 +2,9 @@ package general
 
 import (
 	"io/ioutil"
+	"net"
 	"net/http"
+	"net/rpc"
 	"os"
 	"os/signal"
 	"sync"
@@ -11,8 +13,10 @@ import (
 	"time"
 
 	"github.com/roadrunner-server/amqp/v2"
+	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1beta"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
+	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/jobs/v2"
 	"github.com/roadrunner-server/logger/v2"
@@ -20,6 +24,7 @@ import (
 	"github.com/roadrunner-server/metrics/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
+	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 )
@@ -164,11 +169,11 @@ func TestJOBSMetrics(t *testing.T) {
 
 	t.Run("DeclareEphemeralPipeline", declareMemoryPipe)
 	t.Run("ConsumeEphemeralPipeline", consumeMemoryPipe)
-	t.Run("PushEphemeralPipeline", pushToPipe("test-3"))
+	t.Run("PushEphemeralPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PushEphemeralPipeline", pushToPipeDelayed("test-3", 5))
+	t.Run("PushEphemeralPipeline", helpers.PushToPipeDelayed("test-3", 5))
 	time.Sleep(time.Second)
-	t.Run("PushEphemeralPipeline", pushToPipe("test-3"))
+	t.Run("PushEphemeralPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 5)
 
 	genericOut, err := get()
@@ -208,4 +213,33 @@ func get() (string, error) {
 	}
 	// unsafe
 	return string(b), err
+}
+
+func declareMemoryPipe(t *testing.T) {
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
+	assert.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+		"driver":   "memory",
+		"name":     "test-3",
+		"prefetch": "10000",
+	}}
+
+	er := &jobsv1beta.Empty{}
+	err = client.Call("jobs.Declare", pipe, er)
+	assert.NoError(t, err)
+}
+
+func consumeMemoryPipe(t *testing.T) {
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
+	assert.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+	pipe := &jobsv1beta.Pipelines{Pipelines: make([]string, 1)}
+	pipe.GetPipelines()[0] = "test-3"
+
+	er := &jobsv1beta.Empty{}
+	err = client.Call("jobs.Resume", pipe, er)
+	assert.NoError(t, err)
 }

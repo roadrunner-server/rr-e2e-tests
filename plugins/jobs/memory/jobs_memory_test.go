@@ -22,6 +22,7 @@ import (
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -33,7 +34,7 @@ func TestMemoryInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "memory/.rr-memory-init.yaml",
+		Path:   "configs/.rr-memory-init.yaml",
 		Prefix: "rr",
 	}
 
@@ -107,7 +108,7 @@ func TestMemoryInitV27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "memory/.rr-memory-init-v27.yaml",
+		Path:    "configs/.rr-memory-init-v27.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -171,8 +172,8 @@ func TestMemoryInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 1)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second * 1)
 
 	stopCh <- struct{}{}
@@ -189,7 +190,7 @@ func TestMemoryInitV27BadResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "memory/.rr-memory-init-v27-br.yaml",
+		Path:   "configs/.rr-memory-init-v27-br.yaml",
 		Prefix: "rr",
 	}
 
@@ -252,8 +253,8 @@ func TestMemoryInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 1)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second * 1)
 
 	stopCh <- struct{}{}
@@ -268,7 +269,7 @@ func TestMemoryCreate(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "memory/.rr-memory-create.yaml",
+		Path:   "configs/.rr-memory-create.yaml",
 		Prefix: "rr",
 	}
 
@@ -330,7 +331,7 @@ func TestMemoryCreate(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 5)
-	t.Run("PushPipeline", pushToPipe("example"))
+	t.Run("PushPipeline", helpers.PushToPipe("example"))
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -340,7 +341,7 @@ func TestMemoryDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "memory/.rr-memory-declare.yaml",
+		Path:   "configs/.rr-memory-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -406,11 +407,11 @@ func TestMemoryDeclare(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareMemoryPipe)
 	t.Run("ConsumePipeline", consumeMemoryPipe)
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -427,7 +428,7 @@ func TestMemoryPauseResume(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "memory/.rr-memory-pause-resume.yaml",
+		Path:   "configs/.rr-memory-pause-resume.yaml",
 		Prefix: "rr",
 	}
 
@@ -492,10 +493,10 @@ func TestMemoryPauseResume(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("Pause", pausePipelines("test-local"))
-	t.Run("pushToDisabledPipe", pushToDisabledPipe("test-local"))
-	t.Run("Resume", resumePipes("test-local"))
-	t.Run("pushToEnabledPipe", pushToPipe("test-local"))
+	t.Run("Pause", helpers.PausePipelines("test-local"))
+	t.Run("pushToDisabledPipe", helpers.PushToDisabledPipe("test-local"))
+	t.Run("Resume", helpers.ResumePipes("test-local"))
+	t.Run("pushToEnabledPipe", helpers.PushToPipe("test-local"))
 	time.Sleep(time.Second * 1)
 
 	stopCh <- struct{}{}
@@ -513,7 +514,7 @@ func TestMemoryJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "memory/.rr-memory-jobs-err.yaml",
+		Path:   "configs/.rr-memory-jobs-err.yaml",
 		Prefix: "rr",
 	}
 
@@ -578,12 +579,12 @@ func TestMemoryJobsError(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareMemoryPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -602,7 +603,7 @@ func TestMemoryStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "memory/.rr-memory-declare.yaml",
+		Path:   "configs/.rr-memory-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -668,17 +669,17 @@ func TestMemoryStats(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareMemoryPipe)
 	t.Run("ConsumePipeline", consumeMemoryPipe)
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
 
-	t.Run("PushPipeline", pushToPipeDelayed("test-3", 5))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipeDelayed("test-3", 5))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 
 	time.Sleep(time.Second)
 	out := &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "memory")
@@ -693,7 +694,7 @@ func TestMemoryStats(t *testing.T) {
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "memory")
@@ -703,7 +704,7 @@ func TestMemoryStats(t *testing.T) {
 	assert.Equal(t, out.Delayed, int64(0))
 	assert.Equal(t, out.Reserved, int64(0))
 
-	t.Run("DestroyEphemeralPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyEphemeralPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()

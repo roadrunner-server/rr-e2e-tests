@@ -23,6 +23,7 @@ import (
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -34,7 +35,7 @@ func TestBeanstalkInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "beanstalk/.rr-beanstalk-init.yaml",
+		Path:   "configs/.rr-beanstalk-init.yaml",
 		Prefix: "rr",
 	}
 
@@ -105,7 +106,7 @@ func TestBeanstalkInit(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("beanstalk listener stopped").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -114,7 +115,7 @@ func TestBeanstalkInitV27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "beanstalk/.rr-beanstalk-init-v27.yaml",
+		Path:    "configs/.rr-beanstalk-init-v27.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -179,8 +180,8 @@ func TestBeanstalkInitV27(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 
 	time.Sleep(time.Second)
 
@@ -192,7 +193,7 @@ func TestBeanstalkInitV27(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("beanstalk listener stopped").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 
@@ -201,7 +202,7 @@ func TestBeanstalkStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "beanstalk/.rr-beanstalk-declare.yaml",
+		Path:   "configs/.rr-beanstalk-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -265,35 +266,35 @@ func TestBeanstalkStats(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareBeanstalkPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipelineDelayed", pushToPipeDelayed("test-3", 8))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 8))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
 
 	out := &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "beanstalk")
 	assert.NotEmpty(t, out.Queue)
 
 	out = &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, int64(1), out.Active)
 	assert.Equal(t, int64(1), out.Delayed)
 	assert.Equal(t, int64(0), out.Reserved)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", resumePipes("test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
 	time.Sleep(time.Second * 15)
 
 	out = &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "beanstalk")
@@ -304,14 +305,14 @@ func TestBeanstalkStats(t *testing.T) {
 	assert.Equal(t, int64(0), out.Reserved)
 
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second)
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -320,7 +321,7 @@ func TestBeanstalkDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "beanstalk/.rr-beanstalk-declare.yaml",
+		Path:   "configs/.rr-beanstalk-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -384,18 +385,18 @@ func TestBeanstalkDeclare(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareBeanstalkPipeline", declareBeanstalkPipe)
-	t.Run("ConsumeBeanstalkPipeline", resumePipes("test-3"))
-	t.Run("PushBeanstalkPipeline", pushToPipe("test-3"))
-	t.Run("PauseBeanstalkPipeline", pausePipelines("test-3"))
+	t.Run("ConsumeBeanstalkPipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PauseBeanstalkPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 5)
-	t.Run("DestroyBeanstalkPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyBeanstalkPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -404,7 +405,7 @@ func TestBeanstalkJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "beanstalk/.rr-beanstalk-jobs-err.yaml",
+		Path:   "configs/.rr-beanstalk-jobs-err.yaml",
 		Prefix: "rr",
 	}
 
@@ -468,19 +469,19 @@ func TestBeanstalkJobsError(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareBeanstalkPipeline", declareBeanstalkPipe)
-	t.Run("ConsumeBeanstalkPipeline", resumePipes("test-3"))
-	t.Run("PushBeanstalkPipeline", pushToPipe("test-3"))
+	t.Run("ConsumeBeanstalkPipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
-	t.Run("PauseBeanstalkPipeline", pausePipelines("test-3"))
+	t.Run("PauseBeanstalkPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyBeanstalkPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyBeanstalkPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	t.Cleanup(func() {
-		destroyPipelines("test-3")
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -489,7 +490,7 @@ func TestBeanstalkNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "beanstalk/.rr-no-global.yaml",
+		Path:   "configs/.rr-no-global.yaml",
 		Prefix: "rr",
 	}
 
@@ -519,7 +520,7 @@ func TestBeanstalkRespond(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "beanstalk/.rr-beanstalk-respond.yaml",
+		Path:   "configs/.rr-beanstalk-respond.yaml",
 		Prefix: "rr",
 	}
 
@@ -583,11 +584,11 @@ func TestBeanstalkRespond(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareBeanstalkPipeline", declareBeanstalkPipe)
-	t.Run("ConsumeBeanstalkPipeline", resumePipes("test-3"))
-	t.Run("PushBeanstalkPipeline", pushToPipe("test-3"))
+	t.Run("ConsumeBeanstalkPipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 3)
-	t.Run("DestroyBeanstalkPipeline", destroyPipelines("test-3"))
-	t.Run("DestroyBeanstalkPipeline", destroyPipelines("test-1"))
+	t.Run("DestroyBeanstalkPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyBeanstalkPipeline", helpers.DestroyPipelines("test-1"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -595,7 +596,7 @@ func TestBeanstalkRespond(t *testing.T) {
 	time.Sleep(time.Second)
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-3")
+		helpers.DestroyPipelines("test-1", "test-3")
 	})
 }
 
@@ -604,7 +605,7 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "beanstalk/.rr-beanstalk-init-br.yaml",
+		Path:    "configs/.rr-beanstalk-init-br.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -669,8 +670,8 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 
 	time.Sleep(time.Second)
 
@@ -683,7 +684,7 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("beanstalk listener stopped").Len())
 
 	t.Cleanup(func() {
-		destroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1", "test-2")
 	})
 }
 

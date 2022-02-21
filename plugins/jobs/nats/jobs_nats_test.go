@@ -22,6 +22,7 @@ import (
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -33,7 +34,7 @@ func TestNATSInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-init.yaml",
+		Path:   "configs/.rr-nats-init.yaml",
 		Prefix: "rr",
 	}
 
@@ -104,7 +105,7 @@ func TestNATSInitV27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "nats/.rr-nats-init-v27.yaml",
+		Path:    "configs/.rr-nats-init-v27.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -167,8 +168,8 @@ func TestNATSInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -180,7 +181,7 @@ func TestNATSInitV27BadResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "nats/.rr-nats-init-v27-br.yaml",
+		Path:    "configs/.rr-nats-init-v27-br.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -244,8 +245,8 @@ func TestNATSInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", pushToPipe("test-1"))
-	t.Run("PushPipeline", pushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second * 2)
 
 	stopCh <- struct{}{}
@@ -259,7 +260,7 @@ func TestNATSDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-declare.yaml",
+		Path:   "configs/.rr-nats-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -323,12 +324,12 @@ func TestNATSDeclare(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareNATSPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -339,7 +340,7 @@ func TestNATSJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-jobs-err.yaml",
+		Path:   "configs/.rr-nats-jobs-err.yaml",
 		Prefix: "rr",
 	}
 
@@ -403,11 +404,11 @@ func TestNATSJobsError(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareNATSPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", pausePipelines("test-3"))
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -419,7 +420,7 @@ func TestNATSRespond(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-respond.yaml",
+		Path:   "configs/.rr-nats-respond.yaml",
 		Prefix: "rr",
 	}
 
@@ -483,10 +484,10 @@ func TestNATSRespond(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareNATSPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -497,7 +498,7 @@ func TestNATSNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-no-global.yaml",
+		Path:   "configs/.rr-no-global.yaml",
 		Prefix: "rr",
 	}
 
@@ -527,7 +528,7 @@ func TestNATSStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "nats/.rr-nats-stat.yaml",
+		Path:   "configs/.rr-nats-stat.yaml",
 		Prefix: "rr",
 	}
 
@@ -591,15 +592,15 @@ func TestNATSStats(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareNATSPipe)
-	t.Run("ConsumePipeline", resumePipes("test-3"))
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PausePipeline", pausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushPipeline", pushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
 
 	out := &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "nats", out.Driver)
@@ -611,11 +612,11 @@ func TestNATSStats(t *testing.T) {
 	assert.Equal(t, false, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", resumePipes("test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", stats(out))
+	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "nats")
@@ -627,7 +628,7 @@ func TestNATSStats(t *testing.T) {
 	assert.Equal(t, true, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", destroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}

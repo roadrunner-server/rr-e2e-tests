@@ -16,6 +16,7 @@ import (
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/roadrunner-server/sqs/v2"
 	"github.com/stretchr/testify/assert"
@@ -28,7 +29,7 @@ func TestSQSInitFifo(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-init_fifo.yaml",
+		Path:   "configs/.rr-sqs-init_fifo.yaml",
 		Prefix: "rr",
 	}
 
@@ -90,8 +91,8 @@ func TestSQSInitFifo(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipelineFifo", pushToPipe("test-1"))
-	t.Run("PushPipelineFifo", pushToPipe("test-2"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -102,7 +103,7 @@ func TestSQSInitV27BadRespFifo(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "sqs/.rr-sqs-init-v27-br_fifo.yaml",
+		Path:    "configs/.rr-sqs-init-v27-br_fifo.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -166,8 +167,8 @@ func TestSQSInitV27BadRespFifo(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipelineFifo", pushToPipe("test-1"))
-	t.Run("PushPipelineFifo", pushToPipe("test-2"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2"))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -181,7 +182,7 @@ func TestSQSDeclareFifo(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-declare_fifo.yaml",
+		Path:   "configs/.rr-sqs-declare_fifo.yaml",
 		Prefix: "rr",
 	}
 
@@ -245,12 +246,12 @@ func TestSQSDeclareFifo(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipelineFifo", declareSQSPipeFifo("default-decl.fifo"))
-	t.Run("ConsumePipelineFifo", resumePipes("test-3"))
-	t.Run("PushPipelineFifo", pushToPipe("test-3"))
+	t.Run("ConsumePipelineFifo", helpers.ResumePipes("test-3"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("PausePipelineFifo", pausePipelines("test-3"))
+	t.Run("PausePipelineFifo", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipelineFifo", destroyPipelines("test-3"))
+	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -262,7 +263,7 @@ func TestSQSJobsErrorFifo(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-jobs-err_fifo.yaml",
+		Path:   "configs/.rr-sqs-jobs-err_fifo.yaml",
 		Prefix: "rr",
 	}
 
@@ -326,12 +327,12 @@ func TestSQSJobsErrorFifo(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipelineFifo", declareSQSPipeFifo("default-err.fifo"))
-	t.Run("ConsumePipelineFifo", resumePipes("test-3"))
-	t.Run("PushPipelineFifo", pushToPipe("test-3"))
+	t.Run("ConsumePipelineFifo", helpers.ResumePipes("test-3"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipelineFifo", pausePipelines("test-3"))
+	t.Run("PausePipelineFifo", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipelineFifo", destroyPipelines("test-3"))
+	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -345,7 +346,7 @@ func TestSQSRespondFifo(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "sqs/.rr-sqs-respond_fifo.yaml",
+		Path:   "configs/.rr-sqs-respond_fifo.yaml",
 		Prefix: "rr",
 	}
 
@@ -409,11 +410,11 @@ func TestSQSRespondFifo(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipelineFifo", declareSQSPipe("default"))
-	t.Run("ConsumePipelineFifo", resumePipes("test-3"))
-	t.Run("PushPipelineFifo", pushToPipe("test-3"))
+	t.Run("ConsumePipelineFifo", helpers.ResumePipes("test-3"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipelineFifo", destroyPipelines("test-3"))
-	t.Run("DestroyPipelineFifo", destroyPipelines("test-1"))
+	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("test-1"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
