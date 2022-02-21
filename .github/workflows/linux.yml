@@ -139,11 +139,14 @@ jobs:
     steps:
       - name: Download code coverage results
         uses: actions/download-artifact@v2
-      - run: ls
-#          echo 'mode: atomic' > ./coverage-ci/summary.txt
-#  tail -q -n +2 ./coverage-ci/*.out >> ./coverage-ci/summary.txt
-#  sed -i '2,$${/roadrunner/!d}' ./coverage-ci/summary.txt
-#  docker-compose -f env/docker-compose.yaml kill
-#  docker-compose -f env/docker-compose.yaml down
+      - run: |
+          cd coverage
+          echo 'mode: atomic' > ./coverage-ci/summary.txt
+          tail -q -n +2 *.out >> summary.txt
+          sed -i '2,$${/roadrunner/!d}' summary.txt
 
-
+      - name: upload to codecov
+      - uses: codecov/codecov-action@v2 # Docs: <https://github.com/codecov/codecov-action>
+        with:
+          file: ./coverage/summary.txt
+          fail_ci_if_error: false
