@@ -4,12 +4,34 @@
 
 SHELL = /bin/sh
 
+temporal_docker_up:
+	docker-compose -f env/docker-compose-temporal.yaml up -d --remove-orphans
+
+remove_prev_ci:
+	rm -rf coverage-ci
+	mkdir ./coverage-ci
+
+temporal_test: temporal_docker_up remove_prev_ci
+	sleep 30
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
+	echo 'mode: atomic' > ./coverage-ci/summary.txt
+	tail -q -n +2 ./coverage-ci/*.out >> ./coverage-ci/summary.txt
+	sed -i '2,$${/roadrunner/!d}' ./coverage-ci/summary.txt
+	docker-compose -f env/docker-compose.yaml kill
+	docker-compose -f env/docker-compose.yaml down
+
+service_test: remove_prev_ci
+	sleep 30
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
+	echo 'mode: atomic' > ./coverage-ci/summary.txt
+	tail -q -n +2 ./coverage-ci/*.out >> ./coverage-ci/summary.txt
+	sed -i '2,$${/roadrunner/!d}' ./coverage-ci/summary.txt
+
 test_coverage:
 	docker-compose -f env/docker-compose.yaml up -d --remove-orphans
 	rm -rf coverage-ci
 	mkdir ./coverage-ci
 	sleep 30
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
 	go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/jobs_core.out -covermode=atomic ./plugins/jobs
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/kv_plugin.out -covermode=atomic ./plugins/kv
