@@ -190,6 +190,7 @@ jobs:
     needs:
       - service_test
       - temporal_test
+      - jobs_test
     timeout-minutes: 60
     steps:
       - name: Download code coverage results
