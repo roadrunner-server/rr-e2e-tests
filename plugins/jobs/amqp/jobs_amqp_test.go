@@ -34,7 +34,7 @@ func TestAMQPInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/configs/.rr-amqp-init.yaml",
+		Path:   "configs/.rr-amqp-init.yaml",
 		Prefix: "rr",
 	}
 
@@ -120,7 +120,7 @@ func TestAMQPInitV27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "amqp/configs/.rr-amqp-init.yaml",
+		Path:    "configs/.rr-amqp-init.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -207,7 +207,7 @@ func TestAMQPInitV27RR27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "amqp/configs/.rr-amqp-init-v27.yaml",
+		Path:    "configs/.rr-amqp-init-v27.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -294,7 +294,7 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:    "amqp/configs/.rr-amqp-init-v27-durable.yaml",
+		Path:    "configs/.rr-amqp-init-v27-durable.yaml",
 		Prefix:  "rr",
 		Version: "2.7.0",
 	}
@@ -381,7 +381,7 @@ func TestAMQPReset(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/configs/.rr-amqp-init.yaml",
+		Path:   "configs/.rr-amqp-init.yaml",
 		Prefix: "rr",
 	}
 
@@ -472,7 +472,7 @@ func TestAMQPDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/configs/.rr-amqp-declare.yaml",
+		Path:   "configs/.rr-amqp-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -564,7 +564,7 @@ func TestAMQPDeclareDurable(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/configs/.rr-amqp-declare.yaml",
+		Path:   "configs/.rr-amqp-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -656,7 +656,7 @@ func TestAMQPJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/configs/.rr-amqp-jobs-err.yaml",
+		Path:   "configs/.rr-amqp-jobs-err.yaml",
 		Prefix: "rr",
 	}
 
@@ -749,7 +749,7 @@ func TestAMQPNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/configs/.rr-no-global.yaml",
+		Path:   "configs/.rr-no-global.yaml",
 		Prefix: "rr",
 	}
 
@@ -780,7 +780,7 @@ func TestAMQPStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/configs/.rr-amqp-declare.yaml",
+		Path:   "configs/.rr-amqp-declare.yaml",
 		Prefix: "rr",
 	}
 
@@ -905,7 +905,7 @@ func TestAMQPRespondOk(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/configs/.rr-amqp-resp-jobs-ok.yaml",
+		Path:   "configs/.rr-amqp-resp-jobs-ok.yaml",
 		Prefix: "rr",
 	}
 
@@ -997,7 +997,7 @@ func TestAMQPBadResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "amqp/configs/.rr-amqp-init-br.yaml",
+		Path:   "configs/.rr-amqp-init-br.yaml",
 		Prefix: "rr",
 	}
 
