@@ -141,7 +141,7 @@ jobs:
         uses: actions/download-artifact@v2
       - run: |
           cd coverage
-          echo 'mode: atomic' > ./coverage-ci/summary.txt
+          echo 'mode: atomic' > summary.txt
           tail -q -n +2 *.out >> summary.txt
           sed -i '2,$${/roadrunner/!d}' summary.txt
 
