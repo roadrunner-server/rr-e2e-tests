@@ -17,9 +17,6 @@ temporal_test: temporal_docker_up remove_prev_ci
 	echo 'mode: atomic' > ./coverage-ci/summary.txt
 	tail -q -n +2 ./coverage-ci/*.out >> ./coverage-ci/summary.txt
 	sed -i '2,$${/roadrunner/!d}' ./coverage-ci/summary.txt
-	sleep 10
-	docker-compose -f env/docker-compose.yaml kill
-	docker-compose -f env/docker-compose.yaml down
 
 service_test: remove_prev_ci
 	sleep 30
