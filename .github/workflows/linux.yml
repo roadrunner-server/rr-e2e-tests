@@ -170,7 +170,7 @@ jobs:
 
       - name: Run golang tests with coverage
         run: |
-          docker-compose -f env/docker-compose-jobs.yaml up -d --remove-orphans
+          docker run -d -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
           sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
