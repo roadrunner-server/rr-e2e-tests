@@ -139,8 +139,7 @@ jobs:
     steps:
       - name: Download code coverage results
         uses: actions/download-artifact@v2
-#        run: |
-#          ls
+        run: ls
 #          echo 'mode: atomic' > ./coverage-ci/summary.txt
 #  tail -q -n +2 ./coverage-ci/*.out >> ./coverage-ci/summary.txt
 #  sed -i '2,$${/roadrunner/!d}' ./coverage-ci/summary.txt
