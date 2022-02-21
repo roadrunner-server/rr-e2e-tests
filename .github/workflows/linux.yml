@@ -199,7 +199,7 @@ jobs:
           cd coverage
           echo 'mode: atomic' > summary.txt
           tail -q -n +2 *.out >> summary.txt
-          sed -i '2,$${/roadrunner/!d}' summary.txt
+          sed -i '2,${/roadrunner/!d}' summary.txt
 
       - name: upload to codecov
         uses: codecov/codecov-action@v2 # Docs: <https://github.com/codecov/codecov-action>
