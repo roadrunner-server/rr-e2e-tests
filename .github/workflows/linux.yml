@@ -63,8 +63,8 @@ jobs:
       - name: Archive code coverage results
         uses: actions/upload-artifact@v2
         with:
-          name: temporal-coverage
-          path: ./coverage-ci/summary.txt
+          name: coverage
+          path: ./coverage-ci/temporal.out
 
   service_test:
     name: Build (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
@@ -126,8 +126,8 @@ jobs:
       - name: Archive code coverage results
         uses: actions/upload-artifact@v2
         with:
-          name: service-coverage
-          path: ./coverage-ci/summary.txt
+          name: coverage
+          path: ./coverage-ci/service.out
 
   codecov:
     name: Upload codecov

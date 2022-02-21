@@ -14,16 +14,10 @@ remove_prev_ci:
 temporal_test: temporal_docker_up remove_prev_ci
 	sleep 30
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
-	echo 'mode: atomic' > ./coverage-ci/summary.txt
-	tail -q -n +2 ./coverage-ci/*.out >> ./coverage-ci/summary.txt
-	sed -i '2,$${/roadrunner/!d}' ./coverage-ci/summary.txt
 
 service_test: remove_prev_ci
 	sleep 30
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
-	echo 'mode: atomic' > ./coverage-ci/summary.txt
-	tail -q -n +2 ./coverage-ci/*.out >> ./coverage-ci/summary.txt
-	sed -i '2,$${/roadrunner/!d}' ./coverage-ci/summary.txt
 
 test_coverage:
 	docker-compose -f env/docker-compose.yaml up -d --remove-orphans
