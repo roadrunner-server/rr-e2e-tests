@@ -10,9 +10,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -55,6 +55,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           docker-compose -f env/docker-compose-temporal.yaml up -d --remove-orphans
+          mkdir ./coverage-ci
           sleep 30
           go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
 
@@ -71,9 +72,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -114,7 +115,9 @@ jobs:
         run: go mod download
 
       - name: Run golang tests with coverage
-        run: go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
+        run: |
+          mkdir ./coverage-ci
+          go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v2
@@ -129,9 +132,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -191,9 +194,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -254,9 +257,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -314,9 +317,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -383,9 +386,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -445,9 +448,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -505,9 +508,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -567,9 +570,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -756,9 +759,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ["8.1"]
-        go: ["1.17.7"]
-        os: ["ubuntu-latest"]
+        php: [ "8.1" ]
+        go: [ "1.17.7" ]
+        os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
@@ -927,14 +930,9 @@ jobs:
         run: go mod download
 
       - name: Run golang tests with coverage
-        env:
-          RR_TEST_ENV: ${{ secrets.RR_TEST_ENV }}
-          RR_SQS_TEST_ENDPOINT: ${{ secrets.RR_SQS_TEST_ENDPOINT }}
-          RR_SQS_TEST_REGION: ${{ secrets.RR_SQS_TEST_REGION }}
-          RR_SQS_TEST_KEY: ${{ secrets.RR_SQS_TEST_KEY }}
-          RR_SQS_TEST_SECRET: ${{ secrets.RR_SQS_TEST_SECRET }}
-
         run: |
+          docker-compose -f env/docker-compose-kv.yaml up -d --remove-orphans
+          sleep 30
           mkdir ./coverage-ci
           go test -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/websockets.out -covermode=atomic ./plugins/websockets
 
@@ -995,12 +993,8 @@ jobs:
 
       - name: Run golang tests with coverage
         env:
-          RR_TEST_ENV: ${{ secrets.RR_TEST_ENV }}
-          RR_SQS_TEST_ENDPOINT: ${{ secrets.RR_SQS_TEST_ENDPOINT }}
-          RR_SQS_TEST_REGION: ${{ secrets.RR_SQS_TEST_REGION }}
-          RR_SQS_TEST_KEY: ${{ secrets.RR_SQS_TEST_KEY }}
-          RR_SQS_TEST_SECRET: ${{ secrets.RR_SQS_TEST_SECRET }}
-
+          NEW_RELIC_APP_NAME: ${{ secrets.NEW_RELIC_APP_NAME }}
+          NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
         run: |
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http
@@ -1314,6 +1308,8 @@ jobs:
 
       - name: Run golang tests with coverage
         run: |
+          docker-compose -f env/docker-compose-jobs.yaml up -d --remove-orphans
+          sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/config.out -covermode=atomic ./plugins/config
 
