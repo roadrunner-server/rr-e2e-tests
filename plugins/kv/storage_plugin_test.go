@@ -1445,6 +1445,11 @@ func testRPCMethodsRedis(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
+	ret = &payload.Response{}
+	err = client.Call("kv.TTL", keys2, ret)
+	assert.NoError(t, err)
+	assert.Len(t, ret.GetItems(), 0)
+
 	// DELETE
 	keysDel := &payload.Request{
 		Storage: "redis-rr",
