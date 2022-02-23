@@ -15,7 +15,14 @@ test_coverage: run_docker sleep-30
 	mkdir ./coverage-ci
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
-	go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/jobs_core.out -covermode=atomic ./plugins/jobs
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/beanstalk
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/boltdb
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/durability
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/general
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/memory
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/nats
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/sqs
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/kv_plugin.out -covermode=atomic ./plugins/kv
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/tcp_plugin.out -covermode=atomic ./plugins/tcp
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/reload.out -covermode=atomic ./plugins/reload
@@ -42,7 +49,14 @@ test_coverage: run_docker sleep-30
 test:
 	go test -v -race -cover -tags=debug ./plugins/temporal
 	go test -v -race -cover -tags=debug ./plugins/service
-	go test -v -race -cover -tags=debug -timeout 20m ./plugins/jobs
+	go test -v -race -cover -tags=debug ./plugins/jobs/amqp
+	go test -v -race -cover -tags=debug ./plugins/jobs/beanstalk
+	go test -v -race -cover -tags=debug ./plugins/jobs/boltdb
+	go test -v -race -cover -tags=debug ./plugins/jobs/durability
+	go test -v -race -cover -tags=debug ./plugins/jobs/general
+	go test -v -race -cover -tags=debug ./plugins/jobs/memory
+	go test -v -race -cover -tags=debug ./plugins/jobs/nats
+	go test -v -race -cover -tags=debug ./plugins/jobs/sqs
 	go test -v -race -cover -tags=debug ./plugins/kv
 	go test -v -race -cover -tags=debug ./plugins/tcp
 	go test -v -race -cover -tags=debug ./plugins/reload
