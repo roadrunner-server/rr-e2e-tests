@@ -511,8 +511,8 @@ github.com/roadrunner-server/metrics/v2 v2.9.2 h1:kwh+UDdGZNjNyXPWpAuDYRvw3stFiH
 github.com/roadrunner-server/metrics/v2 v2.9.2/go.mod h1:eouxbRAT1NzbqKGPPoB/SWDLhoRhkJl8r+//hf1QgU8=
 github.com/roadrunner-server/nats/v2 v2.9.1 h1:RSZU1AmeikSzu2QJkqHFBkVANXRazCMfUtY4FUkS13E=
 github.com/roadrunner-server/nats/v2 v2.9.1/go.mod h1:CYID2YjJJL6t5Z4REzcjql2D/3R2jm0qvVXaTeSnswo=
-github.com/roadrunner-server/new_relic/v2 v2.10.3 h1:aKYPWso8sg276hwoXnY3DCxbO9K5ds6Fn1Hd7hAu1e8=
-github.com/roadrunner-server/new_relic/v2 v2.10.3/go.mod h1:NoeHQVV9YvVHqY9ekWmJFAM2uqh5mkm/BHW/1gNI9p8=
+github.com/roadrunner-server/new_relic/v2 v2.10.4 h1:hOFbu6CnCVEGootz30RcMdiU94ZiOaz3soeCZSXPlOM=
+github.com/roadrunner-server/new_relic/v2 v2.10.4/go.mod h1:YnWEpwLazSZJEOBbiLeqWMUgKRLnotk2FBno93fFKvU=
 github.com/roadrunner-server/prometheus/v2 v2.8.0 h1:HfK5/tFIc6WDXGX3BKXyu/PuWtEW/3BLfFTmh3MEFms=
 github.com/roadrunner-server/prometheus/v2 v2.8.0/go.mod h1:N3qfC5qpdnELF23TWz18woYGfBTI8+RgLErAQKRlCZU=
 github.com/roadrunner-server/redis/v2 v2.10.1 h1:v/LRjoQ3k4x3phLbChvjvnHmqDECPHkw3Z4EWt3SMwE=
