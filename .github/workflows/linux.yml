@@ -26,7 +26,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -88,7 +88,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -148,7 +148,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -210,7 +210,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -273,7 +273,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -333,7 +333,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -402,7 +402,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -464,7 +464,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -524,7 +524,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -586,7 +586,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -653,7 +653,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -715,7 +715,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -775,7 +775,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -835,7 +835,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -903,7 +903,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -965,7 +965,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1028,7 +1028,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1093,7 +1093,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1153,7 +1153,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1213,7 +1213,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1280,7 +1280,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1342,7 +1342,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1409,7 +1409,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1469,7 +1469,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1536,7 +1536,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1596,7 +1596,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -1656,7 +1656,7 @@ jobs:
           extensions: sockets
 
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
