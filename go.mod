@@ -12,7 +12,7 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.1
 	github.com/roadrunner-server/amqp/v2 v2.9.1
-	github.com/roadrunner-server/api/v2 v2.10.0
+	github.com/roadrunner-server/api/v2 v2.11.0
 	github.com/roadrunner-server/beanstalk/v2 v2.9.1
 	github.com/roadrunner-server/boltdb/v2 v2.9.2
 	github.com/roadrunner-server/broadcast/v2 v2.9.1
@@ -40,23 +40,23 @@ require (
 	github.com/roadrunner-server/reload/v2 v2.9.1
 	github.com/roadrunner-server/resetter/v2 v2.9.1
 	github.com/roadrunner-server/rpc/v2 v2.9.1
-	github.com/roadrunner-server/sdk/v2 v2.10.0
+	github.com/roadrunner-server/sdk/v2 v2.10.1
 	github.com/roadrunner-server/send/v2 v2.8.0
 	github.com/roadrunner-server/server/v2 v2.9.4
-	github.com/roadrunner-server/service/v2 v2.9.2
+	github.com/roadrunner-server/service/v2 v2.10.0
 	github.com/roadrunner-server/sqs/v2 v2.10.1
 	github.com/roadrunner-server/static/v2 v2.9.1
 	github.com/roadrunner-server/status/v2 v2.9.3
 	github.com/roadrunner-server/tcp/v2 v2.9.2
 	github.com/roadrunner-server/websockets/v2 v2.9.2
 	github.com/stretchr/testify v1.7.0
-	github.com/temporalio/roadrunner-temporal v1.3.1
+	github.com/temporalio/roadrunner-temporal v1.3.2
 	github.com/yookoala/gofast v0.6.0
-	go.temporal.io/api v1.7.0
-	go.temporal.io/sdk v1.13.1
+	go.temporal.io/api v1.7.1-0.20220223032354-6e6fe738916a
+	go.temporal.io/sdk v1.14.0
 	go.uber.org/zap v1.21.0
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f
-	google.golang.org/grpc v1.44.0
+	google.golang.org/grpc v1.45.0
 	google.golang.org/protobuf v1.27.1
 )
 
@@ -97,7 +97,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/hashicorp/go-version v1.4.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/klauspost/compress v1.15.0 // indirect
+	github.com/klauspost/compress v1.15.1 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.11 // indirect
 	github.com/libdns/libdns v0.2.1 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
@@ -123,7 +123,7 @@ require (
 	github.com/roadrunner-server/tcplisten v1.1.1 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
-	github.com/spf13/afero v1.8.1 // indirect
+	github.com/spf13/afero v1.8.2 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
@@ -147,12 +147,12 @@ require (
 	golang.org/x/crypto v0.0.0-20220307211146-efcb8507fb70 // indirect
 	golang.org/x/mod v0.5.1 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220307203707-22a9840ba4d7 // indirect
+	golang.org/x/sys v0.0.0-20220310020820-b874c991c1a5 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220224211638-0e9765cccd65 // indirect
 	golang.org/x/tools v0.1.9 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-	google.golang.org/genproto v0.0.0-20220308174144-ae0e22291548 // indirect
+	google.golang.org/genproto v0.0.0-20220310185008-1973136f34c6 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

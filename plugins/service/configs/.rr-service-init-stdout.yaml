@@ -3,7 +3,7 @@ service:
     command: "php test_files/loop_stdout.php"
     process_num: 1
     exec_timeout: 5s # s,m,h (seconds, minutes, hours)
-    remain_after_exit: true
+    remain_after_exit: false
     restart_sec: 1
     env:
       - "FOO": "BAR"

@@ -276,9 +276,6 @@ func (s *TestServer) AssertNotContainsEvent(t *testing.T, w temporalClient.Workf
 		ConnectionOptions: temporalClient.ConnectionOptions{
 			TLS:                          nil,
 			Authority:                    "",
-			DisableHealthCheck:           false,
-			HealthCheckAttemptTimeout:    0,
-			HealthCheckTimeout:           0,
 			EnableKeepAliveCheck:         false,
 			KeepAliveTime:                0,
 			KeepAliveTimeout:             0,

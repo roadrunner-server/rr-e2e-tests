@@ -2,7 +2,7 @@ service:
   some_service_2:
     command: "test_files/test_binary"
     process_num: 1
-    remain_after_exit: true
+    remain_after_exit: false
     restart_delay: 1s
     exec_timeout: 2s
 
