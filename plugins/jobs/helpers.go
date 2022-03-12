@@ -10,7 +10,7 @@ import (
 
 	"github.com/google/uuid"
 	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1beta"
+	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/roadrunner-server/amqp/v2"
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1beta"
+	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
