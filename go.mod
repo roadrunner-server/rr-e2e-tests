@@ -17,7 +17,7 @@ require (
 	github.com/roadrunner-server/boltdb/v2 v2.10.0
 	github.com/roadrunner-server/broadcast/v2 v2.10.0
 	github.com/roadrunner-server/cache/v2 v2.10.0
-	github.com/roadrunner-server/config/v2 v2.10.0
+	github.com/roadrunner-server/config/v2 v2.10.1
 	github.com/roadrunner-server/endure v1.2.1
 	github.com/roadrunner-server/errors v1.1.1
 	github.com/roadrunner-server/fileserver/v2 v2.10.0
@@ -42,7 +42,7 @@ require (
 	github.com/roadrunner-server/rpc/v2 v2.10.0
 	github.com/roadrunner-server/sdk/v2 v2.11.0
 	github.com/roadrunner-server/send/v2 v2.9.0
-	github.com/roadrunner-server/server/v2 v2.10.0
+	github.com/roadrunner-server/server/v2 v2.11.0
 	github.com/roadrunner-server/service/v2 v2.10.1
 	github.com/roadrunner-server/sqs/v2 v2.11.0
 	github.com/roadrunner-server/static/v2 v2.10.0
@@ -105,7 +105,7 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/mholt/acmez v1.0.2 // indirect
-	github.com/miekg/dns v1.1.46 // indirect
+	github.com/miekg/dns v1.1.47 // indirect
 	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/nats-io/jwt/v2 v2.2.1-0.20220113022732-58e87895b296 // indirect

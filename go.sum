@@ -382,6 +382,8 @@ github.com/miekg/dns v1.1.41/go.mod h1:p6aan82bvRIyn+zDIv9xYNUpwa73JcSh9BKwknJys
 github.com/miekg/dns v1.1.43/go.mod h1:+evo5L0630/F6ca/Z9+GAqzhjGyn8/c+TBaOyfEl0V4=
 github.com/miekg/dns v1.1.46 h1:uzwpxRtSVxtcIZmz/4Uz6/Rn7G11DvsaslXoy5LxQio=
 github.com/miekg/dns v1.1.46/go.mod h1:e3IlAVfNqAllflbibAZEWOXOQ+Ynzk/dDozDxY7XnME=
+github.com/miekg/dns v1.1.47 h1:J9bWiXbqMbnZPcY8Qi2E3EWIBsIm6MZzzJB9VRg5gL8=
+github.com/miekg/dns v1.1.47/go.mod h1:e3IlAVfNqAllflbibAZEWOXOQ+Ynzk/dDozDxY7XnME=
 github.com/minio/highwayhash v1.0.2 h1:Aak5U0nElisjDCfPSG79Tgzkn2gl66NxOMspRrKnA/g=
 github.com/minio/highwayhash v1.0.2/go.mod h1:BQskDq+xkJ12lmlUUi7U0M5Swg3EWR+dLTk+kldvVxY=
 github.com/mitchellh/cli v1.1.0/go.mod h1:xcISNoH86gajksDmfB23e/pu+B+GeFRMYmoHXxx3xhI=
@@ -480,8 +482,8 @@ github.com/roadrunner-server/broadcast/v2 v2.10.0 h1:bvIwIGSEtY23erBcJrawFpgDzcL
 github.com/roadrunner-server/broadcast/v2 v2.10.0/go.mod h1:pkwlhzOcKp2FVUbsfvuEEHiItN8wJlz8XtU4GfHLfI4=
 github.com/roadrunner-server/cache/v2 v2.10.0 h1:sSve9rBa5LwsSFAvQWXRf8fpC4UEt5f5LWBcWSG2N9c=
 github.com/roadrunner-server/cache/v2 v2.10.0/go.mod h1:4xXbKlSgbsp0x45cPg7Kt7HJMIqY/ViBnGOwdpVZ9lw=
-github.com/roadrunner-server/config/v2 v2.10.0 h1:uG2VXGDd7MFRfc8Tx763SZC2n3+fM8hfbLnzt7m5Cyk=
-github.com/roadrunner-server/config/v2 v2.10.0/go.mod h1:3XFPTlX6skitA+Tc1P0LAXmJKoU5TYN0sf92T0jkhpI=
+github.com/roadrunner-server/config/v2 v2.10.1 h1:vCC0qUnX3C0ud3u0qALwxP141NZYwDA14ArEhWoDBCk=
+github.com/roadrunner-server/config/v2 v2.10.1/go.mod h1:3XFPTlX6skitA+Tc1P0LAXmJKoU5TYN0sf92T0jkhpI=
 github.com/roadrunner-server/endure v1.2.1 h1:LwapekBTGlsgEXR6Fbp50WYIjAGq/FwTssZThemyawE=
 github.com/roadrunner-server/endure v1.2.1/go.mod h1:36kWruojFlPhtsP/is8wVtWGYuGGxUWDVnn1TTBbbas=
 github.com/roadrunner-server/errors v1.1.0/go.mod h1:MzHjhRZIZc1ooMyYllUhNs0aTqRUbwcgUSO0TN7kCII=
@@ -532,8 +534,8 @@ github.com/roadrunner-server/sdk/v2 v2.11.0 h1:CkFoBt/yAoXPkqbolP+T6VpmwQzK8A+09
 github.com/roadrunner-server/sdk/v2 v2.11.0/go.mod h1:VV9HOOf4L8Ao2IcrcePRbxYQem034VglpLPYsREht/M=
 github.com/roadrunner-server/send/v2 v2.9.0 h1:59tTVt2j6KDc+KlQKqzqqXq0Z2u3ctQWwAaXig5wPqE=
 github.com/roadrunner-server/send/v2 v2.9.0/go.mod h1:p3xJamvF47VPdeX2kBPQjKPSbUWCSA+tHN9dIIcGanU=
-github.com/roadrunner-server/server/v2 v2.10.0 h1:8xsg0R8mhlZl2MEEtOSF0ntuIKoJOGCzDaYsVkoZSDA=
-github.com/roadrunner-server/server/v2 v2.10.0/go.mod h1:QmSnZgY4rMMLC4r9uZx8RvI8wjx8pNaO9tau2PrTcIc=
+github.com/roadrunner-server/server/v2 v2.11.0 h1:w3Art0TMhA51dskolbCdhgmtUFQyou9zqXkQOAUwBrA=
+github.com/roadrunner-server/server/v2 v2.11.0/go.mod h1:uRKvpjtwGR0BpR4kPiyQBkWNDTds+wQJ21SA3tbyaBU=
 github.com/roadrunner-server/service/v2 v2.10.1 h1:yYNeymOHfPm4fA82cuqoYnYii8cEta5cAN25ePfm2EI=
 github.com/roadrunner-server/service/v2 v2.10.1/go.mod h1:z05oUluH6q4qHyNzzzZqAN2SbFB+gUSmPGdpnZuip7E=
 github.com/roadrunner-server/sqs/v2 v2.11.0 h1:9HzYq8vHFC8Mwb9KmV85enzN8KnCJ3c2RXgfsheN2rk=

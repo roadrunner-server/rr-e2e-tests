@@ -80,17 +80,13 @@ func TestAppSockets(t *testing.T) {
 	vp := &config.Plugin{}
 	vp.Path = "configs/.rr-sockets.yaml"
 	vp.Prefix = "rr"
-	err = container.Register(vp)
-	require.NoError(t, err)
 
-	err = container.Register(&server.Plugin{})
-	require.NoError(t, err)
-
-	err = container.Register(&Foo2{})
-	require.NoError(t, err)
-
-	err = container.Register(&logger.Plugin{})
-	require.NoError(t, err)
+	err = container.RegisterAll(
+		vp,
+		&server.Plugin{},
+		&Foo2{},
+		&logger.Plugin{},
+	)
 
 	err = container.Init()
 	require.NoError(t, err)
@@ -351,6 +347,14 @@ func TestAppTCP(t *testing.T) {
 	vp := &config.Plugin{}
 	vp.Path = "configs/.rr-tcp.yaml"
 	vp.Prefix = "rr"
+
+	err = container.RegisterAll(
+		vp,
+		&server.Plugin{},
+		&Foo3{},
+		&logger.Plugin{},
+	)
+
 	err = container.Register(vp)
 	require.NoError(t, err)
 
