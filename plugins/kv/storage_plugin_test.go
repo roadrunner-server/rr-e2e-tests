@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	payload "github.com/roadrunner-server/api/v2/proto/kv/v1beta"
+	payload "github.com/roadrunner-server/api/v2/proto/kv/v1"
 	"github.com/roadrunner-server/boltdb/v2"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"

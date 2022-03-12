@@ -14,9 +14,11 @@ import (
 	"time"
 
 	serviceV1 "github.com/roadrunner-server/api/v2/proto/service/v1"
+	"github.com/roadrunner-server/api/v2/state/process"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
+	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/logger/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	"github.com/roadrunner-server/service/v2"
@@ -89,6 +91,75 @@ func TestServiceInit(t *testing.T) {
 	wg.Wait()
 }
 
+func TestServiceWorkers(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Path:   "configs/.rr-service-workers.yaml",
+		Prefix: "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&logger.Plugin{},
+		&service.Plugin{},
+		&informer.Plugin{},
+		&rpcPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second)
+	t.Run("workers", workers("service"))
+	time.Sleep(time.Second)
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
 func TestServiceInitStdout(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
@@ -149,7 +220,7 @@ func TestServiceInitStdout(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -1095,5 +1166,22 @@ func list(in *serviceV1.Service, out *serviceV1.List) func(t *testing.T) {
 
 		err = client.Call("service.List", in, out)
 		require.NoError(t, err)
+	}
+}
+
+func workers(service string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		require.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+		// WorkerList contains list of workers.
+		lst := struct {
+			// Workers is list of workers.
+			Workers []process.State `json:"workers"`
+		}{}
+
+		err = client.Call("informer.Workers", service, &lst)
+		require.NoError(t, err)
+		require.Len(t, lst.Workers, 2)
 	}
 }
