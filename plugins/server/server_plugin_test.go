@@ -87,6 +87,7 @@ func TestAppSockets(t *testing.T) {
 		&Foo2{},
 		&logger.Plugin{},
 	)
+	require.NoError(t, err)
 
 	err = container.Init()
 	require.NoError(t, err)
