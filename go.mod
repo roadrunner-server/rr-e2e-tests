@@ -11,44 +11,44 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.1
-	github.com/roadrunner-server/amqp/v2 v2.10.0
+	github.com/roadrunner-server/amqp/v2 v2.10.1
 	github.com/roadrunner-server/api/v2 v2.12.0
-	github.com/roadrunner-server/beanstalk/v2 v2.10.0
+	github.com/roadrunner-server/beanstalk/v2 v2.10.1
 	github.com/roadrunner-server/boltdb/v2 v2.10.0
-	github.com/roadrunner-server/broadcast/v2 v2.10.0
-	github.com/roadrunner-server/cache/v2 v2.10.0
-	github.com/roadrunner-server/config/v2 v2.10.1
+	github.com/roadrunner-server/broadcast/v2 v2.10.1
+	github.com/roadrunner-server/cache/v2 v2.10.1
+	github.com/roadrunner-server/config/v2 v2.10.2
 	github.com/roadrunner-server/endure v1.2.1
 	github.com/roadrunner-server/errors v1.1.1
-	github.com/roadrunner-server/fileserver/v2 v2.10.0
+	github.com/roadrunner-server/fileserver/v2 v2.10.1
 	github.com/roadrunner-server/goridge/v3 v3.3.1
-	github.com/roadrunner-server/grpc/v2 v2.11.0
+	github.com/roadrunner-server/grpc/v2 v2.11.1
 	github.com/roadrunner-server/gzip/v2 v2.9.0
-	github.com/roadrunner-server/headers/v2 v2.10.0
-	github.com/roadrunner-server/http/v2 v2.12.0
-	github.com/roadrunner-server/informer/v2 v2.10.0
-	github.com/roadrunner-server/jobs/v2 v2.10.0
+	github.com/roadrunner-server/headers/v2 v2.10.1
+	github.com/roadrunner-server/http/v2 v2.12.1
+	github.com/roadrunner-server/informer/v2 v2.10.1
+	github.com/roadrunner-server/jobs/v2 v2.10.1
 	github.com/roadrunner-server/kv/v2 v2.10.0
-	github.com/roadrunner-server/logger/v2 v2.10.0
+	github.com/roadrunner-server/logger/v2 v2.10.1
 	github.com/roadrunner-server/memcached/v2 v2.10.0
 	github.com/roadrunner-server/memory/v2 v2.10.0
-	github.com/roadrunner-server/metrics/v2 v2.10.0
-	github.com/roadrunner-server/nats/v2 v2.10.0
-	github.com/roadrunner-server/new_relic/v2 v2.11.0
+	github.com/roadrunner-server/metrics/v2 v2.10.1
+	github.com/roadrunner-server/nats/v2 v2.10.1
+	github.com/roadrunner-server/new_relic/v2 v2.11.1
 	github.com/roadrunner-server/prometheus/v2 v2.9.0
 	github.com/roadrunner-server/redis/v2 v2.11.0
-	github.com/roadrunner-server/reload/v2 v2.10.0
-	github.com/roadrunner-server/resetter/v2 v2.10.0
-	github.com/roadrunner-server/rpc/v2 v2.10.0
+	github.com/roadrunner-server/reload/v2 v2.10.1
+	github.com/roadrunner-server/resetter/v2 v2.10.1
+	github.com/roadrunner-server/rpc/v2 v2.10.1
 	github.com/roadrunner-server/sdk/v2 v2.11.0
 	github.com/roadrunner-server/send/v2 v2.9.0
-	github.com/roadrunner-server/server/v2 v2.11.0
+	github.com/roadrunner-server/server/v2 v2.11.1
 	github.com/roadrunner-server/service/v2 v2.10.1
-	github.com/roadrunner-server/sqs/v2 v2.11.0
-	github.com/roadrunner-server/static/v2 v2.10.0
-	github.com/roadrunner-server/status/v2 v2.10.0
-	github.com/roadrunner-server/tcp/v2 v2.10.0
-	github.com/roadrunner-server/websockets/v2 v2.10.0
+	github.com/roadrunner-server/sqs/v2 v2.11.1
+	github.com/roadrunner-server/static/v2 v2.10.1
+	github.com/roadrunner-server/status/v2 v2.10.1
+	github.com/roadrunner-server/tcp/v2 v2.10.1
+	github.com/roadrunner-server/websockets/v2 v2.10.1
 	github.com/stretchr/testify v1.7.0
 	github.com/temporalio/roadrunner-temporal v1.3.2
 	github.com/yookoala/gofast v0.6.0
@@ -144,7 +144,7 @@ require (
 	go.temporal.io/sdk/contrib/tally v0.1.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/crypto v0.0.0-20220307211146-efcb8507fb70 // indirect
+	golang.org/x/crypto v0.0.0-20220313003712-b769efc7c000 // indirect
 	golang.org/x/mod v0.5.1 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/sys v0.0.0-20220310020820-b874c991c1a5 // indirect
