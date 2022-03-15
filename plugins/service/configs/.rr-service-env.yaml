@@ -1,11 +1,12 @@
 service:
   some_service_1:
-    command: "php test_files/loop_env.php"
+    command: "php test_files/env.php"
     process_num: 1
     exec_timeout: 5s # s,m,h (seconds, minutes, hours)
     remain_after_exit: false
     env:
       foo: "BAR"
+      bar: "FOO"
     restart_sec: 1
 endure:
   grace_period: 120s

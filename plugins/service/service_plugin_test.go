@@ -1,5 +1,4 @@
 //go:build linux
-// +build linux
 
 package service
 
@@ -21,9 +20,11 @@ import (
 	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/logger/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
+	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/service/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"go.uber.org/zap"
 )
 
 func TestServiceInit(t *testing.T) {
@@ -234,9 +235,10 @@ func TestServiceEnv(t *testing.T) {
 		Prefix: "rr",
 	}
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
-		&logger.Plugin{},
+		l,
 		&service.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -288,6 +290,7 @@ func TestServiceEnv(t *testing.T) {
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
+	require.Equal(t, 0, oLogger.FilterMessageSnippet("faillll").Len())
 }
 
 func TestServiceError(t *testing.T) {
