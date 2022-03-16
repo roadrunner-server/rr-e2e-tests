@@ -11,7 +11,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -73,7 +73,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -133,7 +133,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -195,7 +195,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -258,7 +258,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -318,7 +318,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -387,7 +387,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -449,7 +449,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -509,7 +509,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -571,7 +571,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -638,7 +638,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -700,7 +700,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -760,7 +760,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -820,7 +820,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -888,7 +888,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -950,7 +950,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1013,7 +1013,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1078,7 +1078,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1138,7 +1138,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1198,7 +1198,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1265,7 +1265,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1327,7 +1327,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1394,7 +1394,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1454,7 +1454,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1521,7 +1521,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1581,7 +1581,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1641,7 +1641,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [ "8.1" ]
-        go: [ "1.17.8" ]
+        go: [ "1.18" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
