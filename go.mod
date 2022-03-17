@@ -1,6 +1,6 @@
 module github.com/roadrunner-server/rr-e2e-tests
 
-go 1.17
+go 1.18
 
 require (
 	github.com/Shopify/toxiproxy v2.1.4+incompatible
