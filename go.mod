@@ -1,6 +1,6 @@
 module github.com/roadrunner-server/rr-e2e-tests
 
-go 1.17
+go 1.18
 
 require (
 	github.com/Shopify/toxiproxy v2.1.4+incompatible
@@ -12,16 +12,16 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.1
 	github.com/roadrunner-server/amqp/v2 v2.10.1
-	github.com/roadrunner-server/api/v2 v2.12.0
+	github.com/roadrunner-server/api/v2 v2.13.0
 	github.com/roadrunner-server/beanstalk/v2 v2.10.1
 	github.com/roadrunner-server/boltdb/v2 v2.10.0
 	github.com/roadrunner-server/broadcast/v2 v2.10.1
 	github.com/roadrunner-server/cache/v2 v2.10.1
 	github.com/roadrunner-server/config/v2 v2.10.2
 	github.com/roadrunner-server/endure v1.2.1
-	github.com/roadrunner-server/errors v1.1.1
+	github.com/roadrunner-server/errors v1.1.2
 	github.com/roadrunner-server/fileserver/v2 v2.10.1
-	github.com/roadrunner-server/goridge/v3 v3.3.1
+	github.com/roadrunner-server/goridge/v3 v3.4.0
 	github.com/roadrunner-server/grpc/v2 v2.11.2
 	github.com/roadrunner-server/gzip/v2 v2.9.0
 	github.com/roadrunner-server/headers/v2 v2.10.1
@@ -49,7 +49,7 @@ require (
 	github.com/roadrunner-server/status/v2 v2.10.1
 	github.com/roadrunner-server/tcp/v2 v2.10.1
 	github.com/roadrunner-server/websockets/v2 v2.10.1
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.1
 	github.com/temporalio/roadrunner-temporal v1.3.3
 	github.com/yookoala/gofast v0.6.0
 	go.temporal.io/api v1.7.1-0.20220223032354-6e6fe738916a
@@ -144,13 +144,13 @@ require (
 	go.temporal.io/sdk/contrib/tally v0.1.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/crypto v0.0.0-20220314234724-5d542ad81a58 // indirect
-	golang.org/x/mod v0.5.1 // indirect
+	golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd // indirect
+	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220310020820-b874c991c1a5 // indirect
+	golang.org/x/sys v0.0.0-20220317061510-51cd9980dadf // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220224211638-0e9765cccd65 // indirect
-	golang.org/x/tools v0.1.9 // indirect
+	golang.org/x/tools v0.1.10 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/genproto v0.0.0-20220314164441-57ef72a4c106 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
