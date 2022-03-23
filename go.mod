@@ -7,12 +7,12 @@ require (
 	github.com/fatih/color v1.13.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gobwas/ws v1.1.0
-	github.com/goccy/go-json v0.9.5
+	github.com/goccy/go-json v0.9.6
 	github.com/google/uuid v1.3.0
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.1
 	github.com/roadrunner-server/amqp/v2 v2.10.2
-	github.com/roadrunner-server/api/v2 v2.13.0
+	github.com/roadrunner-server/api/v2 v2.14.0
 	github.com/roadrunner-server/beanstalk/v2 v2.10.2
 	github.com/roadrunner-server/boltdb/v2 v2.10.1
 	github.com/roadrunner-server/broadcast/v2 v2.10.2
@@ -57,7 +57,7 @@ require (
 	go.uber.org/zap v1.21.0
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f
 	google.golang.org/grpc v1.45.0
-	google.golang.org/protobuf v1.27.1
+	google.golang.org/protobuf v1.28.0
 )
 
 require (
@@ -147,7 +147,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220317061510-51cd9980dadf // indirect
+	golang.org/x/sys v0.0.0-20220319134239-a9b59b0215f8 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220224211638-0e9765cccd65 // indirect
 	golang.org/x/tools v0.1.10 // indirect
