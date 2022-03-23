@@ -39,7 +39,7 @@ func TestHandler_Upload_File(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{".go": {}}, map[string]struct{}{}, pool, mockLog, false)
+	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{".go": {}}, map[string]struct{}{}, pool, mockLog, false, true)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9021", Handler: h}
@@ -121,7 +121,7 @@ func TestHandler_Upload_NestedFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{".go": {}}, map[string]struct{}{}, pool, mockLog, false)
+	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{".go": {}}, map[string]struct{}{}, pool, mockLog, false, true)
 
 	assert.NoError(t, err)
 
@@ -204,7 +204,7 @@ func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	h, err := handler.NewHandler(1024, 500, "--------", map[string]struct{}{".go": {}}, map[string]struct{}{}, pool, mockLog, false)
+	h, err := handler.NewHandler(1024, 500, "--------", map[string]struct{}{".go": {}}, map[string]struct{}{}, pool, mockLog, false, true)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9023", Handler: h}
@@ -286,7 +286,7 @@ func TestHandler_Upload_File_Forbids(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{".go": {}}, pool, mockLog, false)
+	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{".go": {}}, pool, mockLog, false, true)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9024", Handler: h}
@@ -368,7 +368,7 @@ func TestHandler_Upload_File_NotAllowed(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{".php": {}}, map[string]struct{}{}, pool, mockLog, false)
+	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{".php": {}}, map[string]struct{}{}, pool, mockLog, false, true)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9024", Handler: h}

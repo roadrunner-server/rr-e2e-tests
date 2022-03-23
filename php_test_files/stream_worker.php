@@ -16,7 +16,7 @@ $psr7 = new RoadRunner\Http\PSR7Worker(
     new Psr17Factory()
 );
 
-RoadRunner\Http\PSR7Worker::$chunk_size = 10 * 1024 * 1024;
+$psr7->chunk_size = 10 * 10 * 1024;
 $filename = '/home/valery/projects/opensource/github/spiral/rr-e2e-tests/php_test_files/file.tmp';
 
 while ($req = $psr7->waitRequest()) {

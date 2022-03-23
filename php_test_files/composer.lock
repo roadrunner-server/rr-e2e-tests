@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f351c04cd84d9ee999ea0979745afaee",
+    "content-hash": "a7af8c62c250cac8115d140ea4f2cb49",
     "packages": [
         {
             "name": "arku31/roadrunner-newrelic",
@@ -1236,16 +1236,16 @@
         },
         {
             "name": "spiral/attributes",
-            "version": "2.10.1",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/attributes.git",
-                "reference": "79ff6d607837052c11bc58665cd55757a861ba18"
+                "reference": "f73aab248d09943d1f6e6925a7f5aa0607617c78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/attributes/zipball/79ff6d607837052c11bc58665cd55757a861ba18",
-                "reference": "79ff6d607837052c11bc58665cd55757a861ba18",
+                "url": "https://api.github.com/repos/spiral/attributes/zipball/f73aab248d09943d1f6e6925a7f5aa0607617c78",
+                "reference": "f73aab248d09943d1f6e6925a7f5aa0607617c78",
                 "shasum": ""
             },
             "require": {
@@ -1266,7 +1266,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.10.x-dev"
+                    "dev-master": "2.11.x-dev"
                 }
             },
             "autoload": {
@@ -1293,20 +1293,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/attributes"
             },
-            "time": "2022-03-03T21:01:23+00:00"
+            "time": "2022-03-18T19:53:11+00:00"
         },
         {
             "name": "spiral/core",
-            "version": "2.10.1",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/core.git",
-                "reference": "97b3ebbfb52a40afe4d64f942728c49598e45020"
+                "reference": "0b40f56a184fdd4cc123b561dd6f7b060e8ec7d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/core/zipball/97b3ebbfb52a40afe4d64f942728c49598e45020",
-                "reference": "97b3ebbfb52a40afe4d64f942728c49598e45020",
+                "url": "https://api.github.com/repos/spiral/core/zipball/0b40f56a184fdd4cc123b561dd6f7b060e8ec7d3",
+                "reference": "0b40f56a184fdd4cc123b561dd6f7b060e8ec7d3",
                 "shasum": ""
             },
             "require": {
@@ -1320,7 +1320,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.10.x-dev"
+                    "dev-master": "2.11.x-dev"
                 }
             },
             "autoload": {
@@ -1344,20 +1344,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/core"
             },
-            "time": "2022-03-03T20:55:44+00:00"
+            "time": "2022-03-18T19:53:57+00:00"
         },
         {
             "name": "spiral/goridge",
-            "version": "dev-master",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/goridge-php.git",
-                "reference": "54329bc6b5f6a2c99e6772bd5b20c17fe7f13924"
+                "reference": "3d8e97d7d1cc26b6130d233177b23ecb3c7d4efb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/goridge-php/zipball/54329bc6b5f6a2c99e6772bd5b20c17fe7f13924",
-                "reference": "54329bc6b5f6a2c99e6772bd5b20c17fe7f13924",
+                "url": "https://api.github.com/repos/spiral/goridge-php/zipball/3d8e97d7d1cc26b6130d233177b23ecb3c7d4efb",
+                "reference": "3d8e97d7d1cc26b6130d233177b23ecb3c7d4efb",
                 "shasum": ""
             },
             "require": {
@@ -1380,11 +1380,10 @@
                 "google/protobuf": "(^3.0) Protobuf codec support",
                 "rybakit/msgpack": "(^0.7) MessagePack codec support"
             },
-            "default-branch": true,
             "type": "goridge",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2.x-dev"
+                    "dev-master": "3.3.x-dev"
                 }
             },
             "autoload": {
@@ -1405,28 +1404,28 @@
             "description": "High-performance PHP-to-Golang RPC bridge",
             "support": {
                 "issues": "https://github.com/spiral/goridge-php/issues",
-                "source": "https://github.com/spiral/goridge-php/tree/v3.1.2"
+                "source": "https://github.com/spiral/goridge-php/tree/v3.2.0"
             },
-            "time": "2022-01-13T08:13:33+00:00"
+            "time": "2022-03-21T20:32:19+00:00"
         },
         {
             "name": "spiral/logger",
-            "version": "2.10.1",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/logger.git",
-                "reference": "cedb174182b4c49709ac927aa8285a50ab56940a"
+                "reference": "1cdb7b09fb0aee611c5d4d091e8f41bfadb23214"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/logger/zipball/cedb174182b4c49709ac927aa8285a50ab56940a",
-                "reference": "cedb174182b4c49709ac927aa8285a50ab56940a",
+                "url": "https://api.github.com/repos/spiral/logger/zipball/1cdb7b09fb0aee611c5d4d091e8f41bfadb23214",
+                "reference": "1cdb7b09fb0aee611c5d4d091e8f41bfadb23214",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
                 "psr/log": "^1.0",
-                "spiral/core": "^2.10.1"
+                "spiral/core": "^2.11"
             },
             "require-dev": {
                 "mockery/mockery": "^1.3",
@@ -1435,7 +1434,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.10.x-dev"
+                    "dev-master": "2.11.x-dev"
                 }
             },
             "autoload": {
@@ -1459,20 +1458,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/logger"
             },
-            "time": "2022-03-04T13:16:58+00:00"
+            "time": "2022-03-18T19:54:16+00:00"
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2.8.3",
+            "version": "v2.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "934517ef3cf53ffd444b54dde123d6a69d1bbfd9"
+                "reference": "12c8c65b04a3afec5fa6c97d6a950046f22bb4bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/934517ef3cf53ffd444b54dde123d6a69d1bbfd9",
-                "reference": "934517ef3cf53ffd444b54dde123d6a69d1bbfd9",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/12c8c65b04a3afec5fa6c97d6a950046f22bb4bf",
+                "reference": "12c8c65b04a3afec5fa6c97d6a950046f22bb4bf",
                 "shasum": ""
             },
             "require": {
@@ -1498,9 +1497,9 @@
             "description": "RoadRunner: High-performance PHP application server, load-balancer and process manager written in Golang",
             "support": {
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.8.3"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.8.4"
             },
-            "time": "2022-03-13T12:09:04+00:00"
+            "time": "2022-03-17T11:19:26+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",
@@ -1627,16 +1626,16 @@
         },
         {
             "name": "spiral/roadrunner-http",
-            "version": "dev-chunked-response",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-http.git",
-                "reference": "145662908ebad31d6e2f61ac7e17f5e11761e6f9"
+                "reference": "a0cc5611bfbade6a7d24cb0500d772cf53d62fc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-http/zipball/145662908ebad31d6e2f61ac7e17f5e11761e6f9",
-                "reference": "145662908ebad31d6e2f61ac7e17f5e11761e6f9",
+                "url": "https://api.github.com/repos/spiral/roadrunner-http/zipball/a0cc5611bfbade6a7d24cb0500d772cf53d62fc9",
+                "reference": "a0cc5611bfbade6a7d24cb0500d772cf53d62fc9",
                 "shasum": ""
             },
             "require": {
@@ -1644,7 +1643,7 @@
                 "php": ">=7.4",
                 "psr/http-factory": "^1.0.1",
                 "psr/http-message": "^1.0.1",
-                "spiral/roadrunner-worker": "dev-chunked-response as 2.1.0"
+                "spiral/roadrunner-worker": "^2.2.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
@@ -1652,7 +1651,7 @@
                 "phpstan/phpstan": "~0.12",
                 "phpunit/phpunit": "~8.0",
                 "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": "^4.4"
+                "vimeo/psalm": "^4.22"
             },
             "suggest": {
                 "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
@@ -1660,7 +1659,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.2.x-dev"
                 }
             },
             "autoload": {
@@ -1685,9 +1684,9 @@
             "description": "RoadRunner: HTTP and PSR-7 worker",
             "support": {
                 "issues": "https://github.com/spiral/roadrunner-http/issues",
-                "source": "https://github.com/spiral/roadrunner-http/tree/chunked-response"
+                "source": "https://github.com/spiral/roadrunner-http/tree/v2.1.0"
             },
-            "time": "2022-03-15T20:07:06+00:00"
+            "time": "2022-03-22T11:09:44+00:00"
         },
         {
             "name": "spiral/roadrunner-jobs",
@@ -1876,16 +1875,16 @@
         },
         {
             "name": "spiral/roadrunner-worker",
-            "version": "dev-chunked-response",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-worker.git",
-                "reference": "f0d25c3b75d1054edfddb8fbe3085b97b0014655"
+                "reference": "97399e1f45b188e4288817672df858908b641401"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-worker/zipball/f0d25c3b75d1054edfddb8fbe3085b97b0014655",
-                "reference": "f0d25c3b75d1054edfddb8fbe3085b97b0014655",
+                "url": "https://api.github.com/repos/spiral/roadrunner-worker/zipball/97399e1f45b188e4288817672df858908b641401",
+                "reference": "97399e1f45b188e4288817672df858908b641401",
                 "shasum": ""
             },
             "require": {
@@ -1894,7 +1893,7 @@
                 "ext-sockets": "*",
                 "php": ">=7.4",
                 "psr/log": "^1.0|^2.0|^3.0",
-                "spiral/goridge": "dev-master#54329bc6b5f6a2c99e6772bd5b20c17fe7f13924 as 3.1",
+                "spiral/goridge": "^3.2.0",
                 "symfony/polyfill-php80": "^1.23"
             },
             "require-dev": {
@@ -1908,7 +1907,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.3.x-dev"
                 }
             },
             "autoload": {
@@ -1933,28 +1932,28 @@
             "description": "RoadRunner: PHP worker",
             "support": {
                 "issues": "https://github.com/spiral/roadrunner-worker/issues",
-                "source": "https://github.com/spiral/roadrunner-worker/tree/chunked-response"
+                "source": "https://github.com/spiral/roadrunner-worker/tree/v2.2.0"
             },
-            "time": "2022-03-15T19:51:02+00:00"
+            "time": "2022-03-22T11:03:47+00:00"
         },
         {
             "name": "spiral/tokenizer",
-            "version": "2.10.1",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/tokenizer.git",
-                "reference": "1a1311f74150c46522059249fb772bdb2bc96597"
+                "reference": "a592c6098898fe7b69944a52c20090ebe3436eaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/1a1311f74150c46522059249fb772bdb2bc96597",
-                "reference": "1a1311f74150c46522059249fb772bdb2bc96597",
+                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/a592c6098898fe7b69944a52c20090ebe3436eaf",
+                "reference": "a592c6098898fe7b69944a52c20090ebe3436eaf",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
-                "spiral/core": "^2.10.1",
-                "spiral/logger": "^2.10.1",
+                "spiral/core": "^2.11",
+                "spiral/logger": "^2.11",
                 "symfony/finder": "^5.1|^6.0"
             },
             "require-dev": {
@@ -1963,7 +1962,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.10.x-dev"
+                    "dev-master": "2.11.x-dev"
                 }
             },
             "autoload": {
@@ -1987,7 +1986,7 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/tokenizer"
             },
-            "time": "2022-03-04T13:17:35+00:00"
+            "time": "2022-03-18T19:54:52+00:00"
         },
         {
             "name": "symfony/console",
@@ -3291,32 +3290,9 @@
         }
     ],
     "packages-dev": [],
-    "aliases": [
-        {
-            "package": "spiral/goridge",
-            "version": "9999999-dev",
-            "alias": "3.1",
-            "alias_normalized": "3.1.0.0"
-        },
-        {
-            "package": "spiral/roadrunner-http",
-            "version": "dev-chunked-response",
-            "alias": "2.1.0",
-            "alias_normalized": "2.1.0.0"
-        },
-        {
-            "package": "spiral/roadrunner-worker",
-            "version": "dev-chunked-response",
-            "alias": "2.1.0",
-            "alias_normalized": "2.1.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "spiral/roadrunner-http": 20,
-        "spiral/roadrunner-worker": 20,
-        "spiral/goridge": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
