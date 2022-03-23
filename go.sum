@@ -423,8 +423,8 @@ github.com/roadrunner-server/service/v2 v2.10.3 h1:Ua8HYLYltmdVFqGPHPRznxMJd7/6X
 github.com/roadrunner-server/service/v2 v2.10.3/go.mod h1:rBY7GWPstXAWScgEY9ApSWNqCp1XunAxDvv/D8nZ87I=
 github.com/roadrunner-server/sqs/v2 v2.11.2 h1:B4rUB6y0uWPBNeUHKzm0h44nQmy7sNUJRseXHERwRJg=
 github.com/roadrunner-server/sqs/v2 v2.11.2/go.mod h1:oSRsoXl1aKDmzEnseKJoMjWzpYQB0LX7oTt+Klb+iqE=
-github.com/roadrunner-server/static/v2 v2.10.2 h1:d16g1ha9Z3GYJttOOfJeiLTY7Md027d/RJYv6/sI9jI=
-github.com/roadrunner-server/static/v2 v2.10.2/go.mod h1:t15U1u2I8qEaZTTcbepmsz6VuK+sZI6xXpadoVkrINY=
+github.com/roadrunner-server/static/v2 v2.11.0 h1:XmyoyPrkTeEoQYSJfFkWRiRiq5SSZo2EDSS0C3hTDc4=
+github.com/roadrunner-server/static/v2 v2.11.0/go.mod h1:/0WKU8uxbIn+mEsR+R6pDcciW7+WYrtHD5+c5plH4hE=
 github.com/roadrunner-server/status/v2 v2.10.2 h1:/YeEY/BeLQl0MabSHjDJdAQrQ+EhnZI89kY7yjFEMJM=
 github.com/roadrunner-server/status/v2 v2.10.2/go.mod h1:N4wD+tgqsQuBZwd1qLl87BJb9keOzUBsFTi1y7W0ow4=
 github.com/roadrunner-server/tcp/v2 v2.10.2 h1:C1bEEYeV0rnjxb9LYcRq3ai/cSO6TZQBPeeT2+3zFGo=
