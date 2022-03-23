@@ -90,7 +90,6 @@ github.com/caddyserver/certmagic v0.15.4/go.mod h1:qhkAOthf72ufAcp3Y5jF2RaGE96oi
 github.com/cenkalti/backoff/v4 v4.1.2 h1:6Yo7N8UP2K6LWZnW94DLVSSrbobcWdVzAYOisuDPIFo=
 github.com/cenkalti/backoff/v4 v4.1.2/go.mod h1:scbssz8iZGpm3xbr14ovlUdkxfGXNInqkPWOWmG2CLw=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
-github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.1.2 h1:YRXhKfTDauu4ajMg1TPgFO5jnlC2HCbmLXMcTG5cbYE=
@@ -404,8 +403,8 @@ github.com/roadrunner-server/new_relic/v2 v2.11.3 h1:Bsw5Lp4uObKmCKWza2MDpPAx6QC
 github.com/roadrunner-server/new_relic/v2 v2.11.3/go.mod h1:CPO8kmQP9iANQh4XcA1gKrveKe6NHSK6AW421goAIu0=
 github.com/roadrunner-server/prometheus/v2 v2.10.0 h1:uRBQmJ7P3bFPc15FAm93bFga0zTmouowWisRsfHdbPM=
 github.com/roadrunner-server/prometheus/v2 v2.10.0/go.mod h1:5FqA4IEBzu9EppIF3Rqj7OyJqUY6EIkpFPv54wvDQdc=
-github.com/roadrunner-server/proxy_ip_parser v0.0.0-20220322114909-6162e07565a3 h1:2XsSpd0RwqqTZBV29JzfDaih5ky5WM8yy/fYlyJ88pM=
-github.com/roadrunner-server/proxy_ip_parser v0.0.0-20220322114909-6162e07565a3/go.mod h1:lu7DjHN+n8eCQrReeqMttDdxhTaiV9SvLLjVGF/OG4A=
+github.com/roadrunner-server/proxy_ip_parser/v2 v2.1.0 h1:CN2P30urn2iUqKMZNcNJyjd50+zJRxiOaRaP2XEpFCU=
+github.com/roadrunner-server/proxy_ip_parser/v2 v2.1.0/go.mod h1:mZHMsfUIkNXQRN8X98POxa/qYB6Zrb4HZmBTAWdxusg=
 github.com/roadrunner-server/redis/v2 v2.11.1 h1:BEPAdxSfI7ZY6QIbh+KktFd5REBPWR+5rB2s94M6T50=
 github.com/roadrunner-server/redis/v2 v2.11.1/go.mod h1:xZLKatufJTbEJ3wrhyszuTt6SS1X+F58I02R8M5haec=
 github.com/roadrunner-server/reload/v2 v2.10.2 h1:/i4Ai7ffy8fVgzoiMKNHrX4oL6sMYZz65ovr/TKb6cY=
