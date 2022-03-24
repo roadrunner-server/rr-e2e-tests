@@ -13,7 +13,6 @@ import (
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	httpPlugin "github.com/roadrunner-server/http/v2"
 	"github.com/roadrunner-server/logger/v2"
-	"github.com/roadrunner-server/proxy_ip_parser/v2"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 )
@@ -132,7 +131,6 @@ func TestForwarded(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&proxy_ip_parser.Plugin{},
 		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
