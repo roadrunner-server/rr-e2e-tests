@@ -16,14 +16,11 @@ $psr7 = new RoadRunner\Http\PSR7Worker(
     new Psr17Factory()
 );
 
-$psr7->chunk_size = 10 * 10 * 1024;
-$filename = './file.tmp';
+$psr7->chunkSize = 1;
 
 while ($req = $psr7->waitRequest()) {
     try {
-        $fp = \fopen($filename, 'rb');
-        \flock($fp, LOCK_SH);
-        $resp = (new Response())->withBody(Stream::create($fp));
+        $resp = (new Response())->withBody(Stream::create("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"));
         $psr7->respond($resp);
     } catch (\Throwable $e) {
         $psr7->getWorker()->error((string)$e);

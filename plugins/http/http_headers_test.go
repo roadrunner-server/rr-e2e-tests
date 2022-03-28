@@ -13,7 +13,7 @@ import (
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	httpPlugin "github.com/roadrunner-server/http/v2"
 	"github.com/roadrunner-server/logger/v2"
-	"github.com/roadrunner-server/proxy_ip_parser/v2"
+	ipparser "github.com/roadrunner-server/proxy_ip_parser/v2"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 )
@@ -31,6 +31,7 @@ func TestXFF(t *testing.T) {
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
+		&ipparser.Plugin{},
 		&httpPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -99,7 +100,7 @@ func TestXFF(t *testing.T) {
 
 	r, err = http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	assert.Equal(t, 403, r.StatusCode)
+	assert.Equal(t, 201, r.StatusCode)
 
 	err = r.Body.Close()
 	assert.NoError(t, err)
@@ -112,7 +113,7 @@ func TestXFF(t *testing.T) {
 
 	r, err = http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	assert.Equal(t, 403, r.StatusCode)
+	assert.Equal(t, 201, r.StatusCode)
 
 	err = r.Body.Close()
 	assert.NoError(t, err)
@@ -132,7 +133,7 @@ func TestForwarded(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
-		&proxy_ip_parser.Plugin{},
+		&ipparser.Plugin{},
 		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
@@ -229,7 +230,7 @@ func TestForwarded(t *testing.T) {
 
 	r, err = http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	assert.Equal(t, 403, r.StatusCode)
+	assert.Equal(t, 201, r.StatusCode)
 
 	err = r.Body.Close()
 	assert.NoError(t, err)

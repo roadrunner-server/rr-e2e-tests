@@ -88,7 +88,7 @@ func TestHTTPStreams(t *testing.T) {
 	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, r.StatusCode)
-	assert.Len(t, b, 102400)
+	assert.Len(t, b, 86)
 
 	err = r.Body.Close()
 	assert.NoError(t, err)

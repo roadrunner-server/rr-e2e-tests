@@ -1062,25 +1062,24 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "4.2.3",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df"
+                "reference": "8ced2afadd9ce455e2d5919d27c57e344bae4a09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df",
-                "reference": "fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/8ced2afadd9ce455e2d5919d27c57e344bae4a09",
+                "reference": "8ced2afadd9ce455e2d5919d27c57e344bae4a09",
                 "shasum": ""
             },
             "require": {
                 "brick/math": "^0.8 || ^0.9",
+                "ext-ctype": "*",
                 "ext-json": "*",
-                "php": "^7.2 || ^8.0",
-                "ramsey/collection": "^1.0",
-                "symfony/polyfill-ctype": "^1.8",
-                "symfony/polyfill-php80": "^1.14"
+                "php": "^8.0",
+                "ramsey/collection": "^1.0"
             },
             "replace": {
                 "rhumsaa/uuid": "self.version"
@@ -1144,7 +1143,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ramsey/uuid/issues",
-                "source": "https://github.com/ramsey/uuid/tree/4.2.3"
+                "source": "https://github.com/ramsey/uuid/tree/4.3.0"
             },
             "funding": [
                 {
@@ -1156,7 +1155,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-25T23:10:38+00:00"
+            "time": "2022-03-26T22:00:50+00:00"
         },
         {
             "name": "react/promise",
@@ -1462,16 +1461,16 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2.8.4",
+            "version": "v2.8.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "12c8c65b04a3afec5fa6c97d6a950046f22bb4bf"
+                "reference": "de7b748278b9b626aa1dcf608b916a2b4e342f9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/12c8c65b04a3afec5fa6c97d6a950046f22bb4bf",
-                "reference": "12c8c65b04a3afec5fa6c97d6a950046f22bb4bf",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/de7b748278b9b626aa1dcf608b916a2b4e342f9b",
+                "reference": "de7b748278b9b626aa1dcf608b916a2b4e342f9b",
                 "shasum": ""
             },
             "require": {
@@ -1497,9 +1496,9 @@
             "description": "RoadRunner: High-performance PHP application server, load-balancer and process manager written in Golang",
             "support": {
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.8.4"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.8.7"
             },
-            "time": "2022-03-17T11:19:26+00:00"
+            "time": "2022-03-24T15:28:39+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",
@@ -1630,12 +1629,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-http.git",
-                "reference": "a0cc5611bfbade6a7d24cb0500d772cf53d62fc9"
+                "reference": "3be8bac365d436028a9583e7d438bf6e7183e599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-http/zipball/a0cc5611bfbade6a7d24cb0500d772cf53d62fc9",
-                "reference": "a0cc5611bfbade6a7d24cb0500d772cf53d62fc9",
+                "url": "https://api.github.com/repos/spiral/roadrunner-http/zipball/3be8bac365d436028a9583e7d438bf6e7183e599",
+                "reference": "3be8bac365d436028a9583e7d438bf6e7183e599",
                 "shasum": ""
             },
             "require": {
@@ -1686,7 +1685,7 @@
                 "issues": "https://github.com/spiral/roadrunner-http/issues",
                 "source": "https://github.com/spiral/roadrunner-http/tree/v2.1.0"
             },
-            "time": "2022-03-22T11:09:44+00:00"
+            "time": "2022-03-22T14:48:00+00:00"
         },
         {
             "name": "spiral/roadrunner-jobs",

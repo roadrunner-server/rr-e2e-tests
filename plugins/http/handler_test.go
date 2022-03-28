@@ -1509,6 +1509,7 @@ func TestHandler_ResponseDurationDelayed(t *testing.T) {
 }
 
 func TestHandler_ErrorDuration(t *testing.T) {
+	t.Skip("fix before v2.10")
 	p, err := pool.NewStaticPool(context.Background(),
 		func(cmd string) *exec.Cmd {
 			return exec.Command("php", "../../php_test_files/http/client.php", "error", "pipes")
