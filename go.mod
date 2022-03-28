@@ -25,7 +25,7 @@ require (
 	github.com/roadrunner-server/grpc/v2 v2.12.0
 	github.com/roadrunner-server/gzip/v2 v2.10.0
 	github.com/roadrunner-server/headers/v2 v2.11.0
-	github.com/roadrunner-server/http/v2 v2.13.0
+	github.com/roadrunner-server/http/v2 v2.13.1
 	github.com/roadrunner-server/informer/v2 v2.11.0
 	github.com/roadrunner-server/jobs/v2 v2.11.0
 	github.com/roadrunner-server/kv/v2 v2.11.0
@@ -56,7 +56,7 @@ require (
 	go.temporal.io/api v1.7.1-0.20220223032354-6e6fe738916a
 	go.temporal.io/sdk v1.14.0
 	go.uber.org/zap v1.21.0
-	golang.org/x/net v0.0.0-20220225172249-27dd8689420f
+	golang.org/x/net v0.0.0-20220325170049-de3da57026de
 	google.golang.org/grpc v1.45.0
 	google.golang.org/protobuf v1.28.0
 )
@@ -78,7 +78,7 @@ require (
 	github.com/beanstalkd/go-beanstalk v0.1.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20220106215444-fb4bf637b56d // indirect
-	github.com/caddyserver/certmagic v0.15.4 // indirect
+	github.com/caddyserver/certmagic v0.16.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -148,7 +148,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220319134239-a9b59b0215f8 // indirect
+	golang.org/x/sys v0.0.0-20220325203850-36772127a21f // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220224211638-0e9765cccd65 // indirect
 	golang.org/x/tools v0.1.10 // indirect
