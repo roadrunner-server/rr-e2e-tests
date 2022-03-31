@@ -16,7 +16,7 @@ require (
 	github.com/roadrunner-server/beanstalk/v2 v2.11.0
 	github.com/roadrunner-server/boltdb/v2 v2.11.0
 	github.com/roadrunner-server/broadcast/v2 v2.11.0
-	github.com/roadrunner-server/cache/v2 v2.11.0
+	github.com/roadrunner-server/cache/v2 v2.11.1
 	github.com/roadrunner-server/config/v2 v2.11.0
 	github.com/roadrunner-server/endure v1.2.2
 	github.com/roadrunner-server/errors v1.1.2
