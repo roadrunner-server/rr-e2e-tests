@@ -4,13 +4,13 @@ rpc:
   listen: tcp://127.0.0.1:6001
 
 server:
-  command: "php ../../php_test_files/worker.php"
+  command: "php /home/valery/projects/opensource/github/php/scratch/worker.php"
 
 temporal:
   address: "localhost:7233"
   cache_size: 100000
   activities:
-    num_workers: 4
+    num_workers: 1
 
 logs:
   mode: development

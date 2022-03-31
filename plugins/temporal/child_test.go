@@ -4,6 +4,7 @@ import (
 	"context"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"go.temporal.io/sdk/client"
@@ -28,6 +29,30 @@ func Test_ExecuteChildWorkflowProto(t *testing.T) {
 	var result string
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "Child: CHILD HELLO WORLD", result)
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
+func Test_ExecuteDummyActivity(t *testing.T) {
+	stopCh := make(chan struct{}, 1)
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	s := NewTestServer(t, stopCh, wg)
+
+	w, err := s.Client().ExecuteWorkflow(
+		context.Background(),
+		client.StartWorkflowOptions{
+			TaskQueue: "default",
+		},
+		"DummyWorkflow",
+		"Hello World",
+	)
+	assert.NoError(t, err)
+
+	var result string
+	assert.NoError(t, w.Get(context.Background(), &result))
+	time.Sleep(time.Second * 100)
+	//assert.Equal(t, "Child: CHILD HELLO WORLD", result)
 	stopCh <- struct{}{}
 	wg.Wait()
 }
