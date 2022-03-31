@@ -49,7 +49,7 @@ require (
 	github.com/roadrunner-server/static/v2 v2.11.0
 	github.com/roadrunner-server/status/v2 v2.11.0
 	github.com/roadrunner-server/tcp/v2 v2.11.0
-	github.com/roadrunner-server/websockets/v2 v2.11.1
+	github.com/roadrunner-server/websockets/v2 v2.11.2
 	github.com/stretchr/testify v1.7.1
 	github.com/temporalio/roadrunner-temporal v1.3.4
 	github.com/yookoala/gofast v0.6.0
@@ -148,7 +148,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220328115105-d36c6a25d886 // indirect
+	golang.org/x/sys v0.0.0-20220330033206-e17cdc41300f // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220224211638-0e9765cccd65 // indirect
 	golang.org/x/tools v0.1.10 // indirect
