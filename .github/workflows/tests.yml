@@ -1,9 +1,6 @@
-name: linux_stable
+name: linux_on_push
 
-on:
-  release:
-    types:
-      - released
+on: push
 
 jobs:
   temporal_test:
