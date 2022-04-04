@@ -76,3 +76,9 @@ test:
 	go test -v -race -cover -tags=debug ./plugins/rpc
 	docker compose -f env/docker-compose.yaml kill
 	docker compose -f env/docker-compose.yaml down
+
+test_nightly:
+	go test -v -race -cover -tags=debug,nightly ./plugins/http
+
+	docker compose -f env/docker-compose.yaml kill
+	docker compose -f env/docker-compose.yaml down
