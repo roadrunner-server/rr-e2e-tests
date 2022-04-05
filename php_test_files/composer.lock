@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ecdb9e44e67a8f8dc738dcdc325b5a6",
+    "content-hash": "05316fe79b75b899ad748a70e351695a",
     "packages": [
         {
             "name": "arku31/roadrunner-newrelic",
@@ -3138,16 +3138,16 @@
         },
         {
             "name": "temporal/sdk",
-            "version": "v1.2.0",
+            "version": "dev-local-activity",
             "source": {
                 "type": "git",
                 "url": "https://github.com/temporalio/sdk-php.git",
-                "reference": "d28e626710c07f5d5c3c3656a0a72308f89c8053"
+                "reference": "4cab8e8e61169025e2d990062710177e8bd87787"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/d28e626710c07f5d5c3c3656a0a72308f89c8053",
-                "reference": "d28e626710c07f5d5c3c3656a0a72308f89c8053",
+                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/4cab8e8e61169025e2d990062710177e8bd87787",
+                "reference": "4cab8e8e61169025e2d990062710177e8bd87787",
                 "shasum": ""
             },
             "require": {
@@ -3216,16 +3216,18 @@
                 "issues": "https://github.com/temporalio/sdk-php/issues",
                 "source": "https://github.com/temporalio/sdk-php"
             },
-            "time": "2022-03-30T09:13:56+00:00"
+            "time": "2022-04-05T13:45:15+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "temporal/sdk": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.0.0"
 }
