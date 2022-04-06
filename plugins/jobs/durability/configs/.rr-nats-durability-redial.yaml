@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -27,23 +29,25 @@ jobs:
   pipelines:
     test-1:
       driver: nats
-      prefetch: 100
-      subject: default
-      stream: foo
-      deliver_new: true
-      rate_limit: 100
-      delete_after_ack: true
-      priority: 1
+      config:
+        prefetch: 100
+        subject: default
+        stream: foo
+        deliver_new: true
+        rate_limit: 100
+        delete_after_ack: true
+        priority: 1
 
     test-2:
       driver: nats
-      prefetch: 100
-      subject: default2
-      stream: foo2
-      rate_limit: 100
-      deliver_new: true
-      delete_after_ack: true
-      priority: 2
+      config:
+        prefetch: 100
+        subject: default2
+        stream: foo2
+        rate_limit: 100
+        deliver_new: true
+        delete_after_ack: true
+        priority: 2
 
 
   # list of pipelines to be consumed by the server, keep empty if you want to start consuming manually

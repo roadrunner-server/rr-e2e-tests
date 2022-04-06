@@ -1,3 +1,5 @@
+version: '2.7'
+
 server:
   on_init:
     command: "php some_file.php"

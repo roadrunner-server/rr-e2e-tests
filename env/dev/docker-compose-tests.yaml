@@ -1,0 +1,79 @@
+version: "3"
+
+services:
+  nats:
+    image: nats:latest
+    command:
+      - "-js"
+    ports:
+      - "127.0.0.1:4222:4222"
+
+  toxicproxy:
+    image: shopify/toxiproxy:latest
+    network_mode: "host"
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - "127.0.0.1:11211:11211"
+
+  redis:
+    image: redis:6
+    ports:
+      - "127.0.0.1:6379:6379"
+
+  redis2:
+    image: redis:6
+    ports:
+      - "127.0.0.1:6378:6379"
+
+  beanstalk:
+    build:
+      context: .
+      dockerfile: Dockerfile-beanstalkd.yaml
+    ports:
+      - "127.0.0.1:11300:11300"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "127.0.0.1:15672:15672"
+      - "127.0.0.1:5672:5672"
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+  postgresql:
+    container_name: temporal-postgresql
+    image: postgres:14
+    environment:
+      POSTGRES_PASSWORD: temporal
+      POSTGRES_USER: temporal
+    ports:
+      - "5432:5432"
+
+  temporal:
+    container_name: temporal
+    image: temporalio/auto-setup:1.14.2
+    depends_on:
+      - postgresql
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=temporal
+      - POSTGRES_PWD=temporal
+      - POSTGRES_SEEDS=postgresql
+      - DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development.yaml
+    ports:
+      - "7233:7233"
+
+  temporal-admin-tools:
+    container_name: temporal-admin-tools
+    image: temporalio/admin-tools:1.14.2
+    depends_on:
+      - temporal
+    environment:
+      - TEMPORAL_CLI_ADDRESS=temporal:7233
+    stdin_open: true
+    tty: true

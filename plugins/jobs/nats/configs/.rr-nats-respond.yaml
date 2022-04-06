@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -26,10 +28,11 @@ jobs:
   pipelines:
     test-1:
       driver: nats
-      prefetch: 100
-      subject: "test-1-queue"
-      stream: "foo-bar"
-      deliver_new: "true"
-      priority: 1
+      config:
+        prefetch: 100
+        subject: "test-1-queue"
+        stream: "foo-bar"
+        deliver_new: "true"
+        priority: 1
 
   consume: [ "test-1" ]

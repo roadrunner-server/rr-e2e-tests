@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -23,13 +25,15 @@ jobs:
   pipelines:
     test-1:
       driver: memory
-      priority: 10
-      prefetch: 10000
+      config:
+        priority: 10
+        prefetch: 10000
 
     test-2:
       driver: memory
-      priority: 10
-      prefetch: 10000
+      config:
+        priority: 10
+        prefetch: 10000
 
 
   # list of pipelines to be consumed by the server, keep empty if you want to start consuming manually

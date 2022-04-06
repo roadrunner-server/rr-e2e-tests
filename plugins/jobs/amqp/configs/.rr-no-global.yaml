@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -22,23 +24,25 @@ jobs:
   pipelines:
     test-1:
       driver: amqp
-      priority: 1
-      pipeline_size: 100
-      queue: test-1-queue
-      exchange: default
-      exchange_type: direct
-      delete_queue_on_stop: true
-      routing_key: test
+      config:
+        priority: 1
+        pipeline_size: 100
+        queue: test-1-queue
+        exchange: default
+        exchange_type: direct
+        delete_queue_on_stop: true
+        routing_key: test
 
     test-2:
       driver: amqp
-      priority: 2
-      pipeline_size: 100
-      delete_queue_on_stop: true
-      queue: test-2-queue
-      exchange: default
-      exchange_type: direct
-      routing_key: test-2
+      config:
+        priority: 2
+        pipeline_size: 100
+        delete_queue_on_stop: true
+        queue: test-2-queue
+        exchange: default
+        exchange_type: direct
+        routing_key: test-2
 
   # list of pipelines to be consumed by the server, keep empty if you want to start consuming manually
   consume: [ "test-1", "test-2" ]

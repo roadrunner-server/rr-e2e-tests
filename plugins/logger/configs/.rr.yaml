@@ -1,3 +1,5 @@
+version: '2.7'
+
 logs:
   mode: raw
   line_ending: ""

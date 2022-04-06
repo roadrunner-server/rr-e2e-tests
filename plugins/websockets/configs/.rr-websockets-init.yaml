@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -9,7 +11,7 @@ server:
 http:
   address: 127.0.0.1:11111
   max_request_size: 1024
-  middleware: ["websockets"]
+  middleware: [ "websockets" ]
   trusted_subnets:
     [
       "10.0.0.0/8",
@@ -29,7 +31,7 @@ http:
 broadcast:
   default:
     driver: memory
-    config: {}
+    config: { }
 
 websockets:
   broker: default

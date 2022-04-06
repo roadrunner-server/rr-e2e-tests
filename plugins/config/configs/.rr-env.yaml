@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: ${SUPER_RPC_ENV}
 
