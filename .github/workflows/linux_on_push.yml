@@ -76,9 +76,6 @@ jobs:
     steps:
       - name: Set up Go ${{ matrix.go }}
         uses: actions/setup-go@v2 # action page: <https://github.com/actions/setup-go>
-        run: |
-          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-          ulimit -n 5000
         with:
           go-version: ${{ matrix.go }}
 
@@ -90,6 +87,11 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@v3
+
+      - name: Increase FD limit
+        run: |
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+          ulimit -n 5000
 
       - name: Get Composer Cache Directory
         id: composer-cache
