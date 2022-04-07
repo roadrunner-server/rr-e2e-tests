@@ -14,7 +14,7 @@ require (
 	github.com/roadrunner-server/amqp/v2 v2.11.1
 	github.com/roadrunner-server/api/v2 v2.14.0
 	github.com/roadrunner-server/beanstalk/v2 v2.11.0
-	github.com/roadrunner-server/boltdb/v2 v2.11.1
+	github.com/roadrunner-server/boltdb/v2 v2.12.0
 	github.com/roadrunner-server/broadcast/v2 v2.11.0
 	github.com/roadrunner-server/cache/v2 v2.11.1
 	github.com/roadrunner-server/config/v2 v2.11.1
@@ -41,7 +41,7 @@ require (
 	github.com/roadrunner-server/reload/v2 v2.11.0
 	github.com/roadrunner-server/resetter/v2 v2.11.0
 	github.com/roadrunner-server/rpc/v2 v2.11.0
-	github.com/roadrunner-server/sdk/v2 v2.12.0
+	github.com/roadrunner-server/sdk/v2 v2.13.0
 	github.com/roadrunner-server/send/v2 v2.10.0
 	github.com/roadrunner-server/server/v2 v2.12.1
 	github.com/roadrunner-server/service/v2 v2.11.1
@@ -148,7 +148,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220331220935-ae2d96664a29 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220403205710-6acee93ad0eb // indirect
+	golang.org/x/sys v0.0.0-20220406163625-3f8b81556e12 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220224211638-0e9765cccd65 // indirect
 	golang.org/x/tools v0.1.10 // indirect
