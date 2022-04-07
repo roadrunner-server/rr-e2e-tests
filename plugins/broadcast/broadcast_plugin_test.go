@@ -36,8 +36,9 @@ func TestBroadcastInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-broadcast-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-broadcast-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -109,8 +110,9 @@ func TestBroadcastConfigError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-broadcast-config-error.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-broadcast-config-error.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -144,8 +146,9 @@ func TestBroadcastNoConfig(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-broadcast-no-config.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-broadcast-no-config.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
@@ -185,8 +188,9 @@ func TestBroadcastSameSubscriber(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-broadcast-same-section.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-broadcast-same-section.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
@@ -299,8 +303,9 @@ func TestBroadcastSameSubscriberGlobal(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-broadcast-global.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-broadcast-global.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)

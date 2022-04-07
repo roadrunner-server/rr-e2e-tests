@@ -32,8 +32,9 @@ func TestKVInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-kv-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-kv-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -110,8 +111,9 @@ func TestKVNoInterval(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-kv-bolt-no-interval.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-kv-bolt-no-interval.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -185,8 +187,9 @@ func TestKVCreateToReopenWithPerms(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-kv-bolt-perms.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-kv-bolt-perms.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -253,8 +256,9 @@ func TestKVCreateToReopenWithPerms2(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-kv-bolt-perms.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-kv-bolt-perms.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -369,8 +373,9 @@ func TestBoltDb(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-boltdb.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-boltdb.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -632,8 +637,9 @@ func TestMemcached(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-memcached.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-memcached.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -895,8 +901,9 @@ func TestInMemory(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-in-memory.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-in-memory.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -1156,8 +1163,9 @@ func TestRedis(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-redis.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-redis.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -1224,8 +1232,9 @@ func TestRedisGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-redis-global.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-redis-global.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -1292,8 +1301,9 @@ func TestRedisNoConfig(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-redis-no-config.yaml", // should be used default
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-redis-no-config.yaml", // should be used default
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)

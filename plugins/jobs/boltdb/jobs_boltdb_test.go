@@ -39,8 +39,9 @@ func TestBoltDBInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-boltdb-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-boltdb-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -117,8 +118,9 @@ func TestBoltDBInitV27(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-boltdb-init-v27.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-boltdb-init-v27.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -198,8 +200,9 @@ func TestBoltDBInitV27BadResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-boltdb-init-v27-br.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-boltdb-init-v27-br.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -282,8 +285,9 @@ func TestBoltDBDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-boltdb-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-boltdb-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -368,8 +372,9 @@ func TestBoltDBJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-boltdb-jobs-err.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-boltdb-jobs-err.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -453,8 +458,9 @@ func TestBoltDBNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-no-global.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-no-global.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -483,8 +489,9 @@ func TestBoltDBStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-boltdb-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-boltdb-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

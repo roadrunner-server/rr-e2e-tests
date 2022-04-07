@@ -34,8 +34,9 @@ func TestAMQPInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-amqp-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-amqp-init.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -381,8 +382,9 @@ func TestAMQPReset(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-amqp-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-amqp-init.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -472,8 +474,9 @@ func TestAMQPDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-amqp-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-amqp-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -564,8 +567,9 @@ func TestAMQPDeclareDurable(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-amqp-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-amqp-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -656,8 +660,9 @@ func TestAMQPJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-amqp-jobs-err.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-amqp-jobs-err.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -749,8 +754,9 @@ func TestAMQPNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-no-global.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-no-global.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -780,8 +786,9 @@ func TestAMQPStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-amqp-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-amqp-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -905,8 +912,9 @@ func TestAMQPRespondOk(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-amqp-resp-jobs-ok.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-amqp-resp-jobs-ok.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -997,8 +1005,9 @@ func TestAMQPBadResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-amqp-init-br.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-amqp-init-br.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)

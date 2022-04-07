@@ -26,8 +26,9 @@ func TestGzipPlugin(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-withGzip.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-withGzip.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -111,8 +112,9 @@ func TestMiddlewareNotExist(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-middlewareNotExist.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-middlewareNotExist.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)

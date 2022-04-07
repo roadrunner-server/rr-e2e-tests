@@ -32,8 +32,9 @@ func TestInformerInit(t *testing.T) {
 	}
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-informer.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-informer.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -102,8 +103,9 @@ func TestInformerEarlyCall(t *testing.T) {
 	}
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-informer-early-call.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-informer-early-call.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

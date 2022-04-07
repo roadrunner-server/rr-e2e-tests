@@ -29,8 +29,9 @@ func TestSQSInitFifo(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-init_fifo.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-init_fifo.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -182,8 +183,9 @@ func TestSQSDeclareFifo(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-declare_fifo.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-declare_fifo.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -263,8 +265,9 @@ func TestSQSJobsErrorFifo(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-jobs-err_fifo.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-jobs-err_fifo.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -346,8 +349,9 @@ func TestSQSRespondFifo(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-respond_fifo.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-respond_fifo.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

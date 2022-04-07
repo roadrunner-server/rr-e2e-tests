@@ -33,8 +33,9 @@ func TestHTTPPost(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-post-test.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-post-test.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -142,8 +143,9 @@ func TestSSLNoHTTP(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-ssl-no-http.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-ssl-no-http.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -231,8 +233,9 @@ func TestFileServer(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-static-new.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-static-new.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -325,8 +328,9 @@ func TestHTTPNewRelic(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-new-relic.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-new-relic.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -405,8 +409,9 @@ func TestHTTPNewRelicError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-new-relic-error.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-new-relic-error.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -486,8 +491,9 @@ func TestHTTPNewRelicIgnore(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-new-relic-ignore.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-new-relic-ignore.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -566,8 +572,9 @@ func TestHTTPCache(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-cache.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-cache.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -632,8 +639,9 @@ func TestHTTPCacheDifferentRqs(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-cache.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-cache.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -771,8 +779,9 @@ func TestHTTPBigResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-init-big-resp.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-init-big-resp.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

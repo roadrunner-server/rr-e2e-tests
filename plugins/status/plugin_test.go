@@ -29,8 +29,9 @@ func TestStatusHttp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-status-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-status-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -115,8 +116,9 @@ func TestStatusRPC(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-status-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-status-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -195,8 +197,9 @@ func TestReadyHttp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-status-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-status-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -281,8 +284,9 @@ func TestReadinessRPCWorkerNotReady(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-ready-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-ready-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

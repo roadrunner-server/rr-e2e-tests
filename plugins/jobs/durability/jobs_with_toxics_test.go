@@ -37,8 +37,9 @@ func TestDurabilityAMQP(t *testing.T) {
 	require.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-amqp-durability-redial.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-amqp-durability-redial.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -135,8 +136,9 @@ func TestDurabilitySQS(t *testing.T) {
 	require.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-durability-redial.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-durability-redial.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -234,8 +236,9 @@ func TestDurabilityBeanstalk(t *testing.T) {
 	require.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-beanstalk-durability-redial.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-beanstalk-durability-redial.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -332,8 +335,9 @@ func TestDurabilityNATS(t *testing.T) {
 	require.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-nats-durability-redial.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-nats-durability-redial.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

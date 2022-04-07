@@ -83,7 +83,8 @@ func TestLoggerRawErr(t *testing.T) {
 	assert.NoError(t, err)
 
 	// config plugin
-	cfg := &config.Plugin{}
+	cfg := &config.Plugin{
+		Version: "2.9.0"}
 	cfg.Path = "configs/.rr-raw-mode.yaml"
 	cfg.Prefix = "rr"
 

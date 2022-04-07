@@ -37,8 +37,9 @@ func TestReloadInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-reload.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-reload.yaml",
+		Prefix:  "rr",
 	}
 
 	// try to remove, skip error
@@ -125,8 +126,9 @@ func TestReloadBadWorker(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-reload-bad-worker.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-reload-bad-worker.yaml",
+		Prefix:  "rr",
 	}
 
 	// try to remove, skip error
@@ -219,8 +221,9 @@ func TestReloadHugeNumberOfFiles(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-reload.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-reload.yaml",
+		Prefix:  "rr",
 	}
 
 	// try to remove, skip error
@@ -329,8 +332,9 @@ func TestReloadFilterFileExt(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-reload-2.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-reload-2.yaml",
+		Prefix:  "rr",
 	}
 
 	// try to remove, skip error
@@ -442,8 +446,9 @@ func TestReloadCopy100(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-reload-3.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-reload-3.yaml",
+		Prefix:  "rr",
 	}
 
 	// try to remove, skip error
@@ -724,8 +729,9 @@ func TestReloadNoRecursion(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-reload-4.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-reload-4.yaml",
+		Prefix:  "rr",
 	}
 
 	// try to remove, skip error

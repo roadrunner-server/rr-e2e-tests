@@ -32,8 +32,9 @@ func TestServiceInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -97,8 +98,9 @@ func TestServiceWorkers(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-workers.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-workers.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -166,8 +168,9 @@ func TestServiceInitStdout(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-init-stdout.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-init-stdout.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -231,8 +234,9 @@ func TestServiceEnv(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-env.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-env.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -298,8 +302,9 @@ func TestServiceError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-error.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-error.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -360,8 +365,9 @@ func TestServiceRestarts(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-restarts.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-restarts.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -425,8 +431,9 @@ func TestServiceCreate(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-create.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-create.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -512,8 +519,9 @@ func TestServiceCreateEmptyConfig(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-create-empty.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-create-empty.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -609,8 +617,9 @@ func TestServiceRestart(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-create-empty.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-create-empty.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -710,8 +719,9 @@ func TestServiceRestartConcurrent(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-create-empty.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-create-empty.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -830,8 +840,9 @@ func TestServiceListConcurrent(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-create-empty.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-create-empty.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -955,8 +966,9 @@ func TestServiceStatus(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-create-empty.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-create-empty.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -1057,8 +1069,9 @@ func TestServiceInitRemain(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-service-init-remain.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-init-remain.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

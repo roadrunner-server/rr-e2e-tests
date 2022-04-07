@@ -139,6 +139,7 @@ func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Test
 	}
 	cfg.Path = "configs/.rr-proto.yaml"
 	cfg.Prefix = "rr"
+	cfg.Version = "2.9.0"
 
 	err = container.RegisterAll(
 		cfg,
@@ -196,6 +197,7 @@ func initConfigProtoWithMetrics() config.Configurer {
 	}
 	cfg.Path = "configs/.rr-metrics.yaml"
 	cfg.Prefix = "rr"
+	cfg.Version = "2.9.0"
 
 	return cfg
 }

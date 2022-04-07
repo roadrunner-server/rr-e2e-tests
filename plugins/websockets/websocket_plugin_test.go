@@ -38,8 +38,9 @@ func TestWebsocketsInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-websockets-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-websockets-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -116,8 +117,9 @@ func TestWSRedis(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-websockets-redis.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-websockets-redis.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -191,8 +193,9 @@ func TestWSRedisNoSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-websockets-broker-no-section.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-websockets-broker-no-section.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -221,8 +224,9 @@ func TestWSDeny(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-websockets-deny.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-websockets-deny.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -295,8 +299,9 @@ func TestWSDeny2(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-websockets-deny2.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-websockets-deny2.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -369,8 +374,9 @@ func TestWSStop(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-websockets-stop.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-websockets-stop.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -456,8 +462,9 @@ func TestWSAllow(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-websockets-allow.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-websockets-allow.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -531,8 +538,9 @@ func TestWSAllow2(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-websockets-allow2.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-websockets-allow2.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

@@ -35,8 +35,9 @@ func TestBeanstalkInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-beanstalk-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-beanstalk-init.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -202,8 +203,9 @@ func TestBeanstalkStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-beanstalk-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-beanstalk-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -321,8 +323,9 @@ func TestBeanstalkDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-beanstalk-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-beanstalk-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -405,8 +408,9 @@ func TestBeanstalkJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-beanstalk-jobs-err.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-beanstalk-jobs-err.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -490,8 +494,9 @@ func TestBeanstalkNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-no-global.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-no-global.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -520,8 +525,9 @@ func TestBeanstalkRespond(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-beanstalk-respond.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-beanstalk-respond.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

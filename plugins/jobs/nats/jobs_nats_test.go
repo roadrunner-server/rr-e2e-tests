@@ -34,8 +34,9 @@ func TestNATSInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-nats-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-nats-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -260,8 +261,9 @@ func TestNATSDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-nats-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-nats-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -340,8 +342,9 @@ func TestNATSJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-nats-jobs-err.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-nats-jobs-err.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -420,8 +423,9 @@ func TestNATSRespond(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-nats-respond.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-nats-respond.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -498,8 +502,9 @@ func TestNATSNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-no-global.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-no-global.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -528,8 +533,9 @@ func TestNATSStats(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-nats-stat.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-nats-stat.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
