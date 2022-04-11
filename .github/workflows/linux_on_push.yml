@@ -59,7 +59,7 @@ jobs:
           go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/temporal.out
@@ -123,7 +123,7 @@ jobs:
           go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/service.out
@@ -170,7 +170,7 @@ jobs:
           go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service_unit.out -covermode=atomic ./...
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/service_unit.out
@@ -217,7 +217,7 @@ jobs:
           go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/proxy_ip.out -covermode=atomic ./...
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/proxy_ip.out
@@ -278,7 +278,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/amqp.out
@@ -340,7 +340,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/beanstalk.out -covermode=atomic ./plugins/jobs/beanstalk
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/beanstalk.out
@@ -399,7 +399,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/boltdb.out -covermode=atomic ./plugins/jobs/boltdb
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/boltdb.out
@@ -467,7 +467,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/durability.out -covermode=atomic ./plugins/jobs/durability
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/durability.out
@@ -528,7 +528,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/general.out -covermode=atomic ./plugins/jobs/general
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/general.out
@@ -587,7 +587,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/memory.out -covermode=atomic ./plugins/jobs/memory
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/memory.out
@@ -648,7 +648,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/nats.out -covermode=atomic ./plugins/jobs/nats
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/nats.out
@@ -714,7 +714,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/sqs.out -covermode=atomic ./plugins/jobs/sqs
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/sqs.out
@@ -775,7 +775,7 @@ jobs:
           go test -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/kv.out -covermode=atomic ./plugins/kv
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/kv.out
@@ -834,7 +834,7 @@ jobs:
           go test -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/reload.out -covermode=atomic ./plugins/reload
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/reload.out
@@ -893,7 +893,7 @@ jobs:
           go test -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/tcp.out -covermode=atomic ./plugins/tcp
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/tcp.out
@@ -960,7 +960,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/broadcast.out -covermode=atomic ./plugins/broadcast
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/broadcast.out
@@ -1021,7 +1021,7 @@ jobs:
           go test -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/websockets.out -covermode=atomic ./plugins/websockets
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/websockets.out
@@ -1083,7 +1083,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/http.out
@@ -1147,7 +1147,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/grpc.out -covermode=atomic ./plugins/grpc
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/grpc.out
@@ -1206,7 +1206,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/informer.out -covermode=atomic ./plugins/informer
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/informer.out
@@ -1265,7 +1265,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/server.out -covermode=atomic ./plugins/server
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/server.out
@@ -1331,7 +1331,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/status.out -covermode=atomic ./plugins/status
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/status.out
@@ -1392,7 +1392,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/config.out -covermode=atomic ./plugins/config
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/config.out
@@ -1458,7 +1458,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/gzip.out -covermode=atomic ./plugins/gzip
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/gzip.out
@@ -1517,7 +1517,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/headers.out -covermode=atomic ./plugins/headers
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/headers.out
@@ -1583,7 +1583,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/logger.out -covermode=atomic ./plugins/logger
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/logger.out
@@ -1642,7 +1642,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/metrics.out -covermode=atomic ./plugins/metrics
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/metrics.out
@@ -1701,7 +1701,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/resetter.out -covermode=atomic ./plugins/resetter
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/resetter.out
@@ -1767,7 +1767,7 @@ jobs:
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/rpc.out -covermode=atomic ./plugins/rpc
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage-ci/rpc.out
