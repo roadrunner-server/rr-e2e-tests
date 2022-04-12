@@ -25,8 +25,9 @@ func TestHTTPStreams(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/streams/.rr-http-streams.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/streams/.rr-http-streams.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

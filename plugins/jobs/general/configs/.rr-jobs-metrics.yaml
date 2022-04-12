@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -15,11 +17,8 @@ logs:
   mode: development
 
 jobs:
-  # num logical cores by default
   num_pollers: 10
-  # 1mi by default
   pipeline_size: 100000
-  # worker pool configuration
   pool:
     num_workers: 1
     max_jobs: 0

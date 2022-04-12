@@ -34,8 +34,9 @@ func TestGrpcRqRsGzip(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -111,8 +112,9 @@ func TestGrpcRqRsMultipleGzip(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq-multiple.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-multiple.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -205,8 +207,9 @@ func TestGrpcRqRsTLSGzip(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq-tls.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-tls.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -288,8 +291,9 @@ func TestGrpcRqRsTLSRootCAGzip(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq-tls-rootca.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-tls-rootca.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -381,8 +385,9 @@ func TestGrpcRqRsTLS_WithResetGzip(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq-tls.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-tls.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

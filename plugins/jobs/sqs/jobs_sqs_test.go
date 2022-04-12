@@ -34,8 +34,9 @@ func TestSQSInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -339,8 +340,9 @@ func TestSQSDeclare(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -420,8 +422,9 @@ func TestSQSJobsError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-jobs-err.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-jobs-err.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -503,8 +506,9 @@ func TestSQSNoGlobalSection(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-no-global.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-no-global.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -533,8 +537,9 @@ func TestSQSStat(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-declare.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-declare.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -645,8 +650,9 @@ func TestSQSRespond(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-sqs-respond.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-sqs-respond.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

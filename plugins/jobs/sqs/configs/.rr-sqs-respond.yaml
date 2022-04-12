@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -31,9 +33,10 @@ jobs:
   pipelines:
     test-1:
       driver: sqs
-      prefetch: 1000
-      visibility_timeout: 0
-      wait_time_seconds: 0
-      queue: "test-1-queue"
+      config:
+        prefetch: 1000
+        visibility_timeout: 0
+        wait_time_seconds: 0
+        queue: "test-1-queue"
 
   consume: [ "test-1" ]

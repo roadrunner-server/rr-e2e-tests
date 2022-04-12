@@ -29,7 +29,7 @@ const (
 
 func main() {
 	wg := &sync.WaitGroup{}
-	wg.Add(33)
+	wg.Add(10)
 
 	rate := uint64(0)
 	delayedCloseCh := make(chan string, 1000000)
@@ -164,7 +164,6 @@ func main() {
 			log.Fatal(err)
 		}
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
 		for {
 			select {
 			case k := <-delayedCloseCh:
@@ -289,8 +288,8 @@ func declareAMQPPipe(client *rpc.Client, p string) {
 		"queue":           "default",
 		"exchange_type":   "direct",
 		"exchange":        "amqp.default",
-		"prefetch":        "100",
-		"priority":        "4",
+		"prefetch":        "1000",
+		"priority":        "1",
 		"exclusive":       "false",
 		"multiple_ask":    "false",
 		"requeue_on_fail": "false",

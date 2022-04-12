@@ -29,8 +29,9 @@ func TestResetterInit(t *testing.T) {
 	}
 
 	cfg := &config.Plugin{
-		Path:   ".rr-resetter.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    ".rr-resetter.yaml",
+		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)

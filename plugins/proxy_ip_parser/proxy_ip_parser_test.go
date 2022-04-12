@@ -1,4 +1,4 @@
-package http
+package proxy_ip_parser //nolint:stylecheck
 
 import (
 	"net/http"
@@ -23,8 +23,9 @@ func TestXFF(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/headers/.rr-http-xff.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-xff.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -127,8 +128,9 @@ func TestForwarded(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/headers/.rr-http-f.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-f.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

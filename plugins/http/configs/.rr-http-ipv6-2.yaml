@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://[::1]:6003
 

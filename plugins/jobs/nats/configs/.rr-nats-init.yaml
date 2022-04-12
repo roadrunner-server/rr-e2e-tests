@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -27,18 +29,20 @@ jobs:
   pipelines:
     test-1:
       driver: nats
-      prefetch: 100
-      subject: "default"
-      stream: "foo"
-      deliver_new: "true"
-      priority: 1
+      config:
+        prefetch: 100
+        subject: "default"
+        stream: "foo"
+        deliver_new: "true"
+        priority: 1
 
     test-2:
       driver: nats
-      prefetch: 100
-      subject: "default"
-      stream: "foo"
-      deliver_new: "true"
-      priority: 2
+      config:
+        prefetch: 100
+        subject: "default"
+        stream: "foo"
+        deliver_new: "true"
+        priority: 2
 
   consume: [ "test-1", "test-2" ]

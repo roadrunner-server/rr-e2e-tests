@@ -23,9 +23,12 @@ import (
 	"github.com/roadrunner-server/memory/v2"
 	newrelic "github.com/roadrunner-server/new_relic/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
+	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 func TestHTTPPost(t *testing.T) {
@@ -33,8 +36,9 @@ func TestHTTPPost(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-post-test.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-post-test.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -142,8 +146,9 @@ func TestSSLNoHTTP(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-ssl-no-http.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-ssl-no-http.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -231,8 +236,9 @@ func TestFileServer(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-static-new.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-static-new.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -325,8 +331,9 @@ func TestHTTPNewRelic(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-new-relic.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-new-relic.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -405,8 +412,9 @@ func TestHTTPNewRelicError(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-new-relic-error.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-new-relic-error.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -486,8 +494,9 @@ func TestHTTPNewRelicIgnore(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-new-relic-ignore.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-new-relic-ignore.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -566,8 +575,9 @@ func TestHTTPCache(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-cache.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-cache.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -632,8 +642,9 @@ func TestHTTPCacheDifferentRqs(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-http-cache.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-http-cache.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -771,8 +782,9 @@ func TestHTTPBigResp(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-init-big-resp.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-init-big-resp.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -861,4 +873,90 @@ func TestHTTPBigResp(t *testing.T) {
 	t.Cleanup(func() {
 		_ = os.RemoveAll("well")
 	})
+}
+
+// https://github.com/laravel/octane/issues/504
+func TestHTTPExecTTL(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.9.1",
+		Path:    "configs/.rr-http-exec_ttl.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		l,
+		&server.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second)
+
+	req, err2 := http.NewRequest(http.MethodGet, "http://127.0.0.1:18988", nil)
+	require.NoError(t, err2)
+
+	r, err2 := http.DefaultClient.Do(req)
+	require.NoError(t, err2)
+	require.Equal(t, 500, r.StatusCode)
+	_ = r.Body.Close()
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	shouldBe1 := oLogger.FilterField(zapcore.Field{
+		Key:       "internal_event_name",
+		Type:      zapcore.StringType,
+		Integer:   0,
+		String:    "EventExecTTL",
+		Interface: nil,
+	}).Len()
+	require.Equal(t, 1, shouldBe1)
 }

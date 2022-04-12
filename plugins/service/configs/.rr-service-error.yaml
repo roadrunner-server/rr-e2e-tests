@@ -1,3 +1,5 @@
+version: '2.7'
+
 service:
   some_service_1:
     command: "php test_files/loopo.php"

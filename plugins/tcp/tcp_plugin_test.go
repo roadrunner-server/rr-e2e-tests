@@ -28,8 +28,9 @@ func TestTCPInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-tcp-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-tcp-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -147,8 +148,9 @@ func TestTCPEmptySend(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-tcp-empty.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-tcp-empty.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -229,8 +231,9 @@ func TestTCPConnClose(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-tcp-close.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-tcp-close.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -313,8 +316,9 @@ func TestTCPFull(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-tcp-full.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-tcp-full.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

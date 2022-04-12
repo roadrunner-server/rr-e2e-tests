@@ -1,3 +1,5 @@
+version: '2.7'
+
 service:
   some_service_2:
     command: "test_files/test_binary"

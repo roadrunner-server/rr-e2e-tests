@@ -24,8 +24,9 @@ func TestHeadersInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-headers-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-headers-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -90,8 +91,9 @@ func TestRequestHeaders(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-req-headers.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-req-headers.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -175,8 +177,9 @@ func TestResponseHeaders(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-res-headers.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-res-headers.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -261,8 +264,9 @@ func TestCORSHeaders(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-cors-headers.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-cors-headers.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(

@@ -67,11 +67,6 @@ func TestHandler_Echo(t *testing.T) {
 	assert.Equal(t, "WORLD", body)
 }
 
-func Test_HandlerErrors(t *testing.T) {
-	_, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, nil, nil, false)
-	assert.Error(t, err)
-}
-
 func TestHandler_Headers(t *testing.T) {
 	p, err := pool.NewStaticPool(context.Background(),
 		func(cmd string) *exec.Cmd {

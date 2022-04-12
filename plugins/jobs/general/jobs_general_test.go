@@ -34,8 +34,9 @@ func TestJobsInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-jobs-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-jobs-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -107,7 +108,8 @@ func TestJOBSMetrics(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &config.Plugin{}
+	cfg := &config.Plugin{
+		Version: "2.9.0"}
 	cfg.Prefix = "rr"
 	cfg.Path = "configs/.rr-jobs-metrics.yaml"
 

@@ -44,8 +44,9 @@ func TestGrpcInit(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-init.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-init.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -112,8 +113,9 @@ func TestGrpcInitDuplicate(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-init-duplicate.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-init-duplicate.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -138,8 +140,9 @@ func TestGrpcInitDup2(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-init-duplicate-2.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-init-duplicate-2.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -205,8 +208,9 @@ func TestGrpcInitMultiple(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-init-multiple.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-init-multiple.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -272,8 +276,9 @@ func TestGrpcRqRs(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -349,8 +354,9 @@ func TestGrpcRqRsException(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq-exception.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-exception.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -427,8 +433,9 @@ func TestGrpcRqRsMultiple(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq-multiple.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-multiple.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -521,8 +528,9 @@ func TestGrpcRqRsTLS(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq-tls.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-tls.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -604,8 +612,9 @@ func TestGrpcRqRsTLSRootCA(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq-tls-rootca.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-tls-rootca.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -697,8 +706,9 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Path:   "configs/.rr-grpc-rq-tls.yaml",
-		Prefix: "rr",
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-tls.yaml",
+		Prefix:  "rr",
 	}
 
 	err = cont.RegisterAll(
@@ -785,7 +795,8 @@ func TestGRPCMetrics(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &config.Plugin{}
+	cfg := &config.Plugin{
+		Version: "2.9.0"}
 	cfg.Prefix = "rr"
 	cfg.Path = "configs/.rr-grpc-metrics.yaml"
 

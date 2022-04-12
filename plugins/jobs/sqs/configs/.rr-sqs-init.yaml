@@ -1,3 +1,5 @@
+version: '2.7'
+
 rpc:
   listen: tcp://127.0.0.1:6001
 
@@ -29,26 +31,28 @@ jobs:
   pipelines:
     test-1:
       driver: sqs
-      prefetch: 1000
-      visibility_timeout: 0
-      wait_time_seconds: 0
-      queue: default
-      attributes:
-        DelaySeconds: 0
-        MaximumMessageSize: 262144
-        MessageRetentionPeriod: 345600
-        ReceiveMessageWaitTimeSeconds: 0
-        VisibilityTimeout: 30
-      tags:
-        test: "tag"
+      config:
+        prefetch: 1000
+        visibility_timeout: 0
+        wait_time_seconds: 0
+        queue: default
+        attributes:
+          DelaySeconds: 0
+          MaximumMessageSize: 262144
+          MessageRetentionPeriod: 345600
+          ReceiveMessageWaitTimeSeconds: 0
+          VisibilityTimeout: 30
+        tags:
+          test: "tag"
 
     test-2:
       driver: sqs
-      prefetch: 1000
-      queue: default-2
-      attributes:
-        MessageRetentionPeriod: 86400
-      tags:
-        test: "tag"
+      config:
+        prefetch: 1000
+        queue: default-2
+        attributes:
+          MessageRetentionPeriod: 86400
+        tags:
+          test: "tag"
   consume: [ "test-1", "test-2" ]
 
