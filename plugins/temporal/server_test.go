@@ -191,6 +191,67 @@ func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Test
 	}
 }
 
+func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
+	container, err := endure.NewContainer(initLogger(), endure.RetryOnFail(false), endure.GracefulShutdownTimeout(time.Second*30))
+	assert.NoError(t, err)
+
+	cfg := &configImpl.Plugin{
+		Timeout: time.Second * 30,
+	}
+	cfg.Path = "configs/.rr-proto-la.yaml"
+	cfg.Prefix = "rr"
+	cfg.Version = "2.9.0"
+
+	err = container.RegisterAll(
+		cfg,
+		&roadrunnerTemporal.Plugin{},
+		&logger.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&server.Plugin{},
+		&rpc.Plugin{},
+	)
+
+	assert.NoError(t, err)
+	assert.NoError(t, container.Init())
+
+	errCh, err := container.Serve()
+	if err != nil {
+		panic(err)
+	}
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case er := <-errCh:
+				assert.Fail(t, fmt.Sprintf("got error from vertex: %s, error: %v", er.VertexID, er.Error))
+				assert.NoError(t, container.Stop())
+				return
+			case <-stopCh:
+				assert.NoError(t, container.Stop())
+				return
+			}
+		}
+	}()
+
+	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
+	client, err := temporalClient.NewClient(temporalClient.Options{
+		HostPort:      "127.0.0.1:7233",
+		Namespace:     "default",
+		DataConverter: dc,
+		Logger:        newZapAdapter(initLogger()),
+	})
+	if err != nil {
+		panic(err)
+	}
+	require.NoError(t, err)
+
+	return &TestServer{
+		client: client,
+	}
+}
+
 func initConfigProtoWithMetrics() config.Configurer {
 	cfg := &configImpl.Plugin{
 		Timeout: time.Second * 30,

@@ -17,7 +17,7 @@ class ActivityStubWorkflow
         // typed stub
         $simple = Workflow::newActivityStub(
             SimpleLocalActivity::class,
-            LocalActivityOptions::new()->withStartToCloseTimeout(5)
+            LocalActivityOptions::new()->withStartToCloseTimeout(5)->withScheduleToCloseTimeout(10)
         );
 
         $result = [];
@@ -30,9 +30,9 @@ class ActivityStubWorkflow
         }
 
         // untyped stub
-        $untyped = Workflow::newUntypedActivityStub(LocalActivityOptions::new()->withStartToCloseTimeout(1));
+        $untyped = Workflow::newUntypedActivityStub(LocalActivityOptions::new()->withStartToCloseTimeout(1)->withScheduleToCloseTimeout(10));
 
-        $result[] = yield $untyped->execute('SimpleLocalActivity.echo', ['untyped']);
+        $result[] = yield $untyped->execute('LocalActivity.echo', ['untyped']);
 
         return $result;
     }

@@ -16,6 +16,6 @@ class BinaryWorkflow
     ): iterable {
         $opts = LocalActivityOptions::new()->withStartToCloseTimeout(5);
 
-        return yield Workflow::executeActivity('SimpleLocalActivity.sha512', [$input], $opts);
+        return yield Workflow::executeActivity('LocalActivity.sha512', [$input], $opts);
     }
 }

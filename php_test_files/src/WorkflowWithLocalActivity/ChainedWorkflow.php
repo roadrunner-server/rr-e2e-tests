@@ -17,12 +17,12 @@ class ChainedWorkflow
         $opts = LocalActivityOptions::new()->withStartToCloseTimeout(5);
 
         return yield Workflow::executeActivity(
-            'SimpleLocalActivity.echo',
+            'LocalActivity.echo',
             [$input],
             $opts
         )->then(function ($result) use ($opts) {
             return Workflow::executeActivity(
-                'SimpleLocalActivity.lower',
+                'LocalActivity.lower',
                 ['Result:' . $result],
                 $opts
             );

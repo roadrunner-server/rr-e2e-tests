@@ -23,6 +23,7 @@ class SagaWorkflow
         $simple = Workflow::newActivityStub(
             SimpleLocalActivity::class,
             LocalActivityOptions::new()
+                ->withScheduleToCloseTimeout(60)
                 ->withStartToCloseTimeout(60)
                 ->withRetryOptions(RetryOptions::new()->withMaximumAttempts(1))
         );
