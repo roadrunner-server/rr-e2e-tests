@@ -18,6 +18,7 @@ import (
 	"github.com/roadrunner-server/config/v2"
 	"github.com/roadrunner-server/logger/v2"
 	"github.com/roadrunner-server/memory/v2"
+	"github.com/roadrunner-server/proxy_ip_parser/v2"
 	"github.com/roadrunner-server/redis/v2"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/roadrunner-server/websockets/v2"
@@ -45,6 +46,7 @@ func TestWebsocketsInit(t *testing.T) {
 
 	err = cont.RegisterAll(
 		cfg,
+		&proxy.Plugin{},
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -102,6 +104,7 @@ func TestWebsocketsInit(t *testing.T) {
 		}
 	}()
 
+	time.Sleep(time.Minute)
 	time.Sleep(time.Second * 1)
 	t.Run("TestWSInit", wsInit)
 	t.Run("RPCWsMemoryPubAsync", RPCWsPubAsync("11111"))

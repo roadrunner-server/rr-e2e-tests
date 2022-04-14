@@ -1562,6 +1562,6 @@ func workers(service string) func(t *testing.T) {
 
 		err = client.Call("informer.Workers", service, &lst)
 		require.NoError(t, err)
-		require.Len(t, lst.Workers, 2)
+		require.Len(t, lst.Workers, 20)
 	}
 }
