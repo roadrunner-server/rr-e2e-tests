@@ -19,6 +19,8 @@ import (
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/logger/v2"
+	"github.com/roadrunner-server/reload/v2"
+	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/service/v2"
@@ -1128,6 +1130,368 @@ func TestServiceInitRemain(t *testing.T) {
 	time.Sleep(time.Second * 10)
 	stopCh <- struct{}{}
 	wg.Wait()
+}
+
+func TestServiceReset(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-reset.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&rpcPlugin.Plugin{},
+		&resetter.Plugin{},
+		l,
+		&service.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
+	require.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+	var ok bool
+	err = client.Call("resetter.Reset", "service", &ok)
+	require.NoError(t, err)
+	require.True(t, ok)
+
+	time.Sleep(time.Second * 5)
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 20, oLogger.FilterMessageSnippet("The number is: 0").Len())
+	require.Equal(t, 20, oLogger.FilterMessageSnippet("Hello 0").Len())
+}
+
+func TestServiceReset2(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-reload.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		l,
+		&reload.Plugin{},
+		&rpcPlugin.Plugin{},
+		&resetter.Plugin{},
+		&service.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	file, err := os.Create("foo.txt")
+	require.NoError(t, err)
+
+	go func() {
+		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		require.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+		var ok bool
+		err = client.Call("resetter.Reset", "service", &ok)
+		require.NoError(t, err)
+		require.True(t, ok)
+	}()
+
+	time.Sleep(time.Second * 10)
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.LessOrEqual(t, 30, oLogger.FilterMessageSnippet("The number is: 0").Len())
+	assert.LessOrEqual(t, 30, oLogger.FilterMessageSnippet("Hello 0").Len())
+
+	t.Cleanup(func() {
+		_ = file.Close()
+		_ = os.Remove("foo.txt")
+	})
+}
+
+func TestServiceReset3(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-reload.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		l,
+		&rpcPlugin.Plugin{},
+		&resetter.Plugin{},
+		&reload.Plugin{},
+		&service.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	file, err := os.Create("foo.txt")
+	require.NoError(t, err)
+
+	time.Sleep(time.Second * 4)
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 20, oLogger.FilterMessageSnippet("The number is: 0").Len())
+	require.Equal(t, 20, oLogger.FilterMessageSnippet("Hello 0").Len())
+
+	t.Cleanup(func() {
+		_ = file.Close()
+		_ = os.Remove("foo.txt")
+	})
+}
+
+func TestServiceReset4(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.9.0",
+		Path:    "configs/.rr-service-reload.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		l,
+		&rpcPlugin.Plugin{},
+		&resetter.Plugin{},
+		&reload.Plugin{},
+		&service.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	file, err := os.Create("foo2.txt")
+	require.NoError(t, err)
+
+	go func() {
+		l1 := &serviceV1.List{}
+		t.Run("list", list(nil, l1))
+		require.Len(t, l1.GetServices(), 2)
+	}()
+
+	go func() {
+		l2 := &serviceV1.List{}
+		t.Run("list", list(nil, l2))
+		require.Len(t, l2.GetServices(), 2)
+		for i := 0; i < len(l2.GetServices()); i++ {
+			cmd := &serviceV1.Service{
+				Name: l2.GetServices()[i],
+			}
+
+			out := &serviceV1.Response{}
+
+			t.Run("terminate", terminate(cmd, out))
+		}
+	}()
+
+	time.Sleep(time.Second * 10)
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 20, oLogger.FilterMessageSnippet("service have started").Len())
+	t.Cleanup(func() {
+		_ = file.Close()
+		_ = os.Remove("foo2.txt")
+	})
 }
 
 func create(in *serviceV1.Create, out *serviceV1.Response) func(t *testing.T) {

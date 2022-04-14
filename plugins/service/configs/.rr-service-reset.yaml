@@ -1,0 +1,23 @@
+version: '2.7'
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+service:
+  some_service_1:
+    command: "php test_files/loop.php"
+    process_num: 10
+#    exec_timeout: 5s # s,m,h (seconds, minutes, hours)
+    remain_after_exit: false
+    restart_sec: 1
+  some_service_2:
+    command: "test_files/test_binary"
+    process_num: 10
+    remain_after_exit: false
+    restart_delay: 1s
+#    exec_timeout: 5s
+
+logs:
+  mode: development
+  level: debug
+  encoding: console
