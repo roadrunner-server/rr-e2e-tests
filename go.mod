@@ -21,7 +21,7 @@ require (
 	github.com/roadrunner-server/endure v1.2.3
 	github.com/roadrunner-server/errors v1.1.2
 	github.com/roadrunner-server/fileserver/v2 v2.12.1
-	github.com/roadrunner-server/goridge/v3 v3.4.0
+	github.com/roadrunner-server/goridge/v3 v3.4.1
 	github.com/roadrunner-server/grpc/v2 v2.13.1
 	github.com/roadrunner-server/gzip/v2 v2.10.0
 	github.com/roadrunner-server/headers/v2 v2.11.0
@@ -154,7 +154,7 @@ require (
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 	golang.org/x/tools v0.1.10 // indirect
 	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
-	google.golang.org/genproto v0.0.0-20220413183235-5e96e2839df9 // indirect
+	google.golang.org/genproto v0.0.0-20220414192740-2d67ff6cf2b4 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
