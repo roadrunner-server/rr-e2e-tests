@@ -1300,8 +1300,8 @@ func TestServiceReset2(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	assert.LessOrEqual(t, 30, oLogger.FilterMessageSnippet("The number is: 0").Len())
-	assert.LessOrEqual(t, 30, oLogger.FilterMessageSnippet("Hello 0").Len())
+	assert.LessOrEqual(t, oLogger.FilterMessageSnippet("The number is: 0").Len(), 30)
+	assert.LessOrEqual(t, oLogger.FilterMessageSnippet("Hello 0").Len(), 30)
 
 	t.Cleanup(func() {
 		_ = file.Close()
