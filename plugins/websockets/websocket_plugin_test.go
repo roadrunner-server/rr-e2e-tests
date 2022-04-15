@@ -18,7 +18,7 @@ import (
 	"github.com/roadrunner-server/config/v2"
 	"github.com/roadrunner-server/logger/v2"
 	"github.com/roadrunner-server/memory/v2"
-	"github.com/roadrunner-server/proxy_ip_parser/v2"
+	proxy "github.com/roadrunner-server/proxy_ip_parser/v2"
 	"github.com/roadrunner-server/redis/v2"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/roadrunner-server/websockets/v2"
