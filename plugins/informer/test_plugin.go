@@ -2,6 +2,7 @@ package informer
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/roadrunner-server/api/v2/plugins/config"
@@ -53,7 +54,7 @@ func (p1 *Plugin1) Name() string {
 func (p1 *Plugin1) Workers() []*process.State {
 	p, err := p1.server.NewWorkerPool(context.Background(), testPoolConfig, nil, nil)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	ps := make([]*process.State, 0, len(p.Workers()))
