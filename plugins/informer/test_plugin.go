@@ -27,6 +27,7 @@ var testPoolConfig = &pool.Config{ //nolint:gochecknoglobals
 }
 
 // Gauge //////////////
+
 type Plugin1 struct {
 	config config.Configurer
 	server server.Server
