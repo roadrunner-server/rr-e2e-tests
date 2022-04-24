@@ -18,6 +18,8 @@ import (
 
 	"github.com/goccy/go-json"
 	"github.com/roadrunner-server/http/v2/handler"
+	http2 "github.com/roadrunner-server/http/v2/http"
+	"github.com/roadrunner-server/http/v2/uploads"
 	"github.com/roadrunner-server/sdk/v2/ipc/pipe"
 	"github.com/roadrunner-server/sdk/v2/pool"
 	"github.com/stretchr/testify/assert"
@@ -40,7 +42,19 @@ func TestHandler_Echo(t *testing.T) {
 		}, nil)
 	require.NoError(t, err)
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+		AccessLogs:        false,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9177", Handler: h}
@@ -85,7 +99,19 @@ func TestHandler_Headers(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+		AccessLogs:        false,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8078", Handler: h}
@@ -145,7 +171,19 @@ func TestHandler_Empty_User_Agent(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+		AccessLogs:        false,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":19658", Handler: h}
@@ -204,7 +242,19 @@ func TestHandler_User_Agent(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+		AccessLogs:        false,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":25688", Handler: h}
@@ -263,7 +313,19 @@ func TestHandler_Cookies(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+		AccessLogs:        false,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8079", Handler: h}
@@ -327,7 +389,19 @@ func TestHandler_JsonPayload_POST(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+		AccessLogs:        false,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8090", Handler: h}
@@ -390,7 +464,19 @@ func TestHandler_JsonPayload_PUT(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+		AccessLogs:        false,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8081", Handler: h}
@@ -449,7 +535,18 @@ func TestHandler_JsonPayload_PATCH(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8082", Handler: h}
@@ -508,7 +605,18 @@ func TestHandler_FormData_POST(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":10084", Handler: h}
@@ -590,7 +698,18 @@ func TestHandler_FormData_POST_Overwrite(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8083", Handler: h}
@@ -673,7 +792,18 @@ func TestHandler_FormData_POST_Form_UrlEncoded_Charset(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8085", Handler: h}
@@ -755,7 +885,18 @@ func TestHandler_FormData_PUT(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":17834", Handler: h}
@@ -838,7 +979,18 @@ func TestHandler_FormData_PATCH(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8086", Handler: h}
@@ -920,7 +1072,18 @@ func TestHandler_Multipart_POST(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8019", Handler: h}
@@ -1044,7 +1207,18 @@ func TestHandler_Multipart_PUT(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8020", Handler: h}
@@ -1168,7 +1342,18 @@ func TestHandler_Multipart_PATCH(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8021", Handler: h}
@@ -1294,7 +1479,18 @@ func TestHandler_Error(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8177", Handler: h}
@@ -1339,7 +1535,18 @@ func TestHandler_Error2(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8178", Handler: h}
@@ -1366,64 +1573,6 @@ func TestHandler_Error2(t *testing.T) {
 	assert.Equal(t, 500, r.StatusCode)
 }
 
-func TestHandler_Error3(t *testing.T) {
-	p, err := pool.NewStaticPool(context.Background(),
-		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "pid", "pipes")
-		},
-		pipe.NewPipeFactory(mockLog),
-		&pool.Config{
-			NumWorkers:      1,
-			AllocateTimeout: time.Second * 1000,
-			DestroyTimeout:  time.Second * 1000,
-		}, nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer func() {
-		p.Destroy(context.Background())
-	}()
-
-	h, err := handler.NewHandler(1, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
-	assert.NoError(t, err)
-
-	hs := &http.Server{Addr: ":8179", Handler: h}
-	defer func() {
-		errS := hs.Shutdown(context.Background())
-		if errS != nil {
-			t.Errorf("error during the shutdown: error %v", err)
-		}
-	}()
-
-	go func() {
-		err = hs.ListenAndServe()
-		if err != nil && err != http.ErrServerClosed {
-			t.Errorf("error listening the interface: error %v", err)
-		}
-	}()
-	time.Sleep(time.Millisecond * 10)
-
-	b2 := &bytes.Buffer{}
-	for i := 0; i < 1024*1024; i++ {
-		b2.Write([]byte("  "))
-	}
-
-	req, err := http.NewRequest("POST", "http://127.0.0.1"+hs.Addr, b2)
-	assert.NoError(t, err)
-
-	r, err := http.DefaultClient.Do(req)
-	assert.NoError(t, err)
-	defer func() {
-		err = r.Body.Close()
-		if err != nil {
-			t.Errorf("error during the closing Body: error %v", err)
-		}
-	}()
-
-	assert.NoError(t, err)
-	assert.Equal(t, 400, r.StatusCode)
-}
-
 func TestHandler_ResponseDuration(t *testing.T) {
 	p, err := pool.NewStaticPool(context.Background(),
 		func(cmd string) *exec.Cmd {
@@ -1442,7 +1591,18 @@ func TestHandler_ResponseDuration(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8180", Handler: h}
@@ -1489,7 +1649,18 @@ func TestHandler_ResponseDurationDelayed(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8181", Handler: h}
@@ -1519,7 +1690,18 @@ func TestHandler_ErrorDuration(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8182", Handler: h}
@@ -1565,7 +1747,18 @@ func TestHandler_IP(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: "127.0.0.1:8183", Handler: h}
@@ -1611,7 +1804,18 @@ func BenchmarkHandler_Listen_Echo(b *testing.B) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &http2.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(b, err)
 
 	hs := &http.Server{Addr: ":8188", Handler: h}

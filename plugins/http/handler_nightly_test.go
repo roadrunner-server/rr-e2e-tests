@@ -11,6 +11,8 @@ import (
 	"time"
 
 	"github.com/roadrunner-server/http/v2/handler"
+	httpConf "github.com/roadrunner-server/http/v2/http"
+	"github.com/roadrunner-server/http/v2/uploads"
 	"github.com/roadrunner-server/sdk/v2/ipc/pipe"
 	"github.com/roadrunner-server/sdk/v2/pool"
 	"github.com/stretchr/testify/assert"
@@ -37,7 +39,18 @@ func TestHandler_Error(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &httpConf.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8177", Handler: h}
@@ -82,7 +95,18 @@ func TestHandler_Error2(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &httpConf.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8178", Handler: h}
@@ -127,7 +151,18 @@ func TestHandler_ErrorDuration(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	h, err := handler.NewHandler(1024, 500, os.TempDir(), map[string]struct{}{}, map[string]struct{}{}, p, mockLog, false)
+	cfg := &httpConf.Config{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8182", Handler: h}

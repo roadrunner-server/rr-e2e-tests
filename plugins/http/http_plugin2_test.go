@@ -960,3 +960,92 @@ func TestHTTPExecTTL(t *testing.T) {
 	}).Len()
 	require.Equal(t, 1, shouldBe1)
 }
+
+func TestHTTPBigRespMaxReqSize(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.9.1",
+		Path:    "configs/.rr-init-big-resp-max-req-size.yaml",
+		Prefix:  "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&gzip.Plugin{},
+		&logger.Plugin{},
+		&server.Plugin{},
+		&memory.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second)
+
+	b2 := &bytes.Buffer{}
+	for i := 0; i < 1024*1024; i++ {
+		b2.Write([]byte("  "))
+	}
+
+	req, err := http.NewRequest("POST", "http://127.0.0.1:16766", b2)
+	assert.NoError(t, err)
+
+	r, err := http.DefaultClient.Do(req)
+	assert.NoError(t, err)
+	defer func() {
+		err = r.Body.Close()
+		if err != nil {
+			t.Errorf("error during the closing Body: error %v", err)
+		}
+	}()
+
+	assert.NoError(t, err)
+	assert.Equal(t, 400, r.StatusCode)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+}
