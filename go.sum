@@ -357,8 +357,8 @@ github.com/prometheus/procfs v0.7.3 h1:4jVXhlkAyzOScmCkXBTOLRLTz8EeU+eyjrwB/EPq0
 github.com/prometheus/procfs v0.7.3/go.mod h1:cz+aTbrPOrUb4q7XlbU9ygM+/jj0fzG6c1xBZuNvfVA=
 github.com/rabbitmq/amqp091-go v1.3.4 h1:tXuIslN1nhDqs2t6Jrz3BAoqvt4qIZzxvdbdcxWtHYU=
 github.com/rabbitmq/amqp091-go v1.3.4/go.mod h1:ogQDLSOACsLPsIq0NpbtiifNZi2YOz0VTJ0kHRghqbM=
-github.com/roadrunner-server/amqp/v2 v2.12.1 h1:IxAhcGun1NNooiwY/Sy3PI6wTv0EeQB+It7K/hO0qdA=
-github.com/roadrunner-server/amqp/v2 v2.12.1/go.mod h1:j6ANaANaUMleHFoI1o+SWDTJITxiq5zifc4cjzYEURs=
+github.com/roadrunner-server/amqp/v2 v2.12.2 h1:/fNE8yKj2dmQw4bD6kC4yFgEa0DBb3a+BW/ASp05vvU=
+github.com/roadrunner-server/amqp/v2 v2.12.2/go.mod h1:2W1jI7rD+KDg0rUcqMhojqtDDbdFhdugPqrBbPOn1Lw=
 github.com/roadrunner-server/api/v2 v2.14.0 h1:U7CrMXv5h8qlO9vvqdvPDK0g+zMLwcERUAPcoLy6tYs=
 github.com/roadrunner-server/api/v2 v2.14.0/go.mod h1:COjb3T7DYHydaKIfino/N8gVa8op1jGAXFF+qKHMnk0=
 github.com/roadrunner-server/beanstalk/v2 v2.12.1 h1:RnReSyyspD2Zg9o80oyPZYhy7J2n5Bo6UfdRJujFaao=
