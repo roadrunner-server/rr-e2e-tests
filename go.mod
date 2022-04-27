@@ -24,7 +24,7 @@ require (
 	github.com/roadrunner-server/goridge/v3 v3.4.1
 	github.com/roadrunner-server/grpc/v2 v2.13.1
 	github.com/roadrunner-server/gzip/v2 v2.10.0
-	github.com/roadrunner-server/headers/v2 v2.11.0
+	github.com/roadrunner-server/headers/v2 v2.11.1
 	github.com/roadrunner-server/http/v2 v2.15.0
 	github.com/roadrunner-server/informer/v2 v2.11.1
 	github.com/roadrunner-server/jobs/v2 v2.12.1
@@ -143,6 +143,8 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
+	go.opentelemetry.io/otel v1.6.3 // indirect
+	go.opentelemetry.io/otel/trace v1.6.3 // indirect
 	go.temporal.io/sdk/contrib/tally v0.1.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
