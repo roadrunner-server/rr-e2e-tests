@@ -273,7 +273,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           docker run -d -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest -p 127.0.0.1:5672:5672 rabbitmq:3-management
-          docker run -d -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest -p 127.0.0.1:5673:5672 rabbitmq:3-management
+          docker run -d ./rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest -p 127.0.0.1:5673:5672 rabbitmq:3-management
           sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
