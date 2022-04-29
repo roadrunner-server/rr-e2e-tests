@@ -1,29 +1,32 @@
-version: "2.7"
+version: '2.7'
 
 rpc:
   listen: tcp://127.0.0.1:6001
 
 server:
-  command: "php ../../../php_test_files/jobs/jobs_ok.php"
+  command: "php ../../../php_test_files/jobs/jobs_ok_slow.php"
   relay: "pipes"
   relay_timeout: "20s"
 
 amqp:
-  addr: amqp://guest:guest@127.0.0.1:5672/
+  addr: amqp://guest:guest@127.0.0.1:5673/
 
 logs:
-  level: error
+  level: debug
   encoding: console
   mode: development
 
+metrics:
+  address: 127.0.0.1:2112
+
 jobs:
-  num_pollers: 1
+  num_pollers: 10
   pipeline_size: 100000
   timeout: 1
   pool:
     num_workers: 10
     max_jobs: 0
-    allocate_timeout: 60s
+    allocate_timeout: 120s
     destroy_timeout: 60s
 
   pipelines:
@@ -32,32 +35,15 @@ jobs:
       config:
         prefetch: 100
         queue: test-1-queue
-        durable: true
         priority: 1
         exchange: default
-        exchange_type: direct
         delete_queue_on_stop: true
-        routing_key: test-11
+        exchange_type: direct
+        routing_key: test-1
         exclusive: false
         multiple_ack: false
         requeue_on_fail: false
-
-    test-2:
-      driver: amqp
-      config:
-        prefetch: 100
-        queue: test-2-queue
-        priority: 2
-        exchange: default
-        exchange_type: direct
-        delete_queue_on_stop: true
-        durable: true
-        routing_key: test-22
-        exclusive: false
-        multiple_ack: false
-        requeue_on_fail: false
-
 
   # list of pipelines to be consumed by the server, keep empty if you want to start consuming manually
-  consume: [ "test-1", "test-2" ]
+  consume: [ "test-1" ]
 

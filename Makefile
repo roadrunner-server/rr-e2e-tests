@@ -48,8 +48,8 @@ test_coverage: run_docker sleep-30
 	docker-compose -f env/docker-compose.yaml down
 
 test:
-	go test -v -race -cover -tags=debug ./plugins/temporal
-	go test -v -race -cover -tags=debug ./plugins/service
+#	go test -v -race -cover -tags=debug ./plugins/temporal
+#	go test -v -race -cover -tags=debug ./plugins/service
 	go test -v -race -cover -tags=debug ./plugins/jobs/amqp
 	go test -v -race -cover -tags=debug ./plugins/jobs/beanstalk
 	go test -v -race -cover -tags=debug ./plugins/jobs/boltdb
@@ -58,24 +58,24 @@ test:
 	go test -v -race -cover -tags=debug ./plugins/jobs/memory
 	go test -v -race -cover -tags=debug ./plugins/jobs/nats
 	go test -v -race -cover -tags=debug ./plugins/jobs/sqs
-	go test -v -race -cover -tags=debug ./plugins/kv
-	go test -v -race -cover -tags=debug ./plugins/tcp
-	go test -v -race -cover -tags=debug ./plugins/reload
-	go test -v -race -cover -tags=debug ./plugins/broadcast
-	go test -v -race -cover -tags=debug ./plugins/websockets
-	go test -v -race -cover -tags=debug ./plugins/proxy_ip_parser
-	go test -v -race -cover -tags=debug ./plugins/http
-	go test -v -race -cover -tags=debug ./plugins/grpc
-	go test -v -race -cover -tags=debug ./plugins/informer
-	go test -v -race -cover -tags=debug ./plugins/server
-	go test -v -race -cover -tags=debug ./plugins/status
-	go test -v -race -cover -tags=debug ./plugins/config
-	go test -v -race -cover -tags=debug ./plugins/gzip
-	go test -v -race -cover -tags=debug ./plugins/headers
-	go test -v -race -cover -tags=debug ./plugins/logger
-	go test -v -race -cover -tags=debug ./plugins/metrics
-	go test -v -race -cover -tags=debug ./plugins/resetter
-	go test -v -race -cover -tags=debug ./plugins/rpc
+#	go test -v -race -cover -tags=debug ./plugins/kv
+#	go test -v -race -cover -tags=debug ./plugins/tcp
+#	go test -v -race -cover -tags=debug ./plugins/reload
+#	go test -v -race -cover -tags=debug ./plugins/broadcast
+#	go test -v -race -cover -tags=debug ./plugins/websockets
+#	go test -v -race -cover -tags=debug ./plugins/proxy_ip_parser
+#	go test -v -race -cover -tags=debug ./plugins/http
+#	go test -v -race -cover -tags=debug ./plugins/grpc
+#	go test -v -race -cover -tags=debug ./plugins/informer
+#	go test -v -race -cover -tags=debug ./plugins/server
+#	go test -v -race -cover -tags=debug ./plugins/status
+#	go test -v -race -cover -tags=debug ./plugins/config
+#	go test -v -race -cover -tags=debug ./plugins/gzip
+#	go test -v -race -cover -tags=debug ./plugins/headers
+#	go test -v -race -cover -tags=debug ./plugins/logger
+#	go test -v -race -cover -tags=debug ./plugins/metrics
+#	go test -v -race -cover -tags=debug ./plugins/resetter
+#	go test -v -race -cover -tags=debug ./plugins/rpc
 
 test_nightly:
 	go test -v -race -cover -tags=debug,nightly ./plugins/http

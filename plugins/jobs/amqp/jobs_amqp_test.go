@@ -19,6 +19,7 @@ import (
 	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/jobs/v2"
 	"github.com/roadrunner-server/logger/v2"
+	"github.com/roadrunner-server/metrics/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
@@ -1085,6 +1086,104 @@ func TestAMQPBadResp(t *testing.T) {
 
 	t.Cleanup(func() {
 		helpers.DestroyPipelines("test-1", "test-2")
+	})
+}
+
+// redialer should be restarted
+// ack timeout is 30 seconds
+func TestAMQPSlow(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.9.2",
+		Path:    "configs/.rr-amqp-slow.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&metrics.Plugin{},
+		&informer.Plugin{},
+		&amqp.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	time.Sleep(time.Second * 40)
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	time.Sleep(time.Second * 80)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet(`number of listeners`).Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("consume channel close").Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("rabbitmq dial was succeed. trying to redeclare queues and subscribers").Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("queues and subscribers was redeclared successfully").Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("connection was successfully restored").Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("redialer restarted").Len(), 1)
+
+	t.Cleanup(func() {
+		helpers.DestroyPipelines("test-1")
 	})
 }
 

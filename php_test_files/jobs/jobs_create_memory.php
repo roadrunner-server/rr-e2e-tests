@@ -5,7 +5,8 @@ use Spiral\RoadRunner\Jobs\Queue\MemoryCreateInfo;
 use Spiral\RoadRunner\Jobs\Consumer;
 use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 
-require __DIR__ . "/vendor/autoload.php";
+ini_set('display_errors', 'stderr');
+require dirname(__DIR__) . "/vendor/autoload.php";
 
 $jobs = new Spiral\RoadRunner\Jobs\Jobs(
     // Expects RPC connection

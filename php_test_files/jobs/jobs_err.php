@@ -8,7 +8,8 @@ use Spiral\Goridge;
 use Spiral\RoadRunner;
 use Spiral\Goridge\StreamRelay;
 
-require __DIR__ . "/vendor/autoload.php";
+ini_set('display_errors', 'stderr');
+require dirname(__DIR__) . "/vendor/autoload.php";
 
 $rr = new RoadRunner\Worker(new StreamRelay(\STDIN, \STDOUT));
 
