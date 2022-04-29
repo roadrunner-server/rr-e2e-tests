@@ -27,7 +27,7 @@ import (
 	"github.com/roadrunner-server/websockets/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	websocketsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/websockets/v1beta"
+	websocketsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/websockets/v1"
 	"go.uber.org/zap"
 )
 

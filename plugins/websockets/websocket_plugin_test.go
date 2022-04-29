@@ -31,7 +31,7 @@ import (
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	"github.com/roadrunner-server/sdk/v2/utils"
 	"github.com/stretchr/testify/assert"
-	websocketsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/websockets/v1beta"
+	websocketsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/websockets/v1"
 )
 
 func TestWebsocketsInit(t *testing.T) {
