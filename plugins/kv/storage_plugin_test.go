@@ -10,7 +10,6 @@ import (
 	"testing"
 	"time"
 
-	payload "github.com/roadrunner-server/api/v2/proto/kv/v1"
 	"github.com/roadrunner-server/boltdb/v2"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
@@ -24,6 +23,7 @@ import (
 	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	kvProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/kv/v1"
 	"go.uber.org/zap"
 )
 
@@ -332,9 +332,9 @@ func kvSetTest(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 	// WorkerList contains list of workers.
-	p := &payload.Request{
+	p := &kvProto.Request{
 		Storage: "boltdb-south",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "key",
 				Value: []byte("val"),
@@ -342,7 +342,7 @@ func kvSetTest(t *testing.T) {
 		},
 	}
 
-	resp := &payload.Response{}
+	resp := &kvProto.Response{}
 	err = client.Call("kv.Set", p, resp)
 	assert.NoError(t, err)
 }
@@ -352,9 +352,9 @@ func kvHasTest(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 	// WorkerList contains list of workers.
-	p := &payload.Request{
+	p := &kvProto.Request{
 		Storage: "boltdb-south",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "key",
 				Value: []byte("val"),
@@ -362,7 +362,7 @@ func kvHasTest(t *testing.T) {
 		},
 	}
 
-	ret := &payload.Response{}
+	ret := &kvProto.Response{}
 	err = client.Call("kv.Has", p, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 1)
@@ -446,9 +446,9 @@ func testRPCMethods(t *testing.T) {
 
 	// add 5 second ttl
 	tt := time.Now().Add(time.Second * 5).Format(time.RFC3339)
-	keys := &payload.Request{
+	keys := &kvProto.Request{
 		Storage: "boltdb-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "a",
 			},
@@ -461,9 +461,9 @@ func testRPCMethods(t *testing.T) {
 		},
 	}
 
-	data := &payload.Request{
+	data := &kvProto.Request{
 		Storage: "boltdb-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "a",
 				Value: []byte("aa"),
@@ -488,12 +488,12 @@ func testRPCMethods(t *testing.T) {
 		},
 	}
 
-	ret := &payload.Response{}
+	ret := &kvProto.Response{}
 	// Register 3 keys with values
 	err = client.Call("kv.Set", data, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 3) // should be 3
@@ -501,21 +501,21 @@ func testRPCMethods(t *testing.T) {
 	// key "c" should be deleted
 	time.Sleep(time.Second * 7)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 2) // should be 2
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.MGet", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 2) // c is expired
 
 	tt2 := time.Now().Add(time.Second * 10).Format(time.RFC3339)
 
-	data2 := &payload.Request{
+	data2 := &kvProto.Request{
 		Storage: "boltdb-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:     "a",
 				Timeout: tt2,
@@ -532,14 +532,14 @@ func testRPCMethods(t *testing.T) {
 	}
 
 	// MEXPIRE
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.MExpire", data2, ret)
 	assert.NoError(t, err)
 
 	// TTL
-	keys2 := &payload.Request{
+	keys2 := &kvProto.Request{
 		Storage: "boltdb-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "a",
 			},
@@ -552,41 +552,41 @@ func testRPCMethods(t *testing.T) {
 		},
 	}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.TTL", keys2, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 3)
 
 	// HAS AFTER TTL
 	time.Sleep(time.Second * 15)
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys2, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
 	// DELETE
-	keysDel := &payload.Request{
+	keysDel := &kvProto.Request{
 		Storage: "boltdb-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "e",
 			},
 		},
 	}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Delete", keysDel, ret)
 	assert.NoError(t, err)
 
 	// HAS AFTER DELETE
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keysDel, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
-	dataClear := &payload.Request{
+	dataClear := &kvProto.Request{
 		Storage: "boltdb-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "a",
 				Value: []byte("aa"),
@@ -610,23 +610,23 @@ func testRPCMethods(t *testing.T) {
 		},
 	}
 
-	clear := &payload.Request{Storage: "boltdb-rr"}
+	clear := &kvProto.Request{Storage: "boltdb-rr"}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	// Register 3 keys with values
 	err = client.Call("kv.Set", dataClear, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 5) // should be 5
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Clear", clear, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0) // should be 5
@@ -709,9 +709,9 @@ func testRPCMethodsMemcached(t *testing.T) {
 	// add 5 second ttl
 	tt := time.Now().Add(time.Second * 5).Format(time.RFC3339)
 
-	keys := &payload.Request{
+	keys := &kvProto.Request{
 		Storage: "memcached-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "a",
 			},
@@ -724,9 +724,9 @@ func testRPCMethodsMemcached(t *testing.T) {
 		},
 	}
 
-	data := &payload.Request{
+	data := &kvProto.Request{
 		Storage: "memcached-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "a",
 				Value: []byte("aa"),
@@ -751,12 +751,12 @@ func testRPCMethodsMemcached(t *testing.T) {
 		},
 	}
 
-	ret := &payload.Response{}
+	ret := &kvProto.Response{}
 	// Register 3 keys with values
 	err = client.Call("kv.Set", data, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 3) // should be 3
@@ -764,21 +764,21 @@ func testRPCMethodsMemcached(t *testing.T) {
 	// key "c" should be deleted
 	time.Sleep(time.Second * 7)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 2) // should be 2
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.MGet", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 2) // c is expired
 
 	tt2 := time.Now().Add(time.Second * 10).Format(time.RFC3339)
 
-	data2 := &payload.Request{
+	data2 := &kvProto.Request{
 		Storage: "memcached-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:     "a",
 				Timeout: tt2,
@@ -795,14 +795,14 @@ func testRPCMethodsMemcached(t *testing.T) {
 	}
 
 	// MEXPIRE
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.MExpire", data2, ret)
 	assert.NoError(t, err)
 
 	// TTL call is not supported for the memcached driver
-	keys2 := &payload.Request{
+	keys2 := &kvProto.Request{
 		Storage: "memcached-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "a",
 			},
@@ -815,41 +815,41 @@ func testRPCMethodsMemcached(t *testing.T) {
 		},
 	}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.TTL", keys2, ret)
 	assert.Error(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
 	// HAS AFTER TTL
 	time.Sleep(time.Second * 15)
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys2, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
 	// DELETE
-	keysDel := &payload.Request{
+	keysDel := &kvProto.Request{
 		Storage: "memcached-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "e",
 			},
 		},
 	}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Delete", keysDel, ret)
 	assert.NoError(t, err)
 
 	// HAS AFTER DELETE
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keysDel, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
-	dataClear := &payload.Request{
+	dataClear := &kvProto.Request{
 		Storage: "memcached-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "a",
 				Value: []byte("aa"),
@@ -873,24 +873,24 @@ func testRPCMethodsMemcached(t *testing.T) {
 		},
 	}
 
-	clear := &payload.Request{Storage: "memcached-rr"}
+	clear := &kvProto.Request{Storage: "memcached-rr"}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	// Register 3 keys with values
 	err = client.Call("kv.Set", dataClear, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 5) // should be 5
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Clear", clear, ret)
 	assert.NoError(t, err)
 
 	time.Sleep(time.Second * 2)
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0) // should be 5
@@ -972,9 +972,9 @@ func testRPCMethodsInMemory(t *testing.T) {
 	// add 5 second ttl
 
 	tt := time.Now().Add(time.Second * 5).Format(time.RFC3339)
-	keys := &payload.Request{
+	keys := &kvProto.Request{
 		Storage: "memory-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "a",
 			},
@@ -987,9 +987,9 @@ func testRPCMethodsInMemory(t *testing.T) {
 		},
 	}
 
-	data := &payload.Request{
+	data := &kvProto.Request{
 		Storage: "memory-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "a",
 				Value: []byte("aa"),
@@ -1014,12 +1014,12 @@ func testRPCMethodsInMemory(t *testing.T) {
 		},
 	}
 
-	ret := &payload.Response{}
+	ret := &kvProto.Response{}
 	// Register 3 keys with values
 	err = client.Call("kv.Set", data, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 3) // should be 3
@@ -1027,21 +1027,21 @@ func testRPCMethodsInMemory(t *testing.T) {
 	// key "c" should be deleted
 	time.Sleep(time.Second * 7)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 2) // should be 2
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.MGet", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 2) // c is expired
 
 	tt2 := time.Now().Add(time.Second * 10).Format(time.RFC3339)
 
-	data2 := &payload.Request{
+	data2 := &kvProto.Request{
 		Storage: "memory-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:     "a",
 				Timeout: tt2,
@@ -1058,14 +1058,14 @@ func testRPCMethodsInMemory(t *testing.T) {
 	}
 
 	// MEXPIRE
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.MExpire", data2, ret)
 	assert.NoError(t, err)
 
 	// TTL
-	keys2 := &payload.Request{
+	keys2 := &kvProto.Request{
 		Storage: "memory-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "a",
 			},
@@ -1078,41 +1078,41 @@ func testRPCMethodsInMemory(t *testing.T) {
 		},
 	}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.TTL", keys2, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 3)
 
 	// HAS AFTER TTL
 	time.Sleep(time.Second * 15)
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys2, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
 	// DELETE
-	keysDel := &payload.Request{
+	keysDel := &kvProto.Request{
 		Storage: "memory-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "e",
 			},
 		},
 	}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Delete", keysDel, ret)
 	assert.NoError(t, err)
 
 	// HAS AFTER DELETE
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keysDel, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
-	dataClear := &payload.Request{
+	dataClear := &kvProto.Request{
 		Storage: "memory-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "a",
 				Value: []byte("aa"),
@@ -1136,23 +1136,23 @@ func testRPCMethodsInMemory(t *testing.T) {
 		},
 	}
 
-	clear := &payload.Request{Storage: "memory-rr"}
+	clear := &kvProto.Request{Storage: "memory-rr"}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	// Register 3 keys with values
 	err = client.Call("kv.Set", dataClear, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 5) // should be 5
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Clear", clear, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0) // should be 5
@@ -1337,9 +1337,9 @@ func testRPCMethodsRedis(t *testing.T) {
 
 	// add 5 second ttl
 	tt := time.Now().Add(time.Second * 5).Format(time.RFC3339)
-	keys := &payload.Request{
+	keys := &kvProto.Request{
 		Storage: "redis-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "a",
 			},
@@ -1352,9 +1352,9 @@ func testRPCMethodsRedis(t *testing.T) {
 		},
 	}
 
-	data := &payload.Request{
+	data := &kvProto.Request{
 		Storage: "redis-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "a",
 				Value: []byte("aa"),
@@ -1379,12 +1379,12 @@ func testRPCMethodsRedis(t *testing.T) {
 		},
 	}
 
-	ret := &payload.Response{}
+	ret := &kvProto.Response{}
 	// Register 3 keys with values
 	err = client.Call("kv.Set", data, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 3) // should be 3
@@ -1392,21 +1392,21 @@ func testRPCMethodsRedis(t *testing.T) {
 	// key "c" should be deleted
 	time.Sleep(time.Second * 7)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 2) // should be 2
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.MGet", keys, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 2) // c is expired
 
 	tt2 := time.Now().Add(time.Second * 10).Format(time.RFC3339)
 
-	data2 := &payload.Request{
+	data2 := &kvProto.Request{
 		Storage: "redis-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:     "a",
 				Timeout: tt2,
@@ -1423,14 +1423,14 @@ func testRPCMethodsRedis(t *testing.T) {
 	}
 
 	// MEXPIRE
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.MExpire", data2, ret)
 	assert.NoError(t, err)
 
 	// TTL
-	keys2 := &payload.Request{
+	keys2 := &kvProto.Request{
 		Storage: "redis-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "a",
 			},
@@ -1443,46 +1443,46 @@ func testRPCMethodsRedis(t *testing.T) {
 		},
 	}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.TTL", keys2, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 3)
 
 	// HAS AFTER TTL
 	time.Sleep(time.Second * 15)
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keys2, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.TTL", keys2, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
 	// DELETE
-	keysDel := &payload.Request{
+	keysDel := &kvProto.Request{
 		Storage: "redis-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key: "e",
 			},
 		},
 	}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Delete", keysDel, ret)
 	assert.NoError(t, err)
 
 	// HAS AFTER DELETE
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", keysDel, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0)
 
-	dataClear := &payload.Request{
+	dataClear := &kvProto.Request{
 		Storage: "redis-rr",
-		Items: []*payload.Item{
+		Items: []*kvProto.Item{
 			{
 				Key:   "a",
 				Value: []byte("aa"),
@@ -1506,23 +1506,23 @@ func testRPCMethodsRedis(t *testing.T) {
 		},
 	}
 
-	clear := &payload.Request{Storage: "redis-rr"}
+	clear := &kvProto.Request{Storage: "redis-rr"}
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	// Register 3 keys with values
 	err = client.Call("kv.Set", dataClear, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 5) // should be 5
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Clear", clear, ret)
 	assert.NoError(t, err)
 
-	ret = &payload.Response{}
+	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0) // should be 5

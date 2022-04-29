@@ -10,10 +10,10 @@ import (
 
 	"github.com/google/uuid"
 	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
 )
 
 const (
@@ -30,13 +30,13 @@ func ResumePipes(pipes ...string) func(t *testing.T) {
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		pipe := &jobsv1beta.Pipelines{Pipelines: make([]string, len(pipes))}
+		pipe := &jobsProto.Pipelines{Pipelines: make([]string, len(pipes))}
 
 		for i := 0; i < len(pipes); i++ {
 			pipe.GetPipelines()[i] = pipes[i]
 		}
 
-		er := &jobsv1beta.Empty{}
+		er := &jobsProto.Empty{}
 		err = client.Call(resume, pipe, er)
 		require.NoError(t, err)
 	}
@@ -48,18 +48,18 @@ func PushToDisabledPipe(pipeline string) func(t *testing.T) {
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		req := &jobsv1beta.PushRequest{Job: &jobsv1beta.Job{
+		req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 			Job:     "some/php/namespace",
 			Id:      "1",
 			Payload: `{"hello":"world"}`,
 			Headers: nil,
-			Options: &jobsv1beta.Options{
+			Options: &jobsProto.Options{
 				Priority: 1,
 				Pipeline: pipeline,
 			},
 		}}
 
-		er := &jobsv1beta.Empty{}
+		er := &jobsProto.Empty{}
 		err = client.Call(push, req, er)
 		require.NoError(t, err)
 	}
@@ -71,19 +71,19 @@ func PushToPipe(pipeline string) func(t *testing.T) {
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		req := &jobsv1beta.PushRequest{Job: &jobsv1beta.Job{
+		req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 			Job:     "some/php/namespace",
 			Id:      uuid.NewString(),
 			Payload: `{"hello":"world"}`,
-			Headers: map[string]*jobsv1beta.HeaderValue{"test": {Value: []string{"test2"}}},
-			Options: &jobsv1beta.Options{
+			Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
+			Options: &jobsProto.Options{
 				Priority: 1,
 				Pipeline: pipeline,
 				Delay:    0,
 			},
 		}}
 
-		er := &jobsv1beta.Empty{}
+		er := &jobsProto.Empty{}
 		err = client.Call(push, req, er)
 		require.NoError(t, err)
 	}
@@ -95,19 +95,19 @@ func PushToPipeDelayed(pipeline string, delay int64) func(t *testing.T) {
 		assert.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		req := &jobsv1beta.PushRequest{Job: &jobsv1beta.Job{
+		req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 			Job:     "some/php/namespace",
 			Id:      uuid.NewString(),
 			Payload: `{"hello":"world"}`,
-			Headers: map[string]*jobsv1beta.HeaderValue{"test": {Value: []string{"test2"}}},
-			Options: &jobsv1beta.Options{
+			Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
+			Options: &jobsProto.Options{
 				Priority: 1,
 				Pipeline: pipeline,
 				Delay:    delay,
 			},
 		}}
 
-		er := &jobsv1beta.Empty{}
+		er := &jobsProto.Empty{}
 		err = client.Call(push, req, er)
 		assert.NoError(t, err)
 	}
@@ -119,19 +119,19 @@ func PushToPipeErr(pipeline string) func(t *testing.T) {
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		req := &jobsv1beta.PushRequest{Job: &jobsv1beta.Job{
+		req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 			Job:     "some/php/namespace",
 			Id:      "1",
 			Payload: `{"hello":"world"}`,
-			Headers: map[string]*jobsv1beta.HeaderValue{"test": {Value: []string{"test2"}}},
-			Options: &jobsv1beta.Options{
+			Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
+			Options: &jobsProto.Options{
 				Priority: 1,
 				Pipeline: pipeline,
 				Delay:    0,
 			},
 		}}
 
-		er := &jobsv1beta.Empty{}
+		er := &jobsProto.Empty{}
 		err = client.Call(push, req, er)
 		require.Error(t, err)
 	}
@@ -142,13 +142,13 @@ func PausePipelines(pipes ...string) func(t *testing.T) {
 		assert.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		pipe := &jobsv1beta.Pipelines{Pipelines: make([]string, len(pipes))}
+		pipe := &jobsProto.Pipelines{Pipelines: make([]string, len(pipes))}
 
 		for i := 0; i < len(pipes); i++ {
 			pipe.GetPipelines()[i] = pipes[i]
 		}
 
-		er := &jobsv1beta.Empty{}
+		er := &jobsProto.Empty{}
 		err = client.Call(pause, pipe, er)
 		assert.NoError(t, err)
 	}
@@ -160,14 +160,14 @@ func DestroyPipelines(pipes ...string) func(t *testing.T) {
 		assert.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		pipe := &jobsv1beta.Pipelines{Pipelines: make([]string, len(pipes))}
+		pipe := &jobsProto.Pipelines{Pipelines: make([]string, len(pipes))}
 
 		for i := 0; i < len(pipes); i++ {
 			pipe.GetPipelines()[i] = pipes[i]
 		}
 
 		for i := 0; i < 10; i++ {
-			er := &jobsv1beta.Empty{}
+			er := &jobsProto.Empty{}
 			err = client.Call(destroy, pipe, er)
 			if err != nil {
 				time.Sleep(time.Second)
@@ -225,8 +225,8 @@ func Stats(state *jobState.State) func(t *testing.T) {
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		st := &jobsv1beta.Stats{}
-		er := &jobsv1beta.Empty{}
+		st := &jobsProto.Stats{}
+		er := &jobsProto.Empty{}
 
 		err = client.Call(stat, er, st)
 		require.NoError(t, err)

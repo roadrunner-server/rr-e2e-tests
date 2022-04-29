@@ -12,7 +12,6 @@ import (
 	"time"
 
 	goRedis "github.com/go-redis/redis/v8"
-	websocketsv1 "github.com/roadrunner-server/api/v2/proto/websockets/v1beta"
 	"github.com/roadrunner-server/broadcast/v2"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
@@ -28,6 +27,7 @@ import (
 	"github.com/roadrunner-server/websockets/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	websocketsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/websockets/v1beta"
 	"go.uber.org/zap"
 )
 
@@ -419,7 +419,7 @@ func BroadcastPublishFooFoo2Foo3(port string) func(t *testing.T) {
 
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		ret := &websocketsv1.Response{}
+		ret := &websocketsProto.Response{}
 		err = client.Call("broadcast.Publish", makeMessage([]byte("hello"), "foo", "foo2", "foo3"), ret)
 		if err != nil {
 			t.Fatal(err)
@@ -436,7 +436,7 @@ func BroadcastPublishFoo2(port string) func(t *testing.T) {
 
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		ret := &websocketsv1.Response{}
+		ret := &websocketsProto.Response{}
 		err = client.Call("broadcast.Publish", makeMessage([]byte("hello"), "foo"), ret)
 		if err != nil {
 			t.Fatal(err)
@@ -453,7 +453,7 @@ func BroadcastPublishFoo3(port string) func(t *testing.T) {
 
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		ret := &websocketsv1.Response{}
+		ret := &websocketsProto.Response{}
 		err = client.Call("broadcast.Publish", makeMessage([]byte("hello"), "foo3"), ret)
 		if err != nil {
 			t.Fatal(err)
@@ -470,7 +470,7 @@ func BroadcastPublishAsyncFooFoo2Foo3(port string) func(t *testing.T) {
 
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		ret := &websocketsv1.Response{}
+		ret := &websocketsProto.Response{}
 		err = client.Call("broadcast.PublishAsync", makeMessage([]byte("hello"), "foo", "foo2", "foo3"), ret)
 		if err != nil {
 			t.Fatal(err)
@@ -478,9 +478,9 @@ func BroadcastPublishAsyncFooFoo2Foo3(port string) func(t *testing.T) {
 	}
 }
 
-func makeMessage(payload []byte, topics ...string) *websocketsv1.Request {
-	m := &websocketsv1.Request{
-		Messages: []*websocketsv1.Message{
+func makeMessage(payload []byte, topics ...string) *websocketsProto.Request {
+	m := &websocketsProto.Request{
+		Messages: []*websocketsProto.Message{
 			{
 				Topics:  topics,
 				Payload: payload,

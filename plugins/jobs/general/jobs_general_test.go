@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/roadrunner-server/amqp/v2"
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -27,6 +26,7 @@ import (
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
 )
 
 func TestJobsInit(t *testing.T) {
@@ -222,13 +222,13 @@ func declareMemoryPipe(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 		"driver":   "memory",
 		"name":     "test-3",
 		"prefetch": "10000",
 	}}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err = client.Call("jobs.Declare", pipe, er)
 	assert.NoError(t, err)
 }
@@ -238,10 +238,10 @@ func consumeMemoryPipe(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsv1beta.Pipelines{Pipelines: make([]string, 1)}
+	pipe := &jobsProto.Pipelines{Pipelines: make([]string, 1)}
 	pipe.GetPipelines()[0] = "test-3"
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err = client.Call("jobs.Resume", pipe, er)
 	assert.NoError(t, err)
 }

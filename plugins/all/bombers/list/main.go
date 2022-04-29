@@ -5,8 +5,8 @@ import (
 	"net"
 	"net/rpc"
 
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
 )
 
 func main() {
@@ -19,8 +19,8 @@ func main() {
 }
 
 func list(client *rpc.Client) { //nolint:unused,deadcode
-	resp := &jobsv1beta.Pipelines{}
-	er := &jobsv1beta.Empty{}
+	resp := &jobsProto.Pipelines{}
+	er := &jobsProto.Empty{}
 	err := client.Call("jobs.List", er, resp)
 	if err != nil {
 		log.Println(err)
@@ -32,9 +32,9 @@ func list(client *rpc.Client) { //nolint:unused,deadcode
 		l[i] = resp.GetPipelines()[i]
 	}
 
-	pipe := &jobsv1beta.Pipelines{Pipelines: l}
+	pipe := &jobsProto.Pipelines{Pipelines: l}
 
-	er = &jobsv1beta.Empty{}
+	er = &jobsProto.Empty{}
 	err = client.Call("jobs.Destroy", pipe, er)
 	if err != nil {
 		log.Println(err)

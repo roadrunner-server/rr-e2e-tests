@@ -14,8 +14,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
 )
 
 const (
@@ -181,20 +181,20 @@ func main() {
 
 func push100(client *rpc.Client, pipe string) {
 	for j := 0; j < 100; j++ {
-		payloads := &jobsv1beta.PushRequest{
-			Job: &jobsv1beta.Job{
+		payloads := &jobsProto.PushRequest{
+			Job: &jobsProto.Job{
 				Job:     "Some/Super/PHP/Class",
 				Id:      uuid.NewString(),
 				Payload: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularized in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-				Headers: map[string]*jobsv1beta.HeaderValue{"test": {Value: []string{"hello"}}},
-				Options: &jobsv1beta.Options{
+				Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"hello"}}},
+				Options: &jobsProto.Options{
 					Priority: int64(rand2.Intn(100) + 1), //nolint:gosec
 					Pipeline: pipe,
 				},
 			},
 		}
 
-		resp := jobsv1beta.Empty{}
+		resp := jobsProto.Empty{}
 		err := client.Call(push, payloads, &resp)
 		if err != nil {
 			log.Println(err)
@@ -203,13 +203,13 @@ func push100(client *rpc.Client, pipe string) {
 }
 
 func startPipelines(client *rpc.Client, pipes ...string) {
-	pipe := &jobsv1beta.Pipelines{Pipelines: make([]string, len(pipes))}
+	pipe := &jobsProto.Pipelines{Pipelines: make([]string, len(pipes))}
 
 	for i := 0; i < len(pipes); i++ {
 		pipe.GetPipelines()[i] = pipes[i]
 	}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err := client.Call(resume, pipe, er)
 	if err != nil {
 		log.Println(err)
@@ -217,13 +217,13 @@ func startPipelines(client *rpc.Client, pipes ...string) {
 }
 
 func pausePipelines(client *rpc.Client, pipes ...string) {
-	pipe := &jobsv1beta.Pipelines{Pipelines: make([]string, len(pipes))}
+	pipe := &jobsProto.Pipelines{Pipelines: make([]string, len(pipes))}
 
 	for i := 0; i < len(pipes); i++ {
 		pipe.GetPipelines()[i] = pipes[i]
 	}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err := client.Call(pause, pipe, er)
 	if err != nil {
 		log.Println(err)
@@ -231,11 +231,11 @@ func pausePipelines(client *rpc.Client, pipes ...string) {
 }
 
 func destroyPipelines(rest chan<- string, client *rpc.Client, p string) {
-	pipe := &jobsv1beta.Pipelines{Pipelines: make([]string, 1)}
+	pipe := &jobsProto.Pipelines{Pipelines: make([]string, 1)}
 
 	pipe.GetPipelines()[0] = p
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err := client.Call(destroy, pipe, er)
 	if err != nil {
 		log.Println(err)
@@ -246,8 +246,8 @@ func destroyPipelines(rest chan<- string, client *rpc.Client, p string) {
 }
 
 func list(client *rpc.Client) []string { //nolint:unused,deadcode
-	resp := &jobsv1beta.Pipelines{}
-	er := &jobsv1beta.Empty{}
+	resp := &jobsProto.Pipelines{}
+	er := &jobsProto.Empty{}
 	err := client.Call("jobs.List", er, resp)
 	if err != nil {
 		log.Println(err)
@@ -262,7 +262,7 @@ func list(client *rpc.Client) []string { //nolint:unused,deadcode
 }
 
 func declareSQSPipe(client *rpc.Client, n string) {
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 		"driver":             "sqs",
 		"name":               n,
 		"queue":              n,
@@ -273,7 +273,7 @@ func declareSQSPipe(client *rpc.Client, n string) {
 		"tags":               `{"key":"value"}`,
 	}}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err := client.Call(declare, pipe, er)
 	if err != nil {
 		log.Println(err)
@@ -281,7 +281,7 @@ func declareSQSPipe(client *rpc.Client, n string) {
 }
 
 func declareAMQPPipe(client *rpc.Client, p string) {
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 		"driver":          "amqp",
 		"name":            p,
 		"routing_key":     "test-3",
@@ -295,7 +295,7 @@ func declareAMQPPipe(client *rpc.Client, p string) {
 		"requeue_on_fail": "false",
 	}}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err := client.Call(declare, pipe, er)
 	if err != nil {
 		log.Println(err)
@@ -303,7 +303,7 @@ func declareAMQPPipe(client *rpc.Client, p string) {
 }
 
 func declareBeanstalkPipe(client *rpc.Client, n string) {
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 		"driver":          "beanstalk",
 		"name":            n,
 		"tube":            n,
@@ -312,7 +312,7 @@ func declareBeanstalkPipe(client *rpc.Client, n string) {
 		"tube_priority":   "10",
 	}}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err := client.Call(declare, pipe, er)
 	if err != nil {
 		log.Println(err)
@@ -320,7 +320,7 @@ func declareBeanstalkPipe(client *rpc.Client, n string) {
 }
 
 func declareBoltDBPipe(client *rpc.Client, n, file string) {
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 		"driver":   "boltdb",
 		"name":     n,
 		"prefetch": "100",
@@ -328,7 +328,7 @@ func declareBoltDBPipe(client *rpc.Client, n, file string) {
 		"file":     file,
 	}}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err := client.Call(declare, pipe, er)
 	if err != nil {
 		log.Println(err)
@@ -336,14 +336,14 @@ func declareBoltDBPipe(client *rpc.Client, n, file string) {
 }
 
 func declareMemoryPipe(client *rpc.Client, p string) {
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 		"driver":   "memory",
 		"name":     p,
 		"prefetch": "10000",
 		"priority": "1",
 	}}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err := client.Call(declare, pipe, er)
 	if err != nil {
 		log.Println(err)

@@ -11,7 +11,6 @@ import (
 	"time"
 
 	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1"
 	"github.com/roadrunner-server/boltdb/v2"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
@@ -26,6 +25,7 @@ import (
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
 	"go.uber.org/zap"
 )
 
@@ -609,7 +609,7 @@ func declareBoltDBPipe(file string) func(t *testing.T) {
 		assert.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 			"driver":   "boltdb",
 			"name":     "test-3",
 			"prefetch": "100",
@@ -617,7 +617,7 @@ func declareBoltDBPipe(file string) func(t *testing.T) {
 			"file":     file,
 		}}
 
-		er := &jobsv1beta.Empty{}
+		er := &jobsProto.Empty{}
 		err = client.Call("jobs.Declare", pipe, er)
 		assert.NoError(t, err)
 	}

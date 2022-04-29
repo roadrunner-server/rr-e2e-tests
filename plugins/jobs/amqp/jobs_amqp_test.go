@@ -12,7 +12,6 @@ import (
 
 	"github.com/roadrunner-server/amqp/v2"
 	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -27,6 +26,7 @@ import (
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
 	"go.uber.org/zap"
 )
 
@@ -1192,7 +1192,7 @@ func declareAMQPPipe(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 		"driver":               "amqp",
 		"name":                 "test-3",
 		"routing_key":          "test-3",
@@ -1207,7 +1207,7 @@ func declareAMQPPipe(t *testing.T) {
 		"requeue_on_fail":      "true",
 	}}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err = client.Call("jobs.Declare", pipe, er)
 	assert.NoError(t, err)
 }
@@ -1217,7 +1217,7 @@ func declareAMQPPipeDurable(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 		"driver":               "amqp",
 		"name":                 "test-3",
 		"routing_key":          "test-3",
@@ -1233,7 +1233,7 @@ func declareAMQPPipeDurable(t *testing.T) {
 		"requeue_on_fail":      "true",
 	}}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err = client.Call("jobs.Declare", pipe, er)
 	assert.NoError(t, err)
 }

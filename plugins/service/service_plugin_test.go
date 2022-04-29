@@ -12,7 +12,6 @@ import (
 	"testing"
 	"time"
 
-	serviceV1 "github.com/roadrunner-server/api/v2/proto/service/v1"
 	"github.com/roadrunner-server/api/v2/state/process"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
@@ -26,6 +25,7 @@ import (
 	"github.com/roadrunner-server/service/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	serviceProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/service/v1"
 	"go.uber.org/zap"
 )
 
@@ -561,7 +561,7 @@ func TestServiceCreate(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	in := &serviceV1.Create{
+	in := &serviceProto.Create{
 		Name:            "foo",
 		Command:         "php test_files/loop.php",
 		ProcessNum:      1,
@@ -569,17 +569,16 @@ func TestServiceCreate(t *testing.T) {
 		RemainAfterExit: false,
 		Env:             map[string]string{"foo": "bar"},
 		RestartSec:      0,
-		WorkingDir:      "",
 	}
 
-	out := &serviceV1.Response{}
+	out := &serviceProto.Response{}
 
 	t.Run("create", create(in, out))
 
 	time.Sleep(time.Second * 2)
 
-	out = &serviceV1.Response{}
-	t.Run("terminate", terminate(&serviceV1.Service{Name: "foo"}, out))
+	out = &serviceProto.Response{}
+	t.Run("terminate", terminate(&serviceProto.Service{Name: "foo"}, out))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -649,7 +648,7 @@ func TestServiceCreateEmptyConfig(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	in := &serviceV1.Create{
+	in := &serviceProto.Create{
 		Name:            "foo",
 		Command:         "php test_files/loop.php",
 		ProcessNum:      1,
@@ -657,23 +656,22 @@ func TestServiceCreateEmptyConfig(t *testing.T) {
 		RemainAfterExit: false,
 		Env:             map[string]string{"foo": "bar"},
 		RestartSec:      0,
-		WorkingDir:      "",
 	}
 
-	out := &serviceV1.Response{}
+	out := &serviceProto.Response{}
 
 	t.Run("create", create(in, out))
 
 	time.Sleep(time.Second * 3)
-	l := &serviceV1.List{}
-	t.Run("list", list(&serviceV1.Service{}, l))
+	l := &serviceProto.List{}
+	t.Run("list", list(&serviceProto.Service{}, l))
 
 	for i := 0; i < len(l.GetServices()); i++ {
-		cmd := &serviceV1.Service{
+		cmd := &serviceProto.Service{
 			Name: l.GetServices()[i],
 		}
 
-		out = &serviceV1.Response{}
+		out = &serviceProto.Response{}
 
 		t.Run("terminate", terminate(cmd, out))
 	}
@@ -747,7 +745,7 @@ func TestServiceRestart(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	in := &serviceV1.Create{
+	in := &serviceProto.Create{
 		Name:            "foo",
 		Command:         "php test_files/loop.php",
 		ProcessNum:      1,
@@ -755,23 +753,22 @@ func TestServiceRestart(t *testing.T) {
 		RemainAfterExit: false,
 		Env:             map[string]string{"foo": "bar"},
 		RestartSec:      0,
-		WorkingDir:      "",
 	}
 
-	out := &serviceV1.Response{}
+	out := &serviceProto.Response{}
 
 	t.Run("create", create(in, out))
 
 	time.Sleep(time.Second * 3)
-	l := &serviceV1.List{}
-	t.Run("list", list(&serviceV1.Service{}, l))
+	l := &serviceProto.List{}
+	t.Run("list", list(&serviceProto.Service{}, l))
 
 	for i := 0; i < len(l.GetServices()); i++ {
-		cmd := &serviceV1.Service{
+		cmd := &serviceProto.Service{
 			Name: l.GetServices()[i],
 		}
 
-		out = &serviceV1.Response{}
+		out = &serviceProto.Response{}
 
 		t.Run("restart", restart(cmd, out))
 
@@ -779,8 +776,8 @@ func TestServiceRestart(t *testing.T) {
 	}
 
 	time.Sleep(time.Second * 2)
-	out = &serviceV1.Response{}
-	t.Run("terminate", terminate(&serviceV1.Service{Name: "foo"}, out))
+	out = &serviceProto.Response{}
+	t.Run("terminate", terminate(&serviceProto.Service{Name: "foo"}, out))
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -849,7 +846,7 @@ func TestServiceRestartConcurrent(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	in := &serviceV1.Create{
+	in := &serviceProto.Create{
 		Name:            "foo",
 		Command:         "php test_files/loop.php",
 		ProcessNum:      1,
@@ -857,26 +854,25 @@ func TestServiceRestartConcurrent(t *testing.T) {
 		RemainAfterExit: false,
 		Env:             map[string]string{"foo": "bar"},
 		RestartSec:      0,
-		WorkingDir:      "",
 	}
 
-	out := &serviceV1.Response{}
+	out := &serviceProto.Response{}
 
 	t.Run("create", create(in, out))
 
 	time.Sleep(time.Second)
 
-	l := &serviceV1.List{}
+	l := &serviceProto.List{}
 	t.Run("list", list(nil, l))
 
 	for jj := 0; jj < 100; jj++ {
 		go func() {
 			for i := 0; i < len(l.GetServices()); i++ {
-				cmd := &serviceV1.Service{
+				cmd := &serviceProto.Service{
 					Name: l.GetServices()[i],
 				}
 
-				out1 := &serviceV1.Response{}
+				out1 := &serviceProto.Response{}
 
 				t.Run("restart", restart(cmd, out1))
 
@@ -886,11 +882,11 @@ func TestServiceRestartConcurrent(t *testing.T) {
 
 		go func() {
 			for i := 0; i < len(l.GetServices()); i++ {
-				cmd := &serviceV1.Service{
+				cmd := &serviceProto.Service{
 					Name: l.GetServices()[i],
 				}
 
-				out2 := &serviceV1.Response{}
+				out2 := &serviceProto.Response{}
 
 				t.Run("restart", restart(cmd, out2))
 
@@ -900,8 +896,8 @@ func TestServiceRestartConcurrent(t *testing.T) {
 	}
 
 	time.Sleep(time.Second * 10)
-	out = &serviceV1.Response{}
-	t.Run("terminate", terminate(&serviceV1.Service{Name: "foo"}, out))
+	out = &serviceProto.Response{}
+	t.Run("terminate", terminate(&serviceProto.Service{Name: "foo"}, out))
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -970,7 +966,7 @@ func TestServiceListConcurrent(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	in := &serviceV1.Create{
+	in := &serviceProto.Create{
 		Name:            "foo",
 		Command:         "php test_files/loop.php",
 		ProcessNum:      1,
@@ -978,29 +974,28 @@ func TestServiceListConcurrent(t *testing.T) {
 		RemainAfterExit: false,
 		Env:             map[string]string{"foo": "bar"},
 		RestartSec:      0,
-		WorkingDir:      "",
 	}
 
-	out := &serviceV1.Response{}
+	out := &serviceProto.Response{}
 
 	t.Run("create", create(in, out))
 
 	time.Sleep(time.Second)
 
-	l := &serviceV1.List{}
+	l := &serviceProto.List{}
 	t.Run("list", list(nil, l))
 
 	for jj := 0; jj < 100; jj++ {
 		go func() {
 			for i := 0; i < len(l.GetServices()); i++ {
-				cmd := &serviceV1.Service{
+				cmd := &serviceProto.Service{
 					Name: l.GetServices()[i],
 				}
 
-				out1 := &serviceV1.Response{}
+				out1 := &serviceProto.Response{}
 
 				t.Run("restart", restart(cmd, out1))
-				ll := &serviceV1.List{}
+				ll := &serviceProto.List{}
 				t.Run("list", list(nil, ll))
 				require.Len(t, ll.GetServices(), 1)
 
@@ -1010,13 +1005,13 @@ func TestServiceListConcurrent(t *testing.T) {
 
 		go func() {
 			for i := 0; i < len(l.GetServices()); i++ {
-				cmd := &serviceV1.Service{
+				cmd := &serviceProto.Service{
 					Name: l.GetServices()[i],
 				}
 
-				out2 := &serviceV1.Response{}
+				out2 := &serviceProto.Response{}
 				t.Run("restart", restart(cmd, out2))
-				ll := &serviceV1.List{}
+				ll := &serviceProto.List{}
 				t.Run("list", list(nil, ll))
 				require.Len(t, ll.GetServices(), 1)
 
@@ -1026,8 +1021,8 @@ func TestServiceListConcurrent(t *testing.T) {
 	}
 
 	time.Sleep(time.Second * 10)
-	out = &serviceV1.Response{}
-	t.Run("terminate", terminate(&serviceV1.Service{Name: "foo"}, out))
+	out = &serviceProto.Response{}
+	t.Run("terminate", terminate(&serviceProto.Service{Name: "foo"}, out))
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -1096,7 +1091,7 @@ func TestServiceStatus(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	in := &serviceV1.Create{
+	in := &serviceProto.Create{
 		Name:            "foo",
 		Command:         "php test_files/loop.php",
 		ProcessNum:      1,
@@ -1104,31 +1099,30 @@ func TestServiceStatus(t *testing.T) {
 		RemainAfterExit: false,
 		Env:             map[string]string{"foo": "bar"},
 		RestartSec:      0,
-		WorkingDir:      "",
 	}
 
-	out := &serviceV1.Response{}
+	out := &serviceProto.Response{}
 
 	t.Run("create", create(in, out))
 
 	time.Sleep(time.Second)
 
-	l := &serviceV1.List{}
+	l := &serviceProto.List{}
 	t.Run("list", list(nil, l))
 	require.Len(t, l.GetServices(), 1)
 
-	inStat := &serviceV1.Service{
+	inStat := &serviceProto.Service{
 		Name: l.GetServices()[0],
 	}
 
-	outStat := &serviceV1.Status{}
+	outStat := &serviceProto.Status{}
 	t.Run("stats", status(inStat, outStat))
 	require.NotEmpty(t, outStat.GetCommand())
 	require.NotZero(t, outStat.GetMemoryUsage())
 	require.NotZero(t, outStat.GetPid())
 
-	out = &serviceV1.Response{}
-	t.Run("terminate", terminate(&serviceV1.Service{Name: l.GetServices()[0]}, out))
+	out = &serviceProto.Response{}
+	t.Run("terminate", terminate(&serviceProto.Service{Name: l.GetServices()[0]}, out))
 
 	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
@@ -1532,21 +1526,21 @@ func TestServiceReset4(t *testing.T) {
 	require.NoError(t, err)
 
 	go func() {
-		l1 := &serviceV1.List{}
+		l1 := &serviceProto.List{}
 		t.Run("list", list(nil, l1))
 		require.Len(t, l1.GetServices(), 2)
 	}()
 
 	go func() {
-		l2 := &serviceV1.List{}
+		l2 := &serviceProto.List{}
 		t.Run("list", list(nil, l2))
 		require.Len(t, l2.GetServices(), 2)
 		for i := 0; i < len(l2.GetServices()); i++ {
-			cmd := &serviceV1.Service{
+			cmd := &serviceProto.Service{
 				Name: l2.GetServices()[i],
 			}
 
-			out := &serviceV1.Response{}
+			out := &serviceProto.Response{}
 
 			t.Run("terminate", terminate(cmd, out))
 		}
@@ -1563,7 +1557,7 @@ func TestServiceReset4(t *testing.T) {
 	})
 }
 
-func create(in *serviceV1.Create, out *serviceV1.Response) func(t *testing.T) {
+func create(in *serviceProto.Create, out *serviceProto.Response) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)
@@ -1574,7 +1568,7 @@ func create(in *serviceV1.Create, out *serviceV1.Response) func(t *testing.T) {
 	}
 }
 
-func terminate(in *serviceV1.Service, out *serviceV1.Response) func(t *testing.T) {
+func terminate(in *serviceProto.Service, out *serviceProto.Response) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)
@@ -1585,7 +1579,7 @@ func terminate(in *serviceV1.Service, out *serviceV1.Response) func(t *testing.T
 	}
 }
 
-func restart(in *serviceV1.Service, out *serviceV1.Response) func(t *testing.T) {
+func restart(in *serviceProto.Service, out *serviceProto.Response) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)
@@ -1596,7 +1590,7 @@ func restart(in *serviceV1.Service, out *serviceV1.Response) func(t *testing.T) 
 	}
 }
 
-func status(in *serviceV1.Service, out *serviceV1.Status) func(t *testing.T) {
+func status(in *serviceProto.Service, out *serviceProto.Status) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)
@@ -1607,7 +1601,7 @@ func status(in *serviceV1.Service, out *serviceV1.Status) func(t *testing.T) {
 	}
 }
 
-func list(in *serviceV1.Service, out *serviceV1.List) func(t *testing.T) {
+func list(in *serviceProto.Service, out *serviceProto.List) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)

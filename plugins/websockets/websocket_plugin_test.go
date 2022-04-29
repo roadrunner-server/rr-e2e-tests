@@ -25,13 +25,13 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/goccy/go-json"
-	websocketsv1 "github.com/roadrunner-server/api/v2/proto/websockets/v1beta"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	httpPlugin "github.com/roadrunner-server/http/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	"github.com/roadrunner-server/sdk/v2/utils"
 	"github.com/stretchr/testify/assert"
+	websocketsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/websockets/v1beta"
 )
 
 func TestWebsocketsInit(t *testing.T) {
@@ -810,7 +810,7 @@ func publish(topics ...string) {
 
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	ret := &websocketsv1.Response{}
+	ret := &websocketsProto.Response{}
 	err = client.Call("broadcast.Publish", makeMessage([]byte("hello, PHP"), topics...), ret)
 	if err != nil {
 		panic(err)
@@ -825,23 +825,23 @@ func publishAsync(t *testing.T, topics ...string) {
 
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	ret := &websocketsv1.Response{}
+	ret := &websocketsProto.Response{}
 	err = client.Call("broadcast.PublishAsync", makeMessage([]byte("hello, PHP"), topics...), ret)
 	assert.NoError(t, err)
 	assert.True(t, ret.Ok)
 }
 
-func messageWS(command string, payload []byte, topics ...string) *websocketsv1.Message {
-	return &websocketsv1.Message{
+func messageWS(command string, payload []byte, topics ...string) *websocketsProto.Message {
+	return &websocketsProto.Message{
 		Topics:  topics,
 		Command: command,
 		Payload: payload,
 	}
 }
 
-func makeMessage(payload []byte, topics ...string) *websocketsv1.Request {
-	m := &websocketsv1.Request{
-		Messages: []*websocketsv1.Message{
+func makeMessage(payload []byte, topics ...string) *websocketsProto.Request {
+	m := &websocketsProto.Request{
+		Messages: []*websocketsProto.Message{
 			{
 				Topics:  topics,
 				Payload: payload,

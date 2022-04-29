@@ -12,7 +12,6 @@ import (
 
 	"github.com/google/uuid"
 	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
-	jobsv1beta "github.com/roadrunner-server/api/v2/proto/jobs/v1"
 	"github.com/roadrunner-server/beanstalk/v2"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
@@ -27,6 +26,7 @@ import (
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
 	"go.uber.org/zap"
 )
 
@@ -699,7 +699,7 @@ func declareBeanstalkPipe(t *testing.T) {
 	require.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsv1beta.DeclareRequest{Pipeline: map[string]string{
+	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 		"driver":          "beanstalk",
 		"name":            "test-3",
 		"tube":            uuid.NewString(),
@@ -708,7 +708,7 @@ func declareBeanstalkPipe(t *testing.T) {
 		"tube_priority":   "10",
 	}}
 
-	er := &jobsv1beta.Empty{}
+	er := &jobsProto.Empty{}
 	err = client.Call("jobs.Declare", pipe, er)
 	require.NoError(t, err)
 }
