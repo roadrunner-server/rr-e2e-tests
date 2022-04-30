@@ -63,8 +63,6 @@ require (
 	google.golang.org/protobuf v1.28.0
 )
 
-replace github.com/roadrunner-server/amqp/v2 => ../plugins/amqp
-
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.16.3 // indirect
