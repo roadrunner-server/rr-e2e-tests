@@ -173,8 +173,8 @@ func TestMemoryInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 1)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second * 1)
 
 	stopCh <- struct{}{}
@@ -255,8 +255,8 @@ func TestMemoryInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 1)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second * 1)
 
 	stopCh <- struct{}{}
@@ -334,7 +334,7 @@ func TestMemoryCreate(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 5)
-	t.Run("PushPipeline", helpers.PushToPipe("example"))
+	t.Run("PushPipeline", helpers.PushToPipe("example", false))
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -411,7 +411,7 @@ func TestMemoryDeclare(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareMemoryPipe)
 	t.Run("ConsumePipeline", consumeMemoryPipe)
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -501,7 +501,7 @@ func TestMemoryPauseResume(t *testing.T) {
 	t.Run("Pause", helpers.PausePipelines("test-local"))
 	t.Run("pushToDisabledPipe", helpers.PushToDisabledPipe("test-local"))
 	t.Run("Resume", helpers.ResumePipes("test-local"))
-	t.Run("pushToEnabledPipe", helpers.PushToPipe("test-local"))
+	t.Run("pushToEnabledPipe", helpers.PushToPipe("test-local", false))
 	time.Sleep(time.Second * 1)
 
 	stopCh <- struct{}{}
@@ -586,7 +586,7 @@ func TestMemoryJobsError(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareMemoryPipe)
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 25)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -676,13 +676,13 @@ func TestMemoryStats(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareMemoryPipe)
 	t.Run("ConsumePipeline", consumeMemoryPipe)
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
 
 	t.Run("PushPipeline", helpers.PushToPipeDelayed("test-3", 5))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 
 	time.Sleep(time.Second)
 	out := &jobState.State{}

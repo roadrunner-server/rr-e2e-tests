@@ -112,8 +112,8 @@ func TestDurabilityAMQP(t *testing.T) {
 	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipeErr("test-2"))
 
 	time.Sleep(time.Second * 15)
-	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
-	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
 
 	time.Sleep(time.Second * 5)
 
@@ -203,17 +203,17 @@ func TestDurabilitySQS(t *testing.T) {
 
 	go func() {
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
+		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
+		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
 	}()
 
 	time.Sleep(time.Second * 5)
 	helpers.EnableProxy("redial", t)
 	time.Sleep(time.Second * 5)
 
-	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1"))
-	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2"))
+	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2", false))
 
 	time.Sleep(time.Second * 10)
 
@@ -303,16 +303,16 @@ func TestDurabilityBeanstalk(t *testing.T) {
 
 	go func() {
 		time.Sleep(time.Second * 2)
-		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
-		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
+		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
+		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
 	}()
 
 	time.Sleep(time.Second * 5)
 	helpers.EnableProxy("redial", t)
 	time.Sleep(time.Second * 2)
 
-	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
-	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
 
 	time.Sleep(time.Second * 10)
 
@@ -403,17 +403,17 @@ func TestDurabilityNATS(t *testing.T) {
 
 	go func() {
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1"))
+		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2"))
+		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
 	}()
 
 	time.Sleep(time.Second * 5)
 	helpers.EnableProxy("redial", t)
 	time.Sleep(time.Second * 2)
 
-	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1"))
-	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2"))
+	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2", false))
 
 	time.Sleep(time.Second * 2)
 

@@ -97,8 +97,8 @@ func TestSQSInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -172,8 +172,8 @@ func TestSQSInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -248,8 +248,8 @@ func TestSQSInitV27Attributes(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -325,8 +325,8 @@ func TestSQSInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -406,7 +406,7 @@ func TestSQSDeclare(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareSQSPipe("default"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -488,7 +488,7 @@ func TestSQSJobsError(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareSQSPipe("default"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 25)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -603,13 +603,13 @@ func TestSQSStat(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareSQSPipe("default-stat"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
 
 	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 
 	out := &jobState.State{}
@@ -716,7 +716,7 @@ func TestSQSRespond(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareSQSPipe("default"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-1"))

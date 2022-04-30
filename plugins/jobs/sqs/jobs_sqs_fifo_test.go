@@ -92,8 +92,8 @@ func TestSQSInitFifo(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1"))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -168,8 +168,8 @@ func TestSQSInitV27BadRespFifo(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1"))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -249,7 +249,7 @@ func TestSQSDeclareFifo(t *testing.T) {
 
 	t.Run("DeclarePipelineFifo", declareSQSPipeFifo("default-decl.fifo"))
 	t.Run("ConsumePipelineFifo", helpers.ResumePipes("test-3"))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PausePipelineFifo", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -331,7 +331,7 @@ func TestSQSJobsErrorFifo(t *testing.T) {
 
 	t.Run("DeclarePipelineFifo", declareSQSPipeFifo("default-err.fifo"))
 	t.Run("ConsumePipelineFifo", helpers.ResumePipes("test-3"))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 25)
 	t.Run("PausePipelineFifo", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -415,7 +415,7 @@ func TestSQSRespondFifo(t *testing.T) {
 
 	t.Run("DeclarePipelineFifo", declareSQSPipe("default"))
 	t.Run("ConsumePipelineFifo", helpers.ResumePipes("test-3"))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("test-3"))
 	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("test-1"))

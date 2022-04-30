@@ -99,8 +99,8 @@ func TestAMQPInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -186,8 +186,8 @@ func TestAMQPInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -273,8 +273,8 @@ func TestAMQPInitV27RR27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -360,8 +360,8 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -447,12 +447,12 @@ func TestAMQPReset(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 	reset(t)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -542,7 +542,7 @@ func TestAMQPDeclare(t *testing.T) {
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
 	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -635,7 +635,7 @@ func TestAMQPDeclareDurable(t *testing.T) {
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipeDurable)
 	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -728,7 +728,7 @@ func TestAMQPJobsError(t *testing.T) {
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
 	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 25)
 	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
 	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
@@ -854,11 +854,11 @@ func TestAMQPStats(t *testing.T) {
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
 	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 2)
 	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
 	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
 
 	out := &jobState.State{}
@@ -980,7 +980,7 @@ func TestAMQPRespondOk(t *testing.T) {
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
 	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 5)
 	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
 	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-1"))
@@ -1070,8 +1070,8 @@ func TestAMQPBadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -1161,14 +1161,14 @@ func TestAMQPSlow(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
 	time.Sleep(time.Second * 40)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
 	time.Sleep(time.Second * 80)
 
 	stopCh <- struct{}{}
@@ -1181,6 +1181,103 @@ func TestAMQPSlow(t *testing.T) {
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("queues and subscribers was redeclared successfully").Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("connection was successfully restored").Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("redialer restarted").Len(), 1)
+
+	t.Cleanup(func() {
+		helpers.DestroyPipelines("test-1")
+	})
+}
+
+// Use auto-ack, jobs should not be timeouted
+func TestAMQPSlowAutoAck(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.9.2",
+		Path:    "configs/.rr-amqp-slow.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&metrics.Plugin{},
+		&informer.Plugin{},
+		&amqp.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
+	time.Sleep(time.Second * 40)
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
+	time.Sleep(time.Second * 80)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet(`number of listeners`).Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("consume channel close").Len(), 0)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("rabbitmq dial was succeed. trying to redeclare queues and subscribers").Len(), 0)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("queues and subscribers was redeclared successfully").Len(), 0)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("connection was successfully restored").Len(), 0)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("redialer restarted").Len(), 0)
 
 	t.Cleanup(func() {
 		helpers.DestroyPipelines("test-1")

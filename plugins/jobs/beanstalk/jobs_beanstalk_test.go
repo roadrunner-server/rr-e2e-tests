@@ -181,8 +181,8 @@ func TestBeanstalkInitV27(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 
 	time.Sleep(time.Second)
 
@@ -269,12 +269,12 @@ func TestBeanstalkStats(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareBeanstalkPipe)
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 2)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 3)
 	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 8))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 
 	out := &jobState.State{}
@@ -389,7 +389,7 @@ func TestBeanstalkDeclare(t *testing.T) {
 
 	t.Run("DeclareBeanstalkPipeline", declareBeanstalkPipe)
 	t.Run("ConsumeBeanstalkPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3", false))
 	t.Run("PauseBeanstalkPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 5)
 	t.Run("DestroyBeanstalkPipeline", helpers.DestroyPipelines("test-3"))
@@ -474,7 +474,7 @@ func TestBeanstalkJobsError(t *testing.T) {
 
 	t.Run("DeclareBeanstalkPipeline", declareBeanstalkPipe)
 	t.Run("ConsumeBeanstalkPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 25)
 	t.Run("PauseBeanstalkPipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -591,7 +591,7 @@ func TestBeanstalkRespond(t *testing.T) {
 
 	t.Run("DeclareBeanstalkPipeline", declareBeanstalkPipe)
 	t.Run("ConsumeBeanstalkPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 3)
 	t.Run("DestroyBeanstalkPipeline", helpers.DestroyPipelines("test-3"))
 	t.Run("DestroyBeanstalkPipeline", helpers.DestroyPipelines("test-1"))
@@ -676,8 +676,8 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 
 	time.Sleep(time.Second)
 

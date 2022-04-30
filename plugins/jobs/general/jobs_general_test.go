@@ -171,11 +171,11 @@ func TestJOBSMetrics(t *testing.T) {
 
 	t.Run("DeclareEphemeralPipeline", declareMemoryPipe)
 	t.Run("ConsumeEphemeralPipeline", consumeMemoryPipe)
-	t.Run("PushEphemeralPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushEphemeralPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PushEphemeralPipeline", helpers.PushToPipeDelayed("test-3", 5))
 	time.Sleep(time.Second)
-	t.Run("PushEphemeralPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushEphemeralPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 5)
 
 	genericOut, err := get()

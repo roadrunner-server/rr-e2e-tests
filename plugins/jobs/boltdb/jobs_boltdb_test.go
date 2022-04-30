@@ -181,8 +181,8 @@ func TestBoltDBInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -264,8 +264,8 @@ func TestBoltDBInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -351,7 +351,7 @@ func TestBoltDBDeclare(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareBoltDBPipe(rr1db))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -438,7 +438,7 @@ func TestBoltDBJobsError(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareBoltDBPipe(rr1db))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 25)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
@@ -555,11 +555,11 @@ func TestBoltDBStats(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareBoltDBPipe(rr1db))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 2)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
 
 	out := &jobState.State{}

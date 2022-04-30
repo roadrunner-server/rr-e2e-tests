@@ -65,7 +65,7 @@ func PushToDisabledPipe(pipeline string) func(t *testing.T) {
 	}
 }
 
-func PushToPipe(pipeline string) func(t *testing.T) {
+func PushToPipe(pipeline string, autoAck bool) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)
@@ -77,6 +77,7 @@ func PushToPipe(pipeline string) func(t *testing.T) {
 			Payload: `{"hello":"world"}`,
 			Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 			Options: &jobsProto.Options{
+				AutoAck:  autoAck,
 				Priority: 1,
 				Pipeline: pipeline,
 				Delay:    0,

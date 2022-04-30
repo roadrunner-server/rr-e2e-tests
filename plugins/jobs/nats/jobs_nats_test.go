@@ -169,8 +169,8 @@ func TestNATSInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
@@ -246,8 +246,8 @@ func TestNATSInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second * 2)
 
 	stopCh <- struct{}{}
@@ -327,7 +327,7 @@ func TestNATSDeclare(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareNATSPipe)
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second)
@@ -408,7 +408,7 @@ func TestNATSJobsError(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareNATSPipe)
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 25)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
@@ -489,7 +489,7 @@ func TestNATSRespond(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareNATSPipe)
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
@@ -599,11 +599,11 @@ func TestNATSStats(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareNATSPipe)
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 2)
 	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushPipeline", helpers.PushToPipe("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 
 	out := &jobState.State{}
 	t.Run("Stats", helpers.Stats(out))
