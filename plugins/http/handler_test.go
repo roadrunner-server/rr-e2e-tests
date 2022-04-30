@@ -18,7 +18,7 @@ import (
 
 	"github.com/goccy/go-json"
 	"github.com/roadrunner-server/http/v2/handler"
-	http2 "github.com/roadrunner-server/http/v2/http"
+	httpConf "github.com/roadrunner-server/http/v2/http"
 	"github.com/roadrunner-server/http/v2/uploads"
 	"github.com/roadrunner-server/sdk/v2/ipc/pipe"
 	"github.com/roadrunner-server/sdk/v2/pool"
@@ -42,7 +42,7 @@ func TestHandler_Echo(t *testing.T) {
 		}, nil)
 	require.NoError(t, err)
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -99,7 +99,7 @@ func TestHandler_Headers(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -171,7 +171,7 @@ func TestHandler_Empty_User_Agent(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -242,7 +242,7 @@ func TestHandler_User_Agent(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -313,7 +313,7 @@ func TestHandler_Cookies(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -389,7 +389,7 @@ func TestHandler_JsonPayload_POST(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -464,7 +464,7 @@ func TestHandler_JsonPayload_PUT(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -535,7 +535,7 @@ func TestHandler_JsonPayload_PATCH(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -605,7 +605,7 @@ func TestHandler_FormData_POST(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -698,7 +698,7 @@ func TestHandler_FormData_POST_Overwrite(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -792,7 +792,7 @@ func TestHandler_FormData_POST_Form_UrlEncoded_Charset(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -885,7 +885,7 @@ func TestHandler_FormData_PUT(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -979,7 +979,7 @@ func TestHandler_FormData_PATCH(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1072,7 +1072,7 @@ func TestHandler_Multipart_POST(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1207,7 +1207,7 @@ func TestHandler_Multipart_PUT(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1342,7 +1342,7 @@ func TestHandler_Multipart_PATCH(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1479,7 +1479,7 @@ func TestHandler_Error(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1535,7 +1535,7 @@ func TestHandler_Error2(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1591,7 +1591,7 @@ func TestHandler_ResponseDuration(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1649,7 +1649,7 @@ func TestHandler_ResponseDurationDelayed(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1690,7 +1690,7 @@ func TestHandler_ErrorDuration(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1747,7 +1747,7 @@ func TestHandler_IP(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1804,7 +1804,7 @@ func BenchmarkHandler_Listen_Echo(b *testing.B) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &http2.Config{
+	cfg := &httpConf.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
