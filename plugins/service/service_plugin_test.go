@@ -920,10 +920,7 @@ func TestServiceListConcurrent(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
+	require.NoError(t, cont.Init())
 
 	ch, err := cont.Serve()
 	assert.NoError(t, err)
