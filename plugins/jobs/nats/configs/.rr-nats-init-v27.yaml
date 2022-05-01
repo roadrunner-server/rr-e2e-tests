@@ -9,7 +9,7 @@ server:
   relay_timeout: "20s"
 
 nats:
-  addr: ""
+  addr: "nats://127.0.0.1:4222"
 
 logs:
   level: error
@@ -31,8 +31,8 @@ jobs:
       driver: nats
       config:
         prefetch: 100
-        subject: "default"
-        stream: "foo"
+        subject: "default-3"
+        stream: "foo-3"
         deliver_new: "true"
         priority: 1
 
@@ -40,8 +40,8 @@ jobs:
       driver: nats
       config:
         prefetch: 100
-        subject: "default"
-        stream: "foo"
+        subject: "default-4"
+        stream: "foo-4"
         deliver_new: "true"
         priority: 2
 

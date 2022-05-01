@@ -39,11 +39,12 @@ func TestNATSInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
+		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
@@ -97,8 +98,98 @@ func TestNATSInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	time.Sleep(time.Second)
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+}
+
+func TestNATSInitAutoAck(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.9.0",
+		Path:    "configs/.rr-nats-init.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&nats.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", true))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", true))
+	time.Sleep(time.Second)
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("auto_ack option enabled").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 }
 
 func TestNATSInitV27(t *testing.T) {
@@ -325,7 +416,7 @@ func TestNATSDeclare(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe)
+	t.Run("DeclarePipeline", declareNATSPipe("default-10", "stream-10"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
@@ -406,7 +497,7 @@ func TestNATSJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe)
+	t.Run("DeclarePipeline", declareNATSPipe("default-11", "stream-11"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 25)
@@ -487,7 +578,7 @@ func TestNATSRespond(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe)
+	t.Run("DeclarePipeline", declareNATSPipe("default-12", "stream-12"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
@@ -597,7 +688,7 @@ func TestNATSStats(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe)
+	t.Run("DeclarePipeline", declareNATSPipe("default-13", "stream-13"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 2)
@@ -610,7 +701,7 @@ func TestNATSStats(t *testing.T) {
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "nats", out.Driver)
-	assert.Equal(t, "default", out.Queue)
+	assert.Equal(t, "default-13", out.Queue)
 
 	assert.Equal(t, int64(0), out.Active)
 	assert.Equal(t, int64(0), out.Delayed)
@@ -624,9 +715,9 @@ func TestNATSStats(t *testing.T) {
 	out = &jobState.State{}
 	t.Run("Stats", helpers.Stats(out))
 
-	assert.Equal(t, out.Pipeline, "test-3")
-	assert.Equal(t, out.Driver, "nats")
-	assert.Equal(t, out.Queue, "default")
+	assert.Equal(t, "test-3", out.Pipeline)
+	assert.Equal(t, "nats", out.Driver)
+	assert.Equal(t, "default-13", out.Queue)
 
 	assert.Equal(t, int64(0), out.Active)
 	assert.Equal(t, int64(0), out.Delayed)
@@ -641,22 +732,24 @@ func TestNATSStats(t *testing.T) {
 	wg.Wait()
 }
 
-func declareNATSPipe(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	require.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+func declareNATSPipe(subj, stream string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		require.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-		"driver":      "nats",
-		"name":        "test-3",
-		"subject":     "default",
-		"stream":      "foo",
-		"deliver_new": "true",
-		"prefetch":    "100",
-		"priority":    "3",
-	}}
+		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
+			"driver":      "nats",
+			"name":        "test-3",
+			"subject":     subj,
+			"stream":      stream,
+			"deliver_new": "true",
+			"prefetch":    "100",
+			"priority":    "3",
+		}}
 
-	er := &jobsProto.Empty{}
-	err = client.Call("jobs.Declare", pipe, er)
-	require.NoError(t, err)
+		er := &jobsProto.Empty{}
+		err = client.Call("jobs.Declare", pipe, er)
+		require.NoError(t, err)
+	}
 }

@@ -9,7 +9,7 @@ server:
   relay_timeout: "20s"
 
 nats:
-  addr: ""
+  addr: "nats://127.0.0.1:4222"
 
 logs:
   level: error
@@ -33,6 +33,7 @@ jobs:
         prefetch: 100
         subject: "default"
         stream: "foo"
+        delete_after_ack: true
         deliver_new: "true"
         priority: 1
 
@@ -40,9 +41,10 @@ jobs:
       driver: nats
       config:
         prefetch: 100
-        subject: "default"
-        stream: "foo"
+        subject: "default-2"
+        stream: "foo-2"
         deliver_new: "true"
+        delete_after_ack: true
         priority: 2
 
   consume: [ "test-1", "test-2" ]

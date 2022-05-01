@@ -10,7 +10,7 @@ server:
 
 
 nats:
-  addr: "demo.nats.io"
+  addr: "nats://127.0.0.1:4222"
 
 boltdb:
   permissions: 0777

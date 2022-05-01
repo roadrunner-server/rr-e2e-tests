@@ -9,7 +9,7 @@ server:
   relay_timeout: "20s"
 
 nats:
-  addr: ""
+  addr: "nats://127.0.0.1:4222"
 
 logs:
   level: error
