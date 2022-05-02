@@ -33,7 +33,7 @@ require (
 	github.com/roadrunner-server/memcached/v2 v2.12.0
 	github.com/roadrunner-server/memory/v2 v2.13.0
 	github.com/roadrunner-server/metrics/v2 v2.12.2
-	github.com/roadrunner-server/nats/v2 v2.12.2
+	github.com/roadrunner-server/nats/v2 v2.13.0
 	github.com/roadrunner-server/new_relic/v2 v2.13.2
 	github.com/roadrunner-server/otel/v2 v2.0.1
 	github.com/roadrunner-server/prometheus/v2 v2.12.2
