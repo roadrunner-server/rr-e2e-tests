@@ -7,7 +7,7 @@ server:
 
 http:
   address: 127.0.0.1:18953
-  max_request_size: 1024
+  max_request_size: 1
   middleware: [ "gzip" ]
   pool:
     num_workers: 2

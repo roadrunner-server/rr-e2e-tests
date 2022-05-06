@@ -6,7 +6,7 @@ server:
   relay_timeout: 20s
 http:
   address: "127.0.0.1:37388"
-  max_request_size: 1024
+  max_request_size: 1
   pool:
     num_workers: 2
     max_jobs: 0

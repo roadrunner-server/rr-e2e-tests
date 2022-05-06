@@ -1412,7 +1412,7 @@ server:
 http:
   debug: true
   address: 127.0.0.1:34999
-  max_request_size: 1024
+  max_request_size: 1
   middleware: [ "pluginMiddleware", "pluginMiddleware2" ]
   uploads:
     forbid: [ "" ]

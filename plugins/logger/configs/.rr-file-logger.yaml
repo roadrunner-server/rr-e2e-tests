@@ -7,7 +7,7 @@ server:
 
 http:
   address: 127.0.0.1:54224
-  max_request_size: 1024
+  max_request_size: 1
   middleware: [ ]
   uploads:
     forbid: [ ".php", ".exe", ".bat" ]

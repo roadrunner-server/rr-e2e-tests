@@ -7,7 +7,7 @@ server:
 
 http:
   address: :8083
-  max_request_size: 1024
+  max_request_size: 1
   middleware: []
   pool:
     num_workers: 1

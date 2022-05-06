@@ -7,7 +7,7 @@ server:
 
 http:
   address: 127.0.0.1:21603
-  max_request_size: 1024
+  max_request_size: 1
   middleware: [ "static","gzip" ]
   uploads:
     forbid: [ ".php", ".exe", ".bat" ]

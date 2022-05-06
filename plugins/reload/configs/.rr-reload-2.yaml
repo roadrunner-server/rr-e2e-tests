@@ -6,7 +6,7 @@ server:
   relay_timeout: 20s
 http:
   address: '127.0.0.1:27388'
-  max_request_size: 1024
+  max_request_size: 1
   uploads:
     forbid:
       - .php

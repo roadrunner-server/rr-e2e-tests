@@ -12,7 +12,7 @@ server:
 
 http:
     address: 127.0.0.1:41278
-    max_request_size: 1024
+    max_request_size: 1
     middleware: ["websockets"]
     trusted_subnets:
         [

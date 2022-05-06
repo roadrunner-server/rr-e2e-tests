@@ -10,7 +10,7 @@ server:
 
 http:
   address: 127.0.0.1:58332
-  max_request_size: 1024
+  max_request_size: 1
   access_logs: true
   pool:
     num_workers: 2

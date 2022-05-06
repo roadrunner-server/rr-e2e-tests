@@ -11,7 +11,7 @@ server:
 
 http:
   address: 127.0.0.1:22655
-  max_request_size: 1024
+  max_request_size: 1
   middleware: [ "headers" ]
   uploads:
     forbid: [ ".php", ".exe", ".bat" ]

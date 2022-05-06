@@ -7,7 +7,7 @@ server:
 
 http:
   address: :8081
-  max_request_size: 1024
+  max_request_size: 1
   middleware: ["gzip"]
   static:
     dir: "../../"

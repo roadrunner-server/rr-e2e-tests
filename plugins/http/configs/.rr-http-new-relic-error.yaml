@@ -10,7 +10,7 @@ server:
 
 http:
   address: 127.0.0.1:22998
-  max_request_size: 1024
+  max_request_size: 1
   middleware: ["new_relic"]
   new_relic:
     app_name: ""

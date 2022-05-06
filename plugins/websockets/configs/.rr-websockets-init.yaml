@@ -10,7 +10,7 @@ server:
 
 http:
   address: 127.0.0.1:11111
-  max_request_size: 1024
+  max_request_size: 1
   middleware: [ "websockets", "proxy_ip_parser" ]
   trusted_subnets:
     [
