@@ -1801,16 +1801,9 @@ func TestHTTPBigRequestSize(t *testing.T) {
 
 	time.Sleep(time.Second * 2)
 
-	t.Run("HTTPBigEcho10Mb", bigEchoHTTP)
-
-	stopCh <- struct{}{}
-	wg.Wait()
-}
-
-func bigEchoHTTP(t *testing.T) {
 	buf := make([]byte, 1024*1024*10)
 
-	_, err := rand.Read(buf)
+	_, err = rand.Read(buf)
 	assert.NoError(t, err)
 
 	bt := bytes.NewBuffer(buf)
@@ -1827,6 +1820,9 @@ func bigEchoHTTP(t *testing.T) {
 
 	err = r.Body.Close()
 	assert.NoError(t, err)
+
+	stopCh <- struct{}{}
+	wg.Wait()
 }
 
 func TestStaticEtagPlugin(t *testing.T) {
