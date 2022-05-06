@@ -436,8 +436,8 @@ github.com/roadrunner-server/gzip/v2 v2.11.0 h1:+7pUqDSKXGWKeg4Yf7EOZF7R6+q2dF1S
 github.com/roadrunner-server/gzip/v2 v2.11.0/go.mod h1:XTl/N3B1vuWWYrK+JE3W/WPzdhj4tYjS5GNXivvOsz8=
 github.com/roadrunner-server/headers/v2 v2.11.1 h1:nNRHPzp/kxYwFf6e40UDb1J3ZGSERtt3SAvn2cG3Ukc=
 github.com/roadrunner-server/headers/v2 v2.11.1/go.mod h1:7luGRjt97k4o0OADVO5V18rf2sEEKIjgCEIK1DQWe1c=
-github.com/roadrunner-server/http/v2 v2.15.2 h1:ka8AJpd8xAYJVm8txlWe4QR72T0mGF00Kog0oiGibbQ=
-github.com/roadrunner-server/http/v2 v2.15.2/go.mod h1:iVZtyh14daigKZCymhvmQ0O+oSEBwj+nUKdTELQb/7E=
+github.com/roadrunner-server/http/v2 v2.15.3 h1:yMGbRDIgZTy11lauLLwyRorrl3uk1bWuZBmM7cuUJKo=
+github.com/roadrunner-server/http/v2 v2.15.3/go.mod h1:rY5H6tM8AFArc7PizGoy0Md60FbxhYrvtuqBmspbRk4=
 github.com/roadrunner-server/informer/v2 v2.11.2 h1:L0tKcbScLmqD2l4aLzC5qCFwtzoA5cqQzxOGmEorUh8=
 github.com/roadrunner-server/informer/v2 v2.11.2/go.mod h1:V1Uwwjz+VA0WG3Jevm6ysD32V8RvT7T0lIgneDE1m9Q=
 github.com/roadrunner-server/jobs/v2 v2.13.0 h1:GrORpGi7xVeeah1CPsR6O8jmGPh9gdaq7YQ+wLqZ+/U=
@@ -809,8 +809,8 @@ golang.org/x/sys v0.0.0-20220128215802-99c3d69c2c27/go.mod h1:oPkhp1MJrh7nUepCBc
 golang.org/x/sys v0.0.0-20220222200937-f2425489ef4c/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220412211240-33da011f77ad/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
-golang.org/x/sys v0.0.0-20220429233432-b5fbb4746d32 h1:Js08h5hqB5xyWR789+QqueR6sDE8mk+YvpETZ+F6X9Y=
-golang.org/x/sys v0.0.0-20220429233432-b5fbb4746d32/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+golang.org/x/sys v0.0.0-20220503163025-988cb79eb6c6 h1:nonptSpoQ4vQjyraW20DXPAglgQfVnM9ZC6MmNLMR60=
+golang.org/x/sys v0.0.0-20220503163025-988cb79eb6c6/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1/go.mod h1:bj7SfCRtBDWHUb9snDiAeCFNEtKQo2Wmx5Cou7ajbmo=
 golang.org/x/term v0.0.0-20210927222741-03fcf44c2211/go.mod h1:jbD1KX2456YbFQfuXm/mYQcufACuNUgVhRMnK/tPxf8=
 golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
