@@ -23,7 +23,6 @@ import (
 )
 
 func TestHTTPOTLP_Init(t *testing.T) {
-	t.Skip("turned off")
 	rd, wr, err := os.Pipe()
 	require.NoError(t, err)
 	os.Stdout = wr
