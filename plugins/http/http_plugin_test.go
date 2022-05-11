@@ -54,7 +54,7 @@ func TestHTTPInit(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-init.yaml",
+		Path:    "configs/http/.rr-http-init.yaml",
 		Prefix:  "rr",
 	}
 
@@ -120,7 +120,7 @@ func TestHTTPAccessLogs(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-access-logs.yaml",
+		Path:    "configs/http/.rr-http-access-logs.yaml",
 		Prefix:  "rr",
 	}
 
@@ -205,7 +205,7 @@ func TestHTTPXSendFile(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-sendfile.yaml",
+		Path:    "configs/http/.rr-http-sendfile.yaml",
 		Prefix:  "rr",
 	}
 
@@ -298,7 +298,7 @@ func TestHTTPNoConfigSection(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-no-http.yaml",
+		Path:    "configs/http/.rr-no-http.yaml",
 		Prefix:  "rr",
 	}
 
@@ -363,7 +363,7 @@ func TestHTTPInformerReset(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-resetter.yaml",
+		Path:    "configs/http/.rr-resetter.yaml",
 		Prefix:  "rr",
 	}
 
@@ -438,7 +438,7 @@ func TestSSL(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-ssl.yaml",
+		Path:    "configs/http/.rr-ssl.yaml",
 		Prefix:  "rr",
 	}
 
@@ -575,7 +575,7 @@ func TestSSLRedirect(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-ssl-redirect.yaml",
+		Path:    "configs/http/.rr-ssl-redirect.yaml",
 		Prefix:  "rr",
 	}
 
@@ -665,7 +665,7 @@ func TestSSLPushPipes(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-ssl-push.yaml",
+		Path:    "configs/http/.rr-ssl-push.yaml",
 		Prefix:  "rr",
 	}
 
@@ -757,7 +757,7 @@ func TestFastCGI_Echo(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-fcgi.yaml",
+		Path:    "configs/http/.rr-fcgi.yaml",
 		Prefix:  "rr",
 	}
 
@@ -844,7 +844,7 @@ func TestFastCGI_EchoUnix(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-fcgi-unix.yaml",
+		Path:    "configs/http/.rr-fcgi-unix.yaml",
 		Prefix:  "rr",
 	}
 
@@ -935,7 +935,7 @@ func TestFastCGI_RequestUri(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-fcgi-reqUri.yaml",
+		Path:    "configs/http/.rr-fcgi-reqUri.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1022,7 +1022,7 @@ func TestHTTP2Req(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-h2-ssl.yaml",
+		Path:    "configs/http/.rr-h2-ssl.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1116,7 +1116,7 @@ func TestH2CUpgrade(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-h2c.yaml",
+		Path:    "configs/http/.rr-h2c.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1202,7 +1202,7 @@ func TestH2C(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-h2c.yaml",
+		Path:    "configs/http/.rr-h2c.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1299,7 +1299,7 @@ func TestHttpMiddleware(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http.yaml",
+		Path:    "configs/http/.rr-http.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1518,7 +1518,7 @@ func TestHttpBrokenPipes(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-broken-pipes.yaml",
+		Path:    "configs/http/.rr-broken-pipes.yaml",
 		Prefix:  "rr",
 		Type:    "yaml",
 	}
@@ -1581,7 +1581,7 @@ func TestHTTPSupervisedPool(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-supervised-pool.yaml",
+		Path:    "configs/http/.rr-http-supervised-pool.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1743,7 +1743,7 @@ func TestHTTPBigRequestSize(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-big-req-size.yaml",
+		Path:    "configs/http/.rr-big-req-size.yaml",
 		Prefix:  "rr",
 		Type:    "yaml",
 	}
@@ -1831,7 +1831,7 @@ func TestStaticEtagPlugin(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-static.yaml",
+		Path:    "configs/http/.rr-http-static.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1943,7 +1943,7 @@ func TestStaticPluginSecurity(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-static-security.yaml",
+		Path:    "configs/http/.rr-http-static-security.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2093,7 +2093,7 @@ func TestStaticPlugin(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-static.yaml",
+		Path:    "configs/http/.rr-http-static.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2208,7 +2208,7 @@ func TestStaticDisabled_Error(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-static-disabled.yaml",
+		Path:    "configs/http/.rr-http-static-disabled.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2230,7 +2230,7 @@ func TestStaticFilesDisabled(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-static-files-disable.yaml",
+		Path:    "configs/http/.rr-http-static-files-disable.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2309,7 +2309,7 @@ func TestStaticFilesForbid(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-static-files.yaml",
+		Path:    "configs/http/.rr-http-static-files.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2411,7 +2411,7 @@ func TestHTTPIssue659(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-issue659.yaml",
+		Path:    "configs/http/.rr-issue659.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2481,7 +2481,7 @@ func TestHTTPIPv6Long(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-ipv6.yaml",
+		Path:    "configs/http/.rr-http-ipv6.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2551,7 +2551,7 @@ func TestHTTPIPv6Short(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-ipv6-2.yaml",
+		Path:    "configs/http/.rr-http-ipv6-2.yaml",
 		Prefix:  "rr",
 	}
 

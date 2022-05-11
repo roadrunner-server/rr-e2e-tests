@@ -37,7 +37,7 @@ func TestHTTPPost(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-post-test.yaml",
+		Path:    "configs/http/.rr-post-test.yaml",
 		Prefix:  "rr",
 	}
 
@@ -147,7 +147,7 @@ func TestSSLNoHTTP(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-ssl-no-http.yaml",
+		Path:    "configs/http/.rr-ssl-no-http.yaml",
 		Prefix:  "rr",
 	}
 
@@ -237,7 +237,7 @@ func TestFileServer(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-static-new.yaml",
+		Path:    "configs/http/.rr-http-static-new.yaml",
 		Prefix:  "rr",
 	}
 
@@ -332,7 +332,7 @@ func TestHTTPNewRelic(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-new-relic.yaml",
+		Path:    "configs/http/.rr-http-new-relic.yaml",
 		Prefix:  "rr",
 	}
 
@@ -413,7 +413,7 @@ func TestHTTPNewRelicError(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-new-relic-error.yaml",
+		Path:    "configs/http/.rr-http-new-relic-error.yaml",
 		Prefix:  "rr",
 	}
 
@@ -495,7 +495,7 @@ func TestHTTPNewRelicIgnore(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-new-relic-ignore.yaml",
+		Path:    "configs/http/.rr-http-new-relic-ignore.yaml",
 		Prefix:  "rr",
 	}
 
@@ -576,7 +576,7 @@ func TestHTTPCache(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-cache.yaml",
+		Path:    "configs/http/.rr-http-cache.yaml",
 		Prefix:  "rr",
 	}
 
@@ -643,7 +643,7 @@ func TestHTTPCacheDifferentRqs(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-http-cache.yaml",
+		Path:    "configs/http/.rr-http-cache.yaml",
 		Prefix:  "rr",
 	}
 
@@ -783,7 +783,7 @@ func TestHTTPBigResp(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-init-big-resp.yaml",
+		Path:    "configs/http/.rr-init-big-resp.yaml",
 		Prefix:  "rr",
 	}
 
@@ -882,7 +882,7 @@ func TestHTTPExecTTL(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.1",
-		Path:    "configs/.rr-http-exec_ttl.yaml",
+		Path:    "configs/http/.rr-http-exec_ttl.yaml",
 		Prefix:  "rr",
 	}
 
@@ -967,7 +967,7 @@ func TestHTTPBigRespMaxReqSize(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.1",
-		Path:    "configs/.rr-init-big-resp-max-req-size.yaml",
+		Path:    "configs/http/.rr-init-big-resp-max-req-size.yaml",
 		Prefix:  "rr",
 	}
 
