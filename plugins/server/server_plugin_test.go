@@ -19,7 +19,7 @@ import (
 )
 
 func TestAppPipes(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	// config plugin
@@ -73,7 +73,7 @@ func TestAppPipes(t *testing.T) {
 }
 
 func TestAppSockets(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	// config plugin
@@ -125,7 +125,7 @@ func TestAppSockets(t *testing.T) {
 }
 
 func TestAppTCPOnInit(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	// config plugin
@@ -198,7 +198,7 @@ func TestAppTCPOnInit(t *testing.T) {
 }
 
 func TestAppSocketsOnInit(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -272,7 +272,7 @@ func TestAppSocketsOnInit(t *testing.T) {
 }
 
 func TestAppSocketsOnInitFastClose(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -341,7 +341,7 @@ func TestAppSocketsOnInitFastClose(t *testing.T) {
 }
 
 func TestAppTCP(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	// config plugin
@@ -391,7 +391,7 @@ func TestAppTCP(t *testing.T) {
 }
 
 func TestAppWrongConfig(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 	// config plugin
 	vp := &config.Plugin{}
@@ -413,7 +413,7 @@ func TestAppWrongConfig(t *testing.T) {
 }
 
 func TestAppWrongRelay(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	// config plugin
@@ -442,7 +442,7 @@ func TestAppWrongRelay(t *testing.T) {
 }
 
 func TestAppWrongCommand(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	// config plugin
@@ -469,7 +469,7 @@ func TestAppWrongCommand(t *testing.T) {
 }
 
 func TestAppWrongCommandOnInit(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	// config plugin
@@ -496,7 +496,7 @@ func TestAppWrongCommandOnInit(t *testing.T) {
 }
 
 func TestAppNoAppSectionInConfig(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.RetryOnFail(true), endure.SetLogLevel(endure.ErrorLevel))
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	require.NoError(t, err)
 
 	// config plugin

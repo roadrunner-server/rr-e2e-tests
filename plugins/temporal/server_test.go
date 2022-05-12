@@ -80,7 +80,7 @@ func (l *log) fields(keyvals []interface{}) []zap.Field {
 }
 
 func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
-	container, err := endure.NewContainer(initLogger(), endure.RetryOnFail(false))
+	container, err := endure.NewContainer(initLogger())
 	assert.NoError(t, err)
 
 	err = container.RegisterAll(
@@ -131,7 +131,7 @@ func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, wg *sync.WaitG
 }
 
 func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
-	container, err := endure.NewContainer(initLogger(), endure.RetryOnFail(false), endure.GracefulShutdownTimeout(time.Second*30))
+	container, err := endure.NewContainer(initLogger(), endure.GracefulShutdownTimeout(time.Second*30))
 	assert.NoError(t, err)
 
 	cfg := &configImpl.Plugin{
@@ -192,7 +192,7 @@ func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Test
 }
 
 func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
-	container, err := endure.NewContainer(initLogger(), endure.RetryOnFail(false), endure.GracefulShutdownTimeout(time.Second*30))
+	container, err := endure.NewContainer(initLogger(), endure.GracefulShutdownTimeout(time.Second*30))
 	assert.NoError(t, err)
 
 	cfg := &configImpl.Plugin{
