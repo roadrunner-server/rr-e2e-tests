@@ -52,7 +52,7 @@ require (
 	github.com/roadrunner-server/tcp/v2 v2.12.5
 	github.com/roadrunner-server/websockets/v2 v2.13.3
 	github.com/stretchr/testify v1.7.1
-	github.com/temporalio/roadrunner-temporal v1.4.0-rc.2
+	github.com/temporalio/roadrunner-temporal v1.4.0
 	github.com/yookoala/gofast v0.6.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.2.3
 	go.temporal.io/api v1.7.1-0.20220223032354-6e6fe738916a
