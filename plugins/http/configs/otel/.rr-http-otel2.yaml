@@ -20,13 +20,12 @@ http:
     max_jobs: 0
     allocate_timeout: 60s
     destroy_timeout: 60s
-
-otel:
-  insecure: false
-  compress: true
-  exporter: stdout
-  service_name: rr_test
-  service_version: 1.0.0
+  otel:
+    insecure: false
+    compress: true
+    exporter: stdout
+    service_name: rr_test
+    service_version: 1.0.0
 
 logs:
   mode: development

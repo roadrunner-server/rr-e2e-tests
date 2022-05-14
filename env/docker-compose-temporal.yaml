@@ -15,9 +15,20 @@ services:
     ports:
       - "5432:5432"
 
+  temporal-ui:
+    container_name: temporal-ui
+    depends_on:
+      - temporal
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CORS_ORIGINS=http://localhost:3000
+    image: temporalio/ui:latest
+    ports:
+      - 8080:8080
+
   temporal:
     container_name: temporal
-    image: temporalio/auto-setup:1.14.2
+    image: temporalio/auto-setup:latest
     depends_on:
       - postgresql
     environment:
@@ -32,7 +43,7 @@ services:
 
   temporal-admin-tools:
     container_name: temporal-admin-tools
-    image: temporalio/admin-tools:1.14.2
+    image: temporalio/admin-tools:latest
     depends_on:
       - temporal
     environment:
