@@ -12,7 +12,7 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.2
 	github.com/roadrunner-server/amqp/v2 v2.14.1
-	github.com/roadrunner-server/api/v2 v2.17.0
+	github.com/roadrunner-server/api/v2 v2.17.1
 	github.com/roadrunner-server/beanstalk/v2 v2.13.2
 	github.com/roadrunner-server/boltdb/v2 v2.14.3
 	github.com/roadrunner-server/broadcast/v2 v2.12.3
@@ -42,7 +42,7 @@ require (
 	github.com/roadrunner-server/reload/v2 v2.12.2
 	github.com/roadrunner-server/resetter/v2 v2.11.5
 	github.com/roadrunner-server/rpc/v2 v2.12.5
-	github.com/roadrunner-server/sdk/v2 v2.14.0
+	github.com/roadrunner-server/sdk/v2 v2.14.1
 	github.com/roadrunner-server/send/v2 v2.11.2
 	github.com/roadrunner-server/server/v2 v2.13.5
 	github.com/roadrunner-server/service/v2 v2.14.6
