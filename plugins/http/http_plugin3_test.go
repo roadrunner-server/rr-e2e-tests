@@ -1,10 +1,14 @@
 package http
 
 import (
+	"bytes"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"os/signal"
+	"path"
+	"strings"
 	"sync"
 	"syscall"
 	"testing"
@@ -99,4 +103,131 @@ func TestHTTPNonExistingHTTPCode(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
+}
+
+// delete tmp files
+func TestHTTPMultipartFormTmpFiles(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.10.1",
+		Path:    "configs/http2/.rr-http-multipart.yaml",
+		Prefix:  "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&logger.Plugin{},
+		&server.Plugin{},
+		&gzip.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	client := &http.Client{
+		Timeout: time.Second * 10,
+	}
+
+	tmpdir := os.TempDir()
+	f, err := os.Create(path.Join(tmpdir, "test.png"))
+	require.NoError(t, err)
+	_ = f.Close()
+
+	// New multipart writer.
+	body := new(bytes.Buffer)
+	writer := multipart.NewWriter(body)
+	fw, err := writer.CreateFormField("name")
+	require.NoError(t, err)
+
+	_, err = io.Copy(fw, strings.NewReader("John"))
+	require.NoError(t, err)
+
+	fw, err = writer.CreateFormField("age")
+	require.NoError(t, err)
+
+	_, err = io.Copy(fw, strings.NewReader("23"))
+	require.NoError(t, err)
+
+	fw, err = writer.CreateFormFile("photo", path.Join(tmpdir, "test.png"))
+	require.NoError(t, err)
+
+	file, err := os.Open(path.Join(tmpdir, "test.png"))
+	require.NoError(t, err)
+
+	_, err = io.Copy(fw, file)
+	require.NoError(t, err)
+
+	// Close multipart writer.
+	_ = writer.Close()
+	req, err := http.NewRequest("POST", "http://localhost:55667/employee", bytes.NewReader(body.Bytes()))
+	require.NoError(t, err)
+
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	rsp, err := client.Do(req)
+	require.NoError(t, err)
+
+	assert.Equal(t, http.StatusOK, rsp.StatusCode)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	files, err := os.ReadDir(tmpdir)
+	require.NoError(t, err)
+
+	for _, fl := range files {
+		if strings.Contains(fl.Name(), "upload") {
+			t.Fatal("temp file exists")
+		}
+	}
+
+	t.Cleanup(func() {
+		_ = os.RemoveAll(path.Join(tmpdir, "test.png"))
+		_ = rsp.Body.Close()
+	})
 }

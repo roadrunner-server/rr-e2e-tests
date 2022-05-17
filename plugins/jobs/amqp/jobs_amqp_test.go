@@ -10,7 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/amqp/v2"
+	amqp "github.com/rabbitmq/amqp091-go"
+	amqpDriver "github.com/roadrunner-server/amqp/v2"
 	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
@@ -49,7 +50,7 @@ func TestAMQPInit(t *testing.T) {
 		l,
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -136,7 +137,7 @@ func TestAMQPInitV27(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -223,7 +224,7 @@ func TestAMQPInitV27RR27(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -310,7 +311,7 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -397,7 +398,7 @@ func TestAMQPReset(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -489,7 +490,7 @@ func TestAMQPDeclare(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -582,7 +583,7 @@ func TestAMQPDeclareDurable(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -675,7 +676,7 @@ func TestAMQPJobsError(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -768,7 +769,7 @@ func TestAMQPNoGlobalSection(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -801,7 +802,7 @@ func TestAMQPStats(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -927,7 +928,7 @@ func TestAMQPRespondOk(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -1020,7 +1021,7 @@ func TestAMQPBadResp(t *testing.T) {
 		l,
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -1111,7 +1112,7 @@ func TestAMQPSlow(t *testing.T) {
 		&resetter.Plugin{},
 		&metrics.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -1208,7 +1209,7 @@ func TestAMQPSlowAutoAck(t *testing.T) {
 		&resetter.Plugin{},
 		&metrics.Plugin{},
 		&informer.Plugin{},
-		&amqp.Plugin{},
+		&amqpDriver.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -1281,6 +1282,143 @@ func TestAMQPSlowAutoAck(t *testing.T) {
 
 	t.Cleanup(func() {
 		helpers.DestroyPipelines("test-1")
+	})
+}
+
+// custom payload
+func TestAMQPRawPayload(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.10.1",
+		Path:    "configs/.rr-amqp-raw.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&amqpDriver.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+
+	conn, err := amqp.Dial("amqp://guest:guest@127.0.0.1:5672/")
+	assert.NoError(t, err)
+
+	channel, err := conn.Channel()
+	assert.NoError(t, err)
+
+	// declare an exchange (idempotent operation)
+	err = channel.ExchangeDeclare(
+		"default",
+		"direct",
+		true,
+		false,
+		false,
+		false,
+		nil,
+	)
+	assert.NoError(t, err)
+
+	// verify or declare a queue
+	q, err := channel.QueueDeclare(
+		"test-raw-queue",
+		false,
+		false,
+		false,
+		false,
+		nil,
+	)
+	assert.NoError(t, err)
+
+	// bind queue to the exchange
+	err = channel.QueueBind(
+		q.Name,
+		"test-raw",
+		"default",
+		false,
+		nil,
+	)
+	assert.NoError(t, err)
+
+	pch, err := conn.Channel()
+	assert.NoError(t, err)
+	require.NotNil(t, pch)
+
+	err = pch.Publish("default", "test-raw", false, false, amqp.Publishing{
+		Headers:   amqp.Table{"foo": 2.3},
+		Timestamp: time.Now(),
+		Body:      []byte("foooobarrrrrrrrbazzzzzzzzzzzzzzzzzzzzzzzzz"),
+	})
+	require.NoError(t, err)
+
+	time.Sleep(time.Second * 10)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("get raw payload").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+
+	t.Cleanup(func() {
+		helpers.DestroyPipelines("test-raw")
 	})
 }
 

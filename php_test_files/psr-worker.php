@@ -22,6 +22,7 @@ while ($req = $psr7->waitRequest()) {
         $resp->getBody()->write(str_repeat("d", 1024*1024*5));
 
         $psr7->respond($resp);
+        unset($resp);
     } catch (\Throwable $e) {
         $psr7->getWorker()->error((string)$e);
     }

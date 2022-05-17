@@ -15,7 +15,7 @@ $httpWorker = new RoadRunner\Http\HttpWorker(
 
 while ($req = $httpWorker->waitRequest()) {
     try {
-        $httpWorker->respond(3000, '', []);
+        $httpWorker->respond(610, '', []);
     } catch (\Throwable $e) {
         $httpWorker->getWorker()->error((string)$e);
     }
