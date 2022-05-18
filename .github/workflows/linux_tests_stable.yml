@@ -1083,8 +1083,7 @@ jobs:
           NEW_RELIC_APP_NAME: ${{ secrets.NEW_RELIC_APP_NAME }}
           NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
         run: |
-          wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64
-          mv mkcert-v1.4.4-linux-amd64 ~/bin/mkcert
+          wget -O ~/bin/mkcert https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64
           chmod +x ~/bin/mkcert
           ~/bin/mkcert -install
           mkdir ./coverage-ci
