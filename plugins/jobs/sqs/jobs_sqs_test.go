@@ -412,6 +412,8 @@ func TestSQSInitV27BadResp(t *testing.T) {
 	time.Sleep(time.Second * 3)
 	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
 	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
