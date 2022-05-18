@@ -792,7 +792,7 @@ func TestSQSRawPayload(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 2)
+	time.Sleep(time.Second * 3)
 
 	awsConf, err := sqsConf.LoadDefaultConfig(context.Background(),
 		sqsConf.WithRegion(os.Getenv("RR_SQS_TEST_REGION")),
