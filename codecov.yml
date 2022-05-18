@@ -13,3 +13,5 @@ coverage:
 ignore:
   - "plugins"
   - "php_test_files"
+  - "mock"
+  - "env"
