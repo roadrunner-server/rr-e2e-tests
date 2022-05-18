@@ -1,6 +1,7 @@
 package sqs
 
 import (
+	"context"
 	"net"
 	"net/rpc"
 	"os"
@@ -10,6 +11,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/aws/retry"
+	sqsConf "github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/sqs"
+	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
@@ -22,7 +29,7 @@ import (
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v2"
-	"github.com/roadrunner-server/sqs/v2"
+	sqsPlugin "github.com/roadrunner-server/sqs/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
@@ -47,7 +54,7 @@ func TestSQSInit(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -123,7 +130,7 @@ func TestSQSAutoAck(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -200,7 +207,7 @@ func TestSQSInitV27(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -276,7 +283,7 @@ func TestSQSInitV27Attributes(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -353,7 +360,7 @@ func TestSQSInitV27BadResp(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -431,7 +438,7 @@ func TestSQSDeclare(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -513,7 +520,7 @@ func TestSQSJobsError(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -597,7 +604,7 @@ func TestSQSNoGlobalSection(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -628,7 +635,7 @@ func TestSQSStat(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -723,13 +730,13 @@ func TestSQSStat(t *testing.T) {
 	wg.Wait()
 }
 
-func TestSQSRespond(t *testing.T) {
+func TestSQSRawPayload(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0",
-		Path:    "configs/.rr-sqs-respond.yaml",
+		Version: "2.10.1",
+		Path:    "configs/.rr-sqs-raw.yaml",
 		Prefix:  "rr",
 	}
 
@@ -741,7 +748,7 @@ func TestSQSRespond(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&sqs.Plugin{},
+		&sqsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -790,16 +797,38 @@ func TestSQSRespond(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 3)
+	time.Sleep(time.Second * 2)
 
-	t.Run("DeclarePipeline", declareSQSPipe("default"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
-	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-1"))
+	awsConf, err := sqsConf.LoadDefaultConfig(context.Background(),
+		sqsConf.WithRegion(os.Getenv("RR_SQS_TEST_REGION")),
+		sqsConf.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(os.Getenv("RR_SQS_TEST_KEY"), os.Getenv("RR_SQS_TEST_SECRET"), "")))
+	require.NoError(t, err)
 
-	time.Sleep(time.Second * 5)
+	// config with retries
+	client := sqs.NewFromConfig(awsConf, sqs.WithEndpointResolver(sqs.EndpointResolverFromURL(os.Getenv("RR_SQS_TEST_ENDPOINT"))), func(o *sqs.Options) {
+		o.Retryer = retry.NewStandard(func(opts *retry.StandardOptions) {
+			opts.MaxAttempts = 60
+		})
+	})
+
+	queueURL, err := getQueueURL(client, "resp-queue")
+	require.NoError(t, err)
+
+	body := "fooobooobzzzzaaaaafdsasdfas"
+
+	attr := make(map[string]types.MessageAttributeValue)
+	attr["foo"] = types.MessageAttributeValue{DataType: aws.String("String"), BinaryValue: nil, BinaryListValues: nil, StringListValues: nil, StringValue: aws.String("fooooooobaaaaarrrrr")}
+
+	_, err = client.SendMessage(context.Background(), &sqs.SendMessageInput{
+		MessageBody:       &body,
+		QueueUrl:          queueURL,
+		DelaySeconds:      0,
+		MessageAttributes: attr,
+	})
+	require.NoError(t, err)
+
+	time.Sleep(time.Second * 10)
+
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -850,4 +879,15 @@ func declareSQSPipeFifo(queue string) func(t *testing.T) {
 		err = client.Call("jobs.Declare", pipe, er)
 		assert.NoError(t, err)
 	}
+}
+
+func getQueueURL(client *sqs.Client, queueName string) (*string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
+	out, err := client.GetQueueUrl(ctx, &sqs.GetQueueUrlInput{QueueName: &queueName})
+	if err != nil {
+		return nil, err
+	}
+
+	return out.QueueUrl, nil
 }

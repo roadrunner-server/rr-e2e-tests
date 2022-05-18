@@ -4,6 +4,10 @@ go 1.18
 
 require (
 	github.com/Shopify/toxiproxy v2.1.4+incompatible
+	github.com/aws/aws-sdk-go-v2 v1.16.4
+	github.com/aws/aws-sdk-go-v2/config v1.15.7
+	github.com/aws/aws-sdk-go-v2/credentials v1.12.2
+	github.com/aws/aws-sdk-go-v2/service/sqs v1.18.5
 	github.com/fatih/color v1.13.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gobwas/ws v1.1.0
@@ -24,9 +28,9 @@ require (
 	github.com/roadrunner-server/fileserver/v2 v2.12.6
 	github.com/roadrunner-server/goridge/v3 v3.4.1
 	github.com/roadrunner-server/grpc/v2 v2.14.1
-	github.com/roadrunner-server/gzip/v2 v2.11.5
+	github.com/roadrunner-server/gzip/v2 v2.11.6
 	github.com/roadrunner-server/headers/v2 v2.11.4
-	github.com/roadrunner-server/http/v2 v2.15.12
+	github.com/roadrunner-server/http/v2 v2.16.0
 	github.com/roadrunner-server/informer/v2 v2.11.6
 	github.com/roadrunner-server/jobs/v2 v2.13.4
 	github.com/roadrunner-server/kv/v2 v2.12.4
@@ -36,7 +40,7 @@ require (
 	github.com/roadrunner-server/metrics/v2 v2.12.6
 	github.com/roadrunner-server/nats/v2 v2.13.4
 	github.com/roadrunner-server/new_relic/v2 v2.13.6
-	github.com/roadrunner-server/otel/v2 v2.2.1
+	github.com/roadrunner-server/otel/v2 v2.2.2
 	github.com/roadrunner-server/prometheus/v2 v2.12.6
 	github.com/roadrunner-server/proxy_ip_parser/v2 v2.4.0
 	github.com/roadrunner-server/redis/v2 v2.14.3
@@ -47,7 +51,7 @@ require (
 	github.com/roadrunner-server/send/v2 v2.11.3
 	github.com/roadrunner-server/server/v2 v2.13.6
 	github.com/roadrunner-server/service/v2 v2.14.7
-	github.com/roadrunner-server/sqs/v2 v2.14.4
+	github.com/roadrunner-server/sqs/v2 v2.15.0
 	github.com/roadrunner-server/static/v2 v2.12.5
 	github.com/roadrunner-server/status/v2 v2.12.4
 	github.com/roadrunner-server/tcp/v2 v2.12.6
@@ -59,24 +63,20 @@ require (
 	go.temporal.io/api v1.7.1-0.20220223032354-6e6fe738916a
 	go.temporal.io/sdk v1.14.0
 	go.uber.org/zap v1.21.0
-	golang.org/x/net v0.0.0-20220516155154-20f960328961
+	golang.org/x/net v0.0.0-20220517181318-183a9ca12b87
 	google.golang.org/grpc v1.46.2
 	google.golang.org/protobuf v1.28.0
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/aws/aws-sdk-go-v2 v1.16.3 // indirect
-	github.com/aws/aws-sdk-go-v2/config v1.15.6 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.12.1 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.4 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.10 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.4 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.11 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sqs v1.18.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.11.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.16.5 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.5 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.11 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.5 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.12 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.5 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.11.5 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.16.6 // indirect
 	github.com/aws/smithy-go v1.11.2 // indirect
 	github.com/beanstalkd/go-beanstalk v0.1.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -151,7 +151,9 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.32.0 // indirect
+	go.opentelemetry.io/contrib/propagators/jaeger v1.7.0 // indirect
 	go.opentelemetry.io/otel v1.7.0 // indirect
+	go.opentelemetry.io/otel/exporters/jaeger v1.7.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/internal/retry v1.7.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.7.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.7.0 // indirect
@@ -165,14 +167,14 @@ require (
 	go.temporal.io/sdk/contrib/tally v0.1.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/crypto v0.0.0-20220517005047-85d78b3ac167 // indirect
+	golang.org/x/crypto v0.0.0-20220518034528-6f7dac969898 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/sync v0.0.0-20220513210516-0976fa681c29 // indirect
-	golang.org/x/sys v0.0.0-20220513210249-45d2b4557a2a // indirect
+	golang.org/x/sys v0.0.0-20220517195934-5e4e11fc645e // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 	golang.org/x/tools v0.1.10 // indirect
-	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
+	golang.org/x/xerrors v0.0.0-20220517211312-f3a8303e98df // indirect
 	google.golang.org/genproto v0.0.0-20220505152158-f39f71e6c8f3 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect

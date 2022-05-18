@@ -4,12 +4,10 @@ rpc:
   listen: tcp://127.0.0.1:6001
 
 server:
-  command: "php ../../../php_test_files/jobs/jobs_respond_sqs.php"
+  command: "php ../../../php_test_files/jobs/jobs_ok.php"
   relay: "pipes"
   relay_timeout: "20s"
 
-# amazon sqs configuration
-# General section
 sqs:
   key: api-key
   secret: api-secret
@@ -17,12 +15,12 @@ sqs:
   endpoint: http://127.0.0.1:9324
 
 logs:
-  level: error
+  level: debug
   encoding: console
   mode: development
 
 jobs:
-  num_pollers: 1
+  num_pollers: 10
   pipeline_size: 100000
   pool:
     num_workers: 10
@@ -31,12 +29,23 @@ jobs:
     destroy_timeout: 60s
 
   pipelines:
-    test-1:
+    test-raw:
       driver: sqs
       config:
+        consume_all: true
+        skip_queue_declaration: true
         prefetch: 1000
         visibility_timeout: 0
         wait_time_seconds: 0
-        queue: "test-1-queue"
+        queue: resp-queue
+        attributes:
+          DelaySeconds: 0
+          MaximumMessageSize: 262144
+          MessageRetentionPeriod: 345600
+          ReceiveMessageWaitTimeSeconds: 0
+          VisibilityTimeout: 30
+        tags:
+          test: "tag"
 
-  consume: [ "test-1" ]
+  consume: [ "test-raw" ]
+
