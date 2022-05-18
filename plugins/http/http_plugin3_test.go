@@ -2,6 +2,8 @@ package http
 
 import (
 	"bytes"
+	"crypto/tls"
+	"crypto/x509"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -297,10 +299,30 @@ func TestMTLS1(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
+	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
+	certCa, err := os.ReadFile("./fixtures/test-certs/rootCA.pem")
+	require.NoError(t, err)
+	require.NotNil(t, certCa)
+	//
+	certPool := x509.NewCertPool()
+	require.True(t, certPool.AppendCertsFromPEM(certCa))
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
+				ClientCAs:    certPool,
+			},
+		},
+	}
+
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8895?hello=world", nil)
 	assert.NoError(t, err)
 
-	r, err := sslClient.Do(req)
+	r, err := client.Do(req)
 	assert.NoError(t, err)
 
 	b, err := io.ReadAll(r.Body)
@@ -386,7 +408,27 @@ func TestMTLS2(t *testing.T) {
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8896?hello=world", nil)
 	assert.NoError(t, err)
 
-	r, err := sslClient.Do(req)
+	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
+	certCa, err := os.ReadFile("./fixtures/test-certs/rootCA.pem")
+	require.NoError(t, err)
+	require.NotNil(t, certCa)
+	//
+	certPool := x509.NewCertPool()
+	require.True(t, certPool.AppendCertsFromPEM(certCa))
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
+				ClientCAs:    certPool,
+			},
+		},
+	}
+
+	r, err := client.Do(req)
 	assert.NoError(t, err)
 
 	b, err := io.ReadAll(r.Body)
@@ -468,7 +510,27 @@ func TestMTLS3(t *testing.T) {
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8897?hello=world", nil)
 	assert.NoError(t, err)
 
-	r, err := sslClient.Do(req)
+	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
+	certCa, err := os.ReadFile("./fixtures/test-certs/rootCA.pem")
+	require.NoError(t, err)
+	require.NotNil(t, certCa)
+	//
+	certPool := x509.NewCertPool()
+	require.True(t, certPool.AppendCertsFromPEM(certCa))
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
+				ClientCAs:    certPool,
+			},
+		},
+	}
+
+	r, err := client.Do(req)
 	assert.NoError(t, err)
 
 	b, err := io.ReadAll(r.Body)
@@ -550,7 +612,27 @@ func TestMTLS4(t *testing.T) {
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8898?hello=world", nil)
 	assert.NoError(t, err)
 
-	r, err := sslClient.Do(req)
+	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
+	certCa, err := os.ReadFile("./fixtures/test-certs/rootCA.pem")
+	require.NoError(t, err)
+	require.NotNil(t, certCa)
+	//
+	certPool := x509.NewCertPool()
+	require.True(t, certPool.AppendCertsFromPEM(certCa))
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
+				ClientCAs:    certPool,
+			},
+		},
+	}
+
+	r, err := client.Do(req)
 	assert.NoError(t, err)
 
 	b, err := io.ReadAll(r.Body)
@@ -561,6 +643,80 @@ func TestMTLS4(t *testing.T) {
 	assert.Equal(t, "WORLD", string(b))
 
 	_ = r.Body.Close()
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
+func TestMTLS5(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.10.1",
+		Path:    "configs/https/.rr-mtls1.yaml",
+		Prefix:  "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&rpcPlugin.Plugin{},
+		&logger.Plugin{},
+		&server.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 1)
+
+	req, err := http.NewRequest("GET", "https://127.0.0.1:8895?hello=world", nil)
+	require.NoError(t, err)
+
+	_, err = sslClient.Do(req) //nolint:bodyclose
+	assert.Error(t, err)
+
 	stopCh <- struct{}{}
 	wg.Wait()
 }
