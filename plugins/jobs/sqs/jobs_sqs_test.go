@@ -706,10 +706,6 @@ func TestSQSStat(t *testing.T) {
 	assert.Equal(t, out.Driver, "sqs")
 	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
 
-	assert.Greater(t, int64(0), out.Active)
-	assert.Greater(t, int64(0), out.Delayed)
-	assert.Equal(t, int64(0), out.Reserved)
-
 	time.Sleep(time.Second)
 	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
 	time.Sleep(time.Second * 7)
@@ -720,10 +716,6 @@ func TestSQSStat(t *testing.T) {
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "sqs")
 	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
-
-	assert.GreaterOrEqual(t, out.Active, int64(0))
-	assert.GreaterOrEqual(t, out.Delayed, int64(0))
-	assert.Equal(t, int64(0), out.Reserved)
 
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
