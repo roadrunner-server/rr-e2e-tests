@@ -21,9 +21,6 @@ http:
     cert: "fixtures/test-certs/localhost+2.pem"
     root_ca: "./fixtures/test-certs/rootCA.pem"
     client_auth_type: require_and_verify_client_cert
-
-  fcgi:
-    address: tcp://0.0.0.0:16920
 logs:
   mode: development
   level: error
