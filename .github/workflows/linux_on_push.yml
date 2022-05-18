@@ -1080,6 +1080,7 @@ jobs:
           NEW_RELIC_APP_NAME: ${{ secrets.NEW_RELIC_APP_NAME }}
           NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
         run: |
+          sudo apt update
           sudo apt install -y libnss3-tools mkcert
           sudo mkcert -install
           mkdir ./coverage-ci
