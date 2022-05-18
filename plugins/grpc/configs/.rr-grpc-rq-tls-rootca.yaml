@@ -24,7 +24,7 @@ grpc:
     client_auth_type: "require_and_verify_client_cert"
 
   # proto root file
-  proto: "proto/service/service.proto"
+  proto: [ "proto/service/service.proto" ]
 
   # max send limit (MB)
   max_send_msg_size: 50

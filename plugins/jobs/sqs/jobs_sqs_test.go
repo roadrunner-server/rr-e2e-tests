@@ -740,11 +740,12 @@ func TestSQSRawPayload(t *testing.T) {
 		Prefix:  "rr",
 	}
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
+		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
@@ -828,6 +829,12 @@ func TestSQSRawPayload(t *testing.T) {
 	require.NoError(t, err)
 
 	time.Sleep(time.Second * 10)
+
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("get raw payload").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 
 	stopCh <- struct{}{}
 	wg.Wait()

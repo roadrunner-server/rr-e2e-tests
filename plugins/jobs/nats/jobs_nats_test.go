@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/nats-io/nats.go"
 	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
@@ -17,7 +18,7 @@ import (
 	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/jobs/v2"
 	"github.com/roadrunner-server/logger/v2"
-	"github.com/roadrunner-server/nats/v2"
+	natsPlugin "github.com/roadrunner-server/nats/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
@@ -48,7 +49,7 @@ func TestNATSInit(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&natsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -129,7 +130,7 @@ func TestNATSInitAutoAck(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&natsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -210,7 +211,7 @@ func TestNATSInitV27(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&natsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -287,7 +288,7 @@ func TestNATSInitV27BadResp(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&natsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -365,7 +366,7 @@ func TestNATSDeclare(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&natsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -446,7 +447,7 @@ func TestNATSJobsError(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&natsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -509,25 +510,26 @@ func TestNATSJobsError(t *testing.T) {
 	wg.Wait()
 }
 
-func TestNATSRespond(t *testing.T) {
+func TestNATSRaw(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0",
-		Path:    "configs/.rr-nats-respond.yaml",
+		Version: "2.10.1",
+		Path:    "configs/.rr-nats-raw.yaml",
 		Prefix:  "rr",
 	}
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
+		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&natsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -578,14 +580,54 @@ func TestNATSRespond(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe("default-12", "stream-12"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
-	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	conn, err := nats.Connect("nats://127.0.0.1:4222",
+		nats.NoEcho(),
+		nats.Timeout(time.Minute),
+		nats.MaxReconnects(-1),
+		nats.PingInterval(time.Second*10),
+		nats.ReconnectWait(time.Second),
+	)
+	require.NoError(t, err)
+
+	js, err := conn.JetStream()
+	require.NoError(t, err)
+
+	si, err := js.StreamInfo("foo-raw")
+	if err != nil {
+		if err.Error() == "nats: stream not found" {
+			// skip
+		} else {
+			t.Fatal(err)
+		}
+	}
+
+	if si == nil {
+		_, err = js.AddStream(&nats.StreamConfig{
+			Name:     "foo-raw",
+			Subjects: []string{"default-raw"},
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	_, err = js.Publish("default-raw", []byte("foo-barrrrrr-bazzzzz"))
+	require.NoError(t, err)
+
+	time.Sleep(time.Second * 10)
 
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("get raw payload").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+
+	t.Cleanup(func() {
+		helpers.DestroyPipelines("test-raw")
+	})
 }
 
 func TestNATSNoGlobalSection(t *testing.T) {
@@ -606,7 +648,7 @@ func TestNATSNoGlobalSection(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&natsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -637,7 +679,7 @@ func TestNATSStats(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&nats.Plugin{},
+		&natsPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 

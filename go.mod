@@ -14,6 +14,7 @@ require (
 	github.com/gobwas/ws v1.1.0
 	github.com/goccy/go-json v0.9.7
 	github.com/google/uuid v1.3.0
+	github.com/nats-io/nats.go v1.15.0
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.2
 	github.com/rabbitmq/amqp091-go v1.3.4
@@ -39,7 +40,7 @@ require (
 	github.com/roadrunner-server/memcached/v2 v2.12.3
 	github.com/roadrunner-server/memory/v2 v2.13.3
 	github.com/roadrunner-server/metrics/v2 v2.12.6
-	github.com/roadrunner-server/nats/v2 v2.13.4
+	github.com/roadrunner-server/nats/v2 v2.14.0
 	github.com/roadrunner-server/new_relic/v2 v2.13.6
 	github.com/roadrunner-server/otel/v2 v2.2.2
 	github.com/roadrunner-server/prometheus/v2 v2.12.6
@@ -117,7 +118,6 @@ require (
 	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/nats-io/jwt/v2 v2.2.1-0.20220113022732-58e87895b296 // indirect
-	github.com/nats-io/nats.go v1.15.0 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/newrelic/go-agent/v3 v3.15.2 // indirect
