@@ -20,7 +20,7 @@ http:
     key: "fixtures/test-certs/test.key"
     cert: "fixtures/test-certs/test.pem"
     root_ca: "fixtures/test-certs/ca.cert"
-    client_auth_type: request_client_cert
+    client_auth_type: "request_client_cert"
 
   fcgi:
     address: tcp://0.0.0.0:16920
