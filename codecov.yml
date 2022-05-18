@@ -10,3 +10,6 @@ coverage:
         target: auto
         threshold: 50%
         informational: true
+ignore:
+  - "plugins"
+  - "php_test_files"
