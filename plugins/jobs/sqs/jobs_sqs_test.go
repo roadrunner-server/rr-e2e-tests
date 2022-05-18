@@ -704,8 +704,8 @@ func TestSQSStat(t *testing.T) {
 	assert.Equal(t, out.Driver, "sqs")
 	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
 
-	assert.Greater(t, out.Active, int64(0))
-	assert.Greater(t, out.Delayed, int64(0))
+	assert.Greater(t, int64(0), out.Active)
+	assert.Greater(t, int64(0), out.Delayed)
 	assert.Equal(t, int64(0), out.Reserved)
 
 	time.Sleep(time.Second)
@@ -830,14 +830,14 @@ func TestSQSRawPayload(t *testing.T) {
 
 	time.Sleep(time.Second * 10)
 
+	stopCh <- struct{}{}
+	wg.Wait()
+
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("get raw payload").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was started").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
-
-	stopCh <- struct{}{}
-	wg.Wait()
 }
 
 func declareSQSPipe(queue string) func(t *testing.T) {
