@@ -828,7 +828,6 @@ func TestSQSRawPayload(t *testing.T) {
 	wg.Wait()
 
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("get raw payload").Len())
-	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 }
 
