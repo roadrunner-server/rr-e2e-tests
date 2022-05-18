@@ -8,6 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.15.7
 	github.com/aws/aws-sdk-go-v2/credentials v1.12.2
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.18.5
+	github.com/beanstalkd/go-beanstalk v0.1.0
 	github.com/fatih/color v1.13.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gobwas/ws v1.1.0
@@ -18,7 +19,7 @@ require (
 	github.com/rabbitmq/amqp091-go v1.3.4
 	github.com/roadrunner-server/amqp/v2 v2.15.1
 	github.com/roadrunner-server/api/v2 v2.17.1
-	github.com/roadrunner-server/beanstalk/v2 v2.13.3
+	github.com/roadrunner-server/beanstalk/v2 v2.14.0
 	github.com/roadrunner-server/boltdb/v2 v2.14.4
 	github.com/roadrunner-server/broadcast/v2 v2.12.4
 	github.com/roadrunner-server/cache/v2 v2.13.4
@@ -78,7 +79,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.11.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.16.6 // indirect
 	github.com/aws/smithy-go v1.11.2 // indirect
-	github.com/beanstalkd/go-beanstalk v0.1.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20220106215444-fb4bf637b56d // indirect
 	github.com/caddyserver/certmagic v0.16.1 // indirect

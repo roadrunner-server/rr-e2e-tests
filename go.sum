@@ -415,8 +415,8 @@ github.com/roadrunner-server/amqp/v2 v2.15.1 h1:gdaPChiTTi2WIqTNMuzHftECOFcwFzEu
 github.com/roadrunner-server/amqp/v2 v2.15.1/go.mod h1:Exv0ylQ3/xf/uWRLlkvR1BuWNjkWxsj6WKEMpNwI2d0=
 github.com/roadrunner-server/api/v2 v2.17.1 h1:uxjmFwHwdce/tG5oRaLGJ7iiGMOEWcx9/gSRXyCH84g=
 github.com/roadrunner-server/api/v2 v2.17.1/go.mod h1:eAFjmf/u+ZBubzIUEjw1fJKYMExK2YnKqNuiepsFveo=
-github.com/roadrunner-server/beanstalk/v2 v2.13.3 h1:ZtZGfuajunobfo41+IOr1fqVjExOvyFaQ8fy6nVNTfw=
-github.com/roadrunner-server/beanstalk/v2 v2.13.3/go.mod h1:IVQcsQoam9bJmWkaRfxORadSx2zsacqKeU/h31dhTgk=
+github.com/roadrunner-server/beanstalk/v2 v2.14.0 h1:UHt0XymdSpOoxNZvkhA09AeTngOkcAdqYYTpOm9GGUY=
+github.com/roadrunner-server/beanstalk/v2 v2.14.0/go.mod h1:uGPZSUfZszMwSzZInm50ZxXHPJ+euNAplgS1U4YWwcg=
 github.com/roadrunner-server/boltdb/v2 v2.14.4 h1:L7lvexOv1jwUoBKFaGfBYQm8IPUQKWBOqDzbLrkGgQc=
 github.com/roadrunner-server/boltdb/v2 v2.14.4/go.mod h1:FgAzgQGJnZfTKo/3RN2sCoves2IvoiCsYmaXM+LqZRk=
 github.com/roadrunner-server/broadcast/v2 v2.12.4 h1:AxYheQoDmYmM3QgptTY++rylWu9WPwRJ25UNAjVboIk=

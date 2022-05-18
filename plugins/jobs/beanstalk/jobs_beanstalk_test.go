@@ -10,9 +10,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/beanstalkd/go-beanstalk"
 	"github.com/google/uuid"
 	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
-	"github.com/roadrunner-server/beanstalk/v2"
+	beanstalkPlugin "github.com/roadrunner-server/beanstalk/v2"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -49,7 +50,7 @@ func TestBeanstalkInit(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&beanstalk.Plugin{},
+		&beanstalkPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -134,7 +135,7 @@ func TestBeanstalkInitAutoAck(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&beanstalk.Plugin{},
+		&beanstalkPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -220,7 +221,7 @@ func TestBeanstalkInitV27(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&beanstalk.Plugin{},
+		&beanstalkPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -306,7 +307,7 @@ func TestBeanstalkStats(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&beanstalk.Plugin{},
+		&beanstalkPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -426,7 +427,7 @@ func TestBeanstalkDeclare(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&beanstalk.Plugin{},
+		&beanstalkPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -511,7 +512,7 @@ func TestBeanstalkJobsError(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&beanstalk.Plugin{},
+		&beanstalkPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -597,7 +598,7 @@ func TestBeanstalkNoGlobalSection(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&beanstalk.Plugin{},
+		&beanstalkPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -610,13 +611,13 @@ func TestBeanstalkNoGlobalSection(t *testing.T) {
 	require.Error(t, err)
 }
 
-func TestBeanstalkRespond(t *testing.T) {
+func TestBeanstalkRaw(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0",
-		Path:    "configs/.rr-beanstalk-respond.yaml",
+		Version: "2.10.1",
+		Path:    "configs/.rr-beanstalk-raw.yaml",
 		Prefix:  "rr",
 	}
 
@@ -628,7 +629,7 @@ func TestBeanstalkRespond(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&beanstalk.Plugin{},
+		&beanstalkPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
@@ -679,20 +680,23 @@ func TestBeanstalkRespond(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclareBeanstalkPipeline", declareBeanstalkPipe)
-	t.Run("ConsumeBeanstalkPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushBeanstalkPipeline", helpers.PushToPipe("test-3", false))
-	time.Sleep(time.Second * 3)
-	t.Run("DestroyBeanstalkPipeline", helpers.DestroyPipelines("test-3"))
-	t.Run("DestroyBeanstalkPipeline", helpers.DestroyPipelines("test-1"))
+	connT, err := beanstalk.DialTimeout("tcp", "127.0.0.1:11300", time.Second*10)
+	require.NoError(t, err)
+
+	tb := beanstalk.NewTube(connT, "default-raw")
+
+	_, err = tb.Put([]byte("fooobarrbazzz"), 1, 0, 0)
+	require.NoError(t, err)
 
 	time.Sleep(time.Second * 5)
+
 	stopCh <- struct{}{}
 	wg.Wait()
 	time.Sleep(time.Second)
 
 	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-3")
+		_ = connT.Close()
+		helpers.DestroyPipelines("test-raw")
 	})
 }
 
@@ -715,7 +719,7 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
-		&beanstalk.Plugin{},
+		&beanstalkPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
 
