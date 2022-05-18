@@ -1036,9 +1036,9 @@ jobs:
           NEW_RELIC_APP_NAME: ${{ secrets.NEW_RELIC_APP_NAME }}
           NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
         run: |
-          sudo apt update
-          sudo apt install -y libnss3-tools mkcert
-          sudo mkcert -install
+          wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64
+          mv mkcert-v1.4.3-linux-amd64 ~/bin/mkcert
+          chmod +x ~/bin/mkcert
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=nightly,debug -failfast -coverpkg=all -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http
 
