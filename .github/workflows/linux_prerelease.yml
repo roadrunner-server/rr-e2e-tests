@@ -1039,6 +1039,7 @@ jobs:
           wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64
           mv mkcert-v1.4.3-linux-amd64 ~/bin/mkcert
           chmod +x ~/bin/mkcert
+          ~/bin/mkcert -install
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=nightly,debug -failfast -coverpkg=all -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http
 
