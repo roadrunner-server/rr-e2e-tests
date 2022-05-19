@@ -3,7 +3,6 @@ package http
 import (
 	"bytes"
 	"crypto/tls"
-	"crypto/x509"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -302,19 +301,11 @@ func TestMTLS1(t *testing.T) {
 	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
-	certCa, err := os.ReadFile("./fixtures/test-certs/rootCA.pem")
-	require.NoError(t, err)
-	require.NotNil(t, certCa)
-	//
-	certPool := x509.NewCertPool()
-	require.True(t, certPool.AppendCertsFromPEM(certCa))
-
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
 				MinVersion:   tls.VersionTLS12,
 				Certificates: []tls.Certificate{cert},
-				ClientCAs:    certPool,
 			},
 		},
 	}
@@ -411,19 +402,11 @@ func TestMTLS2(t *testing.T) {
 	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
-	certCa, err := os.ReadFile("./fixtures/test-certs/rootCA.pem")
-	require.NoError(t, err)
-	require.NotNil(t, certCa)
-	//
-	certPool := x509.NewCertPool()
-	require.True(t, certPool.AppendCertsFromPEM(certCa))
-
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
 				MinVersion:   tls.VersionTLS12,
 				Certificates: []tls.Certificate{cert},
-				ClientCAs:    certPool,
 			},
 		},
 	}
@@ -513,19 +496,11 @@ func TestMTLS3(t *testing.T) {
 	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
-	certCa, err := os.ReadFile("./fixtures/test-certs/rootCA.pem")
-	require.NoError(t, err)
-	require.NotNil(t, certCa)
-	//
-	certPool := x509.NewCertPool()
-	require.True(t, certPool.AppendCertsFromPEM(certCa))
-
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
 				MinVersion:   tls.VersionTLS12,
 				Certificates: []tls.Certificate{cert},
-				ClientCAs:    certPool,
 			},
 		},
 	}
@@ -615,19 +590,11 @@ func TestMTLS4(t *testing.T) {
 	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
-	certCa, err := os.ReadFile("./fixtures/test-certs/rootCA.pem")
-	require.NoError(t, err)
-	require.NotNil(t, certCa)
-	//
-	certPool := x509.NewCertPool()
-	require.True(t, certPool.AppendCertsFromPEM(certCa))
-
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
 				MinVersion:   tls.VersionTLS12,
 				Certificates: []tls.Certificate{cert},
-				ClientCAs:    certPool,
 			},
 		},
 	}
@@ -714,7 +681,15 @@ func TestMTLS5(t *testing.T) {
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8895?hello=world", nil)
 	require.NoError(t, err)
 
-	_, err = sslClient.Do(req) //nolint:bodyclose
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				MinVersion: tls.VersionTLS12,
+			},
+		},
+	}
+
+	_, err = client.Do(req) //nolint:bodyclose
 	assert.Error(t, err)
 
 	stopCh <- struct{}{}
