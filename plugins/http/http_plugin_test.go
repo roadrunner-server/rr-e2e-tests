@@ -1189,11 +1189,18 @@ func TestH2CUpgrade(t *testing.T) {
 	assert.Equal(t, "101 Switching Protocols", r.Status)
 	require.NoError(t, r.Body.Close())
 
+	assert.Equal(t, http.StatusSwitchingProtocols, r.StatusCode)
+
+	resp, err := http.Get("http://127.0.0.1:8083?hello=world")
+	require.NoError(t, err)
+	require.Equal(t, 1, resp.ProtoMajor)
+	_ = resp.Body.Close()
+
+	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("http server was started").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("hijacked").Len())
 }
 
 func TestH2C(t *testing.T) {
@@ -1284,6 +1291,7 @@ func TestH2C(t *testing.T) {
 
 	require.Equal(t, []byte("WORLD"), data)
 
+	require.Equal(t, 2, r.ProtoMajor)
 	require.NoError(t, r.Body.Close())
 
 	stopCh <- struct{}{}

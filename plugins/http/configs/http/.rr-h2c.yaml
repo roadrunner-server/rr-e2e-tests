@@ -18,6 +18,6 @@ http:
     h2c: true
     max_concurrent_streams: 128
 logs:
-  mode: production
-  level: info
+  mode: development
+  level: debug
   encoding: console
