@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0542f71f55bf0c99c71512deae247caa",
+    "content-hash": "786331b9cd567b992c1ce2ed7fdc7ac3",
     "packages": [
         {
             "name": "arku31/roadrunner-newrelic",
@@ -326,16 +326,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.5.5",
+            "version": "6.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "9d4290de1cfd701f38099ef7e183b64b4b7b0c5e"
+                "reference": "f092dd734083473658de3ee4bef093ed77d2689c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/9d4290de1cfd701f38099ef7e183b64b4b7b0c5e",
-                "reference": "9d4290de1cfd701f38099ef7e183b64b4b7b0c5e",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f092dd734083473658de3ee4bef093ed77d2689c",
+                "reference": "f092dd734083473658de3ee4bef093ed77d2689c",
                 "shasum": ""
             },
             "require": {
@@ -373,9 +373,39 @@
             ],
             "authors": [
                 {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Jeremy Lindblom",
+                    "email": "jeremeamia@gmail.com",
+                    "homepage": "https://github.com/jeremeamia"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://github.com/sagikazarmark"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
                 }
             ],
             "description": "Guzzle is a PHP HTTP client library",
@@ -391,9 +421,23 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/6.5"
+                "source": "https://github.com/guzzle/guzzle/tree/6.5.6"
             },
-            "time": "2020-06-16T21:01:06+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/guzzle",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-05-25T13:19:12+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1196,16 +1240,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.14.1",
+            "version": "1.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "de90ab2b41d7d61609f504e031339776bc8c7223"
+                "reference": "c8d48852fbc052454af42f6de27635ddd916b959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/de90ab2b41d7d61609f504e031339776bc8c7223",
-                "reference": "de90ab2b41d7d61609f504e031339776bc8c7223",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/c8d48852fbc052454af42f6de27635ddd916b959",
+                "reference": "c8d48852fbc052454af42f6de27635ddd916b959",
                 "shasum": ""
             },
             "require": {
@@ -1218,8 +1262,7 @@
                 "graham-campbell/phpspec-skip-example-extension": "^5.0",
                 "php-http/httplug": "^1.0 || ^2.0",
                 "php-http/message-factory": "^1.0",
-                "phpspec/phpspec": "^5.1 || ^6.1",
-                "puli/composer-plugin": "1.0.0-beta10"
+                "phpspec/phpspec": "^5.1 || ^6.1"
             },
             "suggest": {
                 "php-http/message": "Allow to use Guzzle, Diactoros or Slim Framework factories"
@@ -1258,9 +1301,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.14.1"
+                "source": "https://github.com/php-http/discovery/tree/1.14.2"
             },
-            "time": "2021-09-18T07:57:46+00:00"
+            "time": "2022-05-25T07:26:05+00:00"
         },
         {
             "name": "php-http/guzzle6-adapter",
@@ -1833,30 +1876,30 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.4",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
+                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe5ea303b0887d5caefd3d431c3e61ad47037001",
+                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
+                    "Psr\\Log\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1877,9 +1920,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.4"
+                "source": "https://github.com/php-fig/log/tree/3.0.0"
             },
-            "time": "2021-05-03T11:20:27+00:00"
+            "time": "2021-07-14T16:46:02+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -2227,16 +2270,16 @@
         },
         {
             "name": "spiral/attributes",
-            "version": "2.13.0",
+            "version": "2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/attributes.git",
-                "reference": "e5e9db6ae77c65334801fdb1c760a37a06791394"
+                "reference": "bbe67611a3562d76a4c85a0fc159f9b6f9c35d14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/attributes/zipball/e5e9db6ae77c65334801fdb1c760a37a06791394",
-                "reference": "e5e9db6ae77c65334801fdb1c760a37a06791394",
+                "url": "https://api.github.com/repos/spiral/attributes/zipball/bbe67611a3562d76a4c85a0fc159f9b6f9c35d14",
+                "reference": "bbe67611a3562d76a4c85a0fc159f9b6f9c35d14",
                 "shasum": ""
             },
             "require": {
@@ -2257,7 +2300,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.13.x-dev"
+                    "dev-master": "2.14.x-dev"
                 }
             },
             "autoload": {
@@ -2284,20 +2327,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/attributes"
             },
-            "time": "2022-04-28T19:29:52+00:00"
+            "time": "2022-05-16T19:46:13+00:00"
         },
         {
             "name": "spiral/core",
-            "version": "2.13.0",
+            "version": "2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/core.git",
-                "reference": "0b25ed87aa50cf223dfab13f9c207ae2d0e67854"
+                "reference": "0987729c98a3e764d916d065237e0e491824fb07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/core/zipball/0b25ed87aa50cf223dfab13f9c207ae2d0e67854",
-                "reference": "0b25ed87aa50cf223dfab13f9c207ae2d0e67854",
+                "url": "https://api.github.com/repos/spiral/core/zipball/0987729c98a3e764d916d065237e0e491824fb07",
+                "reference": "0987729c98a3e764d916d065237e0e491824fb07",
                 "shasum": ""
             },
             "require": {
@@ -2311,7 +2354,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.13.x-dev"
+                    "dev-master": "2.14.x-dev"
                 }
             },
             "autoload": {
@@ -2335,7 +2378,7 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/core"
             },
-            "time": "2022-04-28T19:29:47+00:00"
+            "time": "2022-05-16T19:46:42+00:00"
         },
         {
             "name": "spiral/goridge",
@@ -2401,22 +2444,22 @@
         },
         {
             "name": "spiral/logger",
-            "version": "2.13.0",
+            "version": "2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/logger.git",
-                "reference": "cb6ca854b9e75cc31ebc2b79a5182078a0420af4"
+                "reference": "92b9bbdf3d827df98dd816054de711bedccba269"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/logger/zipball/cb6ca854b9e75cc31ebc2b79a5182078a0420af4",
-                "reference": "cb6ca854b9e75cc31ebc2b79a5182078a0420af4",
+                "url": "https://api.github.com/repos/spiral/logger/zipball/92b9bbdf3d827df98dd816054de711bedccba269",
+                "reference": "92b9bbdf3d827df98dd816054de711bedccba269",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
                 "psr/log": "1 - 3",
-                "spiral/core": "^2.13"
+                "spiral/core": "^2.13.1"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
@@ -2425,7 +2468,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.13.x-dev"
+                    "dev-master": "2.14.x-dev"
                 }
             },
             "autoload": {
@@ -2449,20 +2492,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/logger"
             },
-            "time": "2022-04-28T19:30:24+00:00"
+            "time": "2022-05-16T19:49:02+00:00"
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2.9.4",
+            "version": "v2.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "c88ed1ea6a9f50e748b2e82a4c4c27b42cb3f7fb"
+                "reference": "aab5755b9e7729b7262d2daa359f45c05e6be834"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/c88ed1ea6a9f50e748b2e82a4c4c27b42cb3f7fb",
-                "reference": "c88ed1ea6a9f50e748b2e82a4c4c27b42cb3f7fb",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/aab5755b9e7729b7262d2daa359f45c05e6be834",
+                "reference": "aab5755b9e7729b7262d2daa359f45c05e6be834",
                 "shasum": ""
             },
             "require": {
@@ -2488,22 +2531,22 @@
             "description": "RoadRunner: High-performance PHP application server, load-balancer and process manager written in Golang",
             "support": {
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.9.4"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.10.1"
             },
-            "time": "2022-05-06T16:40:14+00:00"
+            "time": "2022-05-19T10:19:25+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",
-            "version": "v2.1.0",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-cli.git",
-                "reference": "8a42aeed24939c64bccbaa179d473f9c57393dc1"
+                "reference": "d8a224137b1d1ace0aac2308df396403393d63a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-cli/zipball/8a42aeed24939c64bccbaa179d473f9c57393dc1",
-                "reference": "8a42aeed24939c64bccbaa179d473f9c57393dc1",
+                "url": "https://api.github.com/repos/spiral/roadrunner-cli/zipball/d8a224137b1d1ace0aac2308df396403393d63a8",
+                "reference": "d8a224137b1d1ace0aac2308df396403393d63a8",
                 "shasum": ""
             },
             "require": {
@@ -2551,9 +2594,9 @@
             "description": "RoadRunner: Command Line Interface",
             "support": {
                 "issues": "https://github.com/spiral/roadrunner-cli/issues",
-                "source": "https://github.com/spiral/roadrunner-cli/tree/v2.1.0"
+                "source": "https://github.com/spiral/roadrunner-cli/tree/v2.2.0"
             },
-            "time": "2022-01-20T07:51:22+00:00"
+            "time": "2022-05-17T06:44:24+00:00"
         },
         {
             "name": "spiral/roadrunner-grpc",
@@ -2681,16 +2724,16 @@
         },
         {
             "name": "spiral/roadrunner-jobs",
-            "version": "v2.0.5",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-jobs.git",
-                "reference": "de1c101c951767c4c0fa8bfd376891f5bc1cf95e"
+                "reference": "40087839633667fea6b2003b578e68a8ce20be04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-jobs/zipball/de1c101c951767c4c0fa8bfd376891f5bc1cf95e",
-                "reference": "de1c101c951767c4c0fa8bfd376891f5bc1cf95e",
+                "url": "https://api.github.com/repos/spiral/roadrunner-jobs/zipball/40087839633667fea6b2003b578e68a8ce20be04",
+                "reference": "40087839633667fea6b2003b578e68a8ce20be04",
                 "shasum": ""
             },
             "require": {
@@ -2746,9 +2789,9 @@
             "description": "RoadRunner Queues (Jobs) plugin API library",
             "support": {
                 "issues": "https://github.com/spiral/roadrunner-jobs/issues",
-                "source": "https://github.com/spiral/roadrunner-jobs/tree/v2.0.5"
+                "source": "https://github.com/spiral/roadrunner-jobs/tree/v2.3.0"
             },
-            "time": "2022-01-19T09:34:18+00:00"
+            "time": "2022-05-25T09:47:09+00:00"
         },
         {
             "name": "spiral/roadrunner-metrics",
@@ -2929,22 +2972,22 @@
         },
         {
             "name": "spiral/tokenizer",
-            "version": "2.13.0",
+            "version": "2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/tokenizer.git",
-                "reference": "93d309d29fce40d6e4f27962564da6ae04467897"
+                "reference": "f5342590915f455a7e7880944e8416a9ff9b651b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/93d309d29fce40d6e4f27962564da6ae04467897",
-                "reference": "93d309d29fce40d6e4f27962564da6ae04467897",
+                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/f5342590915f455a7e7880944e8416a9ff9b651b",
+                "reference": "f5342590915f455a7e7880944e8416a9ff9b651b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
-                "spiral/core": "^2.13",
-                "spiral/logger": "^2.13",
+                "spiral/core": "^2.13.1",
+                "spiral/logger": "^2.13.1",
                 "symfony/finder": "^5.1|^6.0"
             },
             "require-dev": {
@@ -2953,7 +2996,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.13.x-dev"
+                    "dev-master": "2.14.x-dev"
                 }
             },
             "autoload": {
@@ -2977,7 +3020,7 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/tokenizer"
             },
-            "time": "2022-04-28T19:31:23+00:00"
+            "time": "2022-05-16T19:49:39+00:00"
         },
         {
             "name": "symfony/console",
@@ -4294,16 +4337,16 @@
         },
         {
             "name": "temporal/sdk",
-            "version": "v1.3.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/temporalio/sdk-php.git",
-                "reference": "d20b183cf2693ab980c2d9dea547fc90478fe76c"
+                "reference": "3b665eb6d1b90a73c4c2e2b3679f7be7b982d41d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/d20b183cf2693ab980c2d9dea547fc90478fe76c",
-                "reference": "d20b183cf2693ab980c2d9dea547fc90478fe76c",
+                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/3b665eb6d1b90a73c4c2e2b3679f7be7b982d41d",
+                "reference": "3b665eb6d1b90a73c4c2e2b3679f7be7b982d41d",
                 "shasum": ""
             },
             "require": {
@@ -4313,7 +4356,7 @@
                 "grpc/grpc": "^1.34",
                 "nesbot/carbon": "^2.52.0",
                 "php": ">=7.4",
-                "psr/log": "^1.1",
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
                 "react/promise": "^2.8",
                 "spiral/attributes": "^2.7",
                 "spiral/roadrunner-cli": "^2.0",
@@ -4327,7 +4370,7 @@
                 "illuminate/support": "^7.0",
                 "jetbrains/phpstorm-attributes": "dev-master@dev",
                 "laminas/laminas-code": "^4.0",
-                "monolog/monolog": "^2.1",
+                "monolog/monolog": "^2.1 || ^3.0",
                 "phpunit/phpunit": "^9.3",
                 "symfony/translation": "5.4.*",
                 "symfony/var-dumper": "^5.1",
@@ -4372,7 +4415,7 @@
                 "issues": "https://github.com/temporalio/sdk-php/issues",
                 "source": "https://github.com/temporalio/sdk-php"
             },
-            "time": "2022-05-11T09:07:17+00:00"
+            "time": "2022-05-24T18:18:53+00:00"
         }
     ],
     "packages-dev": [],
