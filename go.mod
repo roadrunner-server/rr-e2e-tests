@@ -28,7 +28,7 @@ require (
 	github.com/roadrunner-server/endure v1.3.0
 	github.com/roadrunner-server/errors v1.1.2
 	github.com/roadrunner-server/fileserver/v2 v2.12.8
-	github.com/roadrunner-server/goridge/v3 v3.4.1
+	github.com/roadrunner-server/goridge/v3 v3.4.2
 	github.com/roadrunner-server/grpc/v2 v2.14.3
 	github.com/roadrunner-server/gzip/v2 v2.11.6
 	github.com/roadrunner-server/headers/v2 v2.11.4
@@ -49,7 +49,7 @@ require (
 	github.com/roadrunner-server/reload/v2 v2.12.5
 	github.com/roadrunner-server/resetter/v2 v2.11.6
 	github.com/roadrunner-server/rpc/v2 v2.12.7
-	github.com/roadrunner-server/sdk/v2 v2.14.1
+	github.com/roadrunner-server/sdk/v2 v2.14.2
 	github.com/roadrunner-server/send/v2 v2.11.5
 	github.com/roadrunner-server/server/v2 v2.13.8
 	github.com/roadrunner-server/service/v2 v2.14.9
@@ -65,7 +65,7 @@ require (
 	go.temporal.io/api v1.7.1-0.20220223032354-6e6fe738916a
 	go.temporal.io/sdk v1.14.0
 	go.uber.org/zap v1.21.0
-	golang.org/x/net v0.0.0-20220517181318-183a9ca12b87
+	golang.org/x/net v0.0.0-20220524220425-1d687d428aca
 	google.golang.org/grpc v1.46.2
 	google.golang.org/protobuf v1.28.0
 )
@@ -96,14 +96,14 @@ require (
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
 	github.com/gobwas/pool v0.2.1 // indirect
-	github.com/gofiber/fiber/v2 v2.33.0 // indirect
+	github.com/gofiber/fiber/v2 v2.34.0 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/gogo/status v1.1.0 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.2 // indirect
 	github.com/hashicorp/go-version v1.5.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/klauspost/compress v1.15.4 // indirect
@@ -120,7 +120,7 @@ require (
 	github.com/nats-io/jwt/v2 v2.2.1-0.20220113022732-58e87895b296 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/newrelic/go-agent/v3 v3.15.2 // indirect
+	github.com/newrelic/go-agent/v3 v3.16.0 // indirect
 	github.com/openzipkin/zipkin-go v0.4.0 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
@@ -138,7 +138,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.11.0 // indirect
 	github.com/stretchr/objx v0.4.0 // indirect
-	github.com/subosito/gotenv v1.2.0 // indirect
+	github.com/subosito/gotenv v1.3.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.10 // indirect
 	github.com/tklauser/numcpus v0.5.0 // indirect
 	github.com/twmb/murmur3 v1.1.6 // indirect
@@ -170,14 +170,14 @@ require (
 	golang.org/x/crypto v0.0.0-20220518034528-6f7dac969898 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/sync v0.0.0-20220513210516-0976fa681c29 // indirect
-	golang.org/x/sys v0.0.0-20220517195934-5e4e11fc645e // indirect
+	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 	golang.org/x/tools v0.1.10 // indirect
 	golang.org/x/xerrors v0.0.0-20220517211312-f3a8303e98df // indirect
-	google.golang.org/genproto v0.0.0-20220518221133-4f43b3371335 // indirect
+	google.golang.org/genproto v0.0.0-20220525015930-6ca3db687a9d // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20220512140231-539c8e751b99 // indirect
+	gopkg.in/yaml.v3 v3.0.0 // indirect
 )

@@ -10,6 +10,7 @@ import (
 
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
+	httpPlugin "github.com/roadrunner-server/http/v2"
 	"github.com/roadrunner-server/logger/v2"
 	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v2"
@@ -122,6 +123,55 @@ func TestAppSockets(t *testing.T) {
 			return
 		}
 	}
+}
+
+func TestAppPipesException(t *testing.T) {
+	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	require.NoError(t, err)
+
+	// config plugin
+	vp := &config.Plugin{}
+	vp.Path = "configs/.rr-script-err.yaml"
+	vp.Prefix = "rr"
+
+	err = container.RegisterAll(
+		vp,
+		&server.Plugin{},
+		&logger.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	require.NoError(t, err)
+
+	err = container.Init()
+	require.NoError(t, err)
+
+	errCh, err := container.Serve()
+	require.NoError(t, err)
+
+	// stop by CTRL+C
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-errCh:
+				assert.Error(t, e.Error)
+				assert.Contains(t, e.Error.Error(), "CRC verification failed, bad header: warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error")
+				return
+			case <-c:
+				er := container.Stop()
+				assert.NoError(t, er)
+				return
+			}
+		}
+	}()
+
+	wg.Wait()
 }
 
 func TestAppTCPOnInit(t *testing.T) {
