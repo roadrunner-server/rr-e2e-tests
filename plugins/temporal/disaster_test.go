@@ -352,7 +352,7 @@ func Test_WorkerErrorLA_DisasterRecovery(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	time.Sleep(time.Millisecond * 750)
+	time.Sleep(time.Second)
 
 	// must fully recover with new worker
 	assert.NoError(t, p.Kill())
@@ -441,7 +441,7 @@ func Test_ActivityErrorLA_DisasterRecovery(t *testing.T) {
 	assert.NoError(t, err)
 
 	// activity can't complete at this moment
-	time.Sleep(time.Millisecond * 750)
+	time.Sleep(time.Second)
 
 	// restore the script and recover activity pool
 	_ = os.Rename("worker.bak", "worker.php")
@@ -475,7 +475,7 @@ func Test_WorkerErrorLA_DisasterRecoveryProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	time.Sleep(time.Millisecond * 750)
+	time.Sleep(time.Second)
 
 	// must fully recover with new worker
 	assert.NoError(t, p.Kill())

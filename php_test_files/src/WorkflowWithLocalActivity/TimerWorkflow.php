@@ -20,7 +20,7 @@ class TimerWorkflow
             LocalActivityOptions::new()->withStartToCloseTimeout(5)
         );
 
-        yield Workflow::timer(1);
+        yield Workflow::timer(3);
 
         return yield $simple->lower($input);
     }

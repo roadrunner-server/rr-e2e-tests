@@ -14,5 +14,5 @@ temporal:
     num_workers: 4
 
 logs:
-  mode: production
-  level: error
+  mode: development
+  level: debug
