@@ -49,7 +49,7 @@ require (
 	github.com/roadrunner-server/reload/v2 v2.12.5
 	github.com/roadrunner-server/resetter/v2 v2.11.6
 	github.com/roadrunner-server/rpc/v2 v2.12.9
-	github.com/roadrunner-server/sdk/v2 v2.14.4
+	github.com/roadrunner-server/sdk/v2 v2.14.5
 	github.com/roadrunner-server/send/v2 v2.11.7
 	github.com/roadrunner-server/server/v2 v2.13.10
 	github.com/roadrunner-server/service/v2 v2.14.10
@@ -59,7 +59,7 @@ require (
 	github.com/roadrunner-server/tcp/v2 v2.12.10
 	github.com/roadrunner-server/websockets/v2 v2.13.8
 	github.com/stretchr/testify v1.7.1
-	github.com/temporalio/roadrunner-temporal v1.4.3
+	github.com/temporalio/roadrunner-temporal v1.4.4
 	github.com/yookoala/gofast v0.6.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.2.3
 	go.temporal.io/api v1.7.1-0.20220223032354-6e6fe738916a
