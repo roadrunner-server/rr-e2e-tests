@@ -24,7 +24,7 @@ services:
       - TEMPORAL_CORS_ORIGINS=http://localhost:3000
     image: temporalio/ui:latest
     ports:
-      - 8080:8080
+      - "8080:8080"
 
   temporal:
     container_name: temporal

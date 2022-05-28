@@ -2,12 +2,15 @@ package tests
 
 import (
 	"context"
+	"os"
 	"sync"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"go.temporal.io/sdk/client"
+	"go.temporal.io/sdk/worker"
 )
 
 func Test_ListQueriesProto(t *testing.T) {
@@ -37,6 +40,31 @@ func Test_ListQueriesProto(t *testing.T) {
 	var r int
 	assert.NoError(t, w.Get(context.Background(), &r))
 	assert.Equal(t, 0, r)
+
+	worker.PurgeStickyWorkflowCache()
+
+	time.Sleep(time.Millisecond * 500)
+
+	workers := getWorkers(t)
+
+	for i := 0; i < len(workers); i++ {
+		proc, errF := os.FindProcess(workers[i].Pid)
+		require.NoError(t, errF)
+		_ = proc.Kill()
+	}
+
+	worker.PurgeStickyWorkflowCache()
+	time.Sleep(time.Second)
+
+	v, err = s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "error", -1)
+	assert.Nil(t, v)
+	assert.Error(t, err)
+
+	assert.Contains(t, err.Error(), "KnownQueryTypes=[get]")
+
+	assert.NoError(t, w.Get(context.Background(), &r))
+	assert.Equal(t, 0, r)
+
 	stopCh <- struct{}{}
 	wg.Wait()
 }

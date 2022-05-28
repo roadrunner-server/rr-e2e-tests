@@ -3,7 +3,6 @@ package grpc_test
 import (
 	"context"
 	"crypto/tls"
-	"crypto/x509"
 	"io"
 	"net"
 	"net/http"
@@ -104,34 +103,6 @@ func TestGrpcInit(t *testing.T) {
 	stopCh <- struct{}{}
 
 	wg.Wait()
-}
-
-// test panics -> https://github.com/grpc/grpc-go/blob/master/server.go#L644
-func TestGrpcInitDuplicate(t *testing.T) {
-	t.Skip("test panics, use locally")
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
-
-	cfg := &config.Plugin{
-		Version: "2.9.0",
-		Path:    "configs/.rr-grpc-init-duplicate.yaml",
-		Prefix:  "rr",
-	}
-
-	err = cont.RegisterAll(
-		cfg,
-		&grpcPlugin.Plugin{},
-		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
-		&server.Plugin{},
-	)
-	assert.NoError(t, err)
-
-	err = cont.Init()
-	assert.NoError(t, err)
-
-	_, err = cont.Serve()
-	assert.NoError(t, err)
 }
 
 // different services, same methods inside
@@ -587,10 +558,16 @@ func TestGrpcRqRsTLS(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	creds, err := credentials.NewClientTLSFromFile("./configs/test-certs/test.pem", "")
+	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
-	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(creds))
+	tlscfg := &tls.Config{
+		InsecureSkipVerify: true, //nolint:gosec
+		Certificates:       []tls.Certificate{cert},
+		MinVersion:         tls.VersionTLS12,
+	}
+
+	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 
@@ -671,20 +648,13 @@ func TestGrpcRqRsTLSRootCA(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	ca, _ := os.ReadFile("./configs/test-certs/ca.cert")
-	require.NotNil(t, ca)
-
-	cert, err := tls.LoadX509KeyPair("./configs/test-certs/test.pem", "./configs/test-certs/test.key")
+	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
-
-	pool := x509.NewCertPool()
-	require.True(t, pool.AppendCertsFromPEM(ca))
 
 	tlscfg := &tls.Config{
 		InsecureSkipVerify: true, //nolint:gosec
 		Certificates:       []tls.Certificate{cert},
 		MinVersion:         tls.VersionTLS12,
-		ClientCAs:          pool,
 	}
 
 	conn, err := grpc.Dial("127.0.0.1:9003", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)))
@@ -766,10 +736,16 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	creds, err := credentials.NewClientTLSFromFile("./configs/test-certs/test.pem", "")
+	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
-	conn, err := grpc.Dial("localhost:9002", grpc.WithTransportCredentials(creds))
+	tlscfg := &tls.Config{
+		InsecureSkipVerify: true, //nolint:gosec
+		Certificates:       []tls.Certificate{cert},
+		MinVersion:         tls.VersionTLS12,
+	}
+
+	conn, err := grpc.Dial("localhost:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 

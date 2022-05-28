@@ -3,7 +3,6 @@ package grpc_test
 import (
 	"context"
 	"crypto/tls"
-	"crypto/x509"
 	"os"
 	"os/signal"
 	"runtime"
@@ -266,10 +265,15 @@ func TestGrpcRqRsTLSGzip(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	creds, err := credentials.NewClientTLSFromFile("./configs/test-certs/test.pem", "")
+	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
-	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(creds), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
+	tlscfg := &tls.Config{
+		InsecureSkipVerify: true, //nolint:gosec
+		Certificates:       []tls.Certificate{cert},
+		MinVersion:         tls.VersionTLS12,
+	}
+	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 
@@ -350,20 +354,13 @@ func TestGrpcRqRsTLSRootCAGzip(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	ca, _ := os.ReadFile("./configs/test-certs/ca.cert")
-	require.NotNil(t, ca)
-
-	cert, err := tls.LoadX509KeyPair("./configs/test-certs/test.pem", "./configs/test-certs/test.key")
+	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
-
-	pool := x509.NewCertPool()
-	require.True(t, pool.AppendCertsFromPEM(ca))
 
 	tlscfg := &tls.Config{
 		InsecureSkipVerify: true, //nolint:gosec
 		Certificates:       []tls.Certificate{cert},
 		MinVersion:         tls.VersionTLS12,
-		ClientCAs:          pool,
 	}
 
 	conn, err := grpc.Dial("127.0.0.1:9003", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
@@ -445,10 +442,16 @@ func TestGrpcRqRsTLS_WithResetGzip(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	creds, err := credentials.NewClientTLSFromFile("./configs/test-certs/test.pem", "")
+	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
-	conn, err := grpc.Dial("localhost:9002", grpc.WithTransportCredentials(creds), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
+	tlscfg := &tls.Config{
+		InsecureSkipVerify: true, //nolint:gosec
+		Certificates:       []tls.Certificate{cert},
+		MinVersion:         tls.VersionTLS12,
+	}
+
+	conn, err := grpc.Dial("localhost:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 

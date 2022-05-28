@@ -18,8 +18,8 @@ grpc:
   listen: "tcp://127.0.0.1:9002"
 
   tls:
-    key: "configs/test-certs/test.key"
-    cert: "configs/test-certs/test.pem"
+    key: "configs/test-certs/localhost+2-key.pem"
+    cert: "configs/test-certs/localhost+2.pem"
 
   # proto root file
   proto: "proto/service/service.proto"

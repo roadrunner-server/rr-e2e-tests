@@ -1,6 +1,13 @@
 name: linux_on_push
 
-on: push
+on:
+  push:
+    branches:
+      - '*'
+  release:
+    types:
+      - released
+      - prereleased
 
 jobs:
   temporal_test:
@@ -1154,6 +1161,16 @@ jobs:
 
       - name: Run golang tests with coverage
         run: |
+          sudo apt update
+          sudo apt install -y libnss3-tools
+          curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/amd64"
+          chmod +x mkcert-v*-linux-amd64
+          sudo cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert
+          mkcert -install
+          mkcert localhost 127.0.0.1 ::1
+          mkcert -client localhost 127.0.0.1 ::1 
+          cp localhost+2-client-key.pem localhost+2-client.pem localhost+2-key.pem localhost+2.pem plugins/grpc/configs/test-certs/
+          cp $(mkcert -CAROOT)/rootCA.pem plugins/grpc/configs/test-certs/
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/grpc.out -covermode=atomic ./plugins/grpc
 
