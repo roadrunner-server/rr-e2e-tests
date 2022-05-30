@@ -269,9 +269,8 @@ func TestGrpcRqRsTLSGzip(t *testing.T) {
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
-		InsecureSkipVerify: true, //nolint:gosec
-		Certificates:       []tls.Certificate{cert},
-		MinVersion:         tls.VersionTLS12,
+		Certificates: []tls.Certificate{cert},
+		MinVersion:   tls.VersionTLS12,
 	}
 
 	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
@@ -359,9 +358,8 @@ func TestGrpcRqRsTLSRootCAGzip(t *testing.T) {
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
-		InsecureSkipVerify: true, //nolint:gosec
-		Certificates:       []tls.Certificate{cert},
-		MinVersion:         tls.VersionTLS12,
+		Certificates: []tls.Certificate{cert},
+		MinVersion:   tls.VersionTLS12,
 	}
 
 	conn, err := grpc.Dial("127.0.0.1:9003", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
@@ -447,9 +445,8 @@ func TestGrpcRqRsTLS_WithResetGzip(t *testing.T) {
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
-		InsecureSkipVerify: true, //nolint:gosec
-		Certificates:       []tls.Certificate{cert},
-		MinVersion:         tls.VersionTLS12,
+		Certificates: []tls.Certificate{cert},
+		MinVersion:   tls.VersionTLS12,
 	}
 
 	conn, err := grpc.Dial("localhost:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))

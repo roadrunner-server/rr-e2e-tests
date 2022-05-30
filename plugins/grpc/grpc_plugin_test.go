@@ -562,9 +562,8 @@ func TestGrpcRqRsTLS(t *testing.T) {
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
-		InsecureSkipVerify: true, //nolint:gosec
-		Certificates:       []tls.Certificate{cert},
-		MinVersion:         tls.VersionTLS12,
+		Certificates: []tls.Certificate{cert},
+		MinVersion:   tls.VersionTLS12,
 	}
 
 	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)))
@@ -652,9 +651,8 @@ func TestGrpcRqRsTLSRootCA(t *testing.T) {
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
-		InsecureSkipVerify: true, //nolint:gosec
-		Certificates:       []tls.Certificate{cert},
-		MinVersion:         tls.VersionTLS12,
+		Certificates: []tls.Certificate{cert},
+		MinVersion:   tls.VersionTLS12,
 	}
 
 	conn, err := grpc.Dial("127.0.0.1:9003", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)))
@@ -740,9 +738,8 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
-		InsecureSkipVerify: true, //nolint:gosec
-		Certificates:       []tls.Certificate{cert},
-		MinVersion:         tls.VersionTLS12,
+		Certificates: []tls.Certificate{cert},
+		MinVersion:   tls.VersionTLS12,
 	}
 
 	conn, err := grpc.Dial("localhost:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)))

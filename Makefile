@@ -64,7 +64,7 @@ test:
 	go test -v -race -cover -tags=debug ./plugins/broadcast
 	go test -v -race -cover -tags=debug ./plugins/websockets
 	go test -v -race -cover -tags=debug ./plugins/proxy_ip_parser
-	#go test -v -race -cover -tags=debug ./plugins/http
+	go test -v -race -cover -tags=debug ./plugins/http
 	go test -v -race -cover -tags=debug ./plugins/grpc
 	go test -v -race -cover -tags=debug ./plugins/informer
 	go test -v -race -cover -tags=debug ./plugins/server

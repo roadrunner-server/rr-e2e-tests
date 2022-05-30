@@ -219,9 +219,8 @@ func sslEcho2(t *testing.T) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, //nolint:gosec
-				MinVersion:         tls.VersionTLS12,
-				Certificates:       []tls.Certificate{cert},
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}

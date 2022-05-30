@@ -304,9 +304,8 @@ func TestMTLS1(t *testing.T) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, //nolint:gosec
-				MinVersion:         tls.VersionTLS12,
-				Certificates:       []tls.Certificate{cert},
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}
@@ -406,9 +405,8 @@ func TestMTLS2(t *testing.T) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, //nolint:gosec
-				MinVersion:         tls.VersionTLS12,
-				Certificates:       []tls.Certificate{cert},
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}
@@ -501,9 +499,8 @@ func TestMTLS3(t *testing.T) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, //nolint:gosec
-				MinVersion:         tls.VersionTLS12,
-				Certificates:       []tls.Certificate{cert},
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}
@@ -596,9 +593,8 @@ func TestMTLS4(t *testing.T) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, //nolint:gosec
-				MinVersion:         tls.VersionTLS12,
-				Certificates:       []tls.Certificate{cert},
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}

@@ -502,9 +502,8 @@ func sslNoRedirect(t *testing.T) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, //nolint:gosec
-				MinVersion:         tls.VersionTLS12,
-				Certificates:       []tls.Certificate{cert},
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}
@@ -537,9 +536,8 @@ func sslEcho(t *testing.T) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, //nolint:gosec
-				MinVersion:         tls.VersionTLS12,
-				Certificates:       []tls.Certificate{cert},
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}
@@ -663,9 +661,8 @@ func sslRedirect(t *testing.T) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, //nolint:gosec
-				MinVersion:         tls.VersionTLS12,
-				Certificates:       []tls.Certificate{cert},
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}
@@ -765,9 +762,8 @@ func sslPush(t *testing.T) {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, //nolint:gosec
-				MinVersion:         tls.VersionTLS12,
-				Certificates:       []tls.Certificate{cert},
+				MinVersion:   tls.VersionTLS12,
+				Certificates: []tls.Certificate{cert},
 			},
 		},
 	}
@@ -1130,9 +1126,8 @@ func TestHTTP2Req(t *testing.T) {
 
 	tr := &http2.Transport{
 		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: true, //nolint:gosec
-			Certificates:       []tls.Certificate{cert},
-			MinVersion:         tls.VersionTLS12,
+			Certificates: []tls.Certificate{cert},
+			MinVersion:   tls.VersionTLS12,
 		},
 	}
 
