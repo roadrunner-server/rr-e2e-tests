@@ -89,7 +89,6 @@ regenerate_test_proto:
 
 # local generate certs
 generate-test-local-certs:
-	cd test-certs
 	mkcert localhost 127.0.0.1 ::1
 	mkcert -client localhost 127.0.0.1 ::1
-	cp (mkcert -CAROOT)/rootCA.pem .
+	cp (mkcert -CAROOT)/rootCA.pem test-certs
