@@ -40,14 +40,6 @@ import (
 	"golang.org/x/net/http2"
 )
 
-var sslClient = &http.Client{ //nolint:gochecknoglobals
-	Transport: &http.Transport{
-		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: true, //nolint:gosec
-		},
-	},
-}
-
 func TestHTTPInit(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
@@ -504,10 +496,23 @@ func TestSSL(t *testing.T) {
 }
 
 func sslNoRedirect(t *testing.T) {
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true, //nolint:gosec
+				MinVersion:         tls.VersionTLS12,
+				Certificates:       []tls.Certificate{cert},
+			},
+		},
+	}
+
 	req, err := http.NewRequest("GET", "http://127.0.0.1:8085?hello=world", nil)
 	assert.NoError(t, err)
 
-	r, err := sslClient.Do(req)
+	r, err := client.Do(req)
 	assert.NoError(t, err)
 
 	assert.Nil(t, r.TLS)
@@ -526,10 +531,23 @@ func sslNoRedirect(t *testing.T) {
 }
 
 func sslEcho(t *testing.T) {
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true, //nolint:gosec
+				MinVersion:         tls.VersionTLS12,
+				Certificates:       []tls.Certificate{cert},
+			},
+		},
+	}
+
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8893?hello=world", nil)
 	assert.NoError(t, err)
 
-	r, err := sslClient.Do(req)
+	r, err := client.Do(req)
 	assert.NoError(t, err)
 
 	b, err := ioutil.ReadAll(r.Body)
@@ -639,10 +657,23 @@ func TestSSLRedirect(t *testing.T) {
 }
 
 func sslRedirect(t *testing.T) {
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true, //nolint:gosec
+				MinVersion:         tls.VersionTLS12,
+				Certificates:       []tls.Certificate{cert},
+			},
+		},
+	}
+
 	req, err := http.NewRequest("GET", "http://127.0.0.1:8087?hello=world", nil)
 	assert.NoError(t, err)
 
-	r, err := sslClient.Do(req)
+	r, err := client.Do(req)
 	assert.NoError(t, err)
 	assert.NotNil(t, r.TLS)
 
@@ -728,10 +759,23 @@ func TestSSLPushPipes(t *testing.T) {
 }
 
 func sslPush(t *testing.T) {
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true, //nolint:gosec
+				MinVersion:         tls.VersionTLS12,
+				Certificates:       []tls.Certificate{cert},
+			},
+		},
+	}
+
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8894?hello=world", nil)
 	assert.NoError(t, err)
 
-	r, err := sslClient.Do(req)
+	r, err := client.Do(req)
 	assert.NoError(t, err)
 
 	assert.NotNil(t, r.TLS)
@@ -1081,9 +1125,17 @@ func TestHTTP2Req(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
 	tr := &http2.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, //nolint:gosec
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: true, //nolint:gosec
+			Certificates:       []tls.Certificate{cert},
+			MinVersion:         tls.VersionTLS12,
+		},
 	}
+
 	client := &http.Client{
 		Transport:     tr,
 		CheckRedirect: nil,

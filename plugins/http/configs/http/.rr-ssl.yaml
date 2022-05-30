@@ -17,8 +17,10 @@ http:
   ssl:
     address: :8893
     redirect: false
-    cert: fixtures/server.crt
-    key: fixtures/server.key
+    key: "../../test-certs/localhost+2-key.pem"
+    cert: "../../test-certs/localhost+2.pem"
+    root_ca: "../../test-certs/rootCA.pem"
+    client_auth_type: require_and_verify_client_cert
   fcgi:
     address: tcp://0.0.0.0:16920
 logs:

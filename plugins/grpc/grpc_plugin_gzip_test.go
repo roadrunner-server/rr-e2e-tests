@@ -265,7 +265,7 @@ func TestGrpcRqRsTLSGzip(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
@@ -273,6 +273,7 @@ func TestGrpcRqRsTLSGzip(t *testing.T) {
 		Certificates:       []tls.Certificate{cert},
 		MinVersion:         tls.VersionTLS12,
 	}
+
 	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)), grpc.WithDefaultCallOptions(grpc.UseCompressor("gzip")))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
@@ -354,7 +355,7 @@ func TestGrpcRqRsTLSRootCAGzip(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
@@ -442,7 +443,7 @@ func TestGrpcRqRsTLS_WithResetGzip(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{

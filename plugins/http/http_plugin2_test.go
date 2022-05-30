@@ -2,6 +2,7 @@ package http
 
 import (
 	"bytes"
+	"crypto/tls"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -212,10 +213,23 @@ func TestSSLNoHTTP(t *testing.T) {
 }
 
 func sslEcho2(t *testing.T) {
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	require.NoError(t, err)
+
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true, //nolint:gosec
+				MinVersion:         tls.VersionTLS12,
+				Certificates:       []tls.Certificate{cert},
+			},
+		},
+	}
+
 	req, err := http.NewRequest("GET", "https://127.0.0.1:4455?hello=world", nil)
 	assert.NoError(t, err)
 
-	r, err := sslClient.Do(req)
+	r, err := client.Do(req)
 	assert.NoError(t, err)
 
 	b, err := ioutil.ReadAll(r.Body)

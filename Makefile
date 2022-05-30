@@ -86,3 +86,10 @@ test_nightly:
 # only 1 sample here
 regenerate_test_proto:
 	protoc --plugin=protoc-gen-php-grpc=<PLUGIN> --proto_path=plugins/grpc/testdata/import --proto_path=plugins/grpc/testdata/import/sub --php-grpc_out=plugins/grpc/testdata/import service.proto
+
+# local generate certs
+generate-test-local-certs:
+	cd test-certs
+	mkcert localhost 127.0.0.1 ::1
+	mkcert -client localhost 127.0.0.1 ::1
+	cp (mkcert -CAROOT)/rootCA.pem .

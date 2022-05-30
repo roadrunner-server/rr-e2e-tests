@@ -558,7 +558,7 @@ func TestGrpcRqRsTLS(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
@@ -648,7 +648,7 @@ func TestGrpcRqRsTLSRootCA(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{
@@ -736,7 +736,7 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	cert, err := tls.LoadX509KeyPair("configs/test-certs/localhost+2-client.pem", "configs/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	tlscfg := &tls.Config{

@@ -18,9 +18,10 @@ http:
   ssl:
     address: :23452
     redirect: false
-    key: "fixtures/test-certs/localhost+2-key.pem"
-    cert: "fixtures/test-certs/localhost+2.pem"
-    root_ca: "./fixtures/test-certs/rootCA.pem"
+    key: "../../test-certs/localhost+2-key.pem"
+    cert: "../../test-certs/localhost+2.pem"
+    root_ca: "../../test-certs/rootCA.pem"
+    client_auth_type: require_and_verify_client_cert
 
   http2:
     h2c: false

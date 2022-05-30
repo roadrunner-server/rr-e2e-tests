@@ -298,14 +298,15 @@ func TestMTLS1(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				MinVersion:   tls.VersionTLS12,
-				Certificates: []tls.Certificate{cert},
+				InsecureSkipVerify: true, //nolint:gosec
+				MinVersion:         tls.VersionTLS12,
+				Certificates:       []tls.Certificate{cert},
 			},
 		},
 	}
@@ -399,14 +400,15 @@ func TestMTLS2(t *testing.T) {
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8896?hello=world", nil)
 	assert.NoError(t, err)
 
-	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				MinVersion:   tls.VersionTLS12,
-				Certificates: []tls.Certificate{cert},
+				InsecureSkipVerify: true, //nolint:gosec
+				MinVersion:         tls.VersionTLS12,
+				Certificates:       []tls.Certificate{cert},
 			},
 		},
 	}
@@ -493,14 +495,15 @@ func TestMTLS3(t *testing.T) {
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8897?hello=world", nil)
 	assert.NoError(t, err)
 
-	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				MinVersion:   tls.VersionTLS12,
-				Certificates: []tls.Certificate{cert},
+				InsecureSkipVerify: true, //nolint:gosec
+				MinVersion:         tls.VersionTLS12,
+				Certificates:       []tls.Certificate{cert},
 			},
 		},
 	}
@@ -587,14 +590,15 @@ func TestMTLS4(t *testing.T) {
 	req, err := http.NewRequest("GET", "https://127.0.0.1:8898?hello=world", nil)
 	assert.NoError(t, err)
 
-	cert, err := tls.LoadX509KeyPair("./fixtures/test-certs/localhost+2-client.pem", "./fixtures/test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				MinVersion:   tls.VersionTLS12,
-				Certificates: []tls.Certificate{cert},
+				InsecureSkipVerify: true, //nolint:gosec
+				MinVersion:         tls.VersionTLS12,
+				Certificates:       []tls.Certificate{cert},
 			},
 		},
 	}
