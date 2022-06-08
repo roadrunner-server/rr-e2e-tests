@@ -117,7 +117,7 @@ func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, wg *sync.WaitG
 	}()
 
 	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
-	client, err := temporalClient.NewClient(temporalClient.Options{
+	client, err := temporalClient.Dial(temporalClient.Options{
 		HostPort:      "127.0.0.1:7233",
 		Namespace:     "default",
 		Logger:        newZapAdapter(initLogger()),
@@ -175,7 +175,7 @@ func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Test
 	}()
 
 	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
-	client, err := temporalClient.NewClient(temporalClient.Options{
+	client, err := temporalClient.Dial(temporalClient.Options{
 		HostPort:      "127.0.0.1:7233",
 		Namespace:     "default",
 		DataConverter: dc,
@@ -236,7 +236,7 @@ func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Te
 	}()
 
 	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
-	client, err := temporalClient.NewClient(temporalClient.Options{
+	client, err := temporalClient.Dial(temporalClient.Options{
 		HostPort:      "127.0.0.1:7233",
 		Namespace:     "default",
 		DataConverter: dc,
@@ -292,7 +292,7 @@ func initLogger() *zap.Logger {
 
 func (s *TestServer) AssertContainsEvent(t *testing.T, w temporalClient.WorkflowRun, assert func(*history.HistoryEvent) bool) {
 	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
-	client, err := temporalClient.NewClient(temporalClient.Options{
+	client, err := temporalClient.Dial(temporalClient.Options{
 		HostPort:      "127.0.0.1:7233",
 		Namespace:     "default",
 		Logger:        newZapAdapter(initLogger()),
@@ -328,7 +328,7 @@ func (s *TestServer) AssertContainsEvent(t *testing.T, w temporalClient.Workflow
 
 func (s *TestServer) AssertNotContainsEvent(t *testing.T, w temporalClient.WorkflowRun, assert func(*history.HistoryEvent) bool) {
 	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
-	client, err := temporalClient.NewClient(temporalClient.Options{
+	client, err := temporalClient.Dial(temporalClient.Options{
 		HostPort:           "",
 		Namespace:          "default",
 		Logger:             nil,

@@ -59,7 +59,7 @@ require (
 	github.com/roadrunner-server/tcp/v2 v2.13.0
 	github.com/roadrunner-server/websockets/v2 v2.14.0
 	github.com/stretchr/testify v1.7.2
-	github.com/temporalio/roadrunner-temporal v1.4.5
+	github.com/temporalio/roadrunner-temporal v1.4.6
 	github.com/yookoala/gofast v0.6.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.2.3
 	go.temporal.io/api v1.8.0
@@ -175,7 +175,7 @@ require (
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 	golang.org/x/tools v0.1.10 // indirect
 	golang.org/x/xerrors v0.0.0-20220517211312-f3a8303e98df // indirect
-	google.golang.org/genproto v0.0.0-20220607223854-30acc4cbd2aa // indirect
+	google.golang.org/genproto v0.0.0-20220608133413-ed9918b62aac // indirect
 	gopkg.in/ini.v1 v1.66.6 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
