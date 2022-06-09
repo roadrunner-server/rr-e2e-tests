@@ -18,48 +18,48 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.2
 	github.com/rabbitmq/amqp091-go v1.3.4
-	github.com/roadrunner-server/amqp/v2 v2.16.0
+	github.com/roadrunner-server/amqp/v2 v2.16.1
 	github.com/roadrunner-server/api/v2 v2.17.1
-	github.com/roadrunner-server/beanstalk/v2 v2.15.0
-	github.com/roadrunner-server/boltdb/v2 v2.15.0
+	github.com/roadrunner-server/beanstalk/v2 v2.15.1
+	github.com/roadrunner-server/boltdb/v2 v2.15.1
 	github.com/roadrunner-server/broadcast/v2 v2.12.4
-	github.com/roadrunner-server/cache/v2 v2.14.0
-	github.com/roadrunner-server/config/v2 v2.14.0
+	github.com/roadrunner-server/cache/v2 v2.14.1
+	github.com/roadrunner-server/config/v2 v2.14.1
 	github.com/roadrunner-server/endure v1.3.0
 	github.com/roadrunner-server/errors v1.1.2
-	github.com/roadrunner-server/fileserver/v2 v2.13.0
+	github.com/roadrunner-server/fileserver/v2 v2.13.1
 	github.com/roadrunner-server/goridge/v3 v3.4.2
-	github.com/roadrunner-server/grpc/v2 v2.16.0
-	github.com/roadrunner-server/gzip/v2 v2.12.0
-	github.com/roadrunner-server/headers/v2 v2.12.0
-	github.com/roadrunner-server/http/v2 v2.19.0
+	github.com/roadrunner-server/grpc/v2 v2.16.1
+	github.com/roadrunner-server/gzip/v2 v2.12.1
+	github.com/roadrunner-server/headers/v2 v2.12.1
+	github.com/roadrunner-server/http/v2 v2.19.1
 	github.com/roadrunner-server/informer/v2 v2.11.6
-	github.com/roadrunner-server/jobs/v2 v2.14.0
+	github.com/roadrunner-server/jobs/v2 v2.14.1
 	github.com/roadrunner-server/kv/v2 v2.12.6
-	github.com/roadrunner-server/logger/v2 v2.12.9
+	github.com/roadrunner-server/logger/v2 v2.12.10
 	github.com/roadrunner-server/memcached/v2 v2.12.3
-	github.com/roadrunner-server/memory/v2 v2.14.0
-	github.com/roadrunner-server/metrics/v2 v2.13.0
-	github.com/roadrunner-server/nats/v2 v2.15.0
-	github.com/roadrunner-server/new_relic/v2 v2.14.0
+	github.com/roadrunner-server/memory/v2 v2.14.1
+	github.com/roadrunner-server/metrics/v2 v2.13.1
+	github.com/roadrunner-server/nats/v2 v2.15.1
+	github.com/roadrunner-server/new_relic/v2 v2.14.1
 	github.com/roadrunner-server/otel/v2 v2.2.2
-	github.com/roadrunner-server/prometheus/v2 v2.13.0
+	github.com/roadrunner-server/prometheus/v2 v2.13.1
 	github.com/roadrunner-server/proxy_ip_parser/v2 v2.4.0
-	github.com/roadrunner-server/redis/v2 v2.15.0
+	github.com/roadrunner-server/redis/v2 v2.15.1
 	github.com/roadrunner-server/reload/v2 v2.12.5
 	github.com/roadrunner-server/resetter/v2 v2.11.6
-	github.com/roadrunner-server/rpc/v2 v2.13.0
+	github.com/roadrunner-server/rpc/v2 v2.13.1
 	github.com/roadrunner-server/sdk/v2 v2.15.0
-	github.com/roadrunner-server/send/v2 v2.12.0
-	github.com/roadrunner-server/server/v2 v2.14.0
-	github.com/roadrunner-server/service/v2 v2.14.11
-	github.com/roadrunner-server/sqs/v2 v2.16.0
-	github.com/roadrunner-server/static/v2 v2.13.0
-	github.com/roadrunner-server/status/v2 v2.13.0
-	github.com/roadrunner-server/tcp/v2 v2.13.0
-	github.com/roadrunner-server/websockets/v2 v2.14.0
+	github.com/roadrunner-server/send/v2 v2.12.1
+	github.com/roadrunner-server/server/v2 v2.14.1
+	github.com/roadrunner-server/service/v2 v2.14.12
+	github.com/roadrunner-server/sqs/v2 v2.16.1
+	github.com/roadrunner-server/static/v2 v2.13.1
+	github.com/roadrunner-server/status/v2 v2.13.1
+	github.com/roadrunner-server/tcp/v2 v2.13.1
+	github.com/roadrunner-server/websockets/v2 v2.14.1
 	github.com/stretchr/testify v1.7.2
-	github.com/temporalio/roadrunner-temporal v1.4.6
+	github.com/temporalio/roadrunner-temporal v1.4.7
 	github.com/yookoala/gofast v0.6.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.2.3
 	go.temporal.io/api v1.8.0
@@ -123,7 +123,7 @@ require (
 	github.com/newrelic/go-agent/v3 v3.16.1 // indirect
 	github.com/openzipkin/zipkin-go v0.4.0 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
-	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
+	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
@@ -170,7 +170,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f // indirect
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
+	golang.org/x/sys v0.0.0-20220608164250-635b8c9b7f68 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 	golang.org/x/tools v0.1.10 // indirect

@@ -32,6 +32,7 @@ services:
     depends_on:
       - postgresql
     environment:
+      - LOG_LEVEL=debug
       - DB=postgresql
       - DB_PORT=5432
       - POSTGRES_USER=temporal
@@ -48,5 +49,6 @@ services:
       - temporal
     environment:
       - TEMPORAL_CLI_ADDRESS=temporal:7233
+      - LOG_LEVEL=debug
     stdin_open: true
     tty: true
