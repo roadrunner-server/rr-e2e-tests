@@ -422,8 +422,8 @@ github.com/roadrunner-server/boltdb/v2 v2.15.1 h1:BmcZ8x9jAeCQ1yHMGYqK8SyiIzAud5
 github.com/roadrunner-server/boltdb/v2 v2.15.1/go.mod h1:U95grGdQ0XcaxN0C/cWjQMLwqx/J/6UGpdCalV+z4hU=
 github.com/roadrunner-server/broadcast/v2 v2.12.4 h1:AxYheQoDmYmM3QgptTY++rylWu9WPwRJ25UNAjVboIk=
 github.com/roadrunner-server/broadcast/v2 v2.12.4/go.mod h1:APe8/OmjHU5zqyVBhTd3rhiMGH+lou7OYDRkdzVAcSA=
-github.com/roadrunner-server/cache/v2 v2.15.0 h1:uXMVxqq7vVVjsrmHlsRJGTawmk2Y7rgnL7XA4hgxB7k=
-github.com/roadrunner-server/cache/v2 v2.15.0/go.mod h1:nhZWNAUNuKVILao+jhd33Jmp0f8AmEjW9lgY6uAQ4r8=
+github.com/roadrunner-server/cache/v2 v2.15.1 h1:vuo+iSkyJwy5MeNrcmD9IKDFUCKEzmdK/TQ1SmiR0eg=
+github.com/roadrunner-server/cache/v2 v2.15.1/go.mod h1:nhZWNAUNuKVILao+jhd33Jmp0f8AmEjW9lgY6uAQ4r8=
 github.com/roadrunner-server/config/v2 v2.14.1 h1:Ss8FqEWvbXPO1/r+5vHc2fNswAxHDAVVZ5mkEcE3YgY=
 github.com/roadrunner-server/config/v2 v2.14.1/go.mod h1:SCFhKrFvuX4yJAQjZlFMJX1tPHxGl1SLa8fIe6Spj9g=
 github.com/roadrunner-server/endure v1.3.0 h1:lZNOE4EDcoibR2PE4xz6G8/ywQBq9HmMzCvfQenEUCA=
