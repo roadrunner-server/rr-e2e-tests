@@ -733,6 +733,7 @@ func declareMemoryPipe(t *testing.T) {
 		"driver":   "memory",
 		"name":     "test-3",
 		"prefetch": "10000",
+		"priority": "33",
 	}}
 
 	er := &jobsProto.Empty{}
