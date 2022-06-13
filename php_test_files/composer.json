@@ -2,7 +2,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "guzzlehttp/guzzle": "6.5.6",
+    "guzzlehttp/guzzle": "^6.5",
     "nyholm/psr7": "^1.5",
     "spiral/roadrunner": "^2.0",
     "spiral/roadrunner-http": "^2.1",
