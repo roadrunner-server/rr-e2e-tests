@@ -872,6 +872,7 @@ func TestAMQPStats(t *testing.T) {
 	assert.Equal(t, int64(1), out.Active)
 	assert.Equal(t, int64(1), out.Delayed)
 	assert.Equal(t, int64(0), out.Reserved)
+	assert.Equal(t, uint64(3), out.Priority)
 	assert.Equal(t, false, out.Ready)
 
 	time.Sleep(time.Second)
@@ -888,6 +889,7 @@ func TestAMQPStats(t *testing.T) {
 	assert.Equal(t, int64(0), out.Active)
 	assert.Equal(t, int64(0), out.Delayed)
 	assert.Equal(t, int64(0), out.Reserved)
+	assert.Equal(t, uint64(3), out.Priority)
 	assert.Equal(t, true, out.Ready)
 
 	time.Sleep(time.Second)

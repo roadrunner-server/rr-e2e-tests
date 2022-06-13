@@ -240,5 +240,6 @@ func Stats(state *jobState.State) func(t *testing.T) {
 		state.Delayed = st.Stats[0].Delayed
 		state.Reserved = st.Stats[0].Reserved
 		state.Ready = st.Stats[0].Ready
+		state.Priority = st.Stats[0].Priority
 	}
 }

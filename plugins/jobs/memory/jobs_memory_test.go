@@ -98,6 +98,16 @@ func TestMemoryInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 1)
+
+	time.Sleep(time.Second)
+	out := &jobState.State{}
+	t.Run("Stats", helpers.Stats(out))
+
+	assert.Equal(t, out.Active, int64(0))
+	assert.Equal(t, out.Delayed, int64(0))
+	assert.Equal(t, out.Reserved, int64(0))
+	assert.Equal(t, uint64(13), out.Priority)
+
 	stopCh <- struct{}{}
 	wg.Wait()
 
@@ -695,6 +705,7 @@ func TestMemoryStats(t *testing.T) {
 	assert.Equal(t, out.Active, int64(1))
 	assert.Equal(t, out.Delayed, int64(1))
 	assert.Equal(t, out.Reserved, int64(0))
+	assert.Equal(t, uint64(33), out.Priority)
 
 	time.Sleep(time.Second)
 	t.Run("ConsumePipeline", consumeMemoryPipe)
@@ -710,6 +721,7 @@ func TestMemoryStats(t *testing.T) {
 	assert.Equal(t, out.Active, int64(0))
 	assert.Equal(t, out.Delayed, int64(0))
 	assert.Equal(t, out.Reserved, int64(0))
+	assert.Equal(t, uint64(33), out.Priority)
 
 	t.Run("DestroyEphemeralPipeline", helpers.DestroyPipelines("test-3"))
 

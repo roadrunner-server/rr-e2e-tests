@@ -653,11 +653,13 @@ func TestBoltDBStats(t *testing.T) {
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "boltdb", out.Driver)
 	assert.Equal(t, "push", out.Queue)
+	assert.Equal(t, uint64(3), out.Priority)
 
 	assert.Equal(t, int64(1), out.Active)
 	assert.Equal(t, int64(1), out.Delayed)
 	assert.Equal(t, int64(0), out.Reserved)
 	assert.Equal(t, false, out.Ready)
+	assert.Equal(t, uint64(3), out.Priority)
 
 	time.Sleep(time.Second)
 	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))

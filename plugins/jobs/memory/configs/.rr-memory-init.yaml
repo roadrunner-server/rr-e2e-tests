@@ -26,13 +26,13 @@ jobs:
     test-1:
       driver: memory
       config:
-        priority: 10
+        priority: 13
         prefetch: 10000
 
     test-2:
       driver: memory
       config:
-        priority: 10
+        priority: 13
         prefetch: 10000
 
 
