@@ -205,6 +205,93 @@ func TestAMQPInitV27(t *testing.T) {
 	})
 }
 
+func TestAMQPRoutingQueue(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Path:    "configs/.rr-amqp-routing-queue.yaml",
+		Prefix:  "rr",
+		Version: "2.10.5",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&amqpDriver.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	// push to only 1 pipeline
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	time.Sleep(time.Second)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+
+	t.Cleanup(func() {
+		helpers.DestroyPipelines("test-1", "test-2")
+	})
+}
+
 func TestAMQPInitV27RR27(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)

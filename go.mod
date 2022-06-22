@@ -18,7 +18,7 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.2
 	github.com/rabbitmq/amqp091-go v1.3.4
-	github.com/roadrunner-server/amqp/v2 v2.17.1
+	github.com/roadrunner-server/amqp/v2 v2.17.2
 	github.com/roadrunner-server/api/v2 v2.18.0
 	github.com/roadrunner-server/beanstalk/v2 v2.16.1
 	github.com/roadrunner-server/boltdb/v2 v2.16.1
