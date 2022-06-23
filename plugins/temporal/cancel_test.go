@@ -121,7 +121,7 @@ func Test_CanceledWithCompensationWorkflowProto(t *testing.T) {
 
 	var result interface{}
 	assert.NoError(t, w.Get(context.Background(), &result))
-	assert.Equal(t, "OK", result)
+	assert.Equal(t, nil, result)
 
 	e, err := s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "getStatus")
 	require.NoError(t, err)
@@ -139,8 +139,6 @@ func Test_CanceledWithCompensationWorkflowProto(t *testing.T) {
 			"START rollback",
 			"WAIT ROLLBACK",
 			"RESULT (ROLLBACK)", "DONE rollback",
-			"COMPLETE rollback",
-			"result: OK",
 		},
 		trace,
 	)
@@ -437,7 +435,7 @@ func Test_CanceledWithCompensationWorkflowLAProto(t *testing.T) {
 
 	var result interface{}
 	assert.NoError(t, w.Get(context.Background(), &result))
-	assert.Equal(t, "OK", result)
+	assert.Equal(t, nil, result)
 
 	e, err := s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "getStatus")
 	require.NoError(t, err)
@@ -455,8 +453,6 @@ func Test_CanceledWithCompensationWorkflowLAProto(t *testing.T) {
 			"START rollback",
 			"WAIT ROLLBACK",
 			"RESULT (ROLLBACK)", "DONE rollback",
-			"COMPLETE rollback",
-			"result: OK",
 		},
 		trace,
 	)

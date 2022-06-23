@@ -934,7 +934,7 @@ func TestHTTPBigURLEncoded3(t *testing.T) {
 	form := url.Values{}
 
 	// 11mb
-	buf := make([]byte, 100*1024*1024)
+	buf := make([]byte, 10*1024*1024)
 	_, err = rand.Read(buf)
 	require.NoError(t, err)
 
