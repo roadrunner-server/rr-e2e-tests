@@ -125,6 +125,5 @@ func (f *Foo) Serve() chan error {
 }
 
 func (f *Foo) Stop() error {
-	f.pool.Destroy(context.Background())
 	return nil
 }

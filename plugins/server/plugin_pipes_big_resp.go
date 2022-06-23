@@ -68,6 +68,5 @@ func (f *Foo4) Serve() chan error {
 }
 
 func (f *Foo4) Stop() error {
-	f.pool.Destroy(context.Background())
 	return nil
 }

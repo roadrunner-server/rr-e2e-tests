@@ -49,7 +49,7 @@ func TestAppPipes(t *testing.T) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 
-	tt := time.NewTimer(time.Second * 10)
+	tt := time.NewTimer(time.Second * 5)
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 
