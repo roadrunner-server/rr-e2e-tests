@@ -492,11 +492,6 @@ func TestHandler_Upload_File_NotAllowed(t *testing.T) {
 	assert.Equal(t, `{"upload":`+fs+`}`, string(b))
 }
 
-func Test_FileExists(t *testing.T) {
-	assert.True(t, exists(testFile))
-	assert.False(t, exists("uploads_test."))
-}
-
 func mustOpen(f string) *os.File {
 	r, err := os.Open(f)
 	if err != nil {
@@ -555,12 +550,4 @@ func fileString(f string, errNo int, mime string) string {
 		fmt.Println(fmt.Errorf("error marshaling fInfo, error: %v", err))
 	}
 	return string(r)
-}
-
-// exists if file exists.
-func exists(path string) bool {
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		return false
-	}
-	return true
 }

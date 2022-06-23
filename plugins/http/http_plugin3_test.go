@@ -2,10 +2,12 @@ package http
 
 import (
 	"bytes"
+	"crypto/rand"
 	"crypto/tls"
 	"io"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"path"
@@ -694,4 +696,257 @@ func TestMTLS5(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
+}
+
+func TestHTTPBigURLEncoded(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.10.5",
+		Path:    "configs/http2/.rr-http-urlencoded1.yaml",
+		Prefix:  "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&logger.Plugin{},
+		&server.Plugin{},
+		&gzip.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	form := url.Values{}
+
+	// 11mb
+	buf := make([]byte, 11*1024*1024)
+	_, err = rand.Read(buf)
+	require.NoError(t, err)
+
+	form.Add("foo", string(buf))
+
+	resp, err := http.PostForm("http://127.0.0.1:55777", form)
+	assert.NoError(t, err)
+	_, _ = io.ReadAll(resp.Body)
+
+	require.Equal(t, http.StatusInternalServerError, resp.StatusCode)
+
+	t.Cleanup(func() {
+		_ = resp.Body.Close()
+	})
+}
+
+func TestHTTPBigURLEncoded2(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.10.5",
+		Path:    "configs/http2/.rr-http-urlencoded2.yaml",
+		Prefix:  "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&logger.Plugin{},
+		&server.Plugin{},
+		&gzip.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	form := url.Values{}
+
+	// 11mb
+	buf := make([]byte, 11*1024*1024)
+	_, err = rand.Read(buf)
+	require.NoError(t, err)
+
+	// after encode will be ~28mb
+	form.Add("foo", string(buf))
+
+	resp, err := http.PostForm("http://127.0.0.1:55778", form)
+	assert.NoError(t, err)
+	_, _ = io.ReadAll(resp.Body)
+
+	require.Equal(t, http.StatusOK, resp.StatusCode)
+
+	t.Cleanup(func() {
+		_ = resp.Body.Close()
+	})
+}
+
+func TestHTTPBigURLEncoded3(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.10.5",
+		Path:    "configs/http2/.rr-http-urlencoded3.yaml",
+		Prefix:  "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&logger.Plugin{},
+		&server.Plugin{},
+		&gzip.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	form := url.Values{}
+
+	// 11mb
+	buf := make([]byte, 100*1024*1024)
+	_, err = rand.Read(buf)
+	require.NoError(t, err)
+
+	form.Add("foo", string(buf))
+
+	resp, err := http.PostForm("http://127.0.0.1:55779", form)
+	assert.NoError(t, err)
+	_, _ = io.ReadAll(resp.Body)
+
+	require.Equal(t, http.StatusOK, resp.StatusCode)
+
+	t.Cleanup(func() {
+		_ = resp.Body.Close()
+	})
 }

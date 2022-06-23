@@ -1222,7 +1222,7 @@ func TestH2CUpgrade(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	req, err := http.NewRequest("PRI", "http://127.0.0.1:8083?hello=world", nil)
+	req, err := http.NewRequest("PRI", "http://127.0.0.1:8083", nil)
 	require.NoError(t, err)
 
 	req.Header.Add("Upgrade", "h2c")
@@ -1345,7 +1345,6 @@ func TestH2C(t *testing.T) {
 	wg.Wait()
 
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("http server was started").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("http log").Len())
 }
 
 func TestHttpMiddleware(t *testing.T) {
@@ -1870,8 +1869,8 @@ func TestHTTPBigRequestSize(t *testing.T) {
 	assert.NoError(t, err)
 	b, err := ioutil.ReadAll(r.Body)
 	assert.NoError(t, err)
-	assert.Equal(t, 400, r.StatusCode)
-	assert.Equal(t, "http_handler_max_size: request body max size is exceeded\n", string(b))
+	assert.Equal(t, 500, r.StatusCode)
+	assert.Equal(t, "serve_http: http: request body too large\n", string(b))
 
 	err = r.Body.Close()
 	assert.NoError(t, err)

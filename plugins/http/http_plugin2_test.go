@@ -229,14 +229,15 @@ func sslEcho2(t *testing.T) {
 	assert.NoError(t, err)
 
 	r, err := client.Do(req)
-	assert.NoError(t, err)
+	require.NoError(t, err)
+	require.NotNil(t, r)
 
 	b, err := ioutil.ReadAll(r.Body)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
-	assert.NoError(t, err)
-	assert.Equal(t, 201, r.StatusCode)
-	assert.Equal(t, "WORLD", string(b))
+	require.NoError(t, err)
+	require.Equal(t, 201, r.StatusCode)
+	require.Equal(t, "WORLD", string(b))
 
 	err2 := r.Body.Close()
 	if err2 != nil {
@@ -1057,7 +1058,7 @@ func TestHTTPBigRespMaxReqSize(t *testing.T) {
 	}()
 
 	assert.NoError(t, err)
-	assert.Equal(t, 400, r.StatusCode)
+	assert.Equal(t, 500, r.StatusCode)
 
 	stopCh <- struct{}{}
 	wg.Wait()
