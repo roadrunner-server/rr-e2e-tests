@@ -321,6 +321,9 @@ func TestGrpcRqRs(t *testing.T) {
 }
 
 func TestGrpcFullErrorMessageIssue1193(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("not working on windows")
+	}
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
