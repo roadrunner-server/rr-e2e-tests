@@ -10,6 +10,7 @@ service:
       foo: "BAR"
       bar: "FOO"
     restart_sec: 1
+
 endure:
   grace_period: 120s
   print_graph: false

@@ -320,6 +320,35 @@ func TestGrpcRqRs(t *testing.T) {
 	wg.Wait()
 }
 
+func TestGrpcFullErrorMessageIssue1193(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.10.6",
+		Path:    "configs/.rr-grpc-rq-issue1193.yaml",
+		Prefix:  "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&grpcPlugin.Plugin{},
+		&rpcPlugin.Plugin{},
+		&logger.Plugin{},
+		&server.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = cont.Serve()
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), " If you want to be c001 you just need to contribute to 0pensource.")
+}
+
 func TestGrpcRqRsException(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
