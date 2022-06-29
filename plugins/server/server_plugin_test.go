@@ -238,7 +238,7 @@ func TestAppPipesException(t *testing.T) {
 			select {
 			case e := <-errCh:
 				assert.Error(t, e.Error)
-				assert.Contains(t, e.Error.Error(), "CRC verification failed, bad header: warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error")
+				assert.Contains(t, e.Error.Error(), "CRC verification failed: warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error")
 				return
 			case <-c:
 				er := container.Stop()
