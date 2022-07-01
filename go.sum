@@ -475,8 +475,8 @@ github.com/roadrunner-server/resetter/v2 v2.11.7 h1:vwoMBejRborEstZVoKoLUrxY947G
 github.com/roadrunner-server/resetter/v2 v2.11.7/go.mod h1:C8xRnkPgBSFykQAzd8UNQu1EPslPxGz0r/D5ijTzvBE=
 github.com/roadrunner-server/rpc/v2 v2.13.3 h1:UMFN0c7yu13AZAKsKBX+s4yZ1dSyq2qhUv35YkZwOBs=
 github.com/roadrunner-server/rpc/v2 v2.13.3/go.mod h1:/+FfR8Zh642KRgyG+sPvqcvDLXHbXQ94fxaCWjx2yYA=
-github.com/roadrunner-server/sdk/v2 v2.17.1 h1:Z0BSWaETsgmUgK/q9auRhoPfcB++hYfPOYZawsbZLFU=
-github.com/roadrunner-server/sdk/v2 v2.17.1/go.mod h1:n05/SPVQ9WFj4UJEruVbXrSUfo2hkGiO4HxMgvsAlWM=
+github.com/roadrunner-server/sdk/v2 v2.17.3 h1:BkBDcdO+YhEvbmsbPtak5yg91FDW+GFoZr5UBrWOQJc=
+github.com/roadrunner-server/sdk/v2 v2.17.3/go.mod h1:n05/SPVQ9WFj4UJEruVbXrSUfo2hkGiO4HxMgvsAlWM=
 github.com/roadrunner-server/send/v2 v2.12.2 h1:Sj6GltknZYoWraKznXYJG4qVr9BrBXFSGdBNEFyMUPY=
 github.com/roadrunner-server/send/v2 v2.12.2/go.mod h1:lTQvDHuI4/29Zo8n1LaAwh7WXcGkOG3guZwfSz4Tk70=
 github.com/roadrunner-server/server/v2 v2.14.3 h1:BiHyJ4CaWjynuMXrgo9wSKqNLS50AOcQkz2bhTovWxI=
@@ -539,8 +539,8 @@ github.com/stretchr/testify v1.8.0 h1:pSgiaMZlXftHpm5L7V1+rVB+AZJydKsMxsQBIJw4PK
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/subosito/gotenv v1.4.0 h1:yAzM1+SmVcz5R4tXGsNMu1jUl2aOJXoiWUCEwwnGrvs=
 github.com/subosito/gotenv v1.4.0/go.mod h1:mZd6rFysKEcUhUHXJk0C/08wAgyDBFuwEYL7vWWGaGo=
-github.com/temporalio/roadrunner-temporal v1.4.11 h1:DGEFHjhp6PacDq5t1LsoCHy73JQgsLU2yQXQOo8Na0U=
-github.com/temporalio/roadrunner-temporal v1.4.11/go.mod h1:UxU2MSOgw24T9lITuSNBt+QI7tr/dvAPUff66rkpwNY=
+github.com/temporalio/roadrunner-temporal v1.4.12 h1:GvoiWwysL7aOoDCXRL0bVDiKNXz02OE5FxoazPNagG4=
+github.com/temporalio/roadrunner-temporal v1.4.12/go.mod h1:KgZrYApfkPfgu+6x+IHeZggTZRWYjXLkV2ldOMJxo1A=
 github.com/tklauser/go-sysconf v0.3.10 h1:IJ1AZGZRWbY8T5Vfk04D9WOA5WSejdflXxP03OUqALw=
 github.com/tklauser/go-sysconf v0.3.10/go.mod h1:C8XykCvCb+Gn0oNCWPIlcb0RuglQTYaQ2hGm7jmxEFk=
 github.com/tklauser/numcpus v0.4.0/go.mod h1:1+UI3pD8NW14VMwdgJNJ1ESk2UnwhAnz5hMwiKKqXCQ=

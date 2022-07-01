@@ -17,3 +17,6 @@ tcp:
     max_jobs: 0
     allocate_timeout: 60s
     destroy_timeout: 60s
+
+endure:
+  grace_period: 30s
