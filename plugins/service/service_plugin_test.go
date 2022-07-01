@@ -996,7 +996,7 @@ func TestServiceListConcurrent(t *testing.T) {
 				t.Run("list", list(nil, ll))
 				require.Len(t, ll.GetServices(), 1)
 
-				time.Sleep(time.Second)
+				time.Sleep(time.Millisecond * 100)
 			}
 		}()
 
@@ -1012,7 +1012,7 @@ func TestServiceListConcurrent(t *testing.T) {
 				t.Run("list", list(nil, ll))
 				require.Len(t, ll.GetServices(), 1)
 
-				time.Sleep(time.Second)
+				time.Sleep(time.Millisecond * 100)
 			}
 		}()
 	}
