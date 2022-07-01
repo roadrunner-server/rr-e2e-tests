@@ -11,14 +11,13 @@ $worker = Worker::create();
 $tcpWorker = new TcpWorker($worker);
 
 while ($request = $tcpWorker->waitRequest()) {
-
     try {
         if ($request->event === TcpWorker::EVENT_CONNECTED) {
             // -----------------
 
             // Or send response to the TCP connection, for example, to the SMTP client
             $tcpWorker->respond("hello \r\n");
-        } else if ($request->event === TcpWorker::EVENT_DATA) {
+        } elseif ($request->event === TcpWorker::EVENT_DATA) {
 
             if ($request->server === 'server1') {
                 // Send response to the TCP connection and wait for the next request
@@ -42,7 +41,12 @@ while ($request = $tcpWorker->waitRequest()) {
                 ]));
             }
             // Handle closed connection event
-        } else if ($request->event === TcpWorker::EVENT_CLOSED) {
+        } elseif ($request->event === "CLOSE") {
+                // Send response to the TCP connection and wait for the next request
+                $tcpWorker->respond(json_encode([
+                    'body' => $request->body,
+                    'remote_addr' => "foo3",
+                ]));
         }
     } catch (\Throwable $e) {
         $tcpWorker->respond("Something went wrong\r\n", true);

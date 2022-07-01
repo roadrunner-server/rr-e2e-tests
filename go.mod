@@ -51,12 +51,12 @@ require (
 	github.com/roadrunner-server/rpc/v2 v2.13.3
 	github.com/roadrunner-server/sdk/v2 v2.17.3
 	github.com/roadrunner-server/send/v2 v2.12.2
-	github.com/roadrunner-server/server/v2 v2.14.3
+	github.com/roadrunner-server/server/v2 v2.14.4
 	github.com/roadrunner-server/service/v2 v2.14.14
 	github.com/roadrunner-server/sqs/v2 v2.17.1
 	github.com/roadrunner-server/static/v2 v2.13.3
 	github.com/roadrunner-server/status/v2 v2.13.3
-	github.com/roadrunner-server/tcp/v2 v2.13.3
+	github.com/roadrunner-server/tcp/v2 v2.13.4
 	github.com/roadrunner-server/websockets/v2 v2.14.3
 	github.com/stretchr/testify v1.8.0
 	github.com/temporalio/roadrunner-temporal v1.4.12

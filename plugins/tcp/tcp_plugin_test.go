@@ -312,7 +312,7 @@ func TestTCPConnClose(t *testing.T) {
 }
 
 func TestTCPFull(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
@@ -399,6 +399,7 @@ func TestTCPFull(t *testing.T) {
 			require.Equal(t, d["remote_addr"].(string), "foo1")
 			require.Equal(t, d["body"].(string), "foo \r\n")
 		}
+		_ = c.Close()
 		waitCh <- struct{}{}
 	}()
 
@@ -426,6 +427,7 @@ func TestTCPFull(t *testing.T) {
 			require.Equal(t, d["remote_addr"].(string), "foo2")
 			require.Equal(t, d["body"].(string), "bar \r\n")
 		}
+		_ = c.Close()
 		waitCh <- struct{}{}
 	}()
 
@@ -453,6 +455,8 @@ func TestTCPFull(t *testing.T) {
 			require.Equal(t, d["remote_addr"].(string), "foo3")
 			require.Equal(t, d["body"].(string), "baz \r\n")
 		}
+
+		_ = c.Close()
 		waitCh <- struct{}{}
 	}()
 
@@ -461,6 +465,7 @@ func TestTCPFull(t *testing.T) {
 	<-waitCh
 	<-waitCh
 	<-waitCh
+
 	stopCh <- struct{}{}
 	wg.Wait()
 }
