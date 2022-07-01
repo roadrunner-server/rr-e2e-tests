@@ -28,7 +28,7 @@ require (
 	github.com/roadrunner-server/endure v1.3.0
 	github.com/roadrunner-server/errors v1.1.2
 	github.com/roadrunner-server/fileserver/v2 v2.13.3
-	github.com/roadrunner-server/goridge/v3 v3.4.4
+	github.com/roadrunner-server/goridge/v3 v3.4.5
 	github.com/roadrunner-server/grpc/v2 v2.16.3
 	github.com/roadrunner-server/gzip/v2 v2.12.2
 	github.com/roadrunner-server/headers/v2 v2.12.3
@@ -49,7 +49,7 @@ require (
 	github.com/roadrunner-server/reload/v2 v2.12.6
 	github.com/roadrunner-server/resetter/v2 v2.11.7
 	github.com/roadrunner-server/rpc/v2 v2.13.3
-	github.com/roadrunner-server/sdk/v2 v2.16.0
+	github.com/roadrunner-server/sdk/v2 v2.17.0
 	github.com/roadrunner-server/send/v2 v2.12.2
 	github.com/roadrunner-server/server/v2 v2.14.3
 	github.com/roadrunner-server/service/v2 v2.14.14
@@ -65,7 +65,7 @@ require (
 	go.temporal.io/api v1.8.0
 	go.temporal.io/sdk v1.15.0
 	go.uber.org/zap v1.21.0
-	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e
+	golang.org/x/net v0.0.0-20220630215102-69896b714898
 	google.golang.org/grpc v1.47.0
 	google.golang.org/protobuf v1.28.0
 )
@@ -87,7 +87,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/emicklei/proto v1.10.0 // indirect
+	github.com/emicklei/proto v1.11.0 // indirect
 	github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a // indirect
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
@@ -120,7 +120,7 @@ require (
 	github.com/nats-io/jwt/v2 v2.2.1-0.20220113022732-58e87895b296 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
-	github.com/newrelic/go-agent/v3 v3.16.1 // indirect
+	github.com/newrelic/go-agent/v3 v3.17.0 // indirect
 	github.com/openzipkin/zipkin-go v0.4.0 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
@@ -174,7 +174,7 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858 // indirect
 	golang.org/x/tools v0.1.11 // indirect
-	google.golang.org/genproto v0.0.0-20220628213854-d9e0b6570c03 // indirect
+	google.golang.org/genproto v0.0.0-20220630174209-ad1d48641aa7 // indirect
 	gopkg.in/ini.v1 v1.66.6 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
