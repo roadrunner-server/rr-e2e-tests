@@ -19,3 +19,4 @@ coverage-ci
 tests/php_test_files/composer.lock
 **/well
 **/.rr.yaml
+.vscode
