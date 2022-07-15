@@ -12,7 +12,7 @@ require (
 	github.com/fatih/color v1.13.0
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gobwas/ws v1.1.0
-	github.com/goccy/go-json v0.9.8
+	github.com/goccy/go-json v0.9.9
 	github.com/google/uuid v1.3.0
 	github.com/nats-io/nats.go v1.16.0
 	github.com/pborman/uuid v1.2.1
