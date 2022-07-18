@@ -57,7 +57,11 @@ func TestHandler_Echo(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":9177", Handler: h}
+	hs := &http.Server{
+		Addr:              ":9177",
+		ReadHeaderTimeout: time.Minute * 5,
+		Handler:           h,
+	}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -114,7 +118,11 @@ func TestHandler_Headers(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8078", Handler: h}
+	hs := &http.Server{
+		Addr:              ":8078",
+		ReadHeaderTimeout: time.Minute * 5,
+		Handler:           h,
+	}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -186,7 +194,11 @@ func TestHandler_Empty_User_Agent(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":19658", Handler: h}
+	hs := &http.Server{
+		Addr:              ":19658",
+		Handler:           h,
+		ReadHeaderTimeout: time.Minute * 5,
+	}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -257,7 +269,11 @@ func TestHandler_User_Agent(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":25688", Handler: h}
+	hs := &http.Server{
+		Addr:              ":25688",
+		Handler:           h,
+		ReadHeaderTimeout: time.Minute * 5,
+	}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -328,7 +344,7 @@ func TestHandler_Cookies(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8079", Handler: h}
+	hs := &http.Server{Addr: ":8079", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -404,7 +420,7 @@ func TestHandler_JsonPayload_POST(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8090", Handler: h}
+	hs := &http.Server{Addr: ":8090", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -479,7 +495,7 @@ func TestHandler_JsonPayload_PUT(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8081", Handler: h}
+	hs := &http.Server{Addr: ":8081", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -549,7 +565,7 @@ func TestHandler_JsonPayload_PATCH(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8082", Handler: h}
+	hs := &http.Server{Addr: ":8082", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -619,7 +635,7 @@ func TestHandler_FormData_POST(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":10084", Handler: h}
+	hs := &http.Server{Addr: ":10084", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -712,7 +728,7 @@ func TestHandler_FormData_POST_Overwrite(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8083", Handler: h}
+	hs := &http.Server{Addr: ":8083", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -806,7 +822,7 @@ func TestHandler_FormData_POST_Form_UrlEncoded_Charset(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8085", Handler: h}
+	hs := &http.Server{Addr: ":8085", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -899,7 +915,7 @@ func TestHandler_FormData_PUT(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":17834", Handler: h}
+	hs := &http.Server{Addr: ":17834", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -993,7 +1009,7 @@ func TestHandler_FormData_PATCH(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8086", Handler: h}
+	hs := &http.Server{Addr: ":8086", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1086,7 +1102,7 @@ func TestHandler_Multipart_POST(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8019", Handler: h}
+	hs := &http.Server{Addr: ":8019", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1221,7 +1237,7 @@ func TestHandler_Multipart_PUT(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8020", Handler: h}
+	hs := &http.Server{Addr: ":8020", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1356,7 +1372,7 @@ func TestHandler_Multipart_PATCH(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8021", Handler: h}
+	hs := &http.Server{Addr: ":8021", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1493,7 +1509,7 @@ func TestHandler_Error(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8177", Handler: h}
+	hs := &http.Server{Addr: ":8177", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1549,7 +1565,7 @@ func TestHandler_Error2(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8178", Handler: h}
+	hs := &http.Server{Addr: ":8178", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1605,7 +1621,7 @@ func TestHandler_ResponseDuration(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8180", Handler: h}
+	hs := &http.Server{Addr: ":8180", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1663,7 +1679,7 @@ func TestHandler_ResponseDurationDelayed(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8181", Handler: h}
+	hs := &http.Server{Addr: ":8181", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1704,7 +1720,7 @@ func TestHandler_ErrorDuration(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: ":8182", Handler: h}
+	hs := &http.Server{Addr: ":8182", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1761,7 +1777,7 @@ func TestHandler_IP(t *testing.T) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(t, err)
 
-	hs := &http.Server{Addr: "127.0.0.1:8183", Handler: h}
+	hs := &http.Server{Addr: "127.0.0.1:8183", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
@@ -1818,7 +1834,7 @@ func BenchmarkHandler_Listen_Echo(b *testing.B) {
 	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
 	assert.NoError(b, err)
 
-	hs := &http.Server{Addr: ":8188", Handler: h}
+	hs := &http.Server{Addr: ":8188", Handler: h, ReadHeaderTimeout: time.Minute * 5}
 	defer func() {
 		errS := hs.Shutdown(context.Background())
 		if errS != nil {
