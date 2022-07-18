@@ -32,7 +32,7 @@ require (
 	github.com/roadrunner-server/grpc/v2 v2.18.1
 	github.com/roadrunner-server/gzip/v2 v2.12.5
 	github.com/roadrunner-server/headers/v2 v2.12.6
-	github.com/roadrunner-server/http/v2 v2.19.11
+	github.com/roadrunner-server/http/v2 v2.20.0
 	github.com/roadrunner-server/informer/v2 v2.11.8
 	github.com/roadrunner-server/jobs/v2 v2.15.7
 	github.com/roadrunner-server/kv/v2 v2.12.9
