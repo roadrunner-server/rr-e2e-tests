@@ -17,8 +17,8 @@ require (
 	github.com/nats-io/nats.go v1.16.0
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.2
-	github.com/rabbitmq/amqp091-go v1.3.4
-	github.com/roadrunner-server/amqp/v2 v2.17.7
+	github.com/rabbitmq/amqp091-go v1.4.0
+	github.com/roadrunner-server/amqp/v2 v2.17.8
 	github.com/roadrunner-server/api/v2 v2.19.0
 	github.com/roadrunner-server/beanstalk/v2 v2.16.5
 	github.com/roadrunner-server/boltdb/v2 v2.16.7
@@ -103,7 +103,7 @@ require (
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.3 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.0 // indirect
 	github.com/hashicorp/go-version v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/klauspost/compress v1.15.8 // indirect
@@ -132,7 +132,7 @@ require (
 	github.com/roadrunner-server/tcplisten v1.1.2 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
-	github.com/spf13/afero v1.9.0 // indirect
+	github.com/spf13/afero v1.9.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
@@ -174,7 +174,7 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858 // indirect
 	golang.org/x/tools v0.1.11 // indirect
-	google.golang.org/genproto v0.0.0-20220718134204-073382fd740c // indirect
+	google.golang.org/genproto v0.0.0-20220719170305-83ca9fad585f // indirect
 	gopkg.in/ini.v1 v1.66.6 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
