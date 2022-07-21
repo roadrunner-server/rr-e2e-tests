@@ -192,20 +192,22 @@ func TestReloadBadWorker(t *testing.T) {
 
 	f, err := os.OpenFile("../../php_test_files/psr-worker-bench-reload.php", os.O_RDWR, os.ModePerm)
 	require.NoError(t, err)
-	defer func() {
-		_ = f.Truncate(0)
-		_, _ = f.Seek(0, 0)
-		_, _ = f.Write(orig)
-		_ = f.Close()
-	}()
 
 	_, err = f.Write([]byte("foo"))
 	require.NoError(t, err)
 
 	t.Run("ReloadTestInit", reloadTestInit)
 	time.Sleep(time.Second * 3)
+
+	_ = f.Truncate(0)
+	_, _ = f.Seek(0, 0)
+	_, _ = f.Write(orig)
+	_ = f.Close()
+
+	stopCh <- struct{}{}
 	wg.Wait()
 
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("failed to allocate a worker, RR will try to allocate a worker on the following change").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("http server was started").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("file was created").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("file was added to watcher").Len())
