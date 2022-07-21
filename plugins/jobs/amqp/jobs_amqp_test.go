@@ -1,6 +1,7 @@
 package amqp
 
 import (
+	"context"
 	"net"
 	"net/rpc"
 	"os"
@@ -1395,7 +1396,7 @@ func TestAMQPRawPayload(t *testing.T) {
 	assert.NoError(t, err)
 	require.NotNil(t, pch)
 
-	err = pch.Publish("default", "test-raw", false, false, amqp.Publishing{
+	err = pch.PublishWithContext(context.Background(), "default", "test-raw", false, false, amqp.Publishing{
 		Headers:   amqp.Table{"foo": 2.3},
 		Timestamp: time.Now(),
 		Body:      []byte("foooobarrrrrrrrbazzzzzzzzzzzzzzzzzzzzzzzzz"),
