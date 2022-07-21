@@ -95,7 +95,7 @@ func TestKafkaInit(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 3)
+	time.Sleep(time.Second * 300)
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
 	//t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
 	time.Sleep(time.Second)
@@ -120,44 +120,12 @@ func declarePipe(t *testing.T) {
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-		"driver":               "kafka",
-		"name":                 "test-3",
-		"routing_key":          "test-3",
-		"queue":                "default",
-		"exchange_type":        "direct",
-		"exchange":             "amqp.default",
-		"prefetch":             "100",
-		"delete_queue_on_stop": "true",
-		"priority":             "3",
-		"exclusive":            "true",
-		"multiple_ask":         "true",
-		"requeue_on_fail":      "true",
-	}}
-
-	er := &jobsProto.Empty{}
-	err = client.Call("jobs.Declare", pipe, er)
-	assert.NoError(t, err)
-}
-
-func declareAMQPPipeDurable(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	assert.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
-	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-		"driver":               "kafka",
-		"name":                 "test-3",
-		"routing_key":          "test-3",
-		"queue":                "default",
-		"exchange_type":        "direct",
-		"exchange":             "amqp.default",
-		"delete_queue_on_stop": "true",
-		"prefetch":             "100",
-		"durable":              "true",
-		"priority":             "3",
-		"exclusive":            "true",
-		"multiple_ask":         "true",
-		"requeue_on_fail":      "true",
+		"driver":            "kafka",
+		"pipeline":          "test-3",
+		"priority":          "3",
+		"bootstrap.servers": "127.0.0.1:9092",
+		"group.id":          "default",
+		"auto.offset.reset": "earliest",
 	}}
 
 	er := &jobsProto.Empty{}

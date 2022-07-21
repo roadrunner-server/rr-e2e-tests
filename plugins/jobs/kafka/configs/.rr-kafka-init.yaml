@@ -12,7 +12,7 @@ kafka:
   addr: 127.0.0.1:9092
 
 logs:
-  level: error
+  level: debug
   encoding: console
   mode: development
 
@@ -32,6 +32,9 @@ jobs:
       config:
         prefetch: 100
         priority: 1
+        bootstrap:servers: 127.0.0.1:9092,
+        group:id: default,
+        auto:offset:reset: earliest,
 
   consume: [ "test-1" ]
 
