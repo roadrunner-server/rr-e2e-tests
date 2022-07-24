@@ -29,7 +29,7 @@ require (
 	github.com/roadrunner-server/errors v1.1.2
 	github.com/roadrunner-server/fileserver/v2 v2.13.8
 	github.com/roadrunner-server/goridge/v3 v3.4.5
-	github.com/roadrunner-server/grpc/v2 v2.18.2
+	github.com/roadrunner-server/grpc/v2 v2.19.0
 	github.com/roadrunner-server/gzip/v2 v2.12.5
 	github.com/roadrunner-server/headers/v2 v2.12.6
 	github.com/roadrunner-server/http/v2 v2.20.1
@@ -167,12 +167,12 @@ require (
 	go.temporal.io/sdk/contrib/tally v0.1.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
+	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/time v0.0.0-20220609170525-579cf78fd858 // indirect
+	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	golang.org/x/tools v0.1.11 // indirect
 	google.golang.org/genproto v0.0.0-20220722212130-b98a9ff5e252 // indirect
 	gopkg.in/ini.v1 v1.66.6 // indirect
