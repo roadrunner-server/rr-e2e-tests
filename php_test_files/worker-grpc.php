@@ -5,6 +5,7 @@
  */
 
 use Service\EchoInterface;
+use Test\TestInterface;
 use Health\HealthInterface;
 use Spiral\RoadRunner\GRPC\Server;
 use Spiral\RoadRunner\Worker;

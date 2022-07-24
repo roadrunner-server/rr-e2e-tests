@@ -236,7 +236,18 @@ func TestGrpcInitMultiple(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 1)
+	time.Sleep(time.Second * 2)
+
+	conn, err := grpc.Dial("127.0.0.1:9001", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	require.NoError(t, err)
+	require.NotNil(t, conn)
+
+	client := service.NewEchoClient(conn)
+	resp, err := client.Ping(context.Background(), &service.Message{Msg: "TOST"})
+	require.NoError(t, err)
+	require.Equal(t, "TOST", resp.Msg)
+
+	time.Sleep(time.Second)
 	stopCh <- struct{}{}
 
 	wg.Wait()

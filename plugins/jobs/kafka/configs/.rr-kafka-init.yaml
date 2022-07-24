@@ -8,9 +8,6 @@ server:
   relay: "pipes"
   relay_timeout: "20s"
 
-kafka:
-  addr: 127.0.0.1:9092
-
 logs:
   level: debug
   encoding: console
@@ -30,11 +27,35 @@ jobs:
     test-1:
       driver: kafka
       config:
-        prefetch: 100
         priority: 1
-        bootstrap:servers: 127.0.0.1:9092,
-        group:id: default,
-        auto:offset:reset: earliest,
+        topics:
+          - default
+        number_of_partitions: 1
+        create_topics_on_start: true
+
+        topics_config:
+          compression:type: snappy
+
+        consumer_config:
+          bootstrap:servers: 127.0.0.1:9092
+          group:id: default
+          enable:partition:eof: true
+          auto:offset:reset: earliest
+
+        producer_config:
+          bootstrap:servers: 127.0.0.1:9092
 
   consume: [ "test-1" ]
 
+# driver: kafka
+# config:
+#   prefetch: 100
+#   priority: 1
+#   ack_strategy: commit
+#   nack_strategy: redirect_to_and_commit, commit
+#      redirect_to:
+#          poll_interval: 5m
+#          topic: foo
+#          partition: foo
+#          offset: 0
+#          headers: [a, b, c]

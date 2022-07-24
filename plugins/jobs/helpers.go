@@ -77,10 +77,13 @@ func PushToPipe(pipeline string, autoAck bool) func(t *testing.T) {
 			Payload: `{"hello":"world"}`,
 			Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 			Options: &jobsProto.Options{
-				AutoAck:  autoAck,
-				Priority: 1,
-				Pipeline: pipeline,
-				Delay:    0,
+				AutoAck:   autoAck,
+				Priority:  1,
+				Pipeline:  pipeline,
+				Delay:     0,
+				Topic:     "default",
+				Partition: 1,
+				Offset:    0,
 			},
 		}}
 

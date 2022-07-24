@@ -10,12 +10,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/roadrunner-server/config/v2"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/jobs/v2"
 	kp "github.com/roadrunner-server/kafka/v2"
+	"github.com/roadrunner-server/logger/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
@@ -38,13 +40,16 @@ func TestKafkaInit(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	_ = l
+	_ = oLogger
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
 		&jobs.Plugin{},
 		&kp.Plugin{},
-		l,
+		&logger.Plugin{},
+		//l,
 		&resetter.Plugin{},
 		&informer.Plugin{},
 	)
@@ -95,22 +100,261 @@ func TestKafkaInit(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 300)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	//t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
-	time.Sleep(time.Second)
+	time.Sleep(time.Second * 3)
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
+	require.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+	req := &jobsProto.PushRequest{Job: &jobsProto.Job{
+		Job:     "some/php/namespace",
+		Id:      uuid.NewString(),
+		Payload: `{"hello":"world"}`,
+		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
+		Options: &jobsProto.Options{
+			AutoAck:   false,
+			Priority:  1,
+			Pipeline:  "test-1",
+			Delay:     0,
+			Topic:     "default",
+			Partition: 1,
+			Offset:    0,
+		},
+	}}
+
+	for i := 0; i < 1000; i++ {
+		er := &jobsProto.Empty{}
+		errCall := client.Call("jobs.Push", req, er)
+		require.NoError(t, errCall)
+	}
+
+	time.Sleep(time.Second * 10)
 
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-1")
+	})
+}
+
+func TestKafkaDeclare(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.11.0",
+		Path:    "configs/.rr-kafka-declare.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	_ = l
+	_ = oLogger
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		&kp.Plugin{},
+		&logger.Plugin{},
+		//l,
+		&resetter.Plugin{},
+		&informer.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+
+	t.Run("DeclarePipeline", declarePipe)
+	time.Sleep(time.Second * 2)
+	helpers.ResumePipes("test-2")
+
+	time.Sleep(time.Second * 2)
+
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
+	require.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+	req := &jobsProto.PushRequest{Job: &jobsProto.Job{
+		Job:     "some/php/namespace",
+		Id:      uuid.NewString(),
+		Payload: `{"hello":"world"}`,
+		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
+		Options: &jobsProto.Options{
+			AutoAck:   false,
+			Priority:  1,
+			Pipeline:  "test-1",
+			Topic:     "default",
+			Partition: 1,
+			Offset:    0,
+		},
+	}}
+
+	for i := 0; i < 1000; i++ {
+		er := &jobsProto.Empty{}
+		errCall := client.Call("jobs.Push", req, er)
+		require.NoError(t, errCall)
+	}
+
+	time.Sleep(time.Second * 10)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	//require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+
+	t.Cleanup(func() {
+		helpers.DestroyPipelines("test-1")
+	})
+}
+
+func TestKafkaJobsError(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.11.0",
+		Path:    "configs/.rr-kafka-jobs-err.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	_ = l
+	_ = oLogger
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&logger.Plugin{},
+		//l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&kp.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+
+	t.Run("DeclarePipeline", declarePipe)
+	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	time.Sleep(time.Second * 25)
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 4, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 4, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was paused").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 3, oLogger.FilterMessageSnippet("jobs protocol error").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+
+	t.Cleanup(func() {
+		helpers.DestroyPipelines("test-3")
 	})
 }
 
@@ -120,12 +364,24 @@ func declarePipe(t *testing.T) {
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-		"driver":            "kafka",
-		"pipeline":          "test-3",
-		"priority":          "3",
-		"bootstrap.servers": "127.0.0.1:9092",
-		"group.id":          "default",
-		"auto.offset.reset": "earliest",
+		"driver":                 "kafka",
+		"pipeline":               "test-1",
+		"priority":               "3",
+		"number_of_partitions":   "3",
+		"create_topics_on_start": "true",
+		"topics":                 "default, test-1",
+		"topics_config": `{
+  			"compression.type": "snappy"
+		}`,
+		"consumer_config": `{
+  			"bootstrap.servers": "127.0.0.1:9092",
+  			"group.id": "default",
+  			"enable.partition.eof": true,
+  			"auto.offset.reset": "earliest"
+		}`,
+		"producer_config": `{
+  			"bootstrap.servers": "127.0.0.1:9092"
+		}`,
 	}}
 
 	er := &jobsProto.Empty{}
