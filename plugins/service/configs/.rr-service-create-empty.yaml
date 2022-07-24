@@ -8,4 +8,3 @@ logs:
   level: debug
 
 service: { }
-
