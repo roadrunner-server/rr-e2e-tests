@@ -1,0 +1,69 @@
+version: '2.7'
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+server:
+  command: "php ../../../php_test_files/jobs/jobs_ok.php"
+  relay: "pipes"
+  relay_timeout: "20s"
+
+logs:
+  level: debug
+  encoding: console
+  mode: development
+
+jobs:
+  num_pollers: 10
+  pipeline_size: 100000
+  timeout: 3
+  pool:
+    num_workers: 2
+    allocate_timeout: 60s
+    destroy_timeout: 60s
+
+  pipelines:
+    test-1:
+      driver: kafka
+      config:
+        priority: 1
+        topics:
+          - test-1
+        number_of_partitions: 2
+        create_topics_on_start: true
+
+        topics_config:
+          compression:type: snappy
+
+        consumer_config:
+          bootstrap:servers: 127.0.0.1:9092
+          group:id: default-1
+          enable:partition:eof: true
+          auto:offset:reset: earliest
+
+        producer_config:
+          bootstrap:servers: 127.0.0.1:9092
+
+    test-2:
+      driver: kafka
+      config:
+        priority: 2
+        topics:
+          - test-2
+        number_of_partitions: 2
+        create_topics_on_start: true
+
+        topics_config:
+          compression:type: snappy
+
+        consumer_config:
+          bootstrap:servers: 127.0.0.1:9092
+          group:id: default-2
+          enable:partition:eof: true
+          auto:offset:reset: earliest
+
+        producer_config:
+          bootstrap:servers: 127.0.0.1:9092
+
+  consume: [ "test-1", "test-2" ]
+
