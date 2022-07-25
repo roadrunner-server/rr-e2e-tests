@@ -81,8 +81,8 @@ func PushToPipe(pipeline string, autoAck bool) func(t *testing.T) {
 				Priority:  1,
 				Pipeline:  pipeline,
 				Delay:     0,
-				Topic:     "default",
-				Partition: 1,
+				Topic:     pipeline,
+				Partition: 0,
 				Offset:    0,
 			},
 		}}
@@ -129,17 +129,21 @@ func PushToPipeErr(pipeline string) func(t *testing.T) {
 			Payload: `{"hello":"world"}`,
 			Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 			Options: &jobsProto.Options{
-				Priority: 1,
-				Pipeline: pipeline,
-				Delay:    0,
+				Priority:  1,
+				Pipeline:  pipeline,
+				AutoAck:   true,
+				Topic:     pipeline,
+				Offset:    0,
+				Partition: 0,
 			},
 		}}
 
 		er := &jobsProto.Empty{}
 		err = client.Call(push, req, er)
-		require.Error(t, err)
+		assert.Error(t, err)
 	}
 }
+
 func PausePipelines(pipes ...string) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
