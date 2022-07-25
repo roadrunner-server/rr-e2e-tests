@@ -18,47 +18,47 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.12.2
 	github.com/rabbitmq/amqp091-go v1.4.0
-	github.com/roadrunner-server/amqp/v2 v2.17.8
+	github.com/roadrunner-server/amqp/v2 v2.17.9
 	github.com/roadrunner-server/api/v2 v2.20.0
-	github.com/roadrunner-server/beanstalk/v2 v2.16.5
-	github.com/roadrunner-server/boltdb/v2 v2.16.7
-	github.com/roadrunner-server/broadcast/v2 v2.12.9
-	github.com/roadrunner-server/cache/v2 v2.15.8
-	github.com/roadrunner-server/config/v2 v2.14.8
+	github.com/roadrunner-server/beanstalk/v2 v2.16.6
+	github.com/roadrunner-server/boltdb/v2 v2.16.8
+	github.com/roadrunner-server/broadcast/v2 v2.12.10
+	github.com/roadrunner-server/cache/v2 v2.15.9
+	github.com/roadrunner-server/config/v2 v2.14.9
 	github.com/roadrunner-server/endure v1.3.1
 	github.com/roadrunner-server/errors v1.1.2
-	github.com/roadrunner-server/fileserver/v2 v2.13.8
+	github.com/roadrunner-server/fileserver/v2 v2.13.9
 	github.com/roadrunner-server/goridge/v3 v3.4.5
-	github.com/roadrunner-server/grpc/v2 v2.19.1
-	github.com/roadrunner-server/gzip/v2 v2.12.5
-	github.com/roadrunner-server/headers/v2 v2.12.6
-	github.com/roadrunner-server/http/v2 v2.20.1
-	github.com/roadrunner-server/informer/v2 v2.11.9
-	github.com/roadrunner-server/jobs/v2 v2.16.0
+	github.com/roadrunner-server/grpc/v2 v2.19.2
+	github.com/roadrunner-server/gzip/v2 v2.12.6
+	github.com/roadrunner-server/headers/v2 v2.12.7
+	github.com/roadrunner-server/http/v2 v2.20.2
+	github.com/roadrunner-server/informer/v2 v2.11.10
+	github.com/roadrunner-server/jobs/v2 v2.16.1
 	github.com/roadrunner-server/kafka/v2 v2.0.0-beta.2
-	github.com/roadrunner-server/kv/v2 v2.12.10
-	github.com/roadrunner-server/logger/v2 v2.13.8
-	github.com/roadrunner-server/memcached/v2 v2.12.6
-	github.com/roadrunner-server/memory/v2 v2.15.5
-	github.com/roadrunner-server/metrics/v2 v2.13.8
-	github.com/roadrunner-server/nats/v2 v2.16.4
-	github.com/roadrunner-server/new_relic/v2 v2.14.9
+	github.com/roadrunner-server/kv/v2 v2.12.11
+	github.com/roadrunner-server/logger/v2 v2.13.9
+	github.com/roadrunner-server/memcached/v2 v2.12.7
+	github.com/roadrunner-server/memory/v2 v2.15.6
+	github.com/roadrunner-server/metrics/v2 v2.13.9
+	github.com/roadrunner-server/nats/v2 v2.16.5
+	github.com/roadrunner-server/new_relic/v2 v2.14.10
 	github.com/roadrunner-server/otel/v2 v2.3.0
-	github.com/roadrunner-server/prometheus/v2 v2.13.8
+	github.com/roadrunner-server/prometheus/v2 v2.13.9
 	github.com/roadrunner-server/proxy_ip_parser/v2 v2.4.0
-	github.com/roadrunner-server/redis/v2 v2.15.6
-	github.com/roadrunner-server/reload/v2 v2.12.9
-	github.com/roadrunner-server/resetter/v2 v2.11.9
-	github.com/roadrunner-server/rpc/v2 v2.13.7
+	github.com/roadrunner-server/redis/v2 v2.15.7
+	github.com/roadrunner-server/reload/v2 v2.12.10
+	github.com/roadrunner-server/resetter/v2 v2.11.10
+	github.com/roadrunner-server/rpc/v2 v2.13.8
 	github.com/roadrunner-server/sdk/v2 v2.18.1
-	github.com/roadrunner-server/send/v2 v2.12.5
-	github.com/roadrunner-server/server/v2 v2.14.8
-	github.com/roadrunner-server/service/v2 v2.15.2
-	github.com/roadrunner-server/sqs/v2 v2.17.5
-	github.com/roadrunner-server/static/v2 v2.13.6
-	github.com/roadrunner-server/status/v2 v2.13.9
-	github.com/roadrunner-server/tcp/v2 v2.13.9
-	github.com/roadrunner-server/websockets/v2 v2.14.8
+	github.com/roadrunner-server/send/v2 v2.12.6
+	github.com/roadrunner-server/server/v2 v2.14.9
+	github.com/roadrunner-server/service/v2 v2.15.3
+	github.com/roadrunner-server/sqs/v2 v2.17.6
+	github.com/roadrunner-server/static/v2 v2.13.7
+	github.com/roadrunner-server/status/v2 v2.13.10
+	github.com/roadrunner-server/tcp/v2 v2.13.10
+	github.com/roadrunner-server/websockets/v2 v2.14.9
 	github.com/stretchr/testify v1.8.0
 	github.com/temporalio/roadrunner-temporal v1.4.12
 	github.com/yookoala/gofast v0.6.0
@@ -66,7 +66,7 @@ require (
 	go.temporal.io/api v1.8.0
 	go.temporal.io/sdk v1.15.0
 	go.uber.org/zap v1.21.0
-	golang.org/x/net v0.0.0-20220722155237-a158d28d115b
+	golang.org/x/net v0.0.0-20220725212005-46097bf591d3
 	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.0
 )
