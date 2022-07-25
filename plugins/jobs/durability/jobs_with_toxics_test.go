@@ -454,7 +454,6 @@ func TestDurabilityKafka(t *testing.T) {
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		//&logger.Plugin{},
 		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
@@ -548,7 +547,6 @@ func TestDurabilityKafka(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job push error").Len())
 
 	t.Cleanup(func() {
-
 		cmd4 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")
 		err = cmd4.Start()
 		require.NoError(t, err)
