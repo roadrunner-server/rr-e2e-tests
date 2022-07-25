@@ -438,7 +438,7 @@ func TestDurabilityKafka(t *testing.T) {
 		_ = cmd.Wait()
 	}()
 
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Second * 25)
 
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*30))
 	require.NoError(t, err)
@@ -529,7 +529,7 @@ func TestDurabilityKafka(t *testing.T) {
 		_ = cmd3.Wait()
 	}()
 
-	time.Sleep(time.Second * 15)
+	time.Sleep(time.Second * 25)
 
 	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
 	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
