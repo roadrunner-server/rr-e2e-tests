@@ -903,7 +903,7 @@ func TestServiceRestartConcurrent(t *testing.T) {
 }
 
 func TestServiceListConcurrent(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*5))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
@@ -1017,7 +1017,7 @@ func TestServiceListConcurrent(t *testing.T) {
 		}()
 	}
 
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Second * 15)
 	out = &serviceProto.Response{}
 	t.Run("terminate", terminate(&serviceProto.Service{Name: "foo"}, out))
 	stopCh <- struct{}{}
