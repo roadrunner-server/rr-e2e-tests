@@ -15,4 +15,4 @@ temporal:
 
 logs:
   mode: production
-  level: error
+  level: debug

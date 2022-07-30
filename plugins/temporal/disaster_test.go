@@ -6,6 +6,7 @@ import (
 	"net/rpc"
 	"os"
 	"sync"
+	"syscall"
 	"testing"
 	"time"
 
@@ -72,6 +73,54 @@ func Test_ResetAll(t *testing.T) {
 	assert.Equal(t, "hello world", result)
 
 	reset(t)
+
+	w, err = s.Client().ExecuteWorkflow(
+		context.Background(),
+		client.StartWorkflowOptions{
+			TaskQueue: "default",
+		},
+		"TimerWorkflow",
+		"Hello World",
+	)
+	assert.NoError(t, err)
+	time.Sleep(time.Millisecond * 750)
+
+	assert.NoError(t, w.Get(context.Background(), &result))
+	assert.Equal(t, "hello world", result)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
+func Test_ResetWFWorker(t *testing.T) {
+	stopCh := make(chan struct{}, 1)
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	s := NewTestServer(t, stopCh, wg)
+
+	w, err := s.Client().ExecuteWorkflow(
+		context.Background(),
+		client.StartWorkflowOptions{
+			TaskQueue: "default",
+		},
+		"TimerWorkflow",
+		"Hello World",
+	)
+	assert.NoError(t, err)
+	time.Sleep(time.Millisecond * 750)
+
+	var result string
+	assert.NoError(t, w.Get(context.Background(), &result))
+	assert.Equal(t, "hello world", result)
+
+	wrks := getWorkers(t)
+
+	for i := 0; i < len(wrks); i++ {
+		_ = syscall.Kill(wrks[i].Pid, syscall.SIGKILL)
+		time.Sleep(time.Second * 2)
+	}
+
+	time.Sleep(time.Second * 10)
 
 	w, err = s.Client().ExecuteWorkflow(
 		context.Background(),
