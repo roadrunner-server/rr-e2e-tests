@@ -13,10 +13,13 @@ logs:
   encoding: console
   mode: development
 
+kafka:
+  addrs: "127.0.0.1:9092"
+
 jobs:
   num_pollers: 1
   pipeline_size: 100000
-  timeout: 1
+  timeout: 100
   pool:
     num_workers: 10
     max_jobs: 0
@@ -28,34 +31,20 @@ jobs:
       driver: kafka
       config:
         priority: 1
-        topics:
-          - default
-        number_of_partitions: 1
+
         create_topics_on_start: true
+        number_of_partitions: 1
 
         topics_config:
           compression:type: snappy
 
-        consumer_config:
-          bootstrap:servers: 127.0.0.1:9092
-          group:id: default
-          enable:partition:eof: true
-          auto:offset:reset: earliest
+        topics:
+          - default
+        partitions:
+          - 0
+          - 1
+          - 2
+        group_id: "default"
 
-        producer_config:
-          bootstrap:servers: 127.0.0.1:9092
 
   consume: [ "test-1" ]
-
-# driver: kafka
-# config:
-#   prefetch: 100
-#   priority: 1
-#   ack_strategy: commit
-#   nack_strategy: redirect_to_and_commit, commit
-#      redirect_to:
-#          poll_interval: 5m
-#          topic: foo
-#          partition: foo
-#          offset: 0
-#          headers: [a, b, c]
