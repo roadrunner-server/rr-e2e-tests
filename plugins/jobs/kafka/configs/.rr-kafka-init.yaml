@@ -17,12 +17,11 @@ kafka:
   addrs: "127.0.0.1:9092"
 
 jobs:
-  num_pollers: 1
+  num_pollers: 10
   pipeline_size: 100000
   timeout: 100
   pool:
     num_workers: 10
-    max_jobs: 0
     allocate_timeout: 60s
     destroy_timeout: 60s
 
@@ -38,13 +37,12 @@ jobs:
         topics_config:
           compression:type: snappy
 
-        topics:
-          - default
+        topic: default
+        group_id: default
         partitions:
-          - 0
-          - 1
-          - 2
-        group_id: "default"
+          - 0: Newest
+          - 1: 1023
+          - 2: 3345
 
 
   consume: [ "test-1" ]

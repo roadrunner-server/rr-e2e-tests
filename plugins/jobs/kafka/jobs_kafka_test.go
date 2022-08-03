@@ -17,6 +17,7 @@ import (
 	"github.com/roadrunner-server/informer/v2"
 	"github.com/roadrunner-server/jobs/v2"
 	kp "github.com/roadrunner-server/kafka/v2"
+	"github.com/roadrunner-server/logger/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
@@ -39,13 +40,15 @@ func TestKafkaInit(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	_ = l
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
 		&jobs.Plugin{},
 		&kp.Plugin{},
-		l,
+		&logger.Plugin{},
+		//l,
 		&resetter.Plugin{},
 		&informer.Plugin{},
 	)
@@ -116,13 +119,20 @@ func TestKafkaInit(t *testing.T) {
 		},
 	}}
 
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 10; i++ {
 		er := &jobsProto.Empty{}
 		errCall := client.Call("jobs.Push", req, er)
 		require.NoError(t, errCall)
 	}
 
+	time.Sleep(time.Second * 60)
+	for i := 0; i < 10; i++ {
+		er := &jobsProto.Empty{}
+		errCall := client.Call("jobs.Push", req, er)
+		require.NoError(t, errCall)
+	}
 	time.Sleep(time.Second * 10)
+
 	t.Run("DestroyPipelines", helpers.DestroyPipelines("test-1"))
 	time.Sleep(time.Second * 15)
 
