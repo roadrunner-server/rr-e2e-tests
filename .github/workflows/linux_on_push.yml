@@ -230,7 +230,7 @@ jobs:
           path: ./coverage-ci/proxy_ip.out
 
   kafka_test:
-    name: KAFKA plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
+    name: Kafka plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
@@ -292,7 +292,7 @@ jobs:
           path: ./coverage-ci/kafka.out
 
   amqp_test:
-    name: AMQP plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
+    name: RabbitMQ plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
