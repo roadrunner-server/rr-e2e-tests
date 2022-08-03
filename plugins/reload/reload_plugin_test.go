@@ -2,7 +2,6 @@ package reload
 
 import (
 	"io"
-	"io/ioutil"
 	"math/rand"
 	"os"
 	"os/signal"
@@ -116,7 +115,7 @@ func TestReloadInit(t *testing.T) {
 }
 
 func reloadTestInit(t *testing.T) {
-	err := ioutil.WriteFile(filepath.Join(testDir, "file.txt"), //nolint:gosec
+	err := os.WriteFile(filepath.Join(testDir, "file.txt"), //nolint:gosec
 		[]byte{}, 0755)
 	assert.NoError(t, err)
 }
@@ -316,8 +315,8 @@ func randomlyChangeFile(t *testing.T) {
 		// rand sleep
 		rSleep := rand.Int63n(500) //nolint:gosec
 		time.Sleep(time.Millisecond * time.Duration(rSleep))
-		rNum := rand.Int63n(int64(hugeNumberOfFiles))                                                                            //nolint:gosec
-		err := ioutil.WriteFile(filepath.Join(testDir, "file_"+strconv.Itoa(int(rNum))+".txt"), []byte("Hello, Gophers!"), 0755) //nolint:gosec
+		rNum := rand.Int63n(int64(hugeNumberOfFiles))                                                                        //nolint:gosec
+		err := os.WriteFile(filepath.Join(testDir, "file_"+strconv.Itoa(int(rNum))+".txt"), []byte("Hello, Gophers!"), 0755) //nolint:gosec
 		assert.NoError(t, err)
 	}
 }
@@ -426,8 +425,8 @@ func reloadFilteredExt(t *testing.T) {
 		// rand sleep
 		rSleep := rand.Int63n(1000) //nolint:gosec
 		time.Sleep(time.Millisecond * time.Duration(rSleep))
-		rNum := rand.Int63n(int64(hugeNumberOfFiles))                                                                            //nolint:gosec
-		err := ioutil.WriteFile(filepath.Join(testDir, "file_"+strconv.Itoa(int(rNum))+".abc"), []byte("Hello, Gophers!"), 0755) //nolint:gosec
+		rNum := rand.Int63n(int64(hugeNumberOfFiles))                                                                        //nolint:gosec
+		err := os.WriteFile(filepath.Join(testDir, "file_"+strconv.Itoa(int(rNum))+".abc"), []byte("Hello, Gophers!"), 0755) //nolint:gosec
 		assert.NoError(t, err)
 	}
 
@@ -436,8 +435,8 @@ func reloadFilteredExt(t *testing.T) {
 		// rand sleep
 		rSleep := rand.Int63n(1000) //nolint:gosec
 		time.Sleep(time.Millisecond * time.Duration(rSleep))
-		rNum := rand.Int63n(int64(hugeNumberOfFiles))                                                                            //nolint:gosec
-		err := ioutil.WriteFile(filepath.Join(testDir, "file_"+strconv.Itoa(int(rNum))+".def"), []byte("Hello, Gophers!"), 0755) //nolint:gosec
+		rNum := rand.Int63n(int64(hugeNumberOfFiles))                                                                        //nolint:gosec
+		err := os.WriteFile(filepath.Join(testDir, "file_"+strconv.Itoa(int(rNum))+".def"), []byte("Hello, Gophers!"), 0755) //nolint:gosec
 		assert.NoError(t, err)
 	}
 }
@@ -593,7 +592,7 @@ func reloadMoveSupport(t *testing.T) {
 	}
 }
 
-func removeFilesSupport(t *testing.T) {
+func removeFilesSupport(_ *testing.T) {
 	// remove some files
 	for i := 0; i < 10; i++ {
 		// rand sleep
@@ -627,7 +626,7 @@ func removeFilesSupport(t *testing.T) {
 	}
 }
 
-func randomChangesInRecursiveDirs(t *testing.T) {
+func randomChangesInRecursiveDirs(_ *testing.T) {
 	// change files with def extension
 	dirs := []string{
 		"dir1",
@@ -662,7 +661,7 @@ func randomChangesInRecursiveDirs(t *testing.T) {
 		rExt := rand.Int63n(3)          //nolint:gosec
 		rName := rand.Int63n(3)         //nolint:gosec
 
-		_ = ioutil.WriteFile(filepath.Join(dirs[rDir], filenames[rName]+strconv.Itoa(int(rNum))+ext[rExt]), []byte("Hello, Gophers!"), 0755) //nolint:gosec
+		_ = os.WriteFile(filepath.Join(dirs[rDir], filenames[rName]+strconv.Itoa(int(rNum))+ext[rExt]), []byte("Hello, Gophers!"), 0755) //nolint:gosec
 	}
 }
 
@@ -820,7 +819,7 @@ func freeResources(path string) error {
 }
 
 func makeFile(filename string) error {
-	return ioutil.WriteFile(filepath.Join(testDir, filename), []byte{}, 0755) //nolint:gosec
+	return os.WriteFile(filepath.Join(testDir, filename), []byte{}, 0755) //nolint:gosec
 }
 
 func copyDir(src string, dst string) error {
@@ -845,7 +844,7 @@ func copyDir(src string, dst string) error {
 		return err
 	}
 
-	entries, err := ioutil.ReadDir(src)
+	entries, err := os.ReadDir(src)
 	if err != nil {
 		return err
 	}
@@ -861,7 +860,7 @@ func copyDir(src string, dst string) error {
 			}
 		} else {
 			// Skip symlinks.
-			if entry.Mode()&os.ModeSymlink != 0 {
+			if entry.Type()&os.ModeSymlink != 0 {
 				continue
 			}
 

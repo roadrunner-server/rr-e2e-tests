@@ -1,7 +1,7 @@
 package status
 
 import (
-	"io/ioutil"
+	"io"
 	"net"
 	"net/http"
 	"net/rpc"
@@ -102,7 +102,7 @@ func checkHTTPStatus(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, r.StatusCode)
 	assert.Equal(t, resp, string(b))
@@ -270,7 +270,7 @@ func checkHTTPReadiness(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, r.StatusCode)
 	assert.Equal(t, resp, string(b))
@@ -355,7 +355,7 @@ func doHTTPReq(t *testing.T) {
 
 		r, err := http.DefaultClient.Do(req)
 		assert.NoError(t, err)
-		b, err := ioutil.ReadAll(r.Body)
+		b, err := io.ReadAll(r.Body)
 		assert.NoError(t, err)
 		assert.Equal(t, 200, r.StatusCode)
 		assert.Equal(t, resp2, string(b))
@@ -371,7 +371,7 @@ func checkHTTPReadiness2(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 503, r.StatusCode)
 	assert.Equal(t, "", string(b))

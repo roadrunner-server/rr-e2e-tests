@@ -6,7 +6,6 @@ import (
 	"crypto/tls"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -272,7 +271,7 @@ func xsendfile(t *testing.T) {
 	resp, err := client.Do(req)
 	require.NoError(t, err)
 
-	b, err := ioutil.ReadAll(resp.Body)
+	b, err := io.ReadAll(resp.Body)
 	assert.NoError(t, err)
 	require.True(t, len(b) > 0)
 	require.Empty(t, resp.Header.Get("X-Sendfile"))
@@ -516,7 +515,7 @@ func sslNoRedirect(t *testing.T) {
 
 	assert.Nil(t, r.TLS)
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -548,7 +547,7 @@ func sslEcho(t *testing.T) {
 	r, err := client.Do(req)
 	assert.NoError(t, err)
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -573,7 +572,7 @@ func fcgiEcho(t *testing.T) {
 	req := httptest.NewRequest("GET", "http://site.local/?hello=world", nil)
 	fcgiHandler.ServeHTTP(w, req)
 
-	body, err := ioutil.ReadAll(w.Result().Body) //nolint:bodyclose
+	body, err := io.ReadAll(w.Result().Body) //nolint:bodyclose
 
 	defer func() {
 		_ = w.Result().Body.Close()
@@ -674,7 +673,7 @@ func sslRedirect(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, r.TLS)
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -776,7 +775,7 @@ func sslPush(t *testing.T) {
 
 	assert.NotNil(t, r.TLS)
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.Equal(t, "", r.Header.Get("Http2-Release"))
@@ -873,7 +872,7 @@ func fcgiEcho1(t *testing.T) {
 	req := httptest.NewRequest("GET", "http://site.local/hello-world", nil)
 	fcgiHandler.ServeHTTP(w, req)
 
-	_, err := ioutil.ReadAll(w.Result().Body) //nolint:bodyclose
+	_, err := io.ReadAll(w.Result().Body) //nolint:bodyclose
 	assert.NoError(t, err)
 	assert.Equal(t, 200, w.Result().StatusCode) //nolint:bodyclose
 }
@@ -964,7 +963,7 @@ func fcgiEchoUnix(t *testing.T) {
 	req := httptest.NewRequest("GET", "http://site.local/hello-world", nil)
 	fcgiHandler.ServeHTTP(w, req)
 
-	_, err := ioutil.ReadAll(w.Result().Body) //nolint:bodyclose
+	_, err := io.ReadAll(w.Result().Body) //nolint:bodyclose
 	assert.NoError(t, err)
 	assert.Equal(t, 200, w.Result().StatusCode) //nolint:bodyclose
 }
@@ -1050,7 +1049,7 @@ func fcgiReqURI(t *testing.T) {
 	req := httptest.NewRequest("GET", "http://site.local/hello-world", nil)
 	fcgiHandler.ServeHTTP(w, req)
 
-	body, err := ioutil.ReadAll(w.Result().Body) //nolint:bodyclose
+	body, err := io.ReadAll(w.Result().Body) //nolint:bodyclose
 	assert.NoError(t, err)
 	assert.Equal(t, 200, w.Result().StatusCode) //nolint:bodyclose
 	assert.Contains(t, string(body), "ddddd")
@@ -1425,7 +1424,7 @@ func middleware(t *testing.T) {
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.Equal(t, 201, r.StatusCode)
@@ -1439,7 +1438,7 @@ func middleware(t *testing.T) {
 
 	r, err = http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err = ioutil.ReadAll(r.Body)
+	b, err = io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.Equal(t, 500, r.StatusCode)
@@ -1557,7 +1556,7 @@ func echoError(t *testing.T) {
 	assert.NoError(t, err)
 	require.NotNil(t, r)
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.Equal(t, 201, r.StatusCode)
@@ -1711,7 +1710,7 @@ func echoHTTP2(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 201, r.StatusCode)
 	assert.Equal(t, "WORLD", string(b))
@@ -1779,7 +1778,7 @@ func getHeader(url string, h map[string]string) (string, *http.Response, error) 
 		return "", nil, err
 	}
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return "", nil, err
 	}
@@ -1867,7 +1866,7 @@ func TestHTTPBigRequestSize(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 500, r.StatusCode)
 	assert.Equal(t, "serve_http: http: request body too large\n", string(b))
@@ -2228,7 +2227,7 @@ func staticHeaders(t *testing.T) {
 		t.Fatal("can't find output header in response")
 	}
 
-	b, err := ioutil.ReadAll(resp.Body)
+	b, err := io.ReadAll(resp.Body)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2675,7 +2674,7 @@ func echoIssue659(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Empty(t, b)
 	assert.Equal(t, 444, r.StatusCode)
@@ -2690,7 +2689,7 @@ func echoHTTP(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 201, r.StatusCode)
 	assert.Equal(t, "WORLD", string(b))
@@ -2705,7 +2704,7 @@ func echoHTTPIPv6Long(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 201, r.StatusCode)
 	assert.Equal(t, "WORLD", string(b))
@@ -2720,7 +2719,7 @@ func echoHTTPIPv6Short(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 201, r.StatusCode)
 	assert.Equal(t, "WORLD", string(b))
@@ -2775,7 +2774,7 @@ func get(url string) (string, *http.Response, error) {
 		return "", nil, err
 	}
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return "", nil, err
 	}

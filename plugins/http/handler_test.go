@@ -5,7 +5,7 @@ package http
 import (
 	"bytes"
 	"context"
-	"io/ioutil"
+	"io"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -152,7 +152,7 @@ func TestHandler_Headers(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -228,7 +228,7 @@ func TestHandler_Empty_User_Agent(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -303,7 +303,7 @@ func TestHandler_User_Agent(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -374,7 +374,7 @@ func TestHandler_Cookies(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -454,7 +454,7 @@ func TestHandler_JsonPayload_POST(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -525,7 +525,7 @@ func TestHandler_JsonPayload_PUT(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -595,7 +595,7 @@ func TestHandler_JsonPayload_PATCH(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -676,7 +676,7 @@ func TestHandler_FormData_POST(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -770,7 +770,7 @@ func TestHandler_FormData_POST_Overwrite(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -863,7 +863,7 @@ func TestHandler_FormData_POST_Form_UrlEncoded_Charset(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -956,7 +956,7 @@ func TestHandler_FormData_PUT(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -1050,7 +1050,7 @@ func TestHandler_FormData_PATCH(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -1185,7 +1185,7 @@ func TestHandler_Multipart_POST(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -1320,7 +1320,7 @@ func TestHandler_Multipart_PUT(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -1457,7 +1457,7 @@ func TestHandler_Multipart_PATCH(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -1860,7 +1860,7 @@ func BenchmarkHandler_Listen_Echo(b *testing.B) {
 		}
 		// Response might be nil here
 		if r != nil {
-			br, err := ioutil.ReadAll(r.Body)
+			br, err := io.ReadAll(r.Body)
 			if err != nil {
 				b.Errorf("error reading Body: error %v", err)
 			}

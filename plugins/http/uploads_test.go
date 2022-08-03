@@ -7,7 +7,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -108,7 +107,7 @@ func TestHandler_Upload_File(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -202,7 +201,7 @@ func TestHandler_Upload_NestedFile(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -295,7 +294,7 @@ func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -388,7 +387,7 @@ func TestHandler_Upload_File_Forbids(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)
@@ -481,7 +480,7 @@ func TestHandler_Upload_File_NotAllowed(t *testing.T) {
 		}
 	}()
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.NoError(t, err)

@@ -1,7 +1,7 @@
 package headers
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"os/signal"
@@ -162,7 +162,7 @@ func reqHeaders(t *testing.T) {
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 
 	assert.Equal(t, 200, r.StatusCode)
@@ -250,7 +250,7 @@ func resHeaders(t *testing.T) {
 
 	assert.Equal(t, "output-header", r.Header.Get("output"))
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, r.StatusCode)
 	assert.Equal(t, "CUSTOM-HEADER", string(b))
@@ -341,7 +341,7 @@ func corsHeadersPass(t *testing.T) {
 	assert.Equal(t, "*", r.Header.Get("Access-Control-Allow-Origin"))
 	assert.Equal(t, "true", r.Header.Get("Access-Control-Allow-Credentials"))
 
-	_, err = ioutil.ReadAll(r.Body)
+	_, err = io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, r.StatusCode)
 
@@ -363,7 +363,7 @@ func corsHeaders(t *testing.T) {
 	assert.Equal(t, "600", r.Header.Get("Access-Control-Max-Age"))
 	assert.Equal(t, "true", r.Header.Get("Access-Control-Allow-Credentials"))
 
-	_, err = ioutil.ReadAll(r.Body)
+	_, err = io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, r.StatusCode)
 

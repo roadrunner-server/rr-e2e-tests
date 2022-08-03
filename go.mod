@@ -1,6 +1,6 @@
 module github.com/roadrunner-server/rr-e2e-tests
 
-go 1.18
+go 1.19
 
 require (
 	github.com/Shopify/toxiproxy v2.1.4+incompatible
@@ -35,7 +35,7 @@ require (
 	github.com/roadrunner-server/http/v2 v2.20.2
 	github.com/roadrunner-server/informer/v2 v2.11.10
 	github.com/roadrunner-server/jobs/v2 v2.16.1
-	github.com/roadrunner-server/kafka/v2 v2.0.0-beta.2
+	github.com/roadrunner-server/kafka/v2 v2.0.0-beta.3
 	github.com/roadrunner-server/kv/v2 v2.12.11
 	github.com/roadrunner-server/logger/v2 v2.13.9
 	github.com/roadrunner-server/memcached/v2 v2.12.7

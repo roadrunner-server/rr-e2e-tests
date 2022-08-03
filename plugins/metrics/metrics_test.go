@@ -1,7 +1,7 @@
 package metrics
 
 import (
-	"io/ioutil"
+	"io"
 	"net"
 	"net/http"
 	"net/rpc"
@@ -196,7 +196,7 @@ func issue571Http() (string, error) {
 		return "", err
 	}
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return "", err
 	}
@@ -216,7 +216,7 @@ func issue571Metrics() (string, error) {
 		return "", err
 	}
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return "", err
 	}
@@ -1005,7 +1005,7 @@ func echoHTTP(port string) func(t *testing.T) {
 
 		r, err := http.DefaultClient.Do(req)
 		require.NoError(t, err)
-		_, err = ioutil.ReadAll(r.Body)
+		_, err = io.ReadAll(r.Body)
 		assert.NoError(t, err)
 
 		err = r.Body.Close()
@@ -1096,7 +1096,7 @@ func get() (string, error) {
 		return "", err
 	}
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return "", err
 	}
@@ -1116,7 +1116,7 @@ func get2() (string, error) {
 		return "", err
 	}
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return "", err
 	}
@@ -1136,7 +1136,7 @@ func getIPV6() (string, error) {
 		return "", err
 	}
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return "", err
 	}

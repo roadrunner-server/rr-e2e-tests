@@ -1,7 +1,7 @@
 package general
 
 import (
-	"io/ioutil"
+	"io"
 	"net"
 	"net/http"
 	"net/rpc"
@@ -204,7 +204,7 @@ func get() (string, error) {
 		return "", err
 	}
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return "", err
 	}

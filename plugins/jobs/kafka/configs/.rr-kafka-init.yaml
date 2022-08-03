@@ -31,8 +31,11 @@ jobs:
       config:
         priority: 1
 
-        create_topics_on_start: true
-        number_of_partitions: 1
+        create_topics:
+          number_of_partitions: 1
+
+        producer_options:
+          required_acks: 1
 
         topics_config:
           compression:type: snappy
@@ -40,7 +43,7 @@ jobs:
         topic: default
         group_id: default
         partitions:
-          - 0: Newest
+          - 0: 0
           - 1: 1023
           - 2: 3345
 

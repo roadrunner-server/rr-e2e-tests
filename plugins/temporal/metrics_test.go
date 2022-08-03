@@ -2,7 +2,7 @@ package tests
 
 import (
 	"context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"sync"
 	"testing"
@@ -70,7 +70,7 @@ func get() (string, error) {
 		return "", err
 	}
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		return "", err
 	}

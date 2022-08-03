@@ -13,6 +13,9 @@ logs:
   encoding: console
   mode: development
 
+kafka:
+  addrs: "127.0.0.1:9092"
+
 jobs:
   num_pollers: 10
   pipeline_size: 100000
@@ -27,43 +30,43 @@ jobs:
       driver: kafka
       config:
         priority: 1
-        topics:
-          - test-1
-        number_of_partitions: 2
-        create_topics_on_start: true
+
+        create_topics:
+          number_of_partitions: 1
+
+        producer_options:
+          required_acks: 1
 
         topics_config:
           compression:type: snappy
 
-        consumer_config:
-          bootstrap:servers: 127.0.0.1:9092
-          group:id: default-1
-          enable:partition:eof: true
-          auto:offset:reset: earliest
-
-        producer_config:
-          bootstrap:servers: 127.0.0.1:9092
+        topic: test-1
+        group_id: default
+        partitions:
+          - 0: 0
+          - 1: 1023
+          - 2: 3345
 
     test-2:
       driver: kafka
       config:
-        priority: 2
-        topics:
-          - test-2
-        number_of_partitions: 2
-        create_topics_on_start: true
+        priority: 1
+
+        create_topics:
+          number_of_partitions: 1
+
+        producer_options:
+          required_acks: 1
 
         topics_config:
           compression:type: snappy
 
-        consumer_config:
-          bootstrap:servers: 127.0.0.1:9092
-          group:id: default-2
-          enable:partition:eof: true
-          auto:offset:reset: earliest
-
-        producer_config:
-          bootstrap:servers: 127.0.0.1:9092
+        topic: test-2
+        group_id: default-2
+        partitions:
+          - 0: 0
+          - 1: 1023
+          - 2: 3345
 
   consume: [ "test-1", "test-2" ]
 

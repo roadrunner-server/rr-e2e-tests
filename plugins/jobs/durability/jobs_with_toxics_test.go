@@ -516,7 +516,7 @@ func TestDurabilityKafka(t *testing.T) {
 		_ = cmd2.Wait()
 	}()
 
-	time.Sleep(time.Second * 15)
+	time.Sleep(time.Second * 10)
 
 	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipeErr("test-1"))
 	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipeErr("test-2"))
@@ -540,11 +540,10 @@ func TestDurabilityKafka(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	require.Equal(t, 4, oLogger.FilterMessageSnippet("job processing was started").Len())
-	require.Greater(t, oLogger.FilterMessageSnippet("kafka consumer").Len(), 2)
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("job push error").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job push error").Len())
 
 	t.Cleanup(func() {
 		cmd4 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")

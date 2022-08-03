@@ -3,7 +3,7 @@ package http
 import (
 	"bytes"
 	"crypto/tls"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
@@ -119,7 +119,7 @@ func echoHTTPPost(t *testing.T) {
 	resp, err := http.Post("http://127.0.0.1:10084/", "", rdr)
 	assert.NoError(t, err)
 
-	b, err := ioutil.ReadAll(resp.Body)
+	b, err := io.ReadAll(resp.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, resp.StatusCode)
 
@@ -132,7 +132,7 @@ func echoHTTPPost(t *testing.T) {
 		resp, err = http.Post("http://127.0.0.1:10084/", "application/json", rdr)
 		assert.NoError(t, err)
 
-		b, err = ioutil.ReadAll(resp.Body)
+		b, err = io.ReadAll(resp.Body)
 		assert.NoError(t, err)
 		assert.Equal(t, 200, resp.StatusCode)
 
@@ -232,7 +232,7 @@ func sslEcho2(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, r)
 
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	require.NoError(t, err)
 
 	require.NoError(t, err)
