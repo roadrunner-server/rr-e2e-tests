@@ -35,7 +35,7 @@ require (
 	github.com/roadrunner-server/http/v2 v2.20.2
 	github.com/roadrunner-server/informer/v2 v2.11.10
 	github.com/roadrunner-server/jobs/v2 v2.16.1
-	github.com/roadrunner-server/kafka/v2 v2.0.0-beta.3
+	github.com/roadrunner-server/kafka/v2 v2.0.0-beta.4
 	github.com/roadrunner-server/kv/v2 v2.12.11
 	github.com/roadrunner-server/logger/v2 v2.13.9
 	github.com/roadrunner-server/memcached/v2 v2.12.7
@@ -70,8 +70,6 @@ require (
 	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.1
 )
-
-replace github.com/roadrunner-server/kafka/v2 => ../plugins/kafka
 
 require (
 	github.com/Shopify/sarama v1.35.0 // indirect
