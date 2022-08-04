@@ -7,45 +7,23 @@
 use Spiral\Goridge;
 use Spiral\RoadRunner;
 use Spiral\Goridge\StreamRelay;
+use Spiral\RoadRunner\Jobs\Consumer;
 
 ini_set('display_errors', 'stderr');
 require dirname(__DIR__) . "/vendor/autoload.php";
 
 $rr = new RoadRunner\Worker(new StreamRelay(\STDIN, \STDOUT));
+$consumer = new Consumer($rr);
 
-while ($in = $rr->waitPayload()) {
+while ($task = $consumer->waitTask()) {
     try {
-        $ctx = json_decode($in->header, true);
-        $headers = $ctx['headers'];
+        $headers = $task->getHeaders();
+        $total_attempts = (int)$task->getHeaderLine("attempts") + 1;
 
-        $set = isset($headers['attempts']);
-
-        $val = 0;
-
-        if ($set == true) {
-            $val = intval($headers['attempts'][0]);
-            $val++;
-            $headers['attempts'][0] = strval($val);
+        if ($total_attempts > 3) {
+            $task->complete();
         } else {
-            $headers['attempts'][0] = "1";
-        };
-
-        if ($val > 3) {
-            $rr->respond(new RoadRunner\Payload(json_encode([
-                // no error
-                'type' => 0,
-                'data' => []
-            ])));
-        } else {
-            $rr->respond(new RoadRunner\Payload(json_encode([
-                'type' => 1,
-                'data' => [
-                    'message' => 'error',
-                    'requeue' => true,
-                    'delay_seconds' => 5,
-                    'headers' => $headers
-                ]
-            ])));
+            $task->withHeader("attempts",$total_attempts)->withDelay(5)->fail("failed", true);
         }
     } catch (\Throwable $e) {
         $rr->error((string)$e);

@@ -605,13 +605,13 @@ func TestMemoryJobsError(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
-	require.Equal(t, 4, oLogger.FilterMessageSnippet("job processing was started").Len())
-	require.Equal(t, 4, oLogger.FilterMessageSnippet("job was processed successfully").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was paused").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	require.Equal(t, 3, oLogger.FilterMessageSnippet("jobs protocol error").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	assert.Equal(t, 4, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 4, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was paused").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 3, oLogger.FilterMessageSnippet("jobs protocol error").Len())
 }
 
 func TestMemoryStats(t *testing.T) {

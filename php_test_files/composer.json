@@ -13,7 +13,7 @@
     "spiral/roadrunner-grpc": "^2.0",
     "spiral/roadrunner-tcp": "^2.0",
     "open-telemetry/opentelemetry": "^0.0.10",
-    "spiral/roadrunner-jobs": "^2.0",
+    "spiral/roadrunner-jobs": "^2.3",
     "monolog/monolog": "^3.1",
     "php-http/guzzle6-adapter": "~2",
     "spiral/goridge": "^3.2",

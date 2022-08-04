@@ -7,23 +7,18 @@
 use Spiral\Goridge;
 use Spiral\RoadRunner;
 use Spiral\Goridge\StreamRelay;
+use Spiral\Roadrunner\Jobs\Consumer;
 
 ini_set('display_errors', 'stderr');
 require dirname(__DIR__) . "/vendor/autoload.php";
 
 $rr = new RoadRunner\Worker(new StreamRelay(\STDIN, \STDOUT));
+$consumer = new Consumer($rr);
 
-while ($in = $rr->waitPayload()) {
+while ($task = $consumer->waitTask()) {
     try {
-        $ctx = json_decode($in->header, true);
-        $headers = $ctx['headers'];
-
         sleep(60);
-
-        $rr->respond(new RoadRunner\Payload(json_encode([
-            'type' => 0,
-            'data' => []
-        ])));
+        $task->complete();
     } catch (\Throwable $e) {
         $rr->error((string)$e);
     }
