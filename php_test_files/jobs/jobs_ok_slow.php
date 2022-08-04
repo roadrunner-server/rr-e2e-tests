@@ -7,7 +7,7 @@
 use Spiral\Goridge;
 use Spiral\RoadRunner;
 use Spiral\Goridge\StreamRelay;
-use Spiral\Roadrunner\Jobs\Consumer;
+use Spiral\RoadRunner\Jobs\Consumer;
 
 ini_set('display_errors', 'stderr');
 require dirname(__DIR__) . "/vendor/autoload.php";
