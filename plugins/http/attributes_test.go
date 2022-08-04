@@ -17,7 +17,7 @@ func TestAllAttributes(t *testing.T) {
 		t.Errorf("error during the Set: error %v", err)
 	}
 
-	assert.Equal(t, attributes.All(r), map[string]interface{}{
+	assert.Equal(t, attributes.All(r), map[string]any{
 		"key": "value",
 	})
 }
@@ -26,13 +26,13 @@ func TestAllAttributesNone(t *testing.T) {
 	r := &http.Request{}
 	r = attributes.Init(r)
 
-	assert.Equal(t, attributes.All(r), map[string]interface{}{})
+	assert.Equal(t, attributes.All(r), map[string]any{})
 }
 
 func TestAllAttributesNone2(t *testing.T) {
 	r := &http.Request{}
 
-	assert.Equal(t, attributes.All(r), map[string]interface{}{})
+	assert.Equal(t, attributes.All(r), map[string]any{})
 }
 
 func TestGetAttribute(t *testing.T) {

@@ -28,7 +28,7 @@ func (p1 *Plugin1) Name() string {
 	return "rpc_test.plugin1"
 }
 
-func (p1 *Plugin1) RPC() interface{} {
+func (p1 *Plugin1) RPC() any {
 	return &PluginRPC{srv: p1}
 }
 

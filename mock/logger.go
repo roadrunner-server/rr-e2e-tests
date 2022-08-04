@@ -30,8 +30,8 @@ func (z *ZapLoggerMock) Stop() error {
 	return z.l.Sync()
 }
 
-func (z *ZapLoggerMock) Provides() []interface{} {
-	return []interface{}{
+func (z *ZapLoggerMock) Provides() []any {
+	return []any{
 		z.ProvideZapLogger,
 	}
 }

@@ -36,7 +36,7 @@ type LoggedEntry struct {
 }
 
 // ContextMap returns a map for all fields in Context.
-func (e LoggedEntry) ContextMap() map[string]interface{} {
+func (e LoggedEntry) ContextMap() map[string]any {
 	encoder := zapcore.NewMapObjectEncoder()
 	for _, f := range e.Context {
 		f.AddTo(encoder)

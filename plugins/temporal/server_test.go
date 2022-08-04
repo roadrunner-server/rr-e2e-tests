@@ -42,23 +42,23 @@ func newZapAdapter(zapLogger *zap.Logger) *log {
 	}
 }
 
-func (l *log) Debug(msg string, keyvals ...interface{}) {
+func (l *log) Debug(msg string, keyvals ...any) {
 	l.zl.Debug(msg, l.fields(keyvals)...)
 }
 
-func (l *log) Info(msg string, keyvals ...interface{}) {
+func (l *log) Info(msg string, keyvals ...any) {
 	l.zl.Info(msg, l.fields(keyvals)...)
 }
 
-func (l *log) Warn(msg string, keyvals ...interface{}) {
+func (l *log) Warn(msg string, keyvals ...any) {
 	l.zl.Warn(msg, l.fields(keyvals)...)
 }
 
-func (l *log) Error(msg string, keyvals ...interface{}) {
+func (l *log) Error(msg string, keyvals ...any) {
 	l.zl.Error(msg, l.fields(keyvals)...)
 }
 
-func (l *log) fields(keyvals []interface{}) []zap.Field {
+func (l *log) fields(keyvals []any) []zap.Field {
 	// we should have even number of keys and values
 	if len(keyvals)%2 != 0 {
 		return []zap.Field{zap.Error(fmt.Errorf("odd number of keyvals pairs: %v", keyvals))}

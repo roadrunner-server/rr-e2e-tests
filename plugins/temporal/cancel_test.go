@@ -31,7 +31,7 @@ func Test_SimpleWorkflowCancelProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.Error(t, w.Get(context.Background(), &result))
 
 	we, err := s.Client().DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
@@ -93,7 +93,7 @@ func Test_CanceledWorkflowProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "CANCELED", result)
 	stopCh <- struct{}{}
@@ -119,7 +119,7 @@ func Test_CanceledWithCompensationWorkflowProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, nil, result)
 
@@ -166,7 +166,7 @@ func Test_CanceledNestedWorkflowProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "CANCELED", result)
 
@@ -213,7 +213,7 @@ func Test_CanceledNSingleScopeWorkflowProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "OK", result)
 
@@ -253,7 +253,7 @@ func Test_CanceledMidflightWorkflowProto(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, w)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "OK", result)
 
@@ -297,7 +297,7 @@ func Test_CancelSignaledChildWorkflowProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "canceled ok", result)
 
@@ -345,7 +345,7 @@ func Test_SimpleWorkflowCancelLAProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.Error(t, w.Get(context.Background(), &result))
 
 	we, err := s.Client().DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
@@ -407,7 +407,7 @@ func Test_CanceledWorkflowLAProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "CANCELED", result)
 	stopCh <- struct{}{}
@@ -433,7 +433,7 @@ func Test_CanceledWithCompensationWorkflowLAProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, nil, result)
 
@@ -480,7 +480,7 @@ func Test_CanceledNestedWorkflowLAProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "CANCELED", result)
 
@@ -527,7 +527,7 @@ func Test_CanceledNSingleScopeWorkflowLAProto(t *testing.T) {
 	err = s.Client().CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "OK", result)
 
@@ -567,7 +567,7 @@ func Test_CanceledMidflightWorkflowLAProto(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, w)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "OK", result)
 
@@ -611,7 +611,7 @@ func Test_CancelSignaledChildWorkflowLAProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	var result interface{}
+	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "canceled ok", result)
 

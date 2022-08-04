@@ -94,7 +94,7 @@ func TestTCPInit(t *testing.T) {
 	n, err := c.Read(buf)
 	require.NoError(t, err)
 
-	var d1 map[string]interface{}
+	var d1 map[string]any
 	err = json.Unmarshal(buf[:n], &d1)
 	fmt.Println(d1)
 	require.NoError(t, err)
@@ -113,7 +113,7 @@ func TestTCPInit(t *testing.T) {
 	n, err = c.Read(buf)
 	require.NoError(t, err)
 
-	var d2 map[string]interface{}
+	var d2 map[string]any
 	err = json.Unmarshal(buf[:n], &d2)
 	fmt.Println(d2)
 	require.NoError(t, err)
@@ -132,7 +132,7 @@ func TestTCPInit(t *testing.T) {
 	n, err = c.Read(buf)
 	require.NoError(t, err)
 
-	var d3 map[string]interface{}
+	var d3 map[string]any
 	err = json.Unmarshal(buf[:n], &d3)
 	fmt.Println(d3)
 	require.NoError(t, err)
@@ -214,7 +214,7 @@ func TestTCPEmptySend(t *testing.T) {
 	n, err := c.Read(buf)
 	require.NoError(t, err)
 
-	var d map[string]interface{}
+	var d map[string]any
 	err = json.Unmarshal(buf[:n], &d)
 	require.NoError(t, err)
 
@@ -298,7 +298,7 @@ func TestTCPConnClose(t *testing.T) {
 	n, err := c.Read(buf)
 	require.NoError(t, err)
 
-	var d map[string]interface{}
+	var d map[string]any
 	err = json.Unmarshal(buf[:n], &d)
 	require.NoError(t, err)
 
@@ -385,7 +385,7 @@ func TestTCPFull(t *testing.T) {
 
 		require.Equal(t, []byte("hello \r\n"), buf[:n])
 
-		var d map[string]interface{}
+		var d map[string]any
 		for i := 0; i < 100; i++ {
 			_, err = c.Write([]byte("foo \r\n"))
 			require.NoError(t, err)
@@ -413,7 +413,7 @@ func TestTCPFull(t *testing.T) {
 
 		require.Equal(t, []byte("hello \r\n"), buf[:n])
 
-		var d map[string]interface{}
+		var d map[string]any
 		for i := 0; i < 100; i++ {
 			_, err = c.Write([]byte("bar \r\n"))
 			require.NoError(t, err)
@@ -441,7 +441,7 @@ func TestTCPFull(t *testing.T) {
 
 		require.Equal(t, []byte("hello \r\n"), buf[:n])
 
-		var d map[string]interface{}
+		var d map[string]any
 		for i := 0; i < 100; i++ {
 			_, err = c.Write([]byte("baz \r\n"))
 			require.NoError(t, err)
