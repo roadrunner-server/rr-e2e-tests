@@ -8,6 +8,9 @@ server:
   relay: "pipes"
   relay_timeout: "20s"
 
+kafka:
+  addrs: 127.0.0.1:9092
+
 logs:
   level: debug
   encoding: console

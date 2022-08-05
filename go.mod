@@ -19,23 +19,23 @@ require (
 	github.com/prometheus/client_golang v1.12.2
 	github.com/rabbitmq/amqp091-go v1.4.0
 	github.com/roadrunner-server/amqp/v2 v2.17.9
-	github.com/roadrunner-server/api/v2 v2.20.0
+	github.com/roadrunner-server/api/v2 v2.20.1
 	github.com/roadrunner-server/beanstalk/v2 v2.16.6
 	github.com/roadrunner-server/boltdb/v2 v2.16.8
 	github.com/roadrunner-server/broadcast/v2 v2.12.10
 	github.com/roadrunner-server/cache/v2 v2.15.9
 	github.com/roadrunner-server/config/v2 v2.14.9
-	github.com/roadrunner-server/endure v1.4.0
-	github.com/roadrunner-server/errors v1.1.2
+	github.com/roadrunner-server/endure v1.4.1
+	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v2 v2.13.9
-	github.com/roadrunner-server/goridge/v3 v3.4.5
+	github.com/roadrunner-server/goridge/v3 v3.5.0
 	github.com/roadrunner-server/grpc/v2 v2.19.2
 	github.com/roadrunner-server/gzip/v2 v2.12.6
 	github.com/roadrunner-server/headers/v2 v2.12.7
 	github.com/roadrunner-server/http/v2 v2.20.2
 	github.com/roadrunner-server/informer/v2 v2.11.10
 	github.com/roadrunner-server/jobs/v2 v2.16.1
-	github.com/roadrunner-server/kafka/v2 v2.0.0-beta.4
+	github.com/roadrunner-server/kafka/v2 v2.0.0-beta.5
 	github.com/roadrunner-server/kv/v2 v2.12.11
 	github.com/roadrunner-server/logger/v2 v2.13.9
 	github.com/roadrunner-server/memcached/v2 v2.12.7
@@ -60,16 +60,18 @@ require (
 	github.com/roadrunner-server/tcp/v2 v2.13.10
 	github.com/roadrunner-server/websockets/v2 v2.14.9
 	github.com/stretchr/testify v1.8.0
-	github.com/temporalio/roadrunner-temporal v1.5.0
+	github.com/temporalio/roadrunner-temporal v1.5.1
 	github.com/yookoala/gofast v0.6.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.11
 	go.temporal.io/api v1.8.0
 	go.temporal.io/sdk v1.15.0
 	go.uber.org/zap v1.21.0
-	golang.org/x/net v0.0.0-20220802222814-0bcc04d9c69b
+	golang.org/x/net v0.0.0-20220805013720-a33c5aa5df48
 	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.1
 )
+
+// replace github.com/roadrunner-server/kafka/v2 => ../plugins/kafka
 
 require (
 	github.com/Shopify/sarama v1.35.0 // indirect
@@ -145,7 +147,7 @@ require (
 	github.com/prometheus/common v0.37.0 // indirect
 	github.com/prometheus/procfs v0.8.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
-	github.com/roadrunner-server/tcplisten v1.1.2 // indirect
+	github.com/roadrunner-server/tcplisten v1.2.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
@@ -187,11 +189,11 @@ require (
 	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
-	golang.org/x/sys v0.0.0-20220803195053-6e608f9ce704 // indirect
+	golang.org/x/sys v0.0.0-20220804214406-8e32c043e418 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	golang.org/x/tools v0.1.12 // indirect
-	google.golang.org/genproto v0.0.0-20220803205849-8f55acc8769f // indirect
+	google.golang.org/genproto v0.0.0-20220805133916-01dd62135a58 // indirect
 	gopkg.in/ini.v1 v1.66.6 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

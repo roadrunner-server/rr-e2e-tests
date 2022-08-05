@@ -31,21 +31,25 @@ jobs:
       config:
         priority: 1
 
-        create_topics:
-          number_of_partitions: 1
-
         producer_options:
-          required_acks: 1
+          required_acks: -1
+
+        consumer_options:
+          heartbeat_interval: 10
+          session_timeout: 60
+
+        create_topics:
+          replication_factory: 1
 
         topics_config:
           compression:type: snappy
 
-        topic: default
-        group_id: default
-        partitions:
+        version: 3.2.0.0
+        topic: test-1
+        partitions_offsets:
           - 0: 0
-          - 1: 1023
-          - 2: 3345
+          - 1: 0
+          - 2: 0
 
 
   consume: [ "test-1" ]

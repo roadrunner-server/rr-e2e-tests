@@ -1,4 +1,4 @@
-package amqp
+package kafka
 
 import (
 	"net"
@@ -106,13 +106,9 @@ func TestKafkaInit(t *testing.T) {
 		Payload: `{"hello":"world"}`,
 		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 		Options: &jobsProto.Options{
-			AutoAck:   false,
-			Priority:  1,
-			Pipeline:  "test-1",
-			Delay:     0,
-			Topic:     "default",
-			Partition: 0,
-			Offset:    0,
+			Priority: 1,
+			Pipeline: "test-1",
+			Topic:    "test-1",
 		},
 	}}
 
@@ -135,13 +131,12 @@ func TestKafkaInit(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("message sent").Len(), 1000)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 1000)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 1000)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was processed successfully").Len(), 1000)
 }
 
 func TestKafkaDeclare(t *testing.T) {
-	t.Skip("not ready")
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
@@ -210,60 +205,39 @@ func TestKafkaDeclare(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("DeclarePipeline", declarePipe)
+	t.Run("DeclarePipeline", declarePipe("test-2"))
 	time.Sleep(time.Second * 2)
-	t.Run("ResumePipeline", helpers.ResumePipes("test-1"))
+	t.Run("ResumePipeline", helpers.ResumePipes("test-2"))
 	time.Sleep(time.Second * 2)
 
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	require.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-	req := &jobsProto.PushRequest{Job: &jobsProto.Job{
-		Job:     "some/php/namespace",
-		Id:      uuid.NewString(),
-		Payload: `{"hello":"world"}`,
-		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
-		Options: &jobsProto.Options{
-			AutoAck:   false,
-			Priority:  1,
-			Pipeline:  "test-1",
-			Topic:     "default",
-			Partition: 0,
-			Offset:    0,
-		},
-	}}
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 
 	for i := 0; i < 2; i++ {
-		er := &jobsProto.Empty{}
-		errCall := client.Call("jobs.Push", req, er)
-		require.NoError(t, errCall)
+		t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	}
 
 	time.Sleep(time.Second * 5)
-	t.Run("PausePipeline", helpers.PausePipelines("test-1"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-2"))
 
 	for i := 0; i < 2; i++ {
-		er := &jobsProto.Empty{}
-		errCall := client.Call("jobs.Push", req, er)
-		require.NoError(t, errCall)
+		t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
 	}
 
 	time.Sleep(time.Second * 2)
-	t.Run("ResumePipeline", helpers.ResumePipes("test-1"))
+	t.Run("ResumePipeline", helpers.ResumePipes("test-2"))
 	time.Sleep(time.Second * 5)
 
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-1"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-2"))
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.Equal(t, 4, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
-	require.Equal(t, 4, oLogger.FilterMessageSnippet("job processing was started").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was paused").Len())
+	assert.Equal(t, 5, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	assert.Equal(t, 5, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was paused").Len())
 }
 
 func TestKafkaJobsError(t *testing.T) {
-	t.Skip("not ready")
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
 
@@ -332,57 +306,75 @@ func TestKafkaJobsError(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-
-	t.Run("DeclarePipeline", declarePipe)
-	t.Run("ResumePipeline", helpers.ResumePipes("test-1"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("DeclarePipeline", declarePipe("test-3"))
+	time.Sleep(time.Second)
+	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", helpers.PausePipelines("test-1"))
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-1"))
+	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-1"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
-	require.Equal(t, 4, oLogger.FilterMessageSnippet("job processing was started").Len())
-	require.Equal(t, 4, oLogger.FilterMessageSnippet("job was processed successfully").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was paused").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	require.Equal(t, 3, oLogger.FilterMessageSnippet("jobs protocol error").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	assert.Equal(t, 4, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 4, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was paused").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 3, oLogger.FilterMessageSnippet("jobs protocol error").Len())
 }
 
-func declarePipe(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	assert.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+func declarePipe(topic string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		assert.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-		"driver":                 "kafka",
-		"name":                   "test-1",
-		"priority":               "3",
-		"number_of_partitions":   "3",
-		"create_topics_on_start": "true",
-		"topics":                 "default, test-1",
-		"topics_config": `{
-  			"compression.type": "snappy"
-		}`,
-		"consumer_config": `{
-  			"bootstrap.servers": "127.0.0.1:9092",
-  			"group.id": "default",
-  			"enable.partition.eof": true,
-  			"auto.offset.reset": "earliest"
-		}`,
-		"producer_config": `{
-  			"bootstrap.servers": "127.0.0.1:9092"
-		}`,
-	}}
+		pipe := &jobsProto.DeclareRequest{
+			Pipeline: map[string]string{
+				"driver":            "kafka",
+				"name":              topic,
+				"priority":          "3",
+				"topic":             topic,
+				"max_open_requests": "100",
+				"client_id":         "roadrunner",
+				"version":           "3.2.0.0",
+				"max_message_bytes": "10000",
+				"required_acks":     "-1",
+				"timeout":           "5",
+				"compression_codec": "snappy",
+				"idempotent":        "false",
+				// "heartbeat_interval":   "10",
+				"partitions_offsets": `
+				{
+				     "0": "0",
+				     "1": "0",
+				     "2": "0"
+				}`,
+				"replication_factory": "1",
+				// "replica_assignment": `
+				// {
+				//       "0": [1,2,3],
+				//       "1": [1,2,3],
+				//       "2": [1,2,3]
+				// }
+				// `,
+				"config_entries": `
+    			{
+                      "max.message.bytes": "10000"
+				}
+				`,
+			},
+		}
 
-	er := &jobsProto.Empty{}
-	err = client.Call("jobs.Declare", pipe, er)
-	assert.NoError(t, err)
+		er := &jobsProto.Empty{}
+		err = client.Call("jobs.Declare", pipe, er)
+		assert.NoError(t, err)
+	}
 }
 
 func reset(t *testing.T) {
