@@ -18,9 +18,9 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.13.0
 	github.com/rabbitmq/amqp091-go v1.4.0
-	github.com/roadrunner-server/amqp/v2 v2.17.10
+	github.com/roadrunner-server/amqp/v2 v2.17.11
 	github.com/roadrunner-server/api/v2 v2.20.1
-	github.com/roadrunner-server/beanstalk/v2 v2.16.7
+	github.com/roadrunner-server/beanstalk/v2 v2.16.8
 	github.com/roadrunner-server/boltdb/v2 v2.16.9
 	github.com/roadrunner-server/broadcast/v2 v2.12.11
 	github.com/roadrunner-server/cache/v2 v2.15.9
@@ -41,7 +41,7 @@ require (
 	github.com/roadrunner-server/memcached/v2 v2.12.8
 	github.com/roadrunner-server/memory/v2 v2.15.7
 	github.com/roadrunner-server/metrics/v2 v2.13.11
-	github.com/roadrunner-server/nats/v2 v2.16.6
+	github.com/roadrunner-server/nats/v2 v2.16.7
 	github.com/roadrunner-server/new_relic/v2 v2.14.10
 	github.com/roadrunner-server/otel/v2 v2.3.1
 	github.com/roadrunner-server/prometheus/v2 v2.13.10
@@ -54,7 +54,7 @@ require (
 	github.com/roadrunner-server/send/v2 v2.12.7
 	github.com/roadrunner-server/server/v2 v2.14.10
 	github.com/roadrunner-server/service/v2 v2.15.4
-	github.com/roadrunner-server/sqs/v2 v2.17.7
+	github.com/roadrunner-server/sqs/v2 v2.17.8
 	github.com/roadrunner-server/static/v2 v2.13.8
 	github.com/roadrunner-server/status/v2 v2.13.11
 	github.com/roadrunner-server/tcp/v2 v2.13.11
