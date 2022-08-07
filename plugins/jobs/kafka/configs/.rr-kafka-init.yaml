@@ -14,7 +14,7 @@ logs:
   mode: development
 
 kafka:
-  addrs: "127.0.0.1:9092"
+  addrs: "127.0.0.1:9092,127.0.0.1:9093"
 
 jobs:
   num_pollers: 10
@@ -30,26 +30,36 @@ jobs:
       driver: kafka
       config:
         priority: 1
-
-        producer_options:
-          required_acks: -1
-
-        consumer_options:
-          heartbeat_interval: 10
-          session_timeout: 60
-
-        create_topics:
-          replication_factory: 1
-
-        topics_config:
-          compression:type: snappy
-
-        version: 3.2.0.0
         topic: test-1
         partitions_offsets:
           - 0: 0
           - 1: 0
           - 2: 0
 
+        # not supported in beta.3
+        group_id: "foo"
+
+        max_open_requests: 100
+        client_id: "roadrunner"
+        kafka_version: 3.2.0.0
+
+        create_topics:
+          replication_factory: 1
+          replica_assignment:
+            1: [ 1,2,3 ]
+          config_entries:
+            compression:type: snappy
+
+        producer_options:
+          max_message_bytes: 1000
+          required_acks: -1
+          timeout: 10
+          compression_codec: snappy
+          compression_level: 10
+          idempotent: false
+
+        consumer_options:
+          heartbeat_interval: 10
+          session_timeout: 60
 
   consume: [ "test-1" ]

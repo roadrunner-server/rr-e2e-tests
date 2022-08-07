@@ -336,38 +336,47 @@ func declarePipe(topic string) func(t *testing.T) {
 
 		pipe := &jobsProto.DeclareRequest{
 			Pipeline: map[string]string{
-				"driver":            "kafka",
-				"name":              topic,
-				"priority":          "3",
-				"topic":             topic,
-				"max_open_requests": "100",
-				"client_id":         "roadrunner",
-				"version":           "3.2.0.0",
-				"max_message_bytes": "10000",
-				"required_acks":     "-1",
-				"timeout":           "5",
-				"compression_codec": "snappy",
-				"idempotent":        "false",
-				// "heartbeat_interval":   "10",
+				"driver":   "kafka",
+				"name":     topic,
+				"priority": "3",
+				"topic":    topic,
+				"group_id": "foo",
 				"partitions_offsets": `
 				{
 				     "0": "0",
 				     "1": "0",
 				     "2": "0"
 				}`,
-				"replication_factory": "1",
+				"max_open_requests": "100",
+				"client_id":         "roadrunner",
+				"version":           "3.2.0.0",
+
+				// create_topics
+				"replication_factor": "1",
 				// "replica_assignment": `
 				// {
-				//       "0": [1,2,3],
-				//       "1": [1,2,3],
-				//       "2": [1,2,3]
+				//      "0": [1,2,3],
+				//      "1": [1,2,3],
+				//      "2": [1,2,3]
 				// }
 				// `,
 				"config_entries": `
     			{
-                      "max.message.bytes": "10000"
+                      "max.message.bytes": "100000"
 				}
 				`,
+
+				// producer
+				"max_message_bytes": "10000",
+				"required_acks":     "-1",
+				"timeout":           "10",
+				"compression_codec": "snappy",
+				"compression_level": "100",
+				"idempotent":        "false",
+
+				// consumer
+				// "heartbeat_interval": "3",
+				// "session_timeout":    "10",
 			},
 		}
 
