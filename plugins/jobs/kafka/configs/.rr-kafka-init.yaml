@@ -45,8 +45,8 @@ jobs:
 
         create_topics:
           replication_factory: 1
-          replica_assignment:
-            1: [ 1,2,3 ]
+#          replica_assignment:
+#            1: [ 1,2,3 ]
           config_entries:
             compression:type: snappy
 
