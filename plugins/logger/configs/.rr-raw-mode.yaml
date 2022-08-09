@@ -1,7 +1,7 @@
 version: '2.7'
 
 server:
-  command: "php ../../php_test_files/raw-error.php"
+  command: "php ../../php_test_files/psr-worker.php"
   relay: "pipes"
 
 http:
@@ -9,7 +9,6 @@ http:
   max_requestSize: 1024
   pool:
     num_workers: 1
-    max_jobs: 0
     allocate_timeout: 10s
     destroy_timeout: 10s
 

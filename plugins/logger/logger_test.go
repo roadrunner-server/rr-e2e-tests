@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"io"
 	"net/http"
 	"os"
 	"os/signal"
@@ -17,6 +18,7 @@ import (
 	"github.com/roadrunner-server/rpc/v2"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestLogger(t *testing.T) {
@@ -84,9 +86,10 @@ func TestLoggerRawErr(t *testing.T) {
 
 	// config plugin
 	cfg := &config.Plugin{
-		Version: "2.9.0"}
-	cfg.Path = "configs/.rr-raw-mode.yaml"
-	cfg.Prefix = "rr"
+		Version: "2.9.0",
+		Path:    "configs/.rr-raw-mode.yaml",
+		Prefix:  "rr",
+	}
 
 	err = cont.RegisterAll(
 		cfg,
@@ -138,6 +141,16 @@ func TestLoggerRawErr(t *testing.T) {
 			}
 		}
 	}()
+
+	time.Sleep(time.Second)
+	resp, err := http.Get("http://127.0.0.1:34999")
+	assert.NoError(t, err)
+	require.NotNil(t, resp)
+
+	_, _ = io.Copy(io.Discard, resp.Body)
+	_ = resp.Body.Close()
+
+	time.Sleep(time.Second)
 
 	stopCh <- struct{}{}
 	wg.Wait()
