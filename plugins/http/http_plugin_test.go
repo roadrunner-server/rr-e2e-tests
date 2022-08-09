@@ -28,7 +28,7 @@ import (
 	"github.com/roadrunner-server/logger/v2"
 	"github.com/roadrunner-server/resetter/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
-	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/send/v2"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/roadrunner-server/static/v2"
@@ -1065,7 +1065,7 @@ func TestHTTP2Req(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
@@ -1166,7 +1166,7 @@ func TestH2CUpgrade(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
@@ -1259,7 +1259,7 @@ func TestH2C(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
@@ -1723,7 +1723,7 @@ func echoHTTP2(t *testing.T) {
 // sleep
 // supervisor destroy worker
 // compare pid's
-var workerPid int = 0 //nolint:gochecknoglobals
+var workerPid = 0 //nolint:gochecknoglobals
 
 func informerTestBefore(t *testing.T) {
 	conn, err := net.Dial("tcp", "127.0.0.1:15432")
@@ -1760,34 +1760,6 @@ func informerTestAfter(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Len(t, list.Workers, 1)
 	assert.NotEqual(t, workerPid, list.Workers[0].Pid)
-}
-
-// get request and return body
-func getHeader(url string, h map[string]string) (string, *http.Response, error) {
-	req, err := http.NewRequest("GET", url, bytes.NewBuffer(nil))
-	if err != nil {
-		return "", nil, err
-	}
-
-	for k, v := range h {
-		req.Header.Set(k, v)
-	}
-
-	r, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return "", nil, err
-	}
-
-	b, err := io.ReadAll(r.Body)
-	if err != nil {
-		return "", nil, err
-	}
-
-	err = r.Body.Close()
-	if err != nil {
-		return "", nil, err
-	}
-	return string(b), r, err
 }
 
 func TestHTTPBigRequestSize(t *testing.T) {
@@ -2366,7 +2338,7 @@ func TestStaticFilesForbid(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		l,
