@@ -66,7 +66,7 @@ require (
 	go.temporal.io/api v1.11.0
 	go.temporal.io/sdk v1.16.0
 	go.uber.org/zap v1.22.0
-	golang.org/x/net v0.0.0-20220805013720-a33c5aa5df48
+	golang.org/x/net v0.0.0-20220809012201-f428fae20770
 	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.1
 )
@@ -191,7 +191,7 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	golang.org/x/tools v0.1.12 // indirect
-	google.golang.org/genproto v0.0.0-20220808145710-bf34ca4dd83a // indirect
+	google.golang.org/genproto v0.0.0-20220808204814-fd01256a5276 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
