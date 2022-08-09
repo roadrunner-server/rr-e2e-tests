@@ -14,7 +14,7 @@ logs:
   mode: development
 
 kafka:
-  addrs: "127.0.0.1:9092,127.0.0.1:9093"
+  addrs: "127.0.0.1:9092"
 
 jobs:
   num_pollers: 10
