@@ -107,7 +107,7 @@ func TestKafkaInitCG(t *testing.T) {
 		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 		Options: &jobsProto.Options{
 			Priority: 1,
-			Pipeline: "test-2",
+			Pipeline: "test-1",
 			Topic:    "test-2",
 		},
 	}}
@@ -125,7 +125,7 @@ func TestKafkaInitCG(t *testing.T) {
 	wgg.Wait()
 
 	time.Sleep(time.Second * 10)
-	t.Run("DestroyPipelines", helpers.DestroyPipelines("test-2"))
+	t.Run("DestroyPipelines", helpers.DestroyPipelines("test-1"))
 	time.Sleep(time.Second * 5)
 
 	stopCh <- struct{}{}
