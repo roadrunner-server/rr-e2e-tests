@@ -41,6 +41,7 @@ jobs:
           compression:type: snappy
 
         topic: test-1
+        group_id: default
         partitions:
           - 0: 0
           - 1: 1023
@@ -54,7 +55,14 @@ jobs:
         create_topics:
           number_of_partitions: 1
 
+        producer_options:
+          required_acks: 1
+
+        topics_config:
+          compression:type: snappy
+
         topic: test-2
+        group_id: default-2
         partitions:
           - 0: 0
           - 1: 1023
