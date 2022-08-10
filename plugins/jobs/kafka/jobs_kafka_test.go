@@ -606,7 +606,7 @@ func declarePipeCG(topic string) func(t *testing.T) {
 				"name":     topic,
 				"priority": "3",
 				"topic":    topic,
-				"group_id": "foo",
+				"group_id": "foo-3",
 				"partitions_offsets": `
 				{
 				     "0": "0",
