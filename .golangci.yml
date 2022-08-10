@@ -10,6 +10,7 @@ run:
     - tests/plugins
     - config/configs/v2_6
     - config/configs/v2_7
+    - plugins/all
   modules-download-mode: readonly
   allow-parallel-runners: true
 

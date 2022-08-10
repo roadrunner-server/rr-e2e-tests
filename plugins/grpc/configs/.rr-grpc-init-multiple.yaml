@@ -18,7 +18,7 @@ grpc:
         - "proto/test/test.proto"
         - "proto/service/service.proto"
 
-    enable_reflection_server: true
+    reflection_server: {}
     max_send_msg_size: 50
     max_recv_msg_size: 50
     max_connection_idle: 0s

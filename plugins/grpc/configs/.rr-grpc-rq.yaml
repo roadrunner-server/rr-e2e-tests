@@ -15,6 +15,8 @@ logs:
 # GRPC service configuration
 grpc:
   listen: "tcp://127.0.0.1:9001"
+  reflection_server: {}
+
   proto:
     - "proto/service/service.proto"
 
@@ -22,7 +24,6 @@ grpc:
   max_recv_msg_size: 50
   max_connection_idle: 0s
   max_connection_age: 0s
-  enable_reflection_server: true
   max_connection_age_grace: 0s
   max_concurrent_streams: 10
   ping_time: 1s

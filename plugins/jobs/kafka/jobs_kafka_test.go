@@ -28,6 +28,114 @@ import (
 	"go.uber.org/zap"
 )
 
+func TestKafkaInitCG(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.11.0",
+		Path:    "configs/.rr-kafka-init-cg.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		&kp.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&informer.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
+	require.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+	req := &jobsProto.PushRequest{Job: &jobsProto.Job{
+		Job:     "some/php/namespace",
+		Id:      uuid.NewString(),
+		Payload: `{"hello":"world"}`,
+		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
+		Options: &jobsProto.Options{
+			Priority: 1,
+			Pipeline: "test-2",
+			Topic:    "test-2",
+		},
+	}}
+
+	wgg := &sync.WaitGroup{}
+	wgg.Add(1000)
+	for i := 0; i < 1000; i++ {
+		go func() {
+			defer wgg.Done()
+			er := &jobsProto.Empty{}
+			errCall := client.Call("jobs.Push", req, er)
+			require.NoError(t, errCall)
+		}()
+	}
+	wgg.Wait()
+
+	time.Sleep(time.Second * 10)
+	t.Run("DestroyPipelines", helpers.DestroyPipelines("test-2"))
+	time.Sleep(time.Second * 5)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 1000)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 1000)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was processed successfully").Len(), 1000)
+}
+
 func TestKafkaInit(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
