@@ -58,7 +58,7 @@ require (
 	github.com/roadrunner-server/static/v2 v2.13.9
 	github.com/roadrunner-server/status/v2 v2.13.12
 	github.com/roadrunner-server/tcp/v2 v2.13.12
-	github.com/roadrunner-server/websockets/v2 v2.14.11
+	github.com/roadrunner-server/websockets/v2 v2.15.0
 	github.com/stretchr/testify v1.8.0
 	github.com/temporalio/roadrunner-temporal v1.5.2
 	github.com/yookoala/gofast v0.6.0
