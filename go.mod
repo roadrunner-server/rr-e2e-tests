@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/Shopify/toxiproxy v2.1.4+incompatible
 	github.com/aws/aws-sdk-go-v2 v1.16.10
-	github.com/aws/aws-sdk-go-v2/config v1.15.17
+	github.com/aws/aws-sdk-go-v2/config v1.16.0
 	github.com/aws/aws-sdk-go-v2/credentials v1.12.12
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.3
 	github.com/beanstalkd/go-beanstalk v0.1.0
@@ -22,43 +22,43 @@ require (
 	github.com/roadrunner-server/api/v2 v2.20.1
 	github.com/roadrunner-server/beanstalk/v2 v2.16.9
 	github.com/roadrunner-server/boltdb/v2 v2.16.10
-	github.com/roadrunner-server/broadcast/v2 v2.12.12
+	github.com/roadrunner-server/broadcast/v2 v2.13.0
 	github.com/roadrunner-server/cache/v2 v2.15.9
-	github.com/roadrunner-server/config/v2 v2.14.11
+	github.com/roadrunner-server/config/v2 v2.15.0
 	github.com/roadrunner-server/endure v1.4.2
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v2 v2.13.11
 	github.com/roadrunner-server/goridge/v3 v3.5.1
-	github.com/roadrunner-server/grpc/v2 v2.20.0
+	github.com/roadrunner-server/grpc/v2 v2.21.0
 	github.com/roadrunner-server/gzip/v2 v2.12.7
 	github.com/roadrunner-server/headers/v2 v2.12.8
-	github.com/roadrunner-server/http/v2 v2.20.5
-	github.com/roadrunner-server/informer/v2 v2.11.12
-	github.com/roadrunner-server/jobs/v2 v2.16.4
+	github.com/roadrunner-server/http/v2 v2.21.0
+	github.com/roadrunner-server/informer/v2 v2.12.0
+	github.com/roadrunner-server/jobs/v2 v2.17.0
 	github.com/roadrunner-server/kafka/v2 v2.1.2
-	github.com/roadrunner-server/kv/v2 v2.12.13
+	github.com/roadrunner-server/kv/v2 v2.13.0
 	github.com/roadrunner-server/logger/v2 v2.14.0
 	github.com/roadrunner-server/memcached/v2 v2.12.9
 	github.com/roadrunner-server/memory/v2 v2.15.8
 	github.com/roadrunner-server/metrics/v2 v2.13.12
 	github.com/roadrunner-server/nats/v2 v2.16.8
 	github.com/roadrunner-server/new_relic/v2 v2.14.10
-	github.com/roadrunner-server/otel/v2 v2.3.2
+	github.com/roadrunner-server/otel/v2 v2.4.0
 	github.com/roadrunner-server/prometheus/v2 v2.13.11
 	github.com/roadrunner-server/proxy_ip_parser/v2 v2.4.2
 	github.com/roadrunner-server/redis/v2 v2.15.9
-	github.com/roadrunner-server/reload/v2 v2.12.12
-	github.com/roadrunner-server/resetter/v2 v2.11.12
-	github.com/roadrunner-server/rpc/v2 v2.13.10
+	github.com/roadrunner-server/reload/v2 v2.13.0
+	github.com/roadrunner-server/resetter/v2 v2.12.0
+	github.com/roadrunner-server/rpc/v2 v2.14.0
 	github.com/roadrunner-server/sdk/v2 v2.18.2
 	github.com/roadrunner-server/send/v2 v2.12.8
-	github.com/roadrunner-server/server/v2 v2.14.11
+	github.com/roadrunner-server/server/v2 v2.15.0
 	github.com/roadrunner-server/service/v2 v2.15.5
-	github.com/roadrunner-server/sqs/v2 v2.17.9
+	github.com/roadrunner-server/sqs/v2 v2.18.0
 	github.com/roadrunner-server/static/v2 v2.13.9
-	github.com/roadrunner-server/status/v2 v2.13.12
-	github.com/roadrunner-server/tcp/v2 v2.13.12
-	github.com/roadrunner-server/websockets/v2 v2.14.11
+	github.com/roadrunner-server/status/v2 v2.14.0
+	github.com/roadrunner-server/tcp/v2 v2.14.0
+	github.com/roadrunner-server/websockets/v2 v2.15.0
 	github.com/stretchr/testify v1.8.0
 	github.com/temporalio/roadrunner-temporal v1.5.2
 	github.com/yookoala/gofast v0.6.0
@@ -191,7 +191,7 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	golang.org/x/tools v0.1.12 // indirect
-	google.golang.org/genproto v0.0.0-20220808204814-fd01256a5276 // indirect
+	google.golang.org/genproto v0.0.0-20220810155839-1856144b1d9c // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
