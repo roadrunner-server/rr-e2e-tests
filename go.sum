@@ -473,8 +473,8 @@ github.com/roadrunner-server/headers/v2 v2.12.8 h1:3u5YY6mR9s1dbgIlHGOQcMYyyfHCA
 github.com/roadrunner-server/headers/v2 v2.12.8/go.mod h1:WTuEEc7qZUF9UDjX5ut1jz3439C0r4RYqBKUAOSSxgU=
 github.com/roadrunner-server/http/v2 v2.20.5 h1:4JPKX5/w8920ZdZNHUh6Rs0mFAB5QWdyMPMT6I5DAJA=
 github.com/roadrunner-server/http/v2 v2.20.5/go.mod h1:dN7WG5evSkUlgEsHjXtmLe1hbrw+lUOFVtfn2ZyE+Wg=
-github.com/roadrunner-server/informer/v2 v2.11.12 h1:ZxCe8770ccmpRd8Ue8GC68TeSip4OZMs8CvFKyqfy1g=
-github.com/roadrunner-server/informer/v2 v2.11.12/go.mod h1:vHPv+EDqEyjO6B/ZoRJLrVgrCbZHiXbRkewVwmb1OzU=
+github.com/roadrunner-server/informer/v2 v2.12.0 h1:UBFtsWYENfk6hXnDxn9N4RJsNYvjLVj/JK8rCeznOUw=
+github.com/roadrunner-server/informer/v2 v2.12.0/go.mod h1:PyM/Fc0fFWvYU22rCrCsabZUdjrrcUeNKzkwRdXFzSw=
 github.com/roadrunner-server/jobs/v2 v2.16.4 h1:Au2aEFTGinsgfQJrlmnTb54NUStStHARnWozB8Lhksk=
 github.com/roadrunner-server/jobs/v2 v2.16.4/go.mod h1:tR8EJNdDVnNI0kQUrsZsWUFIVIePsVrh0geyEKUlNo0=
 github.com/roadrunner-server/kafka/v2 v2.1.2 h1:TNNzd/JV+Sechhwn8hLHxLqslQLIyi64zStci+n+ugM=
