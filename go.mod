@@ -19,7 +19,7 @@ require (
 	github.com/prometheus/client_golang v1.13.0
 	github.com/rabbitmq/amqp091-go v1.4.0
 	github.com/roadrunner-server/amqp/v2 v2.17.12
-	github.com/roadrunner-server/api/v2 v2.20.1
+	github.com/roadrunner-server/api/v2 v2.21.0
 	github.com/roadrunner-server/beanstalk/v2 v2.16.9
 	github.com/roadrunner-server/boltdb/v2 v2.16.10
 	github.com/roadrunner-server/broadcast/v2 v2.13.0
@@ -39,7 +39,7 @@ require (
 	github.com/roadrunner-server/kv/v2 v2.13.0
 	github.com/roadrunner-server/logger/v2 v2.14.0
 	github.com/roadrunner-server/memcached/v2 v2.12.9
-	github.com/roadrunner-server/memory/v2 v2.15.8
+	github.com/roadrunner-server/memory/v2 v2.16.0
 	github.com/roadrunner-server/metrics/v2 v2.13.12
 	github.com/roadrunner-server/nats/v2 v2.16.8
 	github.com/roadrunner-server/new_relic/v2 v2.14.10
@@ -62,7 +62,7 @@ require (
 	github.com/stretchr/testify v1.8.0
 	github.com/temporalio/roadrunner-temporal v1.5.2
 	github.com/yookoala/gofast v0.6.0
-	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.11
+	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.12
 	go.temporal.io/api v1.11.0
 	go.temporal.io/sdk v1.16.0
 	go.uber.org/zap v1.22.0
