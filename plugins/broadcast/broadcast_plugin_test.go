@@ -21,7 +21,7 @@ import (
 	"github.com/roadrunner-server/memory/v2"
 	"github.com/roadrunner-server/redis/v2"
 	rpcPlugin "github.com/roadrunner-server/rpc/v2"
-	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/rr-e2e-tests/plugins/broadcast/plugins"
 	"github.com/roadrunner-server/server/v2"
 	"github.com/roadrunner-server/websockets/v2"
@@ -151,7 +151,7 @@ func TestBroadcastNoConfig(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&broadcast.Plugin{},
@@ -193,7 +193,7 @@ func TestBroadcastSameSubscriber(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&broadcast.Plugin{},
@@ -308,7 +308,7 @@ func TestBroadcastSameSubscriberGlobal(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&broadcast.Plugin{},
