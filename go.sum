@@ -445,8 +445,8 @@ github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 h1:N/ElC8H3+5X
 github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475/go.mod h1:bCqnVzQkZxMG4s8nGwiZ5l3QUCyqpo9Y+/ZMZ9VjZe4=
 github.com/roadrunner-server/amqp/v2 v2.17.12 h1:uQJlIJ9caNq7BURNyr4cHof2s6teu35LIpKgBBDysKw=
 github.com/roadrunner-server/amqp/v2 v2.17.12/go.mod h1:RU8dIuqsy/UFN7edcNVmXOW1hwNzPP47DwIOxngzF3M=
-github.com/roadrunner-server/api/v2 v2.20.1 h1:j6tIrIgxOLxa3ONCqYe4LfS0yIcch4QEzLcLmzcCkBQ=
-github.com/roadrunner-server/api/v2 v2.20.1/go.mod h1:IlmguovM8ExuTctvmqitx8+cdfadzHi15fY5Njl55Kk=
+github.com/roadrunner-server/api/v2 v2.21.0 h1:OtzTLvZt9ENgfWtR9eAomMrF1ZwDkTj95Upb/AkvVD0=
+github.com/roadrunner-server/api/v2 v2.21.0/go.mod h1:i6+EpU/ZSZIPZNvM/Tk8lobqVSNQ6+iOe4LSBO2iORo=
 github.com/roadrunner-server/beanstalk/v2 v2.16.9 h1:qJU3FvUOxL0COxbSRfv/6JXND0WSSDPwHB9UVrXeXfY=
 github.com/roadrunner-server/beanstalk/v2 v2.16.9/go.mod h1:ZUd/5I90ImvdG6GD+hBWpU6HmmliQSLissMNTcxksYk=
 github.com/roadrunner-server/boltdb/v2 v2.16.10 h1:38HM577VX+mqQWhpMFzlsPlxj+DXkgOCQMww+8lck54=
@@ -507,8 +507,8 @@ github.com/roadrunner-server/resetter/v2 v2.12.0 h1:aJ/xLgTGDHwJ8JjwEWNZj9qW4GoT
 github.com/roadrunner-server/resetter/v2 v2.12.0/go.mod h1:uu7ztnyH/e2BmKJ0E0SRU0YLC5WYhoR/LfdwpEZ9G5s=
 github.com/roadrunner-server/rpc/v2 v2.14.0 h1:7g8oX+VNn0HNPHCt1M38Xh0d8qTLmuouVuj26iFf940=
 github.com/roadrunner-server/rpc/v2 v2.14.0/go.mod h1:ZcwBB9Y2RKlfW+WqmcqeB5i40v8spW0joiHCUCdw4xE=
-github.com/roadrunner-server/sdk/v2 v2.18.2 h1:t2Sz3ltV6sPSGfo7P0VdCk+p8pJYg2AnTOJArBHreAg=
-github.com/roadrunner-server/sdk/v2 v2.18.2/go.mod h1:3qWZftrmvbOZ8zjeRZIGBfoh1x1rJA8KW5ZtUrmyvdg=
+github.com/roadrunner-server/sdk/v2 v2.18.3 h1:2nywVM5XexByq3QEdZE3VYrwoqGcXTfOSOPydwYBHXM=
+github.com/roadrunner-server/sdk/v2 v2.18.3/go.mod h1:5M5NkYpP/g76CPBHJYO9s/tSw/N8Xg7CnPIriUYzx9c=
 github.com/roadrunner-server/send/v2 v2.12.8 h1:FVOpLWNbGl6/vZzSl0nAmHjvwyzWkj2hcVGXtBV1BpQ=
 github.com/roadrunner-server/send/v2 v2.12.8/go.mod h1:wDMUw2Q5r8CtIf9yCLPR/40tmJaCRQXyF6UNiflNqsI=
 github.com/roadrunner-server/server/v2 v2.15.0 h1:G2uATS4G2aE1hROV08/CoGEj28XVpQaZdI2a9Xd1m7o=

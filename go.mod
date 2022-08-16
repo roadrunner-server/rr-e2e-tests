@@ -19,7 +19,7 @@ require (
 	github.com/prometheus/client_golang v1.13.0
 	github.com/rabbitmq/amqp091-go v1.4.0
 	github.com/roadrunner-server/amqp/v2 v2.17.12
-	github.com/roadrunner-server/api/v2 v2.20.1
+	github.com/roadrunner-server/api/v2 v2.21.0
 	github.com/roadrunner-server/beanstalk/v2 v2.16.9
 	github.com/roadrunner-server/boltdb/v2 v2.16.10
 	github.com/roadrunner-server/broadcast/v2 v2.13.0
@@ -50,7 +50,7 @@ require (
 	github.com/roadrunner-server/reload/v2 v2.13.0
 	github.com/roadrunner-server/resetter/v2 v2.12.0
 	github.com/roadrunner-server/rpc/v2 v2.14.0
-	github.com/roadrunner-server/sdk/v2 v2.18.2
+	github.com/roadrunner-server/sdk/v2 v2.18.3
 	github.com/roadrunner-server/send/v2 v2.12.8
 	github.com/roadrunner-server/server/v2 v2.15.0
 	github.com/roadrunner-server/service/v2 v2.15.5
