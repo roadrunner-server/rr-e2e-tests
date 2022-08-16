@@ -1145,9 +1145,6 @@ jobs:
         run: go mod download
 
       - name: Run golang tests with coverage
-        env:
-          NEW_RELIC_APP_NAME: ${{ secrets.NEW_RELIC_APP_NAME }}
-          NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
         run: |
           sudo apt update
           sudo apt install -y libnss3-tools
@@ -1916,7 +1913,10 @@ jobs:
       - service_test
       - temporal_test
       - amqp_test
+      - kafka_test
+      - grpc_test_unit
       - beanstalk_test
+      - service_unit_test
       - boltdb_test
       - durability_test
       - general_test

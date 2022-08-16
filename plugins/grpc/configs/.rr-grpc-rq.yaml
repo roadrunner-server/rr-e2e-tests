@@ -15,7 +15,6 @@ logs:
 # GRPC service configuration
 grpc:
   listen: "tcp://127.0.0.1:9001"
-  reflection_server: {}
 
   proto:
     - "proto/service/service.proto"
