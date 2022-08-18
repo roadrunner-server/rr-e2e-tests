@@ -2,11 +2,11 @@
 // foo -> bar
 // bar -> foo
 //var_dump($_SERVER);
-if ($_SERVER["foo"] !== "BAR" ) {
+if ($_SERVER["FOO"] !== "BAR" ) {
 	die("faillll");
 }
 
-if ($_SERVER["bar"] !== "FOO" ) {
+if ($_SERVER["BAR"] !== "FOO" ) {
 	die("faillll");
 }
 
