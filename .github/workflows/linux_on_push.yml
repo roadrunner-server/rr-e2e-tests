@@ -183,7 +183,7 @@ jobs:
           path: ./coverage-ci/service_unit.out
 
   http_unit_test:
-    name: Service plugin unit (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
+    name: http plugin unit (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
