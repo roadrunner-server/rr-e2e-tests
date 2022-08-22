@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/roadrunner-server/http/v2/handler"
-	httpConf "github.com/roadrunner-server/http/v2/http"
 	"github.com/roadrunner-server/http/v2/uploads"
 	"github.com/roadrunner-server/sdk/v2/ipc/pipe"
 	"github.com/roadrunner-server/sdk/v2/pool"
@@ -39,7 +38,7 @@ func TestHandler_Error(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -95,7 +94,7 @@ func TestHandler_Error2(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -151,7 +150,7 @@ func TestHandler_ErrorDuration(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}

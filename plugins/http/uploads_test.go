@@ -15,8 +15,8 @@ import (
 	"time"
 
 	"github.com/goccy/go-json"
+	"github.com/roadrunner-server/http/v2/config"
 	"github.com/roadrunner-server/http/v2/handler"
-	http2 "github.com/roadrunner-server/http/v2/http"
 	"github.com/roadrunner-server/http/v2/uploads"
 	"github.com/roadrunner-server/sdk/v2/ipc/pipe"
 	poolImpl "github.com/roadrunner-server/sdk/v2/pool"
@@ -40,7 +40,7 @@ func TestHandler_Upload_File(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &http2.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -133,7 +133,7 @@ func TestHandler_Upload_NestedFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &http2.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -227,7 +227,7 @@ func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &http2.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -320,7 +320,7 @@ func TestHandler_Upload_File_Forbids(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &http2.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -413,7 +413,7 @@ func TestHandler_Upload_File_NotAllowed(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &http2.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}

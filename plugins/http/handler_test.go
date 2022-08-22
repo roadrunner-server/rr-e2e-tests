@@ -17,8 +17,8 @@ import (
 	"time"
 
 	"github.com/goccy/go-json"
+	"github.com/roadrunner-server/http/v2/config"
 	"github.com/roadrunner-server/http/v2/handler"
-	httpConf "github.com/roadrunner-server/http/v2/http"
 	"github.com/roadrunner-server/http/v2/uploads"
 	"github.com/roadrunner-server/sdk/v2/ipc/pipe"
 	"github.com/roadrunner-server/sdk/v2/pool"
@@ -42,7 +42,7 @@ func TestHandler_Echo(t *testing.T) {
 		}, nil)
 	require.NoError(t, err)
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -103,7 +103,7 @@ func TestHandler_Headers(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -179,7 +179,7 @@ func TestHandler_Empty_User_Agent(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -254,7 +254,7 @@ func TestHandler_User_Agent(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -329,7 +329,7 @@ func TestHandler_Cookies(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -405,7 +405,7 @@ func TestHandler_JsonPayload_POST(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -480,7 +480,7 @@ func TestHandler_JsonPayload_PUT(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 		AccessLogs:        false,
@@ -551,7 +551,7 @@ func TestHandler_JsonPayload_PATCH(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -603,6 +603,98 @@ func TestHandler_JsonPayload_PATCH(t *testing.T) {
 	assert.Equal(t, `{"value":"key"}`, string(b))
 }
 
+func TestHandler_UrlEncoded_POST_DELETE(t *testing.T) {
+	p, err := pool.NewStaticPool(context.Background(),
+		func(cmd string) *exec.Cmd {
+			return exec.Command("php", "../../php_test_files/psr-worker-echo.php")
+		},
+		pipe.NewPipeFactory(mockLog),
+		&pool.Config{
+			NumWorkers:      1,
+			AllocateTimeout: time.Second * 1000,
+			DestroyTimeout:  time.Second * 1000,
+		}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer func() {
+		p.Destroy(context.Background())
+	}()
+
+	cfg := &config.CommonOptions{
+		MaxRequestSize:    1024,
+		InternalErrorCode: 500,
+		RawBody:           true,
+	}
+
+	upldCfg := &uploads.Uploads{
+		Dir:       os.TempDir(),
+		Forbidden: map[string]struct{}{},
+		Allowed:   map[string]struct{}{},
+	}
+
+	h, err := handler.NewHandler(cfg, upldCfg, p, mockLog)
+	assert.NoError(t, err)
+
+	hs := &http.Server{Addr: ":10084", Handler: h, ReadHeaderTimeout: time.Minute * 5}
+	defer func() {
+		errS := hs.Shutdown(context.Background())
+		if errS != nil {
+			t.Errorf("error during the shutdown: error %v", err)
+		}
+	}()
+
+	go func() {
+		err = hs.ListenAndServe()
+		if err != nil && err != http.ErrServerClosed {
+			t.Errorf("error listening the interface: error %v", err)
+		}
+	}()
+	time.Sleep(time.Millisecond * 500)
+
+	req, err := http.NewRequest(http.MethodPost, "http://127.0.0.1"+hs.Addr, strings.NewReader("arr[x][y][e]=f&arr[c]p=l&arr[c]z=&key=value&name[]=name1&name[]=name2&name[]=name3&arr[x][y][z]=y"))
+	assert.NoError(t, err)
+
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+	r, err := http.DefaultClient.Do(req)
+	assert.NoError(t, err)
+	defer func() {
+		err = r.Body.Close()
+		if err != nil {
+			t.Errorf("error during the closing Body: error %v", err)
+		}
+	}()
+
+	b, err := io.ReadAll(r.Body)
+	assert.NoError(t, err)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 200, r.StatusCode)
+	assert.Equal(t, "arr[x][y][e]=f&arr[c]p=l&arr[c]z=&key=value&name[]=name1&name[]=name2&name[]=name3&arr[x][y][z]=y", string(b))
+
+	req, err = http.NewRequest(http.MethodDelete, "http://127.0.0.1"+hs.Addr, strings.NewReader("arr[x][y][e]=f&arr[c]p=l&arr[c]z=&key=value&name[]=name1&name[]=name2&name[]=name3&arr[x][y][z]=y"))
+	assert.NoError(t, err)
+
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+	r, err = http.DefaultClient.Do(req)
+	assert.NoError(t, err)
+	defer func() {
+		err = r.Body.Close()
+		if err != nil {
+			t.Errorf("error during the closing Body: error %v", err)
+		}
+	}()
+
+	b, err = io.ReadAll(r.Body)
+	assert.NoError(t, err)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 200, r.StatusCode)
+	assert.Equal(t, "arr[x][y][e]=f&arr[c]p=l&arr[c]z=&key=value&name[]=name1&name[]=name2&name[]=name3&arr[x][y][z]=y", string(b))
+}
+
 func TestHandler_FormData_POST(t *testing.T) {
 	p, err := pool.NewStaticPool(context.Background(),
 		func(cmd string) *exec.Cmd {
@@ -621,7 +713,7 @@ func TestHandler_FormData_POST(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -714,7 +806,7 @@ func TestHandler_FormData_POST_Overwrite(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -808,7 +900,7 @@ func TestHandler_FormData_POST_Form_UrlEncoded_Charset(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -901,7 +993,7 @@ func TestHandler_FormData_PUT(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -995,7 +1087,7 @@ func TestHandler_FormData_PATCH(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1088,7 +1180,7 @@ func TestHandler_Multipart_POST(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1223,7 +1315,7 @@ func TestHandler_Multipart_PUT(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1358,7 +1450,7 @@ func TestHandler_Multipart_PATCH(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1495,7 +1587,7 @@ func TestHandler_Error(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1551,7 +1643,7 @@ func TestHandler_Error2(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1607,7 +1699,7 @@ func TestHandler_ResponseDuration(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1665,7 +1757,7 @@ func TestHandler_ResponseDurationDelayed(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1706,7 +1798,7 @@ func TestHandler_ErrorDuration(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1763,7 +1855,7 @@ func TestHandler_IP(t *testing.T) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
@@ -1820,7 +1912,7 @@ func BenchmarkHandler_Listen_Echo(b *testing.B) {
 		p.Destroy(context.Background())
 	}()
 
-	cfg := &httpConf.Config{
+	cfg := &config.CommonOptions{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
 	}
