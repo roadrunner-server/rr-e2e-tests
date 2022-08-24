@@ -74,12 +74,11 @@ linters: # All available linters list: <https://golangci-lint.run/usage/linters/
     - prealloc # Finds slice declarations that could potentially be preallocated
     - rowserrcheck # Checks whether Err of rows is checked successfully
     - staticcheck # Staticcheck is a go vet on steroids, applying a ton of static analysis checks
-    - structcheck # Finds unused struct fields
     - stylecheck # Stylecheck is a replacement for golint
     - tparallel # detects inappropriate usage of t.Parallel() method in your Go test codes
     - unconvert # Remove unnecessary type conversions
-    - varcheck # Finds unused global variables and constants
     - gochecknoglobals
+    - unused
     - whitespace # Tool for detection of leading and trailing whitespace
 
 issues:

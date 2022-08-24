@@ -651,14 +651,3 @@ func declarePipeCG(topic string) func(t *testing.T) {
 		assert.NoError(t, err)
 	}
 }
-
-func reset(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	assert.NoError(t, err)
-	c := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
-	var ret bool
-	err = c.Call("resetter.Reset", "jobs", &ret)
-	assert.NoError(t, err)
-	require.True(t, ret)
-}
