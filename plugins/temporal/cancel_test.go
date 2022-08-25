@@ -438,7 +438,7 @@ func Test_CanceledWithCompensationWorkflowLAProto(t *testing.T) {
 
 	var result any
 	assert.NoError(t, w.Get(context.Background(), &result))
-	assert.Equal(t, nil, result)
+	assert.Equal(t, "OK", result)
 
 	e, err := s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "getStatus")
 	require.NoError(t, err)
