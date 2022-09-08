@@ -26,7 +26,7 @@ func Test_WorkerError_DisasterRecovery(t *testing.T) {
 	workers := getWorkers(t)
 	require.Len(t, workers, 5)
 
-	p, err := os.FindProcess(workers[0].Pid)
+	p, err := os.FindProcess(int(workers[0].Pid()))
 	assert.NoError(t, err)
 
 	w, err := s.Client().ExecuteWorkflow(
@@ -116,7 +116,7 @@ func Test_ResetWFWorker(t *testing.T) {
 	wrks := getWorkers(t)
 
 	for i := 0; i < len(wrks); i++ {
-		_ = syscall.Kill(wrks[i].Pid, syscall.SIGKILL)
+		_ = syscall.Kill(int(wrks[i].Pid()), syscall.SIGKILL)
 		time.Sleep(time.Second * 2)
 	}
 
@@ -160,7 +160,7 @@ func Test_ActivityError_DisasterRecovery(t *testing.T) {
 	require.Len(t, workers, 5)
 
 	for i := 1; i < len(workers); i++ {
-		p, err := os.FindProcess(workers[i].Pid)
+		p, err := os.FindProcess(int(workers[i].Pid()))
 		require.NoError(t, err)
 		require.NoError(t, p.Kill())
 	}
@@ -197,7 +197,7 @@ func Test_WorkerError_DisasterRecoveryProto(t *testing.T) {
 	workers := getWorkers(t)
 	require.Len(t, workers, 5)
 
-	p, err := os.FindProcess(workers[0].Pid)
+	p, err := os.FindProcess(int(workers[0].Pid()))
 	assert.NoError(t, err)
 
 	w, err := s.Client().ExecuteWorkflow(
@@ -242,13 +242,13 @@ func Test_WorkerError_DisasterRecovery_Heavy(t *testing.T) {
 	// WorkerList contains list of workers.
 	list := struct {
 		// Workers is list of workers.
-		Workers []*process.State `json:"workers"`
+		Workers []process.State `json:"workers"`
 	}{}
 
 	err = c.Call("informer.Workers", "temporal", &list)
 	require.NoError(t, err)
 
-	p, err := os.FindProcess(list.Workers[0].Pid)
+	p, err := os.FindProcess(int(list.Workers[0].Pid()))
 	assert.NoError(t, err)
 
 	// must fully recover with new worker
@@ -296,13 +296,13 @@ func Test_WorkerError_DisasterRecovery_HeavyLA(t *testing.T) {
 	// WorkerList contains list of workers.
 	list := struct {
 		// Workers is list of workers.
-		Workers []*process.State `json:"workers"`
+		Workers []process.State `json:"workers"`
 	}{}
 
 	err = c.Call("informer.Workers", "temporal", &list)
 	require.NoError(t, err)
 
-	p, err := os.FindProcess(list.Workers[0].Pid)
+	p, err := os.FindProcess(int(list.Workers[0].Pid()))
 	assert.NoError(t, err)
 
 	// must fully recover with new worker
@@ -349,7 +349,7 @@ func Test_ActivityError_DisasterRecoveryProto(t *testing.T) {
 	require.Len(t, workers, 5)
 
 	for i := 1; i < len(workers); i++ {
-		p, err := os.FindProcess(workers[i].Pid)
+		p, err := os.FindProcess(int(workers[i].Pid()))
 		require.NoError(t, err)
 		require.NoError(t, p.Kill())
 	}
@@ -388,7 +388,7 @@ func Test_WorkerErrorLA_DisasterRecovery(t *testing.T) {
 	workers := getWorkers(t)
 	require.Len(t, workers, 5)
 
-	p, err := os.FindProcess(workers[0].Pid)
+	p, err := os.FindProcess(int(workers[0].Pid()))
 	assert.NoError(t, err)
 
 	w, err := s.Client().ExecuteWorkflow(
@@ -474,7 +474,7 @@ func Test_ActivityErrorLA_DisasterRecovery(t *testing.T) {
 	require.Len(t, workers, 5)
 
 	for i := 1; i < len(workers); i++ {
-		p, err := os.FindProcess(workers[i].Pid)
+		p, err := os.FindProcess(int(workers[i].Pid()))
 		require.NoError(t, err)
 		require.NoError(t, p.Kill())
 	}
@@ -511,7 +511,7 @@ func Test_WorkerErrorLA_DisasterRecoveryProto(t *testing.T) {
 	workers := getWorkers(t)
 	require.Len(t, workers, 5)
 
-	p, err := os.FindProcess(workers[0].Pid)
+	p, err := os.FindProcess(int(workers[0].Pid()))
 	assert.NoError(t, err)
 
 	w, err := s.Client().ExecuteWorkflow(
@@ -555,7 +555,7 @@ func Test_ActivityErrorLA_DisasterRecoveryProto(t *testing.T) {
 	require.Len(t, workers, 5)
 
 	for i := 1; i < len(workers); i++ {
-		p, err := os.FindProcess(workers[i].Pid)
+		p, err := os.FindProcess(int(workers[i].Pid()))
 		require.NoError(t, err)
 		require.NoError(t, p.Kill())
 	}
@@ -583,14 +583,14 @@ func Test_ActivityErrorLA_DisasterRecoveryProto(t *testing.T) {
 	wg.Wait()
 }
 
-func getWorkers(t *testing.T) []*process.State {
+func getWorkers(t *testing.T) []process.State {
 	conn, err := net.Dial("tcp", "127.0.0.1:6001")
 	assert.NoError(t, err)
 	c := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 	// WorkerList contains list of workers.
 	list := struct {
 		// Workers is list of workers.
-		Workers []*process.State `json:"workers"`
+		Workers []process.State `json:"workers"`
 	}{}
 
 	err = c.Call("informer.Workers", "temporal", &list)

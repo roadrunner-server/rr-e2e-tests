@@ -1739,7 +1739,7 @@ func informerTestBefore(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Len(t, list.Workers, 1)
 	// save the pid
-	workerPid = list.Workers[0].Pid
+	workerPid = int(list.Workers[0].Pid())
 }
 
 func informerTestAfter(t *testing.T) {

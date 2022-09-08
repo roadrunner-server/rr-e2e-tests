@@ -52,13 +52,13 @@ func (p1 *Plugin1) Name() string {
 	return "informer.plugin1"
 }
 
-func (p1 *Plugin1) Workers() []*process.State {
+func (p1 *Plugin1) Workers() []process.State {
 	p, err := p1.server.NewWorkerPool(context.Background(), testPoolConfig, nil, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ps := make([]*process.State, 0, len(p.Workers()))
+	ps := make([]process.State, 0, len(p.Workers()))
 	workers := p.Workers()
 	for i := 0; i < len(workers); i++ {
 		state, err := processImpl.WorkerProcessState(workers[i])
