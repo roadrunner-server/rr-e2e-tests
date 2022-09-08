@@ -24,7 +24,7 @@ import (
 )
 
 func TestTCPInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*30))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
@@ -63,10 +63,6 @@ func TestTCPInit(t *testing.T) {
 			select {
 			case e := <-ch:
 				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
 			case <-sig:
 				err = cont.Stop()
 				if err != nil {
@@ -101,6 +97,8 @@ func TestTCPInit(t *testing.T) {
 
 	require.Equal(t, d1["remote_addr"].(string), c.LocalAddr().String())
 
+	_ = c.Close()
+
 	// ---
 
 	time.Sleep(time.Second * 1)
@@ -120,6 +118,8 @@ func TestTCPInit(t *testing.T) {
 
 	require.Equal(t, d2["remote_addr"].(string), c.LocalAddr().String())
 
+	_ = c.Close()
+
 	// ---
 
 	time.Sleep(time.Second * 1)
@@ -138,6 +138,8 @@ func TestTCPInit(t *testing.T) {
 	require.NoError(t, err)
 
 	require.Equal(t, d3["remote_addr"].(string), c.LocalAddr().String())
+
+	_ = c.Close()
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -183,10 +185,6 @@ func TestTCPEmptySend(t *testing.T) {
 			select {
 			case e := <-ch:
 				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
 			case <-sig:
 				err = cont.Stop()
 				if err != nil {
@@ -267,10 +265,6 @@ func TestTCPConnClose(t *testing.T) {
 			select {
 			case e := <-ch:
 				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
 			case <-sig:
 				err = cont.Stop()
 				if err != nil {
@@ -351,10 +345,6 @@ func TestTCPFull(t *testing.T) {
 			select {
 			case e := <-ch:
 				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
 			case <-sig:
 				err = cont.Stop()
 				if err != nil {

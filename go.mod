@@ -18,47 +18,47 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.13.0
 	github.com/rabbitmq/amqp091-go v1.5.0
-	github.com/roadrunner-server/amqp/v2 v2.17.17
+	github.com/roadrunner-server/amqp/v2 v2.17.18
 	github.com/roadrunner-server/api/v2 v2.23.0-rc.2
-	github.com/roadrunner-server/beanstalk/v2 v2.16.14
-	github.com/roadrunner-server/boltdb/v2 v2.16.15
+	github.com/roadrunner-server/beanstalk/v2 v2.16.15
+	github.com/roadrunner-server/boltdb/v2 v2.16.16
 	github.com/roadrunner-server/broadcast/v2 v2.13.6
-	github.com/roadrunner-server/config/v2 v2.15.5
+	github.com/roadrunner-server/config/v2 v2.15.6
 	github.com/roadrunner-server/endure v1.4.5
 	github.com/roadrunner-server/errors v1.2.0
-	github.com/roadrunner-server/fileserver/v2 v2.13.16
+	github.com/roadrunner-server/fileserver/v2 v2.13.17
 	github.com/roadrunner-server/goridge/v3 v3.5.3
-	github.com/roadrunner-server/grpc/v2 v2.21.5
-	github.com/roadrunner-server/gzip/v2 v2.12.12
-	github.com/roadrunner-server/headers/v2 v2.12.13
-	github.com/roadrunner-server/http/v2 v2.22.3
+	github.com/roadrunner-server/grpc/v2 v2.21.6
+	github.com/roadrunner-server/gzip/v2 v2.12.13
+	github.com/roadrunner-server/headers/v2 v2.12.14
+	github.com/roadrunner-server/http/v2 v2.22.4
 	github.com/roadrunner-server/informer/v2 v2.12.6
-	github.com/roadrunner-server/jobs/v2 v2.17.6
-	github.com/roadrunner-server/kafka/v2 v2.1.7
+	github.com/roadrunner-server/jobs/v2 v2.17.7
+	github.com/roadrunner-server/kafka/v2 v2.1.8
 	github.com/roadrunner-server/kv/v2 v2.13.6
-	github.com/roadrunner-server/logger/v2 v2.14.6
+	github.com/roadrunner-server/logger/v2 v2.14.7
 	github.com/roadrunner-server/memcached/v2 v2.12.14
-	github.com/roadrunner-server/memory/v2 v2.16.5
-	github.com/roadrunner-server/metrics/v2 v2.13.17
-	github.com/roadrunner-server/nats/v2 v2.16.13
-	github.com/roadrunner-server/otel/v2 v2.4.5
-	github.com/roadrunner-server/prometheus/v2 v2.13.16
-	github.com/roadrunner-server/proxy_ip_parser/v2 v2.4.7
-	github.com/roadrunner-server/redis/v2 v2.15.14
+	github.com/roadrunner-server/memory/v2 v2.16.6
+	github.com/roadrunner-server/metrics/v2 v2.13.18
+	github.com/roadrunner-server/nats/v2 v2.16.14
+	github.com/roadrunner-server/otel/v2 v2.4.6
+	github.com/roadrunner-server/prometheus/v2 v2.13.17
+	github.com/roadrunner-server/proxy_ip_parser/v2 v2.4.8
+	github.com/roadrunner-server/redis/v2 v2.15.15
 	github.com/roadrunner-server/reload/v2 v2.13.6
 	github.com/roadrunner-server/resetter/v2 v2.12.6
-	github.com/roadrunner-server/rpc/v2 v2.14.6
-	github.com/roadrunner-server/sdk/v2 v2.19.0-rc.3
-	github.com/roadrunner-server/send/v2 v2.12.13
-	github.com/roadrunner-server/server/v2 v2.15.5
-	github.com/roadrunner-server/service/v2 v2.16.4
-	github.com/roadrunner-server/sqs/v2 v2.19.2
-	github.com/roadrunner-server/static/v2 v2.13.14
-	github.com/roadrunner-server/status/v2 v2.14.6
-	github.com/roadrunner-server/tcp/v2 v2.14.5
-	github.com/roadrunner-server/websockets/v2 v2.15.5
+	github.com/roadrunner-server/rpc/v2 v2.14.7
+	github.com/roadrunner-server/sdk/v2 v2.19.0-rc.4
+	github.com/roadrunner-server/send/v2 v2.12.14
+	github.com/roadrunner-server/server/v2 v2.15.6
+	github.com/roadrunner-server/service/v2 v2.16.5
+	github.com/roadrunner-server/sqs/v2 v2.19.3
+	github.com/roadrunner-server/static/v2 v2.13.15
+	github.com/roadrunner-server/status/v2 v2.14.7
+	github.com/roadrunner-server/tcp/v2 v2.14.6
+	github.com/roadrunner-server/websockets/v2 v2.15.6
 	github.com/stretchr/testify v1.8.0
-	github.com/temporalio/roadrunner-temporal v1.6.0-rc.2
+	github.com/temporalio/roadrunner-temporal v1.6.0-rc.3
 	github.com/yookoala/gofast v0.6.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.12
 	go.temporal.io/api v1.11.0
@@ -187,7 +187,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/sync v0.0.0-20220907140024-f12130a52804 // indirect
-	golang.org/x/sys v0.0.0-20220907062415-87db552b00fd // indirect
+	golang.org/x/sys v0.0.0-20220908164124-27713097b956 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	golang.org/x/tools v0.1.12 // indirect

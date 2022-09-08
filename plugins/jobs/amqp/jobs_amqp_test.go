@@ -1090,7 +1090,7 @@ func TestAMQPBadResp(t *testing.T) {
 // redialer should be restarted
 // ack timeout is 30 seconds
 func TestAMQPSlow(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute*5))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
@@ -1161,17 +1161,15 @@ func TestAMQPSlow(t *testing.T) {
 	time.Sleep(time.Second * 3)
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
 	time.Sleep(time.Second * 40)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	for i := 0; i < 10; i++ {
+		t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	}
 	time.Sleep(time.Second * 80)
 
 	stopCh <- struct{}{}
 	wg.Wait()
 
+	assert.Equal(t, 10, oLogger.FilterMessageSnippet("worker doesn't respond on stop command, killing process").Len())
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet(`number of listeners`).Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("consume channel close").Len(), 1)
