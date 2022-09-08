@@ -78,10 +78,6 @@ func TestMetricsInit(t *testing.T) {
 		select {
 		case e := <-ch:
 			assert.Fail(t, "error", e.Error.Error())
-			err = cont.Stop()
-			if err != nil {
-				assert.FailNow(t, "error", err.Error())
-			}
 		case <-sig:
 			err = cont.Stop()
 			if err != nil {
@@ -154,10 +150,6 @@ func TestMetricsIssue571(t *testing.T) {
 			select {
 			case e := <-ch:
 				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
 			case <-sig:
 				err = cont.Stop()
 				if err != nil {
@@ -278,10 +270,6 @@ func TestMetricsGaugeCollector(t *testing.T) {
 		select {
 		case e := <-ch:
 			assert.Fail(t, "error", e.Error.Error())
-			err = cont.Stop()
-			if err != nil {
-				assert.FailNow(t, "error", err.Error())
-			}
 		case <-sig:
 			err = cont.Stop()
 			if err != nil {
@@ -341,10 +329,6 @@ func TestMetricsDifferentRPCCalls(t *testing.T) {
 			select {
 			case e := <-ch:
 				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
 			case <-sig:
 				err = cont.Stop()
 				if err != nil {
@@ -955,10 +939,6 @@ func TestHTTPMetrics(t *testing.T) {
 			select {
 			case e := <-ch:
 				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
 			case <-sig:
 				err = cont.Stop()
 				if err != nil {
@@ -1053,10 +1033,6 @@ func TestHTTPMetricsNoFreeWorkers(t *testing.T) {
 			select {
 			case e := <-ch:
 				assert.Fail(t, "error", e.Error.Error())
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
 			case <-sig:
 				err = cont.Stop()
 				if err != nil {
