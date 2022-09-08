@@ -48,7 +48,7 @@ func Test_ListQueriesProto(t *testing.T) {
 	workers := getWorkers(t)
 
 	for i := 0; i < len(workers); i++ {
-		proc, errF := os.FindProcess(int(workers[i].Pid()))
+		proc, errF := os.FindProcess(int(workers[i].Pid))
 		require.NoError(t, errF)
 		_ = proc.Kill()
 	}

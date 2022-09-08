@@ -2,6 +2,7 @@ package http
 
 import (
 	"bytes"
+	"context"
 	"crypto/rand"
 	"crypto/tls"
 	"fmt"
@@ -1316,7 +1317,7 @@ func TestH2C(t *testing.T) {
 
 	tr := &http2.Transport{
 		AllowHTTP: true,
-		DialTLS: func(network, addr string, cfg *tls.Config) (net.Conn, error) {
+		DialTLSContext: func(ctx context.Context, network, addr string, cfg *tls.Config) (net.Conn, error) {
 			// use the http dial (w/o tls)
 			return net.Dial(network, addr)
 		},
@@ -1739,7 +1740,7 @@ func informerTestBefore(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Len(t, list.Workers, 1)
 	// save the pid
-	workerPid = int(list.Workers[0].Pid())
+	workerPid = int(list.Workers[0].Pid)
 }
 
 func informerTestAfter(t *testing.T) {

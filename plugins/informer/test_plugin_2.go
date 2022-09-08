@@ -51,11 +51,11 @@ func (p2 *Plugin2) Name() string {
 	return "informer.plugin2"
 }
 
-func (p2 *Plugin2) Workers() []process.State {
+func (p2 *Plugin2) Workers() []*process.State {
 	if p2.pool == nil {
 		return nil
 	}
-	ps := make([]process.State, 0, len(p2.pool.Workers()))
+	ps := make([]*process.State, 0, len(p2.pool.Workers()))
 	workers := p2.pool.Workers()
 	for i := 0; i < len(workers); i++ {
 		state, err := processImpl.WorkerProcessState(workers[i])
