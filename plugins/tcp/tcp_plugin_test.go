@@ -146,7 +146,7 @@ func TestTCPInit(t *testing.T) {
 }
 
 func TestTCPEmptySend(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
@@ -225,7 +225,7 @@ func TestTCPEmptySend(t *testing.T) {
 }
 
 func TestTCPConnClose(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
