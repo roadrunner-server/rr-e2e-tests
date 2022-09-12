@@ -6,6 +6,12 @@ services:
     ports:
       - "9090:9090"
 
+  statsd:
+    image: statsd/statsd
+    ports:
+      - "8125:8125/udp"
+      - "8126:8126"
+
   postgresql:
     container_name: temporal-postgresql
     image: postgres:14

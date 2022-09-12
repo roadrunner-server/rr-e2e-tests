@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	toxiproxy "github.com/Shopify/toxiproxy/client"
+	toxiproxy "github.com/Shopify/toxiproxy/v2/client"
 	"github.com/roadrunner-server/amqp/v2"
 	"github.com/roadrunner-server/beanstalk/v2"
 	"github.com/roadrunner-server/config/v2"

@@ -79,13 +79,13 @@ func (l *log) fields(keyvals []any) []zap.Field {
 	return zf
 }
 
-func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
+func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, cfg config.Configurer, wg *sync.WaitGroup) *TestServer {
 	container, err := endure.NewContainer(initLogger())
 	assert.NoError(t, err)
 
 	err = container.RegisterAll(
+		cfg,
 		&roadrunnerTemporal.Plugin{},
-		initConfigProtoWithMetrics(),
 		&logger.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
@@ -250,17 +250,6 @@ func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Te
 	return &TestServer{
 		client: client,
 	}
-}
-
-func initConfigProtoWithMetrics() config.Configurer {
-	cfg := &configImpl.Plugin{
-		Timeout: time.Second * 30,
-	}
-	cfg.Path = "configs/.rr-metrics.yaml"
-	cfg.Prefix = "rr"
-	cfg.Version = "2.9.0"
-
-	return cfg
 }
 
 func initLogger() *zap.Logger {
