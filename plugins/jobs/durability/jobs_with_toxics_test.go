@@ -569,7 +569,7 @@ func TestDurabilityKafkaCG(t *testing.T) {
 
 	time.Sleep(time.Second * 40)
 
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*30))
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute))
 	require.NoError(t, err)
 
 	cfg := &config.Plugin{
@@ -581,9 +581,10 @@ func TestDurabilityKafkaCG(t *testing.T) {
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
+		l,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		l,
+		&logger.Plugin{},
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
@@ -658,7 +659,7 @@ func TestDurabilityKafkaCG(t *testing.T) {
 		_ = cmd3.Wait()
 	}()
 
-	time.Sleep(time.Second * 25)
+	time.Sleep(time.Second * 40)
 
 	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
 	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
