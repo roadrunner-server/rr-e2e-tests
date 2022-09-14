@@ -49,7 +49,7 @@ require (
 	github.com/roadrunner-server/resetter/v2 v2.13.0
 	github.com/roadrunner-server/rpc/v2 v2.15.0
 	github.com/roadrunner-server/sdk/v2 v2.19.0
-	github.com/roadrunner-server/send/v2 v2.13.1
+	github.com/roadrunner-server/send/v2 v2.13.2
 	github.com/roadrunner-server/server/v2 v2.16.0
 	github.com/roadrunner-server/service/v2 v2.17.0
 	github.com/roadrunner-server/sqs/v2 v2.20.0
@@ -166,8 +166,8 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.34.0 // indirect
-	go.opentelemetry.io/contrib/propagators/jaeger v1.9.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.35.0 // indirect
+	go.opentelemetry.io/contrib/propagators/jaeger v1.10.0 // indirect
 	go.opentelemetry.io/otel v1.10.0 // indirect
 	go.opentelemetry.io/otel/exporters/jaeger v1.10.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/internal/retry v1.10.0 // indirect
