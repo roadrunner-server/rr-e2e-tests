@@ -4,10 +4,10 @@ go 1.19
 
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
-	github.com/aws/aws-sdk-go-v2 v1.16.14
-	github.com/aws/aws-sdk-go-v2/config v1.17.5
-	github.com/aws/aws-sdk-go-v2/credentials v1.12.18
-	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.8
+	github.com/aws/aws-sdk-go-v2 v1.16.15
+	github.com/aws/aws-sdk-go-v2/config v1.17.6
+	github.com/aws/aws-sdk-go-v2/credentials v1.12.19
+	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.9
 	github.com/beanstalkd/go-beanstalk v0.1.0
 	github.com/fatih/color v1.13.0
 	github.com/go-redis/redis/v8 v8.11.5
@@ -28,7 +28,7 @@ require (
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v2 v2.14.1
 	github.com/roadrunner-server/goridge/v3 v3.5.3
-	github.com/roadrunner-server/grpc/v2 v2.22.1
+	github.com/roadrunner-server/grpc/v2 v2.22.2
 	github.com/roadrunner-server/gzip/v2 v2.13.2
 	github.com/roadrunner-server/headers/v2 v2.13.2
 	github.com/roadrunner-server/http/v2 v2.23.2
@@ -41,7 +41,7 @@ require (
 	github.com/roadrunner-server/memory/v2 v2.17.0
 	github.com/roadrunner-server/metrics/v2 v2.14.1
 	github.com/roadrunner-server/nats/v2 v2.17.0
-	github.com/roadrunner-server/otel/v2 v2.5.2
+	github.com/roadrunner-server/otel/v2 v2.5.3
 	github.com/roadrunner-server/prometheus/v2 v2.14.2
 	github.com/roadrunner-server/proxy_ip_parser/v2 v2.5.1
 	github.com/roadrunner-server/redis/v2 v2.16.0
@@ -52,7 +52,7 @@ require (
 	github.com/roadrunner-server/send/v2 v2.13.2
 	github.com/roadrunner-server/server/v2 v2.16.1
 	github.com/roadrunner-server/service/v2 v2.17.1
-	github.com/roadrunner-server/sqs/v2 v2.20.0
+	github.com/roadrunner-server/sqs/v2 v2.20.1
 	github.com/roadrunner-server/static/v2 v2.14.2
 	github.com/roadrunner-server/status/v2 v2.15.1
 	github.com/roadrunner-server/tcp/v2 v2.15.1
@@ -72,15 +72,15 @@ require (
 require (
 	github.com/Shopify/sarama v1.36.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.15 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.21 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.15 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.22 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.15 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.11.21 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.13.3 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.16.17 // indirect
-	github.com/aws/smithy-go v1.13.2 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.16 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.22 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.16 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.23 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.16 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.11.22 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.13.4 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.16.18 // indirect
+	github.com/aws/smithy-go v1.13.3 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20220106215444-fb4bf637b56d // indirect
 	github.com/cactus/go-statsd-client/statsd v0.0.0-20200423205355-cb0885a1018c // indirect
@@ -191,7 +191,7 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	golang.org/x/tools v0.1.12 // indirect
-	google.golang.org/genproto v0.0.0-20220914142337-ca0e39ece12f // indirect
+	google.golang.org/genproto v0.0.0-20220914210030-581e60b4ef85 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
