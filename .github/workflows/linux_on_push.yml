@@ -1549,7 +1549,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/config.out -covermode=atomic ./...
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/config_unit.out -covermode=atomic ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
