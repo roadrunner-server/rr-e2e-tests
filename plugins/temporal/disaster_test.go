@@ -29,7 +29,7 @@ func Test_WorkerError_DisasterRecovery(t *testing.T) {
 	p, err := os.FindProcess(int(workers[0].Pid))
 	assert.NoError(t, err)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -57,7 +57,7 @@ func Test_ResetAll(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -74,7 +74,7 @@ func Test_ResetAll(t *testing.T) {
 
 	reset(t)
 
-	w, err = s.Client().ExecuteWorkflow(
+	w, err = s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -98,7 +98,7 @@ func Test_ResetWFWorker(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -122,7 +122,7 @@ func Test_ResetWFWorker(t *testing.T) {
 
 	time.Sleep(time.Second * 10)
 
-	w, err = s.Client().ExecuteWorkflow(
+	w, err = s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -165,7 +165,7 @@ func Test_ActivityError_DisasterRecovery(t *testing.T) {
 		require.NoError(t, p.Kill())
 	}
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -200,7 +200,7 @@ func Test_WorkerError_DisasterRecoveryProto(t *testing.T) {
 	p, err := os.FindProcess(int(workers[0].Pid))
 	assert.NoError(t, err)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -254,7 +254,7 @@ func Test_WorkerError_DisasterRecovery_Heavy(t *testing.T) {
 	// must fully recover with new worker
 	assert.NoError(t, p.Kill())
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -308,7 +308,7 @@ func Test_WorkerError_DisasterRecovery_HeavyLA(t *testing.T) {
 	// must fully recover with new worker
 	assert.NoError(t, p.Kill())
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -354,7 +354,7 @@ func Test_ActivityError_DisasterRecoveryProto(t *testing.T) {
 		require.NoError(t, p.Kill())
 	}
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -391,7 +391,7 @@ func Test_WorkerErrorLA_DisasterRecovery(t *testing.T) {
 	p, err := os.FindProcess(int(workers[0].Pid))
 	assert.NoError(t, err)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -419,7 +419,7 @@ func Test_ResetLAAll(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -436,7 +436,7 @@ func Test_ResetLAAll(t *testing.T) {
 
 	reset(t)
 
-	w, err = s.Client().ExecuteWorkflow(
+	w, err = s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -479,7 +479,7 @@ func Test_ActivityErrorLA_DisasterRecovery(t *testing.T) {
 		require.NoError(t, p.Kill())
 	}
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -514,7 +514,7 @@ func Test_WorkerErrorLA_DisasterRecoveryProto(t *testing.T) {
 	p, err := os.FindProcess(int(workers[0].Pid))
 	assert.NoError(t, err)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -560,7 +560,7 @@ func Test_ActivityErrorLA_DisasterRecoveryProto(t *testing.T) {
 		require.NoError(t, p.Kill())
 	}
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",

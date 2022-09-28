@@ -28,7 +28,7 @@ func Test_SimpleWorkflowMetrics(t *testing.T) {
 
 	s := NewTestServerWithMetrics(t, stopCh, cfg, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -42,7 +42,7 @@ func Test_SimpleWorkflowMetrics(t *testing.T) {
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "Child: CHILD HELLO WORLD", result)
 
-	we, err := s.Client().DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
+	we, err := s.Client.DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
 	metrics, err := get()
@@ -88,7 +88,7 @@ func Test_SimpleWorkflowMetricsPrometheusNewDriver(t *testing.T) {
 
 	s := NewTestServerWithMetrics(t, stopCh, cfg, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -102,7 +102,7 @@ func Test_SimpleWorkflowMetricsPrometheusNewDriver(t *testing.T) {
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "Child: CHILD HELLO WORLD", result)
 
-	we, err := s.Client().DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
+	we, err := s.Client.DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
 	metrics, err := get()
@@ -148,7 +148,7 @@ func Test_SimpleWorkflowMetricsStatsdNewDriver(t *testing.T) {
 
 	s := NewTestServerWithMetrics(t, stopCh, cfg, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -162,7 +162,7 @@ func Test_SimpleWorkflowMetricsStatsdNewDriver(t *testing.T) {
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "Child: CHILD HELLO WORLD", result)
 
-	we, err := s.Client().DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
+	we, err := s.Client.DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
 	time.Sleep(time.Second * 2)

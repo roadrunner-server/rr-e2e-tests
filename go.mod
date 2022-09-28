@@ -58,7 +58,7 @@ require (
 	github.com/roadrunner-server/tcp/v2 v2.15.2
 	github.com/roadrunner-server/websockets/v2 v2.16.3
 	github.com/stretchr/testify v1.8.0
-	github.com/temporalio/roadrunner-temporal v1.6.1
+	github.com/temporalio/roadrunner-temporal v1.6.2
 	github.com/yookoala/gofast v0.6.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.12
 	go.temporal.io/api v1.12.0
@@ -70,7 +70,7 @@ require (
 )
 
 require (
-	github.com/Shopify/sarama v1.36.0 // indirect
+	github.com/Shopify/sarama v1.37.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.17 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.23 // indirect
@@ -187,7 +187,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220926161630-eccd6366d1be // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/sync v0.0.0-20220923202941-7f9b1623fab7 // indirect
-	golang.org/x/sys v0.0.0-20220927170352-d9d178bc13c6 // indirect
+	golang.org/x/sys v0.0.0-20220928140112-f11e5e49a4ec // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220922220347-f3bd1da661af // indirect
 	golang.org/x/tools v0.1.12 // indirect

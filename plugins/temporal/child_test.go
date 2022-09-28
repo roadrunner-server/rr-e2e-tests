@@ -15,7 +15,7 @@ func Test_ExecuteChildWorkflowProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -38,7 +38,7 @@ func Test_ExecuteChildStubWorkflowProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -61,7 +61,7 @@ func Test_ExecuteChildStubWorkflow_02Proto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -84,7 +84,7 @@ func Test_SignalChildViaStubWorkflowProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -108,7 +108,7 @@ func Test_ExecuteChildWorkflowLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -131,7 +131,7 @@ func Test_ExecuteChildStubWorkflowLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -154,7 +154,7 @@ func Test_ExecuteChildStubWorkflowLA_02Proto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -177,7 +177,7 @@ func Test_SignalChildViaStubWorkflowLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",

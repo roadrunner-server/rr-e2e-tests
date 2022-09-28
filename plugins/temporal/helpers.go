@@ -2,7 +2,10 @@ package tests
 
 import (
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
+	"os"
 	"sync"
 	"testing"
 	"time"
@@ -27,8 +30,12 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+const (
+	rrPrefix string = "rr"
+)
+
 type TestServer struct {
-	client temporalClient.Client
+	Client temporalClient.Client
 }
 
 type log struct {
@@ -79,6 +86,128 @@ func (l *log) fields(keyvals []any) []zap.Field {
 	return zf
 }
 
+func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
+	container, err := endure.NewContainer(initLogger(), endure.GracefulShutdownTimeout(time.Second*30))
+	assert.NoError(t, err)
+
+	cfg := &configImpl.Plugin{
+		Timeout: time.Second * 30,
+	}
+	cfg.Path = "configs/.rr-proto.yaml"
+	cfg.Prefix = rrPrefix
+	cfg.Version = "2.10.0"
+
+	err = container.RegisterAll(
+		cfg,
+		&roadrunnerTemporal.Plugin{},
+		&logger.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&server.Plugin{},
+		&rpc.Plugin{},
+	)
+
+	assert.NoError(t, err)
+	assert.NoError(t, container.Init())
+
+	errCh, err := container.Serve()
+	if err != nil {
+		panic(err)
+	}
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case er := <-errCh:
+				assert.Fail(t, fmt.Sprintf("got error from vertex: %s, error: %v", er.VertexID, er.Error))
+				assert.NoError(t, container.Stop())
+				return
+			case <-stopCh:
+				assert.NoError(t, container.Stop())
+				return
+			}
+		}
+	}()
+
+	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
+	client, err := temporalClient.Dial(temporalClient.Options{
+		HostPort:      "127.0.0.1:7233",
+		Namespace:     "default",
+		DataConverter: dc,
+		Logger:        newZapAdapter(initLogger()),
+	})
+	if err != nil {
+		panic(err)
+	}
+	require.NoError(t, err)
+
+	return &TestServer{
+		Client: client,
+	}
+}
+
+func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
+	container, err := endure.NewContainer(initLogger(), endure.GracefulShutdownTimeout(time.Second*30))
+	assert.NoError(t, err)
+
+	cfg := &configImpl.Plugin{
+		Timeout: time.Second * 30,
+	}
+	cfg.Path = "configs/.rr-proto-la.yaml"
+	cfg.Prefix = rrPrefix
+	cfg.Version = "2.11.0"
+
+	err = container.RegisterAll(
+		cfg,
+		&roadrunnerTemporal.Plugin{},
+		&logger.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&server.Plugin{},
+		&rpc.Plugin{},
+	)
+
+	assert.NoError(t, err)
+	assert.NoError(t, container.Init())
+
+	errCh, err := container.Serve()
+	if err != nil {
+		panic(err)
+	}
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case er := <-errCh:
+				assert.Fail(t, fmt.Sprintf("got error from vertex: %s, error: %v", er.VertexID, er.Error))
+				assert.NoError(t, container.Stop())
+				return
+			case <-stopCh:
+				assert.NoError(t, container.Stop())
+				return
+			}
+		}
+	}()
+
+	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
+	client, err := temporalClient.Dial(temporalClient.Options{
+		HostPort:      "127.0.0.1:7233",
+		Namespace:     "default",
+		DataConverter: dc,
+		Logger:        newZapAdapter(initLogger()),
+	})
+	if err != nil {
+		panic(err)
+	}
+	require.NoError(t, err)
+
+	return &TestServer{
+		Client: client,
+	}
+}
+
 func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, cfg config.Configurer, wg *sync.WaitGroup) *TestServer {
 	container, err := endure.NewContainer(initLogger())
 	assert.NoError(t, err)
@@ -126,20 +255,20 @@ func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, cfg config.Con
 	require.NoError(t, err)
 
 	return &TestServer{
-		client: client,
+		Client: client,
 	}
 }
 
-func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
+func NewTestServerTLS(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup, configName string) *TestServer {
 	container, err := endure.NewContainer(initLogger(), endure.GracefulShutdownTimeout(time.Second*30))
 	assert.NoError(t, err)
 
 	cfg := &configImpl.Plugin{
 		Timeout: time.Second * 30,
 	}
-	cfg.Path = "configs/.rr-proto.yaml"
-	cfg.Prefix = "rr"
-	cfg.Version = "2.9.0"
+	cfg.Path = "../configs/tls/" + configName
+	cfg.Prefix = rrPrefix
+	cfg.Version = "2.11.3"
 
 	err = container.RegisterAll(
 		cfg,
@@ -155,9 +284,7 @@ func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Test
 	assert.NoError(t, container.Init())
 
 	errCh, err := container.Serve()
-	if err != nil {
-		panic(err)
-	}
+	require.NoError(t, err)
 
 	go func() {
 		defer wg.Done()
@@ -175,80 +302,98 @@ func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Test
 	}()
 
 	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
+
+	cert, err := tls.LoadX509KeyPair("../../../env/temporal_tls/certs/client.pem", "../../../env/temporal_tls/certs/client.key")
+	require.NoError(t, err)
+
+	certPool, err := x509.SystemCertPool()
+	require.NoError(t, err)
+
+	if certPool == nil {
+		certPool = x509.NewCertPool()
+	}
+
+	rca, err := os.ReadFile("../../../env/temporal_tls/certs/ca.cert")
+	require.NoError(t, err)
+
+	if ok := certPool.AppendCertsFromPEM(rca); !ok {
+		t.Fatal("appendCertsFromPEM")
+	}
+
 	client, err := temporalClient.Dial(temporalClient.Options{
 		HostPort:      "127.0.0.1:7233",
 		Namespace:     "default",
 		DataConverter: dc,
 		Logger:        newZapAdapter(initLogger()),
+		ConnectionOptions: temporalClient.ConnectionOptions{
+			TLS: &tls.Config{
+				MinVersion:   tls.VersionTLS12,
+				ClientAuth:   tls.RequireAndVerifyClientCert,
+				Certificates: []tls.Certificate{cert},
+				ClientCAs:    certPool,
+				RootCAs:      certPool,
+				ServerName:   "tls-sample",
+			},
+		},
 	})
-	if err != nil {
-		panic(err)
-	}
 	require.NoError(t, err)
 
 	return &TestServer{
-		client: client,
+		Client: client,
 	}
 }
 
-func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
-	container, err := endure.NewContainer(initLogger(), endure.GracefulShutdownTimeout(time.Second*30))
-	assert.NoError(t, err)
-
-	cfg := &configImpl.Plugin{
-		Timeout: time.Second * 30,
-	}
-	cfg.Path = "configs/.rr-proto-la.yaml"
-	cfg.Prefix = "rr"
-	cfg.Version = "2.9.0"
-
-	err = container.RegisterAll(
-		cfg,
-		&roadrunnerTemporal.Plugin{},
-		&logger.Plugin{},
-		&resetter.Plugin{},
-		&informer.Plugin{},
-		&server.Plugin{},
-		&rpc.Plugin{},
+func (s *TestServer) AssertContainsEvent(client temporalClient.Client, t *testing.T, w temporalClient.WorkflowRun, assert func(*history.HistoryEvent) bool) {
+	i := client.GetWorkflowHistory(
+		context.Background(),
+		w.GetID(),
+		w.GetRunID(),
+		false,
+		enums.HISTORY_EVENT_FILTER_TYPE_ALL_EVENT,
 	)
 
-	assert.NoError(t, err)
-	assert.NoError(t, container.Init())
-
-	errCh, err := container.Serve()
-	if err != nil {
-		panic(err)
-	}
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case er := <-errCh:
-				assert.Fail(t, fmt.Sprintf("got error from vertex: %s, error: %v", er.VertexID, er.Error))
-				assert.NoError(t, container.Stop())
-				return
-			case <-stopCh:
-				assert.NoError(t, container.Stop())
-				return
-			}
+	for {
+		if !i.HasNext() {
+			t.Error("no more events and no match found")
+			break
 		}
-	}()
 
-	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
-	client, err := temporalClient.Dial(temporalClient.Options{
-		HostPort:      "127.0.0.1:7233",
-		Namespace:     "default",
-		DataConverter: dc,
-		Logger:        newZapAdapter(initLogger()),
-	})
-	if err != nil {
-		panic(err)
+		e, err := i.Next()
+		if err != nil {
+			t.Error("unable to read history event")
+			break
+		}
+
+		if assert(e) {
+			break
+		}
 	}
-	require.NoError(t, err)
+}
 
-	return &TestServer{
-		client: client,
+func (s *TestServer) AssertNotContainsEvent(client temporalClient.Client, t *testing.T, w temporalClient.WorkflowRun, assert func(*history.HistoryEvent) bool) {
+	i := client.GetWorkflowHistory(
+		context.Background(),
+		w.GetID(),
+		w.GetRunID(),
+		false,
+		enums.HISTORY_EVENT_FILTER_TYPE_ALL_EVENT,
+	)
+
+	for {
+		if !i.HasNext() {
+			break
+		}
+
+		e, err := i.Next()
+		if err != nil {
+			t.Error("unable to read history event")
+			break
+		}
+
+		if assert(e) {
+			t.Error("found unexpected event")
+			break
+		}
 	}
 }
 
@@ -277,96 +422,4 @@ func initLogger() *zap.Logger {
 	}
 
 	return l
-}
-
-func (s *TestServer) AssertContainsEvent(t *testing.T, w temporalClient.WorkflowRun, assert func(*history.HistoryEvent) bool) {
-	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
-	client, err := temporalClient.Dial(temporalClient.Options{
-		HostPort:      "127.0.0.1:7233",
-		Namespace:     "default",
-		Logger:        newZapAdapter(initLogger()),
-		DataConverter: dc,
-	})
-	require.NoError(t, err)
-
-	i := client.GetWorkflowHistory(
-		context.Background(),
-		w.GetID(),
-		w.GetRunID(),
-		false,
-		enums.HISTORY_EVENT_FILTER_TYPE_ALL_EVENT,
-	)
-
-	for {
-		if !i.HasNext() {
-			t.Error("no more events and no match found")
-			break
-		}
-
-		e, err := i.Next()
-		if err != nil {
-			t.Error("unable to read history event")
-			break
-		}
-
-		if assert(e) {
-			break
-		}
-	}
-}
-
-func (s *TestServer) AssertNotContainsEvent(t *testing.T, w temporalClient.WorkflowRun, assert func(*history.HistoryEvent) bool) {
-	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
-	client, err := temporalClient.Dial(temporalClient.Options{
-		HostPort:           "",
-		Namespace:          "default",
-		Logger:             nil,
-		MetricsHandler:     nil,
-		Identity:           "",
-		DataConverter:      dc,
-		ContextPropagators: nil,
-		ConnectionOptions: temporalClient.ConnectionOptions{
-			TLS:                          nil,
-			Authority:                    "",
-			EnableKeepAliveCheck:         false,
-			KeepAliveTime:                0,
-			KeepAliveTimeout:             0,
-			KeepAlivePermitWithoutStream: false,
-			MaxPayloadSize:               0,
-			DialOptions:                  nil,
-		},
-		HeadersProvider:   nil,
-		TrafficController: nil,
-		Interceptors:      nil,
-	})
-	require.NoError(t, err)
-
-	i := client.GetWorkflowHistory(
-		context.Background(),
-		w.GetID(),
-		w.GetRunID(),
-		false,
-		enums.HISTORY_EVENT_FILTER_TYPE_ALL_EVENT,
-	)
-
-	for {
-		if !i.HasNext() {
-			break
-		}
-
-		e, err := i.Next()
-		if err != nil {
-			t.Error("unable to read history event")
-			break
-		}
-
-		if assert(e) {
-			t.Error("found unexpected event")
-			break
-		}
-	}
-}
-
-func (s *TestServer) Client() temporalClient.Client {
-	return s.client
 }

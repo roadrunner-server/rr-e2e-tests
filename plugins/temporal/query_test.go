@@ -19,7 +19,7 @@ func Test_ListQueriesProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -31,7 +31,7 @@ func Test_ListQueriesProto(t *testing.T) {
 
 	time.Sleep(time.Millisecond * 500)
 
-	v, err := s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "error", -1)
+	v, err := s.Client.QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "error", -1)
 	assert.Nil(t, v)
 	assert.Error(t, err)
 
@@ -56,7 +56,7 @@ func Test_ListQueriesProto(t *testing.T) {
 	worker.PurgeStickyWorkflowCache()
 	time.Sleep(time.Second)
 
-	v, err = s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "error", -1)
+	v, err = s.Client.QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "error", -1)
 	assert.Nil(t, v)
 	assert.Error(t, err)
 
@@ -75,7 +75,7 @@ func Test_GetQueryProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -85,11 +85,11 @@ func Test_GetQueryProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", 88)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", 88)
 	assert.NoError(t, err)
 	time.Sleep(time.Millisecond * 500)
 
-	v, err := s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "get", nil)
+	v, err := s.Client.QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "get", nil)
 	assert.NoError(t, err)
 
 	var r int
@@ -110,7 +110,7 @@ func Test_ListQueriesLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -122,7 +122,7 @@ func Test_ListQueriesLAProto(t *testing.T) {
 
 	time.Sleep(time.Millisecond * 500)
 
-	v, err := s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "error", -1)
+	v, err := s.Client.QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "error", -1)
 	assert.Nil(t, v)
 	assert.Error(t, err)
 
@@ -141,7 +141,7 @@ func Test_GetQueryLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -151,11 +151,11 @@ func Test_GetQueryLAProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", 88)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", 88)
 	assert.NoError(t, err)
 	time.Sleep(time.Millisecond * 500)
 
-	v, err := s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "get", nil)
+	v, err := s.Client.QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "get", nil)
 	assert.NoError(t, err)
 
 	var r int

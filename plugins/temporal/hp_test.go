@@ -57,7 +57,7 @@ func Test_ExecuteSimpleWorkflow_1Proto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -80,7 +80,7 @@ func Test_ExecuteSimpleWorkflowLA_1Proto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -103,7 +103,7 @@ func Test_ExecuteSimpleDTOWorkflowProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -129,7 +129,7 @@ func Test_ExecuteSimpleDTOWorkflowLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -155,7 +155,7 @@ func Test_ExecuteSimpleWorkflowWithSequenceInBatchProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -178,7 +178,7 @@ func Test_ExecuteSimpleWorkflowWithSequenceInBatchLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -201,7 +201,7 @@ func Test_MultipleWorkflowsInSingleWorkerProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -211,7 +211,7 @@ func Test_MultipleWorkflowsInSingleWorkerProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	w2, err := s.Client().ExecuteWorkflow(
+	w2, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -237,7 +237,7 @@ func Test_MultipleWorkflowsInSingleWorkerLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -247,7 +247,7 @@ func Test_MultipleWorkflowsInSingleWorkerLAProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	w2, err := s.Client().ExecuteWorkflow(
+	w2, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -273,7 +273,7 @@ func Test_ExecuteWorkflowWithParallelScopesProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -296,7 +296,7 @@ func Test_ExecuteWorkflowWithParallelScopesLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -320,7 +320,7 @@ func Test_TimerProto(t *testing.T) {
 	s := NewTestServer(t, stopCh, wg)
 
 	start := time.Now()
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -335,7 +335,7 @@ func Test_TimerProto(t *testing.T) {
 	assert.Equal(t, "hello world", result)
 	assert.True(t, time.Since(start).Seconds() > 1)
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		return event.EventType == enums.EVENT_TYPE_TIMER_STARTED
 	})
 	stopCh <- struct{}{}
@@ -349,7 +349,7 @@ func Test_TimerLAProto(t *testing.T) {
 	s := NewTestServerLA(t, stopCh, wg)
 
 	start := time.Now()
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -364,7 +364,7 @@ func Test_TimerLAProto(t *testing.T) {
 	assert.Equal(t, "hello world", result)
 	assert.True(t, time.Since(start).Seconds() > 1)
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		return event.EventType == enums.EVENT_TYPE_TIMER_STARTED
 	})
 	stopCh <- struct{}{}
@@ -377,7 +377,7 @@ func Test_SideEffectProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -391,7 +391,7 @@ func Test_SideEffectProto(t *testing.T) {
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Contains(t, result, "hello world-")
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		return event.EventType == enums.EVENT_TYPE_MARKER_RECORDED
 	})
 	stopCh <- struct{}{}
@@ -404,7 +404,7 @@ func Test_SideEffectLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -418,7 +418,7 @@ func Test_SideEffectLAProto(t *testing.T) {
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Contains(t, result, "hello world-")
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		return event.EventType == enums.EVENT_TYPE_MARKER_RECORDED
 	})
 	stopCh <- struct{}{}
@@ -431,7 +431,7 @@ func Test_EmptyWorkflowProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -454,7 +454,7 @@ func Test_EmptyWorkflowLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -477,7 +477,7 @@ func Test_PromiseChainingProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -500,7 +500,7 @@ func Test_PromiseChainingLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -523,7 +523,7 @@ func Test_ActivityHeartbeatProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -535,7 +535,7 @@ func Test_ActivityHeartbeatProto(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	we, err := s.Client().DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
+	we, err := s.Client.DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 	assert.Len(t, we.PendingActivities, 1)
 
@@ -562,7 +562,7 @@ func Test_BinaryPayloadProto(t *testing.T) {
 	_, err := rand.Read(rnd)
 	assert.NoError(t, err)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -591,7 +591,7 @@ func Test_BinaryPayloadLAProto(t *testing.T) {
 	_, err := rand.Read(rnd)
 	assert.NoError(t, err)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -615,7 +615,7 @@ func Test_ContinueAsNewProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -627,7 +627,7 @@ func Test_ContinueAsNewProto(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	we, err := s.Client().DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
+	we, err := s.Client.DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
 	assert.Equal(t, "ContinuedAsNew", we.WorkflowExecutionInfo.Status.String())
@@ -648,7 +648,7 @@ func Test_ContinueAsNewLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -660,7 +660,7 @@ func Test_ContinueAsNewLAProto(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	we, err := s.Client().DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
+	we, err := s.Client.DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
 	assert.Equal(t, "ContinuedAsNew", we.WorkflowExecutionInfo.Status.String())
@@ -681,7 +681,7 @@ func Test_ActivityStubWorkflowProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -709,7 +709,7 @@ func Test_ActivityStubWorkflowLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -737,7 +737,7 @@ func Test_ExecuteProtoWorkflowProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -760,7 +760,7 @@ func Test_ExecuteProtoWorkflowLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -783,7 +783,7 @@ func Test_SagaWorkflowProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -804,7 +804,7 @@ func Test_SagaWorkflowLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",

@@ -19,7 +19,7 @@ func Test_SignalsWithoutSignalsProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -42,7 +42,7 @@ func Test_SendSignalDuringTimerProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().SignalWithStartWorkflow(
+	w, err := s.Client.SignalWithStartWorkflow(
 		context.Background(),
 		"signaled-"+uuid.New(),
 		"add",
@@ -54,14 +54,14 @@ func Test_SendSignalDuringTimerProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", -1)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", -1)
 	assert.NoError(t, err)
 
 	var result int
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, 9, result)
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		if event.EventType == enums.EVENT_TYPE_WORKFLOW_EXECUTION_SIGNALED {
 			attr := event.Attributes.(*history.HistoryEvent_WorkflowExecutionSignaledEventAttributes)
 			return attr.WorkflowExecutionSignaledEventAttributes.SignalName == "add"
@@ -79,7 +79,7 @@ func Test_SendSignalBeforeCompletingWorkflowProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -91,14 +91,14 @@ func Test_SendSignalBeforeCompletingWorkflowProto(t *testing.T) {
 	// should be around sleep(1) call
 	time.Sleep(time.Second + time.Millisecond*200)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", -1)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", -1)
 	assert.NoError(t, err)
 
 	var result int
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, -1, result)
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		if event.EventType == enums.EVENT_TYPE_WORKFLOW_EXECUTION_SIGNALED {
 			attr := event.Attributes.(*history.HistoryEvent_WorkflowExecutionSignaledEventAttributes)
 			return attr.WorkflowExecutionSignaledEventAttributes.SignalName == "add"
@@ -116,7 +116,7 @@ func Test_RuntimeSignalProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().SignalWithStartWorkflow(
+	w, err := s.Client.SignalWithStartWorkflow(
 		context.Background(),
 		"signaled-"+uuid.New(),
 		"add",
@@ -132,7 +132,7 @@ func Test_RuntimeSignalProto(t *testing.T) {
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, -1, result)
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		if event.EventType == enums.EVENT_TYPE_WORKFLOW_EXECUTION_SIGNALED {
 			attr := event.Attributes.(*history.HistoryEvent_WorkflowExecutionSignaledEventAttributes)
 			return attr.WorkflowExecutionSignaledEventAttributes.SignalName == "add"
@@ -150,7 +150,7 @@ func Test_SignalStepsProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServer(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -159,23 +159,23 @@ func Test_SignalStepsProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "begin", true)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "begin", true)
 	assert.NoError(t, err)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "next1", true)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "next1", true)
 	assert.NoError(t, err)
 
-	v, err := s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "value", nil)
+	v, err := s.Client.QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "value", nil)
 	assert.NoError(t, err)
 
 	var r int
 	assert.NoError(t, v.Get(&r))
 	assert.Equal(t, 2, r)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "next2", true)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "next2", true)
 	assert.NoError(t, err)
 
-	v, err = s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "value", nil)
+	v, err = s.Client.QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "value", nil)
 	assert.NoError(t, err)
 
 	assert.NoError(t, v.Get(&r))
@@ -198,7 +198,7 @@ func Test_SignalsWithoutSignalsLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -221,7 +221,7 @@ func Test_SendSignalDuringTimerLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().SignalWithStartWorkflow(
+	w, err := s.Client.SignalWithStartWorkflow(
 		context.Background(),
 		"signaled-"+uuid.New(),
 		"add",
@@ -233,14 +233,14 @@ func Test_SendSignalDuringTimerLAProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", -1)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", -1)
 	assert.NoError(t, err)
 
 	var result int
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, 9, result)
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		if event.EventType == enums.EVENT_TYPE_WORKFLOW_EXECUTION_SIGNALED {
 			attr := event.Attributes.(*history.HistoryEvent_WorkflowExecutionSignaledEventAttributes)
 			return attr.WorkflowExecutionSignaledEventAttributes.SignalName == "add"
@@ -258,7 +258,7 @@ func Test_SendSignalBeforeCompletingWorkflowLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -270,14 +270,14 @@ func Test_SendSignalBeforeCompletingWorkflowLAProto(t *testing.T) {
 	// should be around sleep(1) call
 	time.Sleep(time.Second + time.Millisecond*200)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", -1)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", -1)
 	assert.NoError(t, err)
 
 	var result int
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, -1, result)
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		if event.EventType == enums.EVENT_TYPE_WORKFLOW_EXECUTION_SIGNALED {
 			attr := event.Attributes.(*history.HistoryEvent_WorkflowExecutionSignaledEventAttributes)
 			return attr.WorkflowExecutionSignaledEventAttributes.SignalName == "add"
@@ -295,7 +295,7 @@ func Test_RuntimeSignalLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().SignalWithStartWorkflow(
+	w, err := s.Client.SignalWithStartWorkflow(
 		context.Background(),
 		"signaled-"+uuid.New(),
 		"add",
@@ -311,7 +311,7 @@ func Test_RuntimeSignalLAProto(t *testing.T) {
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, -1, result)
 
-	s.AssertContainsEvent(t, w, func(event *history.HistoryEvent) bool {
+	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
 		if event.EventType == enums.EVENT_TYPE_WORKFLOW_EXECUTION_SIGNALED {
 			attr := event.Attributes.(*history.HistoryEvent_WorkflowExecutionSignaledEventAttributes)
 			return attr.WorkflowExecutionSignaledEventAttributes.SignalName == "add"
@@ -329,7 +329,7 @@ func Test_SignalStepsLAProto(t *testing.T) {
 	wg.Add(1)
 	s := NewTestServerLA(t, stopCh, wg)
 
-	w, err := s.Client().ExecuteWorkflow(
+	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
@@ -338,23 +338,23 @@ func Test_SignalStepsLAProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "begin", true)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "begin", true)
 	assert.NoError(t, err)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "next1", true)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "next1", true)
 	assert.NoError(t, err)
 
-	v, err := s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "value", nil)
+	v, err := s.Client.QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "value", nil)
 	assert.NoError(t, err)
 
 	var r int
 	assert.NoError(t, v.Get(&r))
 	assert.Equal(t, 2, r)
 
-	err = s.Client().SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "next2", true)
+	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "next2", true)
 	assert.NoError(t, err)
 
-	v, err = s.Client().QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "value", nil)
+	v, err = s.Client.QueryWorkflow(context.Background(), w.GetID(), w.GetRunID(), "value", nil)
 	assert.NoError(t, err)
 
 	assert.NoError(t, v.Get(&r))
