@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0eeaf7d32bd2b529145ddd7f49c5243a",
+    "content-hash": "341bb785da8884b687bbd9f099310749",
     "packages": [
         {
             "name": "brick/math",
@@ -4583,16 +4583,16 @@
         },
         {
             "name": "temporal/sdk",
-            "version": "v2.0.2",
+            "version": "dev-feature/upsert-search-attributes-",
             "source": {
                 "type": "git",
-                "url": "https://github.com/temporalio/sdk-php.git",
-                "reference": "ac565e27105f34a5e1f37d443448b1043ceac314"
+                "url": "https://github.com/cv65kr/sdk-php.git",
+                "reference": "6a40e81ba7125ee32fbb242599f65ddff649500a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/ac565e27105f34a5e1f37d443448b1043ceac314",
-                "reference": "ac565e27105f34a5e1f37d443448b1043ceac314",
+                "url": "https://api.github.com/repos/cv65kr/sdk-php/zipball/6a40e81ba7125ee32fbb242599f65ddff649500a",
+                "reference": "6a40e81ba7125ee32fbb242599f65ddff649500a",
                 "shasum": ""
             },
             "require": {
@@ -4638,16 +4638,37 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Temporal\\": "src",
-                    "GPBMetadata\\": "api/v1/GPBMetadata",
-                    "Temporal\\Api\\": "api/v1/Temporal/Api",
-                    "Temporal\\Testing\\": "testing/src",
-                    "Temporal\\Roadrunner\\": "api/v1/Temporal/Roadrunner",
                     "Temporal\\Api\\Testservice\\": "testing/api/testservice/Temporal/Api/Testservice",
-                    "GPBMetadata\\Temporal\\Api\\Testservice\\": "testing/api/testservice/GPBMetadata/Temporal/Api/Testservice"
+                    "GPBMetadata\\Temporal\\Api\\Testservice\\": "testing/api/testservice/GPBMetadata/Temporal/Api/Testservice",
+                    "Temporal\\Testing\\": "testing/src",
+                    "GPBMetadata\\": "api/v1/GPBMetadata",
+                    "Temporal\\": "src",
+                    "Temporal\\Api\\": "api/v1/Temporal/Api",
+                    "Temporal\\Roadrunner\\": "api/v1/Temporal/Roadrunner"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Temporal\\Tests\\": "tests",
+                    "Temporal\\Tests\\Workflow\\": "tests/Fixtures/src/Workflow",
+                    "Temporal\\Tests\\Activity\\": "tests/Fixtures/src/Activity",
+                    "Temporal\\Tests\\DTO\\": "tests/Fixtures/src/DTO"
+                }
+            },
+            "scripts": {
+                "tests": [
+                    "phpunit --testsuite=Unit --testdox",
+                    "phpunit --testsuite=Feature --testdox",
+                    "phpunit --testsuite=Functional --testdox"
+                ],
+                "phpcs": [
+                    "@putenv PHP_CS_FIXER_IGNORE_ENV=1",
+                    "php-cs-fixer fix src"
+                ],
+                "check": [
+                    "psalm"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -4664,18 +4685,20 @@
                 "workflow"
             ],
             "support": {
-                "docs": "https://docs.temporal.io",
                 "forum": "https://community.temporal.io",
+                "docs": "https://docs.temporal.io",
                 "issues": "https://github.com/temporalio/sdk-php/issues",
                 "source": "https://github.com/temporalio/sdk-php"
             },
-            "time": "2022-09-02T09:01:49+00:00"
+            "time": "2022-09-28T19:33:17+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "temporal/sdk": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],

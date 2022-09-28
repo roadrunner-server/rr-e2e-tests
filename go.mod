@@ -2,6 +2,8 @@ module github.com/roadrunner-server/rr-e2e-tests
 
 go 1.19
 
+replace github.com/temporalio/roadrunner-temporal => github.com/cv65kr/roadrunner-temporal v0.0.0-20220928173452-aa9864576d17
+
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
 	github.com/aws/aws-sdk-go-v2 v1.16.16

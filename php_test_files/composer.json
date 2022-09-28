@@ -7,7 +7,7 @@
     "spiral/roadrunner": "^2.0",
     "spiral/roadrunner-http": "^2.1",
     "spiral/roadrunner-worker": "^2.2",
-    "temporal/sdk": "^2",
+    "temporal/sdk": "dev-feature/upsert-search-attributes-",
     "spiral/tokenizer": ">=2.7",
     "spiral/roadrunner-metrics": "^2.0",
     "spiral/roadrunner-grpc": "^2.0",
@@ -22,6 +22,12 @@
     "psr-4": {
       "": "src",
       "Temporal\\Tests\\": "src"
+    }
+  },
+  "repositories": {
+    "temporal/sdk": {
+        "type": "vcs",
+        "url": "https://github.com/cv65kr/sdk-php.git"
     }
   },
   "name": "test/test",
