@@ -21,42 +21,42 @@ require (
 	github.com/roadrunner-server/amqp/v2 v2.18.0
 	github.com/roadrunner-server/api/v2 v2.23.0
 	github.com/roadrunner-server/beanstalk/v2 v2.17.0
-	github.com/roadrunner-server/boltdb/v2 v2.17.2
+	github.com/roadrunner-server/boltdb/v2 v2.17.3
 	github.com/roadrunner-server/broadcast/v2 v2.14.0
-	github.com/roadrunner-server/config/v2 v2.16.3
+	github.com/roadrunner-server/config/v2 v2.16.4
 	github.com/roadrunner-server/endure v1.4.5
 	github.com/roadrunner-server/errors v1.2.0
-	github.com/roadrunner-server/fileserver/v2 v2.14.2
+	github.com/roadrunner-server/fileserver/v2 v2.14.3
 	github.com/roadrunner-server/goridge/v3 v3.5.3
-	github.com/roadrunner-server/grpc/v2 v2.22.3
-	github.com/roadrunner-server/gzip/v2 v2.13.3
-	github.com/roadrunner-server/headers/v2 v2.13.3
-	github.com/roadrunner-server/http/v2 v2.23.3
+	github.com/roadrunner-server/grpc/v2 v2.23.2
+	github.com/roadrunner-server/gzip/v2 v2.13.4
+	github.com/roadrunner-server/headers/v2 v2.13.4
+	github.com/roadrunner-server/http/v2 v2.23.4
 	github.com/roadrunner-server/informer/v2 v2.13.0
-	github.com/roadrunner-server/jobs/v2 v2.18.2
-	github.com/roadrunner-server/kafka/v2 v2.2.1
+	github.com/roadrunner-server/jobs/v2 v2.18.3
+	github.com/roadrunner-server/kafka/v2 v2.2.2
 	github.com/roadrunner-server/kv/v2 v2.14.0
-	github.com/roadrunner-server/logger/v2 v2.15.2
+	github.com/roadrunner-server/logger/v2 v2.15.3
 	github.com/roadrunner-server/memcached/v2 v2.13.0
 	github.com/roadrunner-server/memory/v2 v2.17.0
-	github.com/roadrunner-server/metrics/v2 v2.14.2
-	github.com/roadrunner-server/nats/v2 v2.17.1
-	github.com/roadrunner-server/otel/v2 v2.5.4
-	github.com/roadrunner-server/prometheus/v2 v2.14.3
+	github.com/roadrunner-server/metrics/v2 v2.14.3
+	github.com/roadrunner-server/nats/v2 v2.17.2
+	github.com/roadrunner-server/otel/v2 v2.5.5
+	github.com/roadrunner-server/prometheus/v2 v2.14.4
 	github.com/roadrunner-server/proxy_ip_parser/v2 v2.5.1
 	github.com/roadrunner-server/redis/v2 v2.16.0
 	github.com/roadrunner-server/reload/v2 v2.14.0
 	github.com/roadrunner-server/resetter/v2 v2.13.0
 	github.com/roadrunner-server/rpc/v2 v2.15.0
 	github.com/roadrunner-server/sdk/v2 v2.19.0
-	github.com/roadrunner-server/send/v2 v2.13.3
-	github.com/roadrunner-server/server/v2 v2.16.2
-	github.com/roadrunner-server/service/v2 v2.17.2
-	github.com/roadrunner-server/sqs/v2 v2.20.2
-	github.com/roadrunner-server/static/v2 v2.14.3
-	github.com/roadrunner-server/status/v2 v2.15.2
-	github.com/roadrunner-server/tcp/v2 v2.15.2
-	github.com/roadrunner-server/websockets/v2 v2.16.3
+	github.com/roadrunner-server/send/v2 v2.13.4
+	github.com/roadrunner-server/server/v2 v2.16.3
+	github.com/roadrunner-server/service/v2 v2.17.3
+	github.com/roadrunner-server/sqs/v2 v2.20.3
+	github.com/roadrunner-server/static/v2 v2.14.4
+	github.com/roadrunner-server/status/v2 v2.15.3
+	github.com/roadrunner-server/tcp/v2 v2.15.3
+	github.com/roadrunner-server/websockets/v2 v2.16.4
 	github.com/stretchr/testify v1.8.0
 	github.com/temporalio/roadrunner-temporal v1.6.2
 	github.com/yookoala/gofast v0.6.0
@@ -191,7 +191,7 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220922220347-f3bd1da661af // indirect
 	golang.org/x/tools v0.1.12 // indirect
-	google.golang.org/genproto v0.0.0-20220927151529-dcaddaf36704 // indirect
+	google.golang.org/genproto v0.0.0-20220929141241-1ce7b20da813 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
