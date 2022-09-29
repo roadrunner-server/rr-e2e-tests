@@ -1393,13 +1393,13 @@ jobs:
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/grpc-unit.out -covermode=atomic ./...
           cd protoc_plugins
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/grpc-unit_2.out -covermode=atomic ./...
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=../coverage-ci/grpc-unit_2.out -covermode=atomic ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
           name: coverage
-          path: ./coverage-ci/*
+          path: ./coverage-ci
 
   informer_test:
     name: informer plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
