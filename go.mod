@@ -58,13 +58,13 @@ require (
 	github.com/roadrunner-server/tcp/v2 v2.15.3
 	github.com/roadrunner-server/websockets/v2 v2.16.4
 	github.com/stretchr/testify v1.8.0
-	github.com/temporalio/roadrunner-temporal v1.6.2
-	github.com/yookoala/gofast v0.6.0
+	github.com/temporalio/roadrunner-temporal v1.7.0
+	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.12
 	go.temporal.io/api v1.12.0
 	go.temporal.io/sdk v1.17.0
 	go.uber.org/zap v1.23.0
-	golang.org/x/net v0.0.0-20220930213112-107f3e3c3b0b
+	golang.org/x/net v0.0.0-20221002022538-bcab6841153b
 	google.golang.org/grpc v1.49.0
 	google.golang.org/protobuf v1.28.1
 )
