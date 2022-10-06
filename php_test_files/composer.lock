@@ -188,16 +188,16 @@
         },
         {
             "name": "google/protobuf",
-            "version": "v3.21.5",
+            "version": "v3.21.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/protocolbuffers/protobuf-php.git",
-                "reference": "70649d33d2b6e8fd0db6d9b6fffc7f46f01f1438"
+                "reference": "56505903b395c5d38cbf4c8575bfef4f4c9d4c30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/70649d33d2b6e8fd0db6d9b6fffc7f46f01f1438",
-                "reference": "70649d33d2b6e8fd0db6d9b6fffc7f46f01f1438",
+                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/56505903b395c5d38cbf4c8575bfef4f4c9d4c30",
+                "reference": "56505903b395c5d38cbf4c8575bfef4f4c9d4c30",
                 "shasum": ""
             },
             "require": {
@@ -226,9 +226,9 @@
                 "proto"
             ],
             "support": {
-                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v3.21.5"
+                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v3.21.7"
             },
-            "time": "2022-08-09T19:53:56+00:00"
+            "time": "2022-09-29T21:58:56+00:00"
         },
         {
             "name": "grpc/grpc",
@@ -1822,25 +1822,25 @@
         },
         {
             "name": "psr/simple-cache",
-            "version": "1.0.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/simple-cache.git",
-                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/764e0b3939f5ca87cb904f570ef9be2d78a07865",
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -1855,7 +1855,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interfaces for simple caching",
@@ -1867,9 +1867,9 @@
                 "simple-cache"
             ],
             "support": {
-                "source": "https://github.com/php-fig/simple-cache/tree/master"
+                "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
             },
-            "time": "2017-10-23T01:57:42+00:00"
+            "time": "2021-10-29T13:26:27+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -1996,20 +1996,20 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "4.4.0",
+            "version": "4.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "373f7bacfcf3de038778ff27dcce5672ddbf4c8a"
+                "reference": "a161a26d917604dc6d3aa25100fddf2556e9f35d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/373f7bacfcf3de038778ff27dcce5672ddbf4c8a",
-                "reference": "373f7bacfcf3de038778ff27dcce5672ddbf4c8a",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/a161a26d917604dc6d3aa25100fddf2556e9f35d",
+                "reference": "a161a26d917604dc6d3aa25100fddf2556e9f35d",
                 "shasum": ""
             },
             "require": {
-                "brick/math": "^0.8 || ^0.9 || ^0.10",
+                "brick/math": "^0.8.8 || ^0.9 || ^0.10",
                 "ext-ctype": "*",
                 "ext-json": "*",
                 "php": "^8.0",
@@ -2030,12 +2030,13 @@
                 "php-mock/php-mock-mockery": "^1.3",
                 "php-parallel-lint/php-parallel-lint": "^1.1",
                 "phpbench/phpbench": "^1.0",
-                "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-mockery": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.8",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.1",
                 "phpunit/phpunit": "^8.5 || ^9",
-                "slevomat/coding-standard": "^7.0",
+                "ramsey/composer-repl": "^1.4",
+                "slevomat/coding-standard": "^8.4",
                 "squizlabs/php_codesniffer": "^3.5",
                 "vimeo/psalm": "^4.9"
             },
@@ -2073,7 +2074,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ramsey/uuid/issues",
-                "source": "https://github.com/ramsey/uuid/tree/4.4.0"
+                "source": "https://github.com/ramsey/uuid/tree/4.5.1"
             },
             "funding": [
                 {
@@ -2085,7 +2086,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-05T17:58:37+00:00"
+            "time": "2022-09-16T03:22:46+00:00"
         },
         {
             "name": "react/promise",
@@ -2226,30 +2227,31 @@
         },
         {
             "name": "spiral/core",
-            "version": "2.14.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/core.git",
-                "reference": "0987729c98a3e764d916d065237e0e491824fb07"
+                "reference": "fc67ba91b1b75d7c8a4dc7bf11325c297584c1dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/core/zipball/0987729c98a3e764d916d065237e0e491824fb07",
-                "reference": "0987729c98a3e764d916d065237e0e491824fb07",
+                "url": "https://api.github.com/repos/spiral/core/zipball/fc67ba91b1b75d7c8a4dc7bf11325c297584c1dd",
+                "reference": "fc67ba91b1b75d7c8a4dc7bf11325c297584c1dd",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4",
+                "php": ">=8.1",
                 "psr/container": "^1.1|^2.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
-                "phpunit/phpunit": "^8.5|^9.5"
+                "phpunit/phpunit": "^9.5.20",
+                "vimeo/psalm": "^4.27"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.14.x-dev"
+                    "dev-master": "3.1.x-dev"
                 }
             },
             "autoload": {
@@ -2265,6 +2267,18 @@
                 {
                     "name": "Anton Titov (wolfy-j)",
                     "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Butchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
                 }
             ],
             "description": "IoC container, IoC scopes, factory, memory, configuration interfaces",
@@ -2273,7 +2287,7 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/core"
             },
-            "time": "2022-05-16T19:46:42+00:00"
+            "time": "2022-09-29T15:03:22+00:00"
         },
         {
             "name": "spiral/goridge",
@@ -2339,31 +2353,32 @@
         },
         {
             "name": "spiral/logger",
-            "version": "2.14.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/logger.git",
-                "reference": "a787397f39dcda6053ef1c56fbadd6192a7bf270"
+                "reference": "d43fbf7e547cfe0d3d658fdba742d35b0b44bb4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/logger/zipball/a787397f39dcda6053ef1c56fbadd6192a7bf270",
-                "reference": "a787397f39dcda6053ef1c56fbadd6192a7bf270",
+                "url": "https://api.github.com/repos/spiral/logger/zipball/d43fbf7e547cfe0d3d658fdba742d35b0b44bb4d",
+                "reference": "d43fbf7e547cfe0d3d658fdba742d35b0b44bb4d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4",
+                "php": ">=8.1",
                 "psr/log": "1 - 3",
-                "spiral/core": "^2.14"
+                "spiral/core": "^3.1"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
-                "phpunit/phpunit": "^8.5|^9.5"
+                "phpunit/phpunit": "^9.5.20",
+                "vimeo/psalm": "^4.27"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.14.x-dev"
+                    "dev-master": "3.1.x-dev"
                 }
             },
             "autoload": {
@@ -2379,6 +2394,18 @@
                 {
                     "name": "Anton Titov (wolfy-j)",
                     "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Butchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
                 }
             ],
             "description": "LogFactory and global log listeners",
@@ -2387,20 +2414,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/logger"
             },
-            "time": "2022-09-01T21:00:19+00:00"
+            "time": "2022-09-29T15:05:39+00:00"
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2.11.1",
+            "version": "v2.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "ff29b8b2228f77c8a89d10b22eb6c2c8776f92fa"
+                "reference": "f851d4b364456a5da960bbb0370cf6e24cb9f449"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/ff29b8b2228f77c8a89d10b22eb6c2c8776f92fa",
-                "reference": "ff29b8b2228f77c8a89d10b22eb6c2c8776f92fa",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/f851d4b364456a5da960bbb0370cf6e24cb9f449",
+                "reference": "f851d4b364456a5da960bbb0370cf6e24cb9f449",
                 "shasum": ""
             },
             "require": {
@@ -2426,9 +2453,9 @@
             "description": "RoadRunner: High-performance PHP application server and process manager written in Go and powered with plugins",
             "support": {
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.11.1"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.11.3"
             },
-            "time": "2022-08-25T13:12:59+00:00"
+            "time": "2022-09-29T21:37:40+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",
@@ -2621,16 +2648,16 @@
         },
         {
             "name": "spiral/roadrunner-jobs",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-jobs.git",
-                "reference": "e955d3189807a03d57bc34752879686d8f3aca30"
+                "reference": "f4e49740e5459a57a98147691e91000a98a2e450"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-jobs/zipball/e955d3189807a03d57bc34752879686d8f3aca30",
-                "reference": "e955d3189807a03d57bc34752879686d8f3aca30",
+                "url": "https://api.github.com/repos/spiral/roadrunner-jobs/zipball/f4e49740e5459a57a98147691e91000a98a2e450",
+                "reference": "f4e49740e5459a57a98147691e91000a98a2e450",
                 "shasum": ""
             },
             "require": {
@@ -2686,32 +2713,31 @@
             "description": "RoadRunner Queues (Jobs) plugin API library",
             "support": {
                 "issues": "https://github.com/spiral/roadrunner-jobs/issues",
-                "source": "https://github.com/spiral/roadrunner-jobs/tree/v2.4.0"
+                "source": "https://github.com/spiral/roadrunner-jobs/tree/v2.5.0"
             },
-            "time": "2022-08-23T12:42:04+00:00"
+            "time": "2022-08-30T13:52:22+00:00"
         },
         {
             "name": "spiral/roadrunner-kv",
-            "version": "v2.2.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-kv.git",
-                "reference": "22d0cf0b6d237a6dbf47765d32ccdda7c25147b0"
+                "reference": "4e9694faad119d3ece2d7632f85f980f14ab5daf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-kv/zipball/22d0cf0b6d237a6dbf47765d32ccdda7c25147b0",
-                "reference": "22d0cf0b6d237a6dbf47765d32ccdda7c25147b0",
+                "url": "https://api.github.com/repos/spiral/roadrunner-kv/zipball/4e9694faad119d3ece2d7632f85f980f14ab5daf",
+                "reference": "4e9694faad119d3ece2d7632f85f980f14ab5daf",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "google/protobuf": "^3.7",
-                "php": ">=7.4",
-                "psr/simple-cache": "^1.0",
+                "php": ">=8.1",
+                "psr/simple-cache": "2 - 3",
                 "spiral/goridge": "^3.1",
-                "spiral/roadrunner": "^2.0",
-                "symfony/polyfill-php80": "^1.23"
+                "spiral/roadrunner": "^2.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.0",
@@ -2756,9 +2782,9 @@
             "description": "RoadRunner kv plugin bridge",
             "support": {
                 "issues": "https://github.com/spiral/roadrunner-kv/issues",
-                "source": "https://github.com/spiral/roadrunner-kv/tree/v2.2.0"
+                "source": "https://github.com/spiral/roadrunner-kv/tree/v3.0.0"
             },
-            "time": "2022-08-22T14:50:57+00:00"
+            "time": "2022-09-26T08:54:18+00:00"
         },
         {
             "name": "spiral/roadrunner-metrics",
@@ -2939,31 +2965,34 @@
         },
         {
             "name": "spiral/tokenizer",
-            "version": "2.14.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/tokenizer.git",
-                "reference": "6108afa98442b659e55adbc6f84a2b608816f4f2"
+                "reference": "72a53a077f72e9081d6e5cd8631ce6d458615e7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/6108afa98442b659e55adbc6f84a2b608816f4f2",
-                "reference": "6108afa98442b659e55adbc6f84a2b608816f4f2",
+                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/72a53a077f72e9081d6e5cd8631ce6d458615e7e",
+                "reference": "72a53a077f72e9081d6e5cd8631ce6d458615e7e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4",
-                "spiral/core": "^2.14",
-                "spiral/logger": "^2.14",
-                "symfony/finder": "^5.1|^6.0"
+                "ext-tokenizer": "*",
+                "php": ">=8.1",
+                "spiral/core": "^3.1",
+                "spiral/logger": "^3.1",
+                "symfony/finder": "^5.3.7|^6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5|^9.5"
+                "phpunit/phpunit": "^9.5.20",
+                "spiral/boot": "^3.1",
+                "vimeo/psalm": "^4.27"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.14.x-dev"
+                    "dev-master": "3.1.x-dev"
                 }
             },
             "autoload": {
@@ -2979,6 +3008,18 @@
                 {
                     "name": "Anton Titov (wolfy-j)",
                     "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Butchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
                 }
             ],
             "description": "Static Analysis: Class and Invocation locators",
@@ -2987,20 +3028,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/tokenizer"
             },
-            "time": "2022-09-01T21:00:56+00:00"
+            "time": "2022-09-29T15:09:11+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v6.1.4",
+            "version": "v6.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "7fccea8728aa2d431a6725b02b3ce759049fc84d"
+                "reference": "17524a64ebcfab68d237bbed247e9a9917747096"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/7fccea8728aa2d431a6725b02b3ce759049fc84d",
-                "reference": "7fccea8728aa2d431a6725b02b3ce759049fc84d",
+                "url": "https://api.github.com/repos/symfony/console/zipball/17524a64ebcfab68d237bbed247e9a9917747096",
+                "reference": "17524a64ebcfab68d237bbed247e9a9917747096",
                 "shasum": ""
             },
             "require": {
@@ -3067,7 +3108,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v6.1.4"
+                "source": "https://github.com/symfony/console/tree/v6.1.5"
             },
             "funding": [
                 {
@@ -3083,7 +3124,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-26T10:32:31+00:00"
+            "time": "2022-09-03T14:24:42+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -3154,16 +3195,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v6.1.4",
+            "version": "v6.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "3f39c04d2630c34019907b02f85672dac99f8659"
+                "reference": "4d216a2beef096edf040a070117c39ca2abce307"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/3f39c04d2630c34019907b02f85672dac99f8659",
-                "reference": "3f39c04d2630c34019907b02f85672dac99f8659",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/4d216a2beef096edf040a070117c39ca2abce307",
+                "reference": "4d216a2beef096edf040a070117c39ca2abce307",
                 "shasum": ""
             },
             "require": {
@@ -3197,7 +3238,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v6.1.4"
+                "source": "https://github.com/symfony/filesystem/tree/v6.1.5"
             },
             "funding": [
                 {
@@ -3213,7 +3254,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-02T16:17:38+00:00"
+            "time": "2022-09-21T20:29:40+00:00"
         },
         {
             "name": "symfony/finder",
@@ -3281,16 +3322,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v6.1.4",
+            "version": "v6.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "06dc27cbdcee26d6796c226db5266a0d58359739"
+                "reference": "565b0f2ce2c5882e89b3ef5e255d7e0478b9c675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/06dc27cbdcee26d6796c226db5266a0d58359739",
-                "reference": "06dc27cbdcee26d6796c226db5266a0d58359739",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/565b0f2ce2c5882e89b3ef5e255d7e0478b9c675",
+                "reference": "565b0f2ce2c5882e89b3ef5e255d7e0478b9c675",
                 "shasum": ""
             },
             "require": {
@@ -3345,7 +3386,7 @@
             "description": "Provides powerful methods to fetch HTTP resources synchronously or asynchronously",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v6.1.4"
+                "source": "https://github.com/symfony/http-client/tree/v6.1.5"
             },
             "funding": [
                 {
@@ -3361,7 +3402,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-02T16:17:38+00:00"
+            "time": "2022-09-09T09:34:27+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -4247,16 +4288,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v6.1.4",
+            "version": "v6.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "290972cad7b364e3befaa74ba0ec729800fb161c"
+                "reference": "17c08b068176996a1d7db8d00ffae3c248267016"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/290972cad7b364e3befaa74ba0ec729800fb161c",
-                "reference": "290972cad7b364e3befaa74ba0ec729800fb161c",
+                "url": "https://api.github.com/repos/symfony/string/zipball/17c08b068176996a1d7db8d00ffae3c248267016",
+                "reference": "17c08b068176996a1d7db8d00ffae3c248267016",
                 "shasum": ""
             },
             "require": {
@@ -4312,7 +4353,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v6.1.4"
+                "source": "https://github.com/symfony/string/tree/v6.1.5"
             },
             "funding": [
                 {
@@ -4328,7 +4369,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-12T18:05:43+00:00"
+            "time": "2022-09-02T08:05:20+00:00"
         },
         {
             "name": "symfony/translation",
@@ -4583,16 +4624,16 @@
         },
         {
             "name": "temporal/sdk",
-            "version": "v2.0.2",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/temporalio/sdk-php.git",
-                "reference": "ac565e27105f34a5e1f37d443448b1043ceac314"
+                "reference": "61a9559856602b5bf242b9273c2a633f486762fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/ac565e27105f34a5e1f37d443448b1043ceac314",
-                "reference": "ac565e27105f34a5e1f37d443448b1043ceac314",
+                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/61a9559856602b5bf242b9273c2a633f486762fe",
+                "reference": "61a9559856602b5bf242b9273c2a633f486762fe",
                 "shasum": ""
             },
             "require": {
@@ -4607,7 +4648,7 @@
                 "react/promise": "^2.8",
                 "spiral/attributes": "^2.7 || ^3.0",
                 "spiral/roadrunner-cli": "^2.2",
-                "spiral/roadrunner-kv": "^2.1",
+                "spiral/roadrunner-kv": "^2.1 || ^3.0",
                 "spiral/roadrunner-worker": "^2.1.3",
                 "symfony/filesystem": "^6.0",
                 "symfony/http-client": "^6.0",
@@ -4669,7 +4710,7 @@
                 "issues": "https://github.com/temporalio/sdk-php/issues",
                 "source": "https://github.com/temporalio/sdk-php"
             },
-            "time": "2022-09-02T09:01:49+00:00"
+            "time": "2022-10-03T20:14:16+00:00"
         }
     ],
     "packages-dev": [],

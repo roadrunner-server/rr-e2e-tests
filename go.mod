@@ -64,13 +64,13 @@ require (
 	go.temporal.io/api v1.12.0
 	go.temporal.io/sdk v1.17.0
 	go.uber.org/zap v1.23.0
-	golang.org/x/net v0.0.0-20221002022538-bcab6841153b
+	golang.org/x/net v0.0.0-20221004154528-8021a29435af
 	google.golang.org/grpc v1.49.0
 	google.golang.org/protobuf v1.28.1
 )
 
 require (
-	github.com/Shopify/sarama v1.37.0 // indirect
+	github.com/Shopify/sarama v1.37.2 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.17 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.23 // indirect
@@ -184,7 +184,7 @@ require (
 	go.temporal.io/server v1.18.0 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/crypto v0.0.0-20220926161630-eccd6366d1be // indirect
+	golang.org/x/crypto v0.0.0-20221005025214-4161e89ecf1b // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/sync v0.0.0-20220929204114-8fcdb60fdcc0 // indirect
 	golang.org/x/sys v0.0.0-20220928140112-f11e5e49a4ec // indirect

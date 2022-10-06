@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net"
 	"net/rpc"
+	"strconv"
 	"sync"
 	"testing"
 	"time"
@@ -19,6 +20,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/history/v1"
+	"go.temporal.io/api/operatorservice/v1"
 	"go.temporal.io/sdk/client"
 )
 
@@ -794,6 +796,47 @@ func Test_SagaWorkflowProto(t *testing.T) {
 
 	var result string
 	assert.Error(t, w.Get(context.Background(), &result))
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
+func Test_UpsertSearchAttributesWorkflowProto(t *testing.T) {
+	stopCh := make(chan struct{}, 1)
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	s := NewTestServer(t, stopCh, wg)
+
+	ctx := context.Background()
+	_, err := s.Client.OperatorService().AddSearchAttributes(ctx, &operatorservice.AddSearchAttributesRequest{
+		SearchAttributes: map[string]enums.IndexedValueType{
+			"attr1": enums.INDEXED_VALUE_TYPE_KEYWORD,
+			"attr2": enums.INDEXED_VALUE_TYPE_BOOL,
+		},
+	})
+	assert.NoError(t, err)
+
+	w, err := s.Client.ExecuteWorkflow(
+		context.Background(),
+		client.StartWorkflowOptions{
+			TaskQueue: "default",
+		},
+		"UpsertSearchAttributesWorkflow",
+	)
+	assert.NoError(t, err)
+
+	// the result of the final workflow
+	var result string
+	assert.NoError(t, w.Get(context.Background(), &result))
+	assert.Equal(t, "done", result)
+
+	// Check attributes in API
+	we, _ := s.Client.DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
+	searchAttributes := we.WorkflowExecutionInfo.GetSearchAttributes().GetIndexedFields()
+
+	assert.Equal(t, `"attr1-value"`, string(searchAttributes["attr1"].GetData()))
+	attr2, _ := strconv.ParseBool(string(searchAttributes["attr2"].GetData()))
+	assert.True(t, attr2)
+
 	stopCh <- struct{}{}
 	wg.Wait()
 }
