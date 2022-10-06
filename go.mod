@@ -2,8 +2,6 @@ module github.com/roadrunner-server/rr-e2e-tests
 
 go 1.19
 
-replace github.com/temporalio/roadrunner-temporal => github.com/cv65kr/roadrunner-temporal v0.0.0-20220928173452-aa9864576d17
-
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
 	github.com/aws/aws-sdk-go-v2 v1.16.16
@@ -60,13 +58,13 @@ require (
 	github.com/roadrunner-server/tcp/v2 v2.15.2
 	github.com/roadrunner-server/websockets/v2 v2.16.3
 	github.com/stretchr/testify v1.8.0
-	github.com/temporalio/roadrunner-temporal v1.6.2
+	github.com/temporalio/roadrunner-temporal v1.7.0
 	github.com/yookoala/gofast v0.6.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.12
 	go.temporal.io/api v1.12.0
 	go.temporal.io/sdk v1.17.0
 	go.uber.org/zap v1.23.0
-	golang.org/x/net v0.0.0-20220927171203-f486391704dc
+	golang.org/x/net v0.0.0-20221002022538-bcab6841153b
 	google.golang.org/grpc v1.49.0
 	google.golang.org/protobuf v1.28.1
 )
@@ -188,12 +186,12 @@ require (
 	go.uber.org/multierr v1.8.0 // indirect
 	golang.org/x/crypto v0.0.0-20220926161630-eccd6366d1be // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
-	golang.org/x/sync v0.0.0-20220923202941-7f9b1623fab7 // indirect
+	golang.org/x/sync v0.0.0-20220929204114-8fcdb60fdcc0 // indirect
 	golang.org/x/sys v0.0.0-20220928140112-f11e5e49a4ec // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220922220347-f3bd1da661af // indirect
 	golang.org/x/tools v0.1.12 // indirect
-	google.golang.org/genproto v0.0.0-20220927151529-dcaddaf36704 // indirect
+	google.golang.org/genproto v0.0.0-20220930163606-c98284e70a91 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

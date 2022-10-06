@@ -807,12 +807,13 @@ func Test_UpsertSearchAttributesWorkflowProto(t *testing.T) {
 	s := NewTestServer(t, stopCh, wg)
 
 	ctx := context.Background()
-	s.Client.OperatorService().AddSearchAttributes(ctx, &operatorservice.AddSearchAttributesRequest{
+	_, err := s.Client.OperatorService().AddSearchAttributes(ctx, &operatorservice.AddSearchAttributesRequest{
 		SearchAttributes: map[string]enums.IndexedValueType{
 			"attr1": enums.INDEXED_VALUE_TYPE_KEYWORD,
 			"attr2": enums.INDEXED_VALUE_TYPE_BOOL,
 		},
 	})
+	assert.NoError(t, err)
 
 	w, err := s.Client.ExecuteWorkflow(
 		context.Background(),
@@ -832,7 +833,7 @@ func Test_UpsertSearchAttributesWorkflowProto(t *testing.T) {
 	we, _ := s.Client.DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
 	searchAttributes := we.WorkflowExecutionInfo.GetSearchAttributes().GetIndexedFields()
 
-	assert.Equal(t, "\"attr1-value\"", string(searchAttributes["attr1"].GetData()))
+	assert.Equal(t, `"attr1-value"`, string(searchAttributes["attr1"].GetData()))
 	attr2, _ := strconv.ParseBool(string(searchAttributes["attr2"].GetData()))
 	assert.True(t, attr2)
 
