@@ -56,7 +56,7 @@ func (p *Plugin1) Serve() chan error {
 				continue
 			}
 
-			p.log.Info(fmt.Sprintf("%s: %s", Plugin1Name, msg))
+			p.log.Info(fmt.Sprintf("%s: {%s %s}", Plugin1Name, msg.Topic(), msg.Payload()))
 		}
 	}()
 

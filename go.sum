@@ -119,6 +119,7 @@ github.com/caddyserver/certmagic v0.17.2/go.mod h1:ouWUuC490GOLJzkyN35eXfV8bSbwM
 github.com/cenkalti/backoff/v4 v4.1.3 h1:cFAlzYUlVYDysBEH2T5hyJZMh3+5+WCBvSnK6Q8UtC4=
 github.com/cenkalti/backoff/v4 v4.1.3/go.mod h1:scbssz8iZGpm3xbr14ovlUdkxfGXNInqkPWOWmG2CLw=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
+github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.1.2 h1:YRXhKfTDauu4ajMg1TPgFO5jnlC2HCbmLXMcTG5cbYE=
@@ -309,6 +310,7 @@ github.com/gorilla/securecookie v1.1.1/go.mod h1:ra0sb63/xPlUeL+yeDciTfxMRAA+MP+
 github.com/gorilla/sessions v1.2.1/go.mod h1:dk2InVEVJ0sfLlnXv9EAgkf6ecYs/i80K/zI+bUmuGM=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 h1:+9834+KizmvFV7pXQGSXQTsaWhq2GjuNUt0aUU0YBYw=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0/go.mod h1:z0ButlSOZa5vEBq9m2m2hlwIgKw+rp3sdCBRoJY+30Y=
+github.com/grpc-ecosystem/grpc-gateway v1.16.0 h1:gmcG1KaJ57LophUzW0Hy8NmPhnMZb4M0+kPpLofRdBo=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0/go.mod h1:hgWBS7lorOAVIJEQMi4ZsPv9hVvWI6+ch50m39Pf2Ks=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3 h1:lLT7ZLSzGLI08vc9cpd+tYmNWjdKDqyr/2L+f6U12Fk=
@@ -487,8 +489,8 @@ github.com/roadrunner-server/http/v3 v3.0.0-beta.1 h1:5tAzOYVjtEozo8lEhugmgSp9aj
 github.com/roadrunner-server/http/v3 v3.0.0-beta.1/go.mod h1:B2b6kgQrBz4SCrwsqZp7R4vWzclm0+noUF4pQrm8a/Y=
 github.com/roadrunner-server/informer/v3 v3.0.0-beta.1 h1:LxV08330o7WUTKm/4B0f5i53SAQOfvyeityp5tzC1qU=
 github.com/roadrunner-server/informer/v3 v3.0.0-beta.1/go.mod h1:x7c14kmKGNllnv9XmbRV/lNMIO/9mbgotFd1mRIH9Rc=
-github.com/roadrunner-server/jobs/v3 v3.0.0-beta.1 h1:cu3Ehr1dqD5Ii6MnnEHoHEmBp3CAFAFIQ759B89BvaU=
-github.com/roadrunner-server/jobs/v3 v3.0.0-beta.1/go.mod h1:6LZJQOiEkc+2cH7HWptv6s8X9KIKrkK1I22hURaZbO0=
+github.com/roadrunner-server/jobs/v3 v3.0.0-beta.2 h1:4vY6Q+qyVwOJ+8pSWCowPci4tr5abpYtdD6GdikF/IY=
+github.com/roadrunner-server/jobs/v3 v3.0.0-beta.2/go.mod h1:cZyq0Xg6H8LT+ccUI49cN8T5pWRIvHGtsuv1S9KQRSI=
 github.com/roadrunner-server/kafka/v3 v3.0.0-beta.1 h1:Nj0o16taKb5XFY9uRCgxeqfLWfKyfJa4Rhd4duzuOoQ=
 github.com/roadrunner-server/kafka/v3 v3.0.0-beta.1/go.mod h1:9Uak7B4EocuAFqWTsEyIhDI0nlxXqK6ryZx/w32c8Tg=
 github.com/roadrunner-server/kv/v3 v3.0.0-beta.1 h1:4Uh9Wt2l9AEHMAwJxZreKPpz1K3jLPtgbnyl1b3OOWo=
