@@ -7,6 +7,7 @@ import (
 )
 
 type Configurer interface {
+	GracefulTimeout() time.Duration
 	Unmarshal(out any) error
 	// UnmarshalKey takes a single key and unmarshal it into a Struct.
 	UnmarshalKey(name string, out any) error
