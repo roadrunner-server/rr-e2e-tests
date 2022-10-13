@@ -1,9 +1,7 @@
 name: linux_on_push
 
-on:
-  push:
-    branches:
-      - '*'
+on: [push, pull_request]
+
 jobs:
   temporal_test:
     name: Temporal plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
