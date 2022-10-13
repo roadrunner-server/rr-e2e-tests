@@ -2,27 +2,55 @@ package server
 
 import (
 	"context"
+	"os/exec"
 	"time"
 
-	"github.com/roadrunner-server/api/v2/payload"
-	"github.com/roadrunner-server/api/v2/plugins/config"
-	"github.com/roadrunner-server/api/v2/plugins/server"
-	"github.com/roadrunner-server/api/v2/pool"
 	"github.com/roadrunner-server/errors"
-	poolImpl "github.com/roadrunner-server/sdk/v2/pool"
-	"github.com/roadrunner-server/sdk/v2/worker"
-	serverImpl "github.com/roadrunner-server/server/v2"
+	"github.com/roadrunner-server/sdk/v3/payload"
+	"github.com/roadrunner-server/sdk/v3/pool"
+	staticPool "github.com/roadrunner-server/sdk/v3/pool/static_pool"
+	"github.com/roadrunner-server/sdk/v3/worker"
+	"github.com/roadrunner-server/server/v3"
+	"go.uber.org/zap"
 )
 
 const ConfigSection = "server"
 const Response = "test"
 
-var testPoolConfig = &poolImpl.Config{ //nolint:gochecknoglobals
+type Configurer interface {
+	// UnmarshalKey takes a single key and unmarshal it into a Struct.
+	UnmarshalKey(name string, out any) error
+	// Has checks if config section exists.
+	Has(name string) bool
+}
+
+// Server creates workers for the application.
+type Server interface {
+	CmdFactory(env map[string]string) func() *exec.Cmd
+	NewPool(ctx context.Context, cfg *pool.Config, env map[string]string, _ *zap.Logger) (*staticPool.Pool, error)
+	NewWorker(ctx context.Context, env map[string]string) (*worker.Process, error)
+}
+
+type Pool interface {
+	// Workers returns worker list associated with the pool.
+	Workers() (workers []*worker.Process)
+
+	// Exec payload
+	Exec(ctx context.Context, p *payload.Payload) (*payload.Payload, error)
+
+	// Reset kill all workers inside the watcher and replaces with new
+	Reset(ctx context.Context) error
+
+	// Destroy all underlying stack (but let them complete the task).
+	Destroy(ctx context.Context)
+}
+
+var testPoolConfig = &pool.Config{ //nolint:gochecknoglobals
 	NumWorkers:      10,
 	MaxJobs:         100,
 	AllocateTimeout: time.Second * 10,
 	DestroyTimeout:  time.Second * 10,
-	Supervisor: &poolImpl.SupervisorConfig{
+	Supervisor: &pool.SupervisorConfig{
 		WatchTick:       60 * time.Second,
 		TTL:             1000 * time.Second,
 		IdleTTL:         10 * time.Second,
@@ -32,12 +60,12 @@ var testPoolConfig = &poolImpl.Config{ //nolint:gochecknoglobals
 }
 
 type Foo struct {
-	configProvider config.Configurer
-	wf             server.Server
-	pool           pool.Pool
+	configProvider Configurer
+	wf             Server
+	pool           Pool
 }
 
-func (f *Foo) Init(p config.Configurer, workerFactory server.Server) error {
+func (f *Foo) Init(p Configurer, workerFactory Server) error {
 	f.configProvider = p
 	f.wf = workerFactory
 	return nil
@@ -54,7 +82,7 @@ func (f *Foo) Serve() chan error {
 
 	errCh := make(chan error, 1)
 
-	conf := &serverImpl.Config{}
+	conf := &server.Config{}
 	var err error
 	err = f.configProvider.UnmarshalKey(ConfigSection, conf)
 	if err != nil {
@@ -81,9 +109,8 @@ func (f *Foo) Serve() chan error {
 	}()
 
 	// test that our worker is functional
-	sw := worker.From(w)
 
-	rsp, err := sw.Exec(r)
+	rsp, err := w.Exec(r)
 	if err != nil {
 		errCh <- err
 		return errCh
@@ -95,21 +122,21 @@ func (f *Foo) Serve() chan error {
 	}
 
 	// should not be errors
-	err = sw.Stop()
+	err = w.Stop()
 	if err != nil {
 		errCh <- err
 		return errCh
 	}
 
 	// test pool
-	f.pool, err = f.wf.NewWorkerPool(context.Background(), testPoolConfig, nil, nil)
+	f.pool, err = f.wf.NewPool(context.Background(), testPoolConfig, nil, nil)
 	if err != nil {
 		errCh <- err
 		return errCh
 	}
 
 	// test pool execution
-	rsp, err = f.pool.Exec(r)
+	rsp, err = f.pool.Exec(context.Background(), r)
 	if err != nil {
 		errCh <- err
 		return errCh

@@ -15,23 +15,23 @@ import (
 	"time"
 
 	"github.com/goccy/go-json"
-	"github.com/roadrunner-server/http/v2/config"
-	"github.com/roadrunner-server/http/v2/handler"
-	"github.com/roadrunner-server/http/v2/uploads"
-	"github.com/roadrunner-server/sdk/v2/ipc/pipe"
-	poolImpl "github.com/roadrunner-server/sdk/v2/pool"
+	"github.com/roadrunner-server/http/v3/config"
+	"github.com/roadrunner-server/http/v3/handler"
+	"github.com/roadrunner-server/sdk/v3/ipc/pipe"
+	"github.com/roadrunner-server/sdk/v3/pool"
+	staticPool "github.com/roadrunner-server/sdk/v3/pool/static_pool"
 	"github.com/stretchr/testify/assert"
 )
 
 const testFile = "uploads_test.go"
 
 func TestHandler_Upload_File(t *testing.T) {
-	pool, err := poolImpl.NewStaticPool(context.Background(),
+	pool, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
 			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(mockLog),
-		&poolImpl.Config{
+		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
 			DestroyTimeout:  time.Second * 1000,
@@ -40,18 +40,18 @@ func TestHandler_Upload_File(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &config.CommonOptions{
+	cfg := &config.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
+		AccessLogs:        false,
+		Uploads: &config.Uploads{
+			Dir:       os.TempDir(),
+			Forbidden: map[string]struct{}{},
+			Allowed:   map[string]struct{}{},
+		},
 	}
 
-	upldCfg := &uploads.Uploads{
-		Dir:       os.TempDir(),
-		Forbidden: map[string]struct{}{},
-		Allowed:   map[string]struct{}{},
-	}
-
-	h, err := handler.NewHandler(cfg, upldCfg, pool, mockLog)
+	h, err := handler.NewHandler(cfg, pool, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9021", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -119,12 +119,12 @@ func TestHandler_Upload_File(t *testing.T) {
 }
 
 func TestHandler_Upload_NestedFile(t *testing.T) {
-	pool, err := poolImpl.NewStaticPool(context.Background(),
+	pool, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
 			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(mockLog),
-		&poolImpl.Config{
+		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
 			DestroyTimeout:  time.Second * 1000,
@@ -133,18 +133,18 @@ func TestHandler_Upload_NestedFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &config.CommonOptions{
+	cfg := &config.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
+		AccessLogs:        false,
+		Uploads: &config.Uploads{
+			Dir:       os.TempDir(),
+			Forbidden: map[string]struct{}{},
+			Allowed:   map[string]struct{}{},
+		},
 	}
 
-	upldCfg := &uploads.Uploads{
-		Dir:       os.TempDir(),
-		Forbidden: map[string]struct{}{},
-		Allowed:   map[string]struct{}{},
-	}
-
-	h, err := handler.NewHandler(cfg, upldCfg, pool, mockLog)
+	h, err := handler.NewHandler(cfg, pool, mockLog)
 
 	assert.NoError(t, err)
 
@@ -213,12 +213,12 @@ func TestHandler_Upload_NestedFile(t *testing.T) {
 }
 
 func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
-	pool, err := poolImpl.NewStaticPool(context.Background(),
+	pool, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
 			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(mockLog),
-		&poolImpl.Config{
+		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
 			DestroyTimeout:  time.Second * 1000,
@@ -227,18 +227,18 @@ func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &config.CommonOptions{
+	cfg := &config.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
+		AccessLogs:        false,
+		Uploads: &config.Uploads{
+			Dir:       "--------",
+			Forbidden: map[string]struct{}{},
+			Allowed:   map[string]struct{}{".go": {}},
+		},
 	}
 
-	upldCfg := &uploads.Uploads{
-		Dir:       "--------",
-		Forbidden: map[string]struct{}{},
-		Allowed:   map[string]struct{}{".go": {}},
-	}
-
-	h, err := handler.NewHandler(cfg, upldCfg, pool, mockLog)
+	h, err := handler.NewHandler(cfg, pool, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9023", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -306,12 +306,12 @@ func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 }
 
 func TestHandler_Upload_File_Forbids(t *testing.T) {
-	pool, err := poolImpl.NewStaticPool(context.Background(),
+	pool, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
 			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(mockLog),
-		&poolImpl.Config{
+		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
 			DestroyTimeout:  time.Second * 1000,
@@ -320,18 +320,18 @@ func TestHandler_Upload_File_Forbids(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &config.CommonOptions{
+	cfg := &config.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
+		AccessLogs:        false,
+		Uploads: &config.Uploads{
+			Dir:       os.TempDir(),
+			Forbidden: map[string]struct{}{".go": {}},
+			Allowed:   map[string]struct{}{},
+		},
 	}
 
-	upldCfg := &uploads.Uploads{
-		Dir:       os.TempDir(),
-		Forbidden: map[string]struct{}{".go": {}},
-		Allowed:   map[string]struct{}{},
-	}
-
-	h, err := handler.NewHandler(cfg, upldCfg, pool, mockLog)
+	h, err := handler.NewHandler(cfg, pool, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9024", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -399,12 +399,12 @@ func TestHandler_Upload_File_Forbids(t *testing.T) {
 }
 
 func TestHandler_Upload_File_NotAllowed(t *testing.T) {
-	pool, err := poolImpl.NewStaticPool(context.Background(),
+	pool, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
 			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(mockLog),
-		&poolImpl.Config{
+		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
 			DestroyTimeout:  time.Second * 1000,
@@ -413,18 +413,18 @@ func TestHandler_Upload_File_NotAllowed(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg := &config.CommonOptions{
+	cfg := &config.Config{
 		MaxRequestSize:    1024,
 		InternalErrorCode: 500,
+		AccessLogs:        false,
+		Uploads: &config.Uploads{
+			Dir:       os.TempDir(),
+			Forbidden: map[string]struct{}{},
+			Allowed:   map[string]struct{}{".php": {}},
+		},
 	}
 
-	upldCfg := &uploads.Uploads{
-		Dir:       os.TempDir(),
-		Forbidden: map[string]struct{}{},
-		Allowed:   map[string]struct{}{".php": {}},
-	}
-
-	h, err := handler.NewHandler(cfg, upldCfg, pool, mockLog)
+	h, err := handler.NewHandler(cfg, pool, mockLog)
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9024", Handler: h, ReadHeaderTimeout: time.Minute * 5}

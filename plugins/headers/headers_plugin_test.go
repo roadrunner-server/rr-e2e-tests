@@ -10,12 +10,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v2"
+	"github.com/roadrunner-server/config/v3"
 	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/headers/v2"
-	httpPlugin "github.com/roadrunner-server/http/v2"
-	"github.com/roadrunner-server/logger/v2"
-	"github.com/roadrunner-server/server/v2"
+	"github.com/roadrunner-server/headers/v3"
+	httpPlugin "github.com/roadrunner-server/http/v3"
+	"github.com/roadrunner-server/logger/v3"
+	"github.com/roadrunner-server/server/v3"
 	"github.com/stretchr/testify/assert"
 )
 

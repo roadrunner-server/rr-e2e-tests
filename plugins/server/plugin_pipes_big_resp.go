@@ -4,23 +4,20 @@ import (
 	"context"
 	"time"
 
-	"github.com/roadrunner-server/api/v2/payload"
-	"github.com/roadrunner-server/api/v2/plugins/config"
-	"github.com/roadrunner-server/api/v2/plugins/server"
-	"github.com/roadrunner-server/api/v2/pool"
-	poolImpl "github.com/roadrunner-server/sdk/v2/pool"
-	serverImpl "github.com/roadrunner-server/server/v2"
+	"github.com/roadrunner-server/sdk/v3/payload"
+	poolImpl "github.com/roadrunner-server/sdk/v3/pool"
+	serverImpl "github.com/roadrunner-server/server/v3"
 	"go.uber.org/zap"
 )
 
 type Foo4 struct {
-	configProvider config.Configurer
-	wf             server.Server
-	pool           pool.Pool
+	configProvider Configurer
+	wf             Server
+	pool           Pool
 	log            *zap.Logger
 }
 
-func (f *Foo4) Init(p config.Configurer, workerFactory server.Server, log *zap.Logger) error {
+func (f *Foo4) Init(p Configurer, workerFactory Server, log *zap.Logger) error {
 	f.configProvider = p
 	f.wf = workerFactory
 	f.log = log
@@ -51,14 +48,14 @@ func (f *Foo4) Serve() chan error {
 	}
 
 	// test pool
-	f.pool, err = f.wf.NewWorkerPool(context.Background(), testPoolConfig2, nil, f.log)
+	f.pool, err = f.wf.NewPool(context.Background(), testPoolConfig2, nil, f.log)
 	if err != nil {
 		errCh <- err
 		return errCh
 	}
 
 	// test pool execution
-	_, err = f.pool.Exec(r)
+	_, err = f.pool.Exec(context.Background(), r)
 	if err != nil {
 		errCh <- err
 		return errCh

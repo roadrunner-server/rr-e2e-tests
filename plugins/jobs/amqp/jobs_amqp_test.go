@@ -12,20 +12,20 @@ import (
 	"time"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-	amqpDriver "github.com/roadrunner-server/amqp/v2"
-	jobState "github.com/roadrunner-server/api/v2/plugins/jobs"
-	"github.com/roadrunner-server/config/v2"
+	amqpDriver "github.com/roadrunner-server/amqp/v3"
+	"github.com/roadrunner-server/config/v3"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/informer/v2"
-	"github.com/roadrunner-server/jobs/v2"
-	"github.com/roadrunner-server/logger/v2"
-	"github.com/roadrunner-server/metrics/v2"
-	"github.com/roadrunner-server/resetter/v2"
-	rpcPlugin "github.com/roadrunner-server/rpc/v2"
+	"github.com/roadrunner-server/informer/v3"
+	"github.com/roadrunner-server/jobs/v3"
+	"github.com/roadrunner-server/logger/v3"
+	"github.com/roadrunner-server/metrics/v3"
+	"github.com/roadrunner-server/resetter/v3"
+	rpcPlugin "github.com/roadrunner-server/rpc/v3"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	"github.com/roadrunner-server/server/v2"
+	jobsState "github.com/roadrunner-server/sdk/v3/plugins/jobs"
+	"github.com/roadrunner-server/server/v3"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
@@ -950,7 +950,7 @@ func TestAMQPStats(t *testing.T) {
 	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
 	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
 
-	out := &jobState.State{}
+	out := &jobsState.State{}
 	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
@@ -967,7 +967,7 @@ func TestAMQPStats(t *testing.T) {
 	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
 	time.Sleep(time.Second * 7)
 
-	out = &jobState.State{}
+	out = &jobsState.State{}
 	t.Run("Stats", helpers.Stats(out))
 
 	assert.Equal(t, out.Pipeline, "test-3")

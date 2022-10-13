@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/api/v2/state/process"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	tests "github.com/roadrunner-server/rr-e2e-tests/plugins/temporal"
+	"github.com/roadrunner-server/sdk/v3/state/process"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/sdk/client"

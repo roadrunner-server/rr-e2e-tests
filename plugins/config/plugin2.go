@@ -1,16 +1,15 @@
 package config
 
 import (
-	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/errors"
 )
 
 type Foo2 struct {
-	configProvider config.Configurer
+	configProvider Configurer
 }
 
 // Depends on S2 and DB (S3 in the current case)
-func (f *Foo2) Init(p config.Configurer) error {
+func (f *Foo2) Init(p Configurer) error {
 	f.configProvider = p
 	return nil
 }

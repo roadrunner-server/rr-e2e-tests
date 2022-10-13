@@ -3,22 +3,18 @@ package server
 import (
 	"context"
 
-	"github.com/roadrunner-server/api/v2/payload"
-	"github.com/roadrunner-server/api/v2/plugins/config"
-	"github.com/roadrunner-server/api/v2/plugins/server"
-	"github.com/roadrunner-server/api/v2/pool"
 	"github.com/roadrunner-server/errors"
-	"github.com/roadrunner-server/sdk/v2/worker"
-	serverImpl "github.com/roadrunner-server/server/v2"
+	"github.com/roadrunner-server/sdk/v3/payload"
+	serverImpl "github.com/roadrunner-server/server/v3"
 )
 
 type Foo2 struct {
-	configProvider config.Configurer
-	wf             server.Server
-	pool           pool.Pool
+	configProvider Configurer
+	wf             Server
+	pool           Pool
 }
 
-func (f *Foo2) Init(p config.Configurer, workerFactory server.Server) error {
+func (f *Foo2) Init(p Configurer, workerFactory Server) error {
 	f.configProvider = p
 	f.wf = workerFactory
 	return nil
@@ -59,10 +55,8 @@ func (f *Foo2) Serve() chan error {
 	go func() {
 		_ = w.Wait()
 	}()
-	// test that our worker is functional
-	sw := worker.From(w)
 
-	rsp, err := sw.Exec(r)
+	rsp, err := w.Exec(r)
 	if err != nil {
 		errCh <- err
 		return errCh
@@ -74,21 +68,21 @@ func (f *Foo2) Serve() chan error {
 	}
 
 	// should not be errors
-	err = sw.Stop()
+	err = w.Stop()
 	if err != nil {
 		errCh <- err
 		return errCh
 	}
 
 	// test pool
-	f.pool, err = f.wf.NewWorkerPool(context.Background(), testPoolConfig, nil, nil)
+	f.pool, err = f.wf.NewPool(context.Background(), testPoolConfig, nil, nil)
 	if err != nil {
 		errCh <- err
 		return errCh
 	}
 
 	// test pool execution
-	rsp, err = f.pool.Exec(r)
+	rsp, err = f.pool.Exec(context.Background(), r)
 	if err != nil {
 		errCh <- err
 		return errCh

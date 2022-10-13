@@ -3,7 +3,6 @@ package config
 import (
 	"time"
 
-	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/errors"
 )
 

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/reload/v2"
+	"github.com/roadrunner-server/reload/v3"
 	"github.com/stretchr/testify/assert"
 )
 

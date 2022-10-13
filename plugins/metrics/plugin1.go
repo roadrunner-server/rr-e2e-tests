@@ -2,15 +2,21 @@ package metrics
 
 import (
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/roadrunner-server/api/v2/plugins/config"
 )
+
+type Configurer interface {
+	// UnmarshalKey takes a single key and unmarshal it into a Struct.
+	UnmarshalKey(name string, out any) error
+	// Has checks if config section exists.
+	Has(name string) bool
+}
 
 // Gauge //////////////
 type Plugin1 struct {
-	config config.Configurer
+	config Configurer
 }
 
-func (p1 *Plugin1) Init(cfg config.Configurer) error {
+func (p1 *Plugin1) Init(cfg Configurer) error {
 	p1.config = cfg
 	return nil
 }
