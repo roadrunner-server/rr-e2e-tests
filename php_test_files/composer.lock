@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0eeaf7d32bd2b529145ddd7f49c5243a",
+    "content-hash": "94dbc75b266e74a19da10e3efa32bb53",
     "packages": [
         {
             "name": "brick/math",
@@ -2418,16 +2418,16 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2.11.3",
+            "version": "v2.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "f851d4b364456a5da960bbb0370cf6e24cb9f449"
+                "reference": "bee07c00a8954945156ca3e3de9c032b530abd01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/f851d4b364456a5da960bbb0370cf6e24cb9f449",
-                "reference": "f851d4b364456a5da960bbb0370cf6e24cb9f449",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/bee07c00a8954945156ca3e3de9c032b530abd01",
+                "reference": "bee07c00a8954945156ca3e3de9c032b530abd01",
                 "shasum": ""
             },
             "require": {
@@ -2453,9 +2453,9 @@
             "description": "RoadRunner: High-performance PHP application server and process manager written in Go and powered with plugins",
             "support": {
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.11.3"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.11.4"
             },
-            "time": "2022-09-29T21:37:40+00:00"
+            "time": "2022-10-06T14:25:16+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",
@@ -2648,16 +2648,16 @@
         },
         {
             "name": "spiral/roadrunner-jobs",
-            "version": "v2.5.0",
+            "version": "dev-kafka-fix-empty-body",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-jobs.git",
-                "reference": "f4e49740e5459a57a98147691e91000a98a2e450"
+                "url": "https://github.com/Baiquette/roadrunner-jobs.git",
+                "reference": "884d009a1c0146c7d6d51bd8204eac9929431547"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-jobs/zipball/f4e49740e5459a57a98147691e91000a98a2e450",
-                "reference": "f4e49740e5459a57a98147691e91000a98a2e450",
+                "url": "https://api.github.com/repos/Baiquette/roadrunner-jobs/zipball/884d009a1c0146c7d6d51bd8204eac9929431547",
+                "reference": "884d009a1c0146c7d6d51bd8204eac9929431547",
                 "shasum": ""
             },
             "require": {
@@ -2685,14 +2685,35 @@
             },
             "autoload": {
                 "psr-4": {
-                    "GPBMetadata\\": "generated/GPBMetadata",
                     "Spiral\\RoadRunner\\Jobs\\": [
                         "src",
                         "generated/Spiral/RoadRunner/Jobs"
-                    ]
+                    ],
+                    "GPBMetadata\\": "generated/GPBMetadata"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Spiral\\RoadRunner\\Jobs\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "build": [
+                    "protoc --proto_path=resources/proto/v1 --php_out=generated resources/proto/v1/jobs.proto"
+                ],
+                "tests": [
+                    "phpunit"
+                ],
+                "cs-fix": [
+                    "spiral-cs fix src"
+                ],
+                "cs-check": [
+                    "spiral-cs check src"
+                ],
+                "psalm": [
+                    "psalm --no-cache"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -2712,10 +2733,9 @@
             ],
             "description": "RoadRunner Queues (Jobs) plugin API library",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-jobs/issues",
-                "source": "https://github.com/spiral/roadrunner-jobs/tree/v2.5.0"
+                "source": "https://github.com/Baiquette/roadrunner-jobs/tree/kafka-fix-empty-body"
             },
-            "time": "2022-08-30T13:52:22+00:00"
+            "time": "2022-10-06T14:30:47+00:00"
         },
         {
             "name": "spiral/roadrunner-kv",
@@ -4714,9 +4734,18 @@
         }
     ],
     "packages-dev": [],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "spiral/roadrunner-jobs",
+            "version": "dev-kafka-fix-empty-body",
+            "alias": "2.5",
+            "alias_normalized": "2.5.0.0"
+        }
+    ],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "spiral/roadrunner-jobs": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],

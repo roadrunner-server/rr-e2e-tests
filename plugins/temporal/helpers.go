@@ -10,18 +10,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/api/v2/plugins/config"
-	configImpl "github.com/roadrunner-server/config/v2"
+	configImpl "github.com/roadrunner-server/config/v3"
 	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/informer/v2"
-	"github.com/roadrunner-server/logger/v2"
-	"github.com/roadrunner-server/resetter/v2"
-	"github.com/roadrunner-server/rpc/v2"
-	"github.com/roadrunner-server/server/v2"
+	"github.com/roadrunner-server/informer/v3"
+	"github.com/roadrunner-server/logger/v3"
+	"github.com/roadrunner-server/resetter/v3"
+	"github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/server/v3"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	roadrunnerTemporal "github.com/temporalio/roadrunner-temporal"
-	"github.com/temporalio/roadrunner-temporal/data_converter"
+	roadrunnerTemporal "github.com/temporalio/roadrunner-temporal/v2"
+	"github.com/temporalio/roadrunner-temporal/v2/data_converter"
 	"go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/history/v1"
 	temporalClient "go.temporal.io/sdk/client"
@@ -33,6 +32,13 @@ import (
 const (
 	rrPrefix string = "rr"
 )
+
+type Configurer interface {
+	// UnmarshalKey takes a single key and unmarshal it into a Struct.
+	UnmarshalKey(name string, out any) error
+	// Has checks if config section exists.
+	Has(name string) bool
+}
 
 type TestServer struct {
 	Client temporalClient.Client
@@ -208,7 +214,7 @@ func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Te
 	}
 }
 
-func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, cfg config.Configurer, wg *sync.WaitGroup) *TestServer {
+func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, cfg Configurer, wg *sync.WaitGroup) *TestServer {
 	container, err := endure.NewContainer(initLogger())
 	assert.NoError(t, err)
 

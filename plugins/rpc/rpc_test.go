@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v2"
+	"github.com/roadrunner-server/config/v3"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	"github.com/roadrunner-server/errors"
-	"github.com/roadrunner-server/logger/v2"
-	"github.com/roadrunner-server/rpc/v2"
+	"github.com/roadrunner-server/logger/v3"
+	"github.com/roadrunner-server/rpc/v3"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/roadrunner-server/api/v2/plugins/pubsub"
 	"github.com/roadrunner-server/errors"
+	"github.com/roadrunner-server/sdk/v3/plugins/pubsub"
 	"go.uber.org/zap"
 )
 
@@ -56,7 +56,7 @@ func (p *Plugin2) Serve() chan error {
 				continue
 			}
 
-			p.log.Info(fmt.Sprintf("%s: %s", Plugin2Name, *msg))
+			p.log.Info(fmt.Sprintf("%s: {%s %s}", Plugin2Name, msg.Topic(), msg.Payload()))
 		}
 	}()
 

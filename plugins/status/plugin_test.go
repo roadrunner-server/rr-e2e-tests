@@ -12,15 +12,15 @@ import (
 	"testing"
 	"time"
 
-	statusImpl "github.com/roadrunner-server/api/v2/plugins/status"
-	"github.com/roadrunner-server/config/v2"
+	"github.com/roadrunner-server/config/v3"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	httpPlugin "github.com/roadrunner-server/http/v2"
-	"github.com/roadrunner-server/logger/v2"
-	rpcPlugin "github.com/roadrunner-server/rpc/v2"
-	"github.com/roadrunner-server/server/v2"
-	"github.com/roadrunner-server/status/v2"
+	httpPlugin "github.com/roadrunner-server/http/v3"
+	"github.com/roadrunner-server/logger/v3"
+	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	statusStr "github.com/roadrunner-server/sdk/v3/plugins/status"
+	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/status/v3"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -185,7 +185,7 @@ func checkRPCStatus(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	st := &statusImpl.Status{}
+	st := &statusStr.Status{}
 
 	err = client.Call("status.Status", "http", &st)
 	assert.NoError(t, err)
@@ -385,7 +385,7 @@ func checkRPCReadiness(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	st := &statusImpl.Status{}
+	st := &statusStr.Status{}
 
 	err = client.Call("status.Ready", "http", &st)
 	assert.NoError(t, err)

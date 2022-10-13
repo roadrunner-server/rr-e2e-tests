@@ -12,13 +12,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v2"
+	"github.com/roadrunner-server/config/v3"
 	endure "github.com/roadrunner-server/endure/pkg/container"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/logger/v2"
-	rpcPlugin "github.com/roadrunner-server/rpc/v2"
-	"github.com/roadrunner-server/server/v2"
-	"github.com/roadrunner-server/tcp/v2"
+	"github.com/roadrunner-server/logger/v3"
+	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/tcp/v3"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

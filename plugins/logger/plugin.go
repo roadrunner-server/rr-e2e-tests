@@ -3,14 +3,20 @@ package logger
 import (
 	"strings"
 
-	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/errors"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
+type Configurer interface {
+	// UnmarshalKey takes a single key and unmarshal it into a Struct.
+	UnmarshalKey(name string, out any) error
+	// Has checks if config section exists.
+	Has(name string) bool
+}
+
 type TestPlugin struct {
-	config config.Configurer
+	config Configurer
 	log    *zap.Logger
 }
 
@@ -21,7 +27,7 @@ func (l *Loggable) MarshalLogObject(encoder zapcore.ObjectEncoder) error {
 	return nil
 }
 
-func (p1 *TestPlugin) Init(cfg config.Configurer, log *zap.Logger) error {
+func (p1 *TestPlugin) Init(cfg Configurer, log *zap.Logger) error {
 	p1.config = cfg
 	p1.log = log
 	return nil

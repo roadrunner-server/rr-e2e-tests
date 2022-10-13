@@ -3,9 +3,17 @@ package config
 import (
 	"time"
 
-	"github.com/roadrunner-server/api/v2/plugins/config"
 	"github.com/roadrunner-server/errors"
 )
+
+type Configurer interface {
+	GracefulTimeout() time.Duration
+	Unmarshal(out any) error
+	// UnmarshalKey takes a single key and unmarshal it into a Struct.
+	UnmarshalKey(name string, out any) error
+	// Has checks if config section exists.
+	Has(name string) bool
+}
 
 type AllConfig struct {
 	RPC struct {
@@ -52,11 +60,11 @@ type ServiceConfig struct {
 }
 
 type Foo struct {
-	configProvider config.Configurer
+	configProvider Configurer
 }
 
 // Depends on S2 and DB (S3 in the current case)
-func (f *Foo) Init(p config.Configurer) error {
+func (f *Foo) Init(p Configurer) error {
 	f.configProvider = p
 	return nil
 }

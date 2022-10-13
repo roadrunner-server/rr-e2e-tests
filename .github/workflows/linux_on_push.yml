@@ -1,13 +1,6 @@
 name: linux_on_push
 
-on:
-  push:
-    branches:
-      - '*'
-  release:
-    types:
-      - released
-      - prereleased
+on: [push]
 
 jobs:
   temporal_test:
