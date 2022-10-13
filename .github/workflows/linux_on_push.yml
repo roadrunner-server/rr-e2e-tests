@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - '*'
-  release:
-    types:
-      - released
-      - prereleased
-
 jobs:
   temporal_test:
     name: Temporal plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
