@@ -56,7 +56,7 @@ require (
 	github.com/roadrunner-server/status/v3 v3.0.0-beta.1
 	github.com/roadrunner-server/tcp/v3 v3.0.0-beta.1
 	github.com/roadrunner-server/websockets/v3 v3.0.0-beta.2
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.1
 	github.com/temporalio/roadrunner-temporal/v2 v2.0.0-beta.3
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.12
