@@ -27,8 +27,6 @@ test_coverage: run_docker sleep-30
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/tcp_plugin.out -covermode=atomic ./plugins/tcp
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/proxy_ip.out -covermode=atomic ./plugins/proxy_ip_parser
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/reload.out -covermode=atomic ./plugins/reload
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/broadcast_plugin.out -covermode=atomic ./plugins/broadcast
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/websockets.out -covermode=atomic ./plugins/websockets
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/grpc_plugin.out -covermode=atomic ./plugins/grpc
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/informer.out -covermode=atomic ./plugins/informer
@@ -61,8 +59,6 @@ test:
 	go test -v -race -cover -tags=debug ./plugins/kv
 	go test -v -race -cover -tags=debug ./plugins/tcp
 	go test -v -race -cover -tags=debug ./plugins/reload
-	go test -v -race -cover -tags=debug ./plugins/broadcast
-	go test -v -race -cover -tags=debug ./plugins/websockets
 	go test -v -race -cover -tags=debug ./plugins/proxy_ip_parser
 	go test -v -race -cover -tags=debug ./plugins/http
 	go test -v -race -cover -tags=debug ./plugins/grpc

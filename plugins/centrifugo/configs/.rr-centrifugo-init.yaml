@@ -1,0 +1,12 @@
+version: "2.7"
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+server:
+  command: "php ../../php_test_files/psr-worker-bench.php"
+
+centrifuge:
+  endpoint: "ws://localhost:8000/connection/websocket"
+  proxy_address: "tcp://127.0.0.1:10001"
+
