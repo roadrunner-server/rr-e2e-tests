@@ -123,7 +123,6 @@ github.com/centrifugal/centrifuge-go v0.9.3 h1:EgPhi4V3PBTPL6tOcSxKjtCXa3wG7s5nz
 github.com/centrifugal/centrifuge-go v0.9.3/go.mod h1:L0aQ0u5ixvTJ/pz7ZyXvwOXuRARzXW32fVRvCOUbu5I=
 github.com/centrifugal/protocol v0.8.11 h1:LP3fi5h8mApGmQ3iYb6PWrfID0PvGHS+zXZIjB82qhM=
 github.com/centrifugal/protocol v0.8.11/go.mod h1:qpYrxz4cDj+rlgC6giSADkf7XDN1K7aFmkkFwt/bayQ=
-github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.1.2 h1:YRXhKfTDauu4ajMg1TPgFO5jnlC2HCbmLXMcTG5cbYE=
@@ -310,7 +309,6 @@ github.com/gorilla/websocket v1.5.0 h1:PPwGk2jz7EePpoHN/+ClbZu8SPxiqlu12wZP/3sWm
 github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 h1:+9834+KizmvFV7pXQGSXQTsaWhq2GjuNUt0aUU0YBYw=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0/go.mod h1:z0ButlSOZa5vEBq9m2m2hlwIgKw+rp3sdCBRoJY+30Y=
-github.com/grpc-ecosystem/grpc-gateway v1.16.0 h1:gmcG1KaJ57LophUzW0Hy8NmPhnMZb4M0+kPpLofRdBo=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0/go.mod h1:hgWBS7lorOAVIJEQMi4ZsPv9hVvWI6+ch50m39Pf2Ks=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.12.0 h1:kr3j8iIMR4ywO/O0rvksXaJvauGGCMg2zAZIiNZ9uIQ=
@@ -478,8 +476,8 @@ github.com/roadrunner-server/beanstalk/v3 v3.0.0-beta.2 h1:FXKXMIjqoBruTsG4oXdbk
 github.com/roadrunner-server/beanstalk/v3 v3.0.0-beta.2/go.mod h1:xtkhMLF4fBtoG7cdM3aR5gU+8xYO2Oh2BwusicSCkuw=
 github.com/roadrunner-server/boltdb/v3 v3.0.0-beta.1 h1:GbDdgALcaYEcGq1fTPoF5GtZ6zTDBGq+paNk9d/lvPk=
 github.com/roadrunner-server/boltdb/v3 v3.0.0-beta.1/go.mod h1:ty8cQsL1NP/HHd25BqBKSk4GxrfBXotldDMKBmLQo2E=
-github.com/roadrunner-server/centrifuge/v3 v3.0.0-alpha.3 h1:NzePE5+Q4nGXm1Wugyh1WlkdWB9tOTahGEKvUiLVAoA=
-github.com/roadrunner-server/centrifuge/v3 v3.0.0-alpha.3/go.mod h1:E3bOvQTf0O5Z6h/lStr0udD3qU9z2QhFLH2OJA0P07A=
+github.com/roadrunner-server/centrifuge/v3 v3.0.0-beta.1 h1:l9rofzmOwPWCwgl/XxO0gMhwoMMcAW87ATWLdMsqRGM=
+github.com/roadrunner-server/centrifuge/v3 v3.0.0-beta.1/go.mod h1:x4jQ425m4L8yNcJg5GyjyRpueneeQ8nyRG67+aSlTYc=
 github.com/roadrunner-server/config/v3 v3.0.0-beta.1 h1:EQiHbr7tIrXP7bWRpRIW32WIGO05XyVYX+BjXg357XI=
 github.com/roadrunner-server/config/v3 v3.0.0-beta.1/go.mod h1:QhlSbonx2K6Ch1MiHOmVYw0dnC6p4gY0A33mX6JPqf0=
 github.com/roadrunner-server/endure v1.4.5 h1:kInGwZc9Xd55gXsdAQonajz5I202MDyJdV+biJ6+asI=
@@ -630,8 +628,8 @@ github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1
 github.com/yuin/goldmark v1.4.1/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=
 github.com/yusufpapurcu/wmi v1.2.2 h1:KBNDSne4vP5mbSWnJbO+51IMOXJB67QiYCSBrubbPRg=
 github.com/yusufpapurcu/wmi v1.2.2/go.mod h1:SBZ9tNy3G9/m5Oi98Zks0QjeHVDvuK0qfxQmPyzfmi0=
-go.buf.build/grpc/go/roadrunner-server/api v1.4.20 h1:61Qkh0qmbx1dow5cuNIMS1yC1WPR2CGBq7Pl5CuFyoU=
-go.buf.build/grpc/go/roadrunner-server/api v1.4.20/go.mod h1:gydvLOEhY1OyTQFdpzBvDRn2QMpmtb73BSFFKu3JmPk=
+go.buf.build/grpc/go/roadrunner-server/api v1.4.21 h1:+qJ6PxMmxVEdsOAziqP1WxONPJUeeNWU+6TFetj2ZeQ=
+go.buf.build/grpc/go/roadrunner-server/api v1.4.21/go.mod h1:gydvLOEhY1OyTQFdpzBvDRn2QMpmtb73BSFFKu3JmPk=
 go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.20 h1:OkFihJEHVgJL8jvuSsx2CRLvVWNS30OJPJ9yw/A0Ou0=
 go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.20/go.mod h1:CfIAvR+W2N+Y0WXMzwT80Eh83CmBPWplgFQDA5HftC4=
 go.etcd.io/bbolt v1.3.6 h1:/ecaJf0sk1l4l6V4awd65v2C3ILy7MSj+s/x1ADCIMU=
@@ -1150,8 +1148,8 @@ google.golang.org/genproto v0.0.0-20220624142145-8cd45d7dbd1f/go.mod h1:KEWEmljW
 google.golang.org/genproto v0.0.0-20220815135757-37a418bb8959/go.mod h1:dbqgFATTzChvnt+ujMdZwITVAJHFtfyN1qUhDqEiIlk=
 google.golang.org/genproto v0.0.0-20220902135211-223410557253/go.mod h1:dbqgFATTzChvnt+ujMdZwITVAJHFtfyN1qUhDqEiIlk=
 google.golang.org/genproto v0.0.0-20220909194730-69f6226f97e5/go.mod h1:0Nb8Qy+Sk5eDzHnzlStwW3itdNaWoZA5XeSG+R3JHSo=
-google.golang.org/genproto v0.0.0-20221025140454-527a21cfbd71 h1:GEgb2jF5zxsFJpJfg9RoDDWm7tiwc/DDSTE2BtLUkXU=
-google.golang.org/genproto v0.0.0-20221025140454-527a21cfbd71/go.mod h1:9qHF0xnpdSfF6knlcsnpzUu5y+rpwgbvsyGAZPBMg4s=
+google.golang.org/genproto v0.0.0-20221027153422-115e99e71e1c h1:QgY/XxIAIeccR+Ca/rDdKubLIU9rcJ3xfy1DC/Wd2Oo=
+google.golang.org/genproto v0.0.0-20221027153422-115e99e71e1c/go.mod h1:CGI5F/G+E5bKwmfYo09AXuVN4dD894kIKUFmVbP2/Fo=
 google.golang.org/grpc v1.12.0/go.mod h1:yo6s7OP7yaDglbqo1J04qKzAhqBH6lvTonzMVmEdcZw=
 google.golang.org/grpc v1.19.0/go.mod h1:mqu4LbDTu4XGKhr4mRzUsmM4RtVoemTSY81AxZiDr8c=
 google.golang.org/grpc v1.20.1/go.mod h1:10oTOabMzJvdu6/UiuZezV6QK5dSlG84ov/aaiqXj38=
