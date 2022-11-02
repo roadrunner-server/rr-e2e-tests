@@ -58,7 +58,7 @@ require (
 	github.com/temporalio/roadrunner-temporal/v2 v2.0.0-beta.3
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.20
-	go.temporal.io/api v1.12.0
+	go.temporal.io/api v1.13.0
 	go.temporal.io/sdk v1.17.0
 	go.uber.org/zap v1.23.0
 	golang.org/x/net v0.1.0
@@ -196,7 +196,7 @@ require (
 	golang.org/x/text v0.4.0 // indirect
 	golang.org/x/time v0.1.0 // indirect
 	golang.org/x/tools v0.2.0 // indirect
-	google.golang.org/genproto v0.0.0-20221025140454-527a21cfbd71 // indirect
+	google.golang.org/genproto v0.0.0-20221027153422-115e99e71e1c // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
