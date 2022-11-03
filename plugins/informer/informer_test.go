@@ -143,7 +143,7 @@ func TestInformerEarlyCall(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, list.Workers, 0)
 
-	sig := make(chan os.Signal, 0)
+	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	stopCh := make(chan struct{}, 1)

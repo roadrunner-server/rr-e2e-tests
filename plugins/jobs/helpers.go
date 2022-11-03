@@ -13,7 +13,7 @@ import (
 	jobState "github.com/roadrunner-server/sdk/v3/plugins/jobs"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 )
 
 const (

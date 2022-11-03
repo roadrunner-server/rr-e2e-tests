@@ -14,7 +14,7 @@ import (
 	"github.com/roadrunner-server/gzip/v3"
 	httpPlugin "github.com/roadrunner-server/http/v3"
 	"github.com/roadrunner-server/logger/v3"
-	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v3"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -117,7 +117,7 @@ func TestMiddlewareNotExist(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		l,

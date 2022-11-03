@@ -25,7 +25,7 @@ import (
 	"github.com/roadrunner-server/service/v3"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	serviceProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/service/v1"
+	serviceProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/service/v1"
 	"go.uber.org/zap"
 )
 
@@ -1112,11 +1112,11 @@ func TestServiceStatus(t *testing.T) {
 		Name: l.GetServices()[0],
 	}
 
-	outStat := &serviceProto.Status{}
+	outStat := &serviceProto.Statuses{}
 	t.Run("stats", status(inStat, outStat))
-	require.NotEmpty(t, outStat.GetCommand())
-	require.NotZero(t, outStat.GetMemoryUsage())
-	require.NotZero(t, outStat.GetPid())
+	require.NotEmpty(t, outStat.Status[0].GetCommand())
+	require.NotZero(t, outStat.Status[0].GetMemoryUsage())
+	require.NotZero(t, outStat.Status[0].GetPid())
 
 	out = &serviceProto.Response{}
 	t.Run("terminate", terminate(&serviceProto.Service{Name: l.GetServices()[0]}, out))
@@ -1587,7 +1587,7 @@ func restart(in *serviceProto.Service, out *serviceProto.Response) func(t *testi
 	}
 }
 
-func status(in *serviceProto.Service, out *serviceProto.Status) func(t *testing.T) {
+func status(in *serviceProto.Service, out *serviceProto.Statuses) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
 		require.NoError(t, err)

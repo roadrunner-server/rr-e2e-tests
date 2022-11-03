@@ -15,7 +15,7 @@ import (
 
 	"github.com/google/uuid"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 )
 
 const (
@@ -150,7 +150,7 @@ func main() {
 		for { //nolint:gosimple
 			select {
 			case <-tt.C:
-				fmt.Println(fmt.Sprintf("-- RATE: %d --", atomic.LoadUint64(&rate)*100)) //nolint:gosimple
+				fmt.Printf("-- RATE: %d --\n", atomic.LoadUint64(&rate)*100) //nolint:gosimple
 				atomic.StoreUint64(&rate, 0)
 			}
 		}

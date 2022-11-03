@@ -26,7 +26,7 @@ import (
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v3"
 	"github.com/stretchr/testify/assert"
-	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 )
 
 func TestJobsInit(t *testing.T) {

@@ -32,7 +32,7 @@ import (
 	sqsPlugin "github.com/roadrunner-server/sqs/v3"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/jobs/v1"
+	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"go.uber.org/zap"
 )
 

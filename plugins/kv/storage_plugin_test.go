@@ -23,7 +23,7 @@ import (
 	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	kvProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/proto/kv/v1"
+	kvProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/kv/v1"
 	"go.uber.org/zap"
 )
 
