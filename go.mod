@@ -13,7 +13,7 @@ require (
 	github.com/fatih/color v1.13.0
 	github.com/goccy/go-json v0.9.11
 	github.com/google/uuid v1.3.0
-	github.com/nats-io/nats.go v1.19.0
+	github.com/nats-io/nats.go v1.19.1
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.13.1
 	github.com/rabbitmq/amqp091-go v1.5.0
@@ -122,7 +122,6 @@ require (
 	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
-	github.com/klauspost/compress v1.15.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.1.2 // indirect
 	github.com/libdns/libdns v0.2.1 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
@@ -151,8 +150,6 @@ require (
 	github.com/rivo/uniseg v0.4.2 // indirect
 	github.com/roadrunner-server/tcplisten v1.2.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
-	github.com/segmentio/asm v1.2.0 // indirect
-	github.com/segmentio/encoding v0.3.6 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
 	github.com/spf13/afero v1.9.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
