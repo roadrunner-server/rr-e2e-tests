@@ -15,7 +15,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/nats-io/nats.go v1.19.0
 	github.com/pborman/uuid v1.2.1
-	github.com/prometheus/client_golang v1.13.1
+	github.com/prometheus/client_golang v1.14.0
 	github.com/rabbitmq/amqp091-go v1.5.0
 	github.com/roadrunner-server/amqp/v3 v3.0.0-beta.3
 	github.com/roadrunner-server/beanstalk/v3 v3.0.0-beta.3
