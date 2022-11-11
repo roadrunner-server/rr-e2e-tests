@@ -871,8 +871,11 @@ func TestHandler_FormData_POST_Overwrite(t *testing.T) {
 	assert.Equal(t, res["arr"].(map[string]interface{})["x"].(map[string]interface{})["y"].(map[string]interface{})["e"], "f")
 
 	assert.Equal(t, res["key"], "value2")
-
 	assert.Equal(t, res["name"], []interface{}{"name1", "name2", "name3"})
+
+	t.Cleanup(func() {
+		_ = hs.Shutdown(context.Background())
+	})
 }
 
 func TestHandler_FormData_POST_Form_UrlEncoded_Charset(t *testing.T) {
