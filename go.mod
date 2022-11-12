@@ -5,55 +5,55 @@ go 1.19
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
 	github.com/aws/aws-sdk-go-v2 v1.17.1
-	github.com/aws/aws-sdk-go-v2/config v1.17.11
-	github.com/aws/aws-sdk-go-v2/credentials v1.12.24
+	github.com/aws/aws-sdk-go-v2/config v1.18.0
+	github.com/aws/aws-sdk-go-v2/credentials v1.13.0
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.13
 	github.com/beanstalkd/go-beanstalk v0.1.0
 	github.com/centrifugal/centrifuge-go v0.9.3
 	github.com/fatih/color v1.13.0
 	github.com/goccy/go-json v0.9.11
 	github.com/google/uuid v1.3.0
-	github.com/nats-io/nats.go v1.19.1
+	github.com/nats-io/nats.go v1.20.0
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.14.0
 	github.com/rabbitmq/amqp091-go v1.5.0
-	github.com/roadrunner-server/amqp/v3 v3.0.0-beta.3
-	github.com/roadrunner-server/beanstalk/v3 v3.0.0-beta.3
-	github.com/roadrunner-server/boltdb/v3 v3.0.0-beta.2
+	github.com/roadrunner-server/amqp/v3 v3.0.0
+	github.com/roadrunner-server/beanstalk/v3 v3.0.0
+	github.com/roadrunner-server/boltdb/v3 v3.0.0
 	github.com/roadrunner-server/centrifuge/v3 v3.0.0-beta.4
-	github.com/roadrunner-server/config/v3 v3.0.0-beta.3
+	github.com/roadrunner-server/config/v3 v3.0.0
 	github.com/roadrunner-server/endure v1.4.5
 	github.com/roadrunner-server/errors v1.2.0
-	github.com/roadrunner-server/fileserver/v3 v3.0.0-beta.3
+	github.com/roadrunner-server/fileserver/v3 v3.0.0
 	github.com/roadrunner-server/goridge/v3 v3.6.1
-	github.com/roadrunner-server/grpc/v3 v3.0.0-beta.3
-	github.com/roadrunner-server/gzip/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/headers/v3 v3.0.0-beta.4
-	github.com/roadrunner-server/http/v3 v3.0.0-beta.4
-	github.com/roadrunner-server/informer/v3 v3.0.0-beta.3
-	github.com/roadrunner-server/jobs/v3 v3.0.0-beta.3
-	github.com/roadrunner-server/kafka/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/kv/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/logger/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/memcached/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/memory/v3 v3.0.0-beta.3
-	github.com/roadrunner-server/metrics/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/nats/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/otel/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/prometheus/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/proxy_ip_parser/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/redis/v3 v3.0.0-beta.3
-	github.com/roadrunner-server/reload/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/resetter/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/rpc/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/sdk/v3 v3.0.0-beta.5
-	github.com/roadrunner-server/send/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/server/v3 v3.0.0-beta.6
-	github.com/roadrunner-server/service/v3 v3.0.0-beta.3
-	github.com/roadrunner-server/sqs/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/static/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/status/v3 v3.0.0-beta.2
-	github.com/roadrunner-server/tcp/v3 v3.0.0-beta.3
+	github.com/roadrunner-server/grpc/v3 v3.0.0
+	github.com/roadrunner-server/gzip/v3 v3.0.0
+	github.com/roadrunner-server/headers/v3 v3.0.0
+	github.com/roadrunner-server/http/v3 v3.0.0
+	github.com/roadrunner-server/informer/v3 v3.0.0
+	github.com/roadrunner-server/jobs/v3 v3.0.0
+	github.com/roadrunner-server/kafka/v3 v3.0.0
+	github.com/roadrunner-server/kv/v3 v3.0.0
+	github.com/roadrunner-server/logger/v3 v3.0.0
+	github.com/roadrunner-server/memcached/v3 v3.0.0
+	github.com/roadrunner-server/memory/v3 v3.0.0
+	github.com/roadrunner-server/metrics/v3 v3.0.0
+	github.com/roadrunner-server/nats/v3 v3.0.0
+	github.com/roadrunner-server/otel/v3 v3.0.0
+	github.com/roadrunner-server/prometheus/v3 v3.0.0
+	github.com/roadrunner-server/proxy_ip_parser/v3 v3.0.0
+	github.com/roadrunner-server/redis/v3 v3.0.0
+	github.com/roadrunner-server/reload/v3 v3.0.0
+	github.com/roadrunner-server/resetter/v3 v3.0.0
+	github.com/roadrunner-server/rpc/v3 v3.0.0
+	github.com/roadrunner-server/sdk/v3 v3.0.0-rc.1
+	github.com/roadrunner-server/send/v3 v3.0.0
+	github.com/roadrunner-server/server/v3 v3.0.0
+	github.com/roadrunner-server/service/v3 v3.0.0
+	github.com/roadrunner-server/sqs/v3 v3.0.0
+	github.com/roadrunner-server/static/v3 v3.0.0
+	github.com/roadrunner-server/status/v3 v3.0.0
+	github.com/roadrunner-server/tcp/v3 v3.0.0
 	github.com/stretchr/testify v1.8.1
 	github.com/temporalio/roadrunner-temporal/v2 v2.0.0-rc.1
 	github.com/yookoala/gofast v0.7.0
@@ -196,7 +196,7 @@ require (
 	golang.org/x/text v0.4.0 // indirect
 	golang.org/x/time v0.2.0 // indirect
 	golang.org/x/tools v0.3.0 // indirect
-	google.golang.org/genproto v0.0.0-20221109142239-94d6d90a7d66 // indirect
+	google.golang.org/genproto v0.0.0-20221111202108-142d8a6fa32e // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
