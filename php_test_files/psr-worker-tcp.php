@@ -14,6 +14,10 @@ while (true) {
     try {
         $request = $tcpWorker->waitRequest();
 
+        if (is_null($request)) {
+            return;
+        }
+
         $tcpWorker->respond(json_encode([
             'remote_addr' => $request->remoteAddr,
             'server' => $request->server,

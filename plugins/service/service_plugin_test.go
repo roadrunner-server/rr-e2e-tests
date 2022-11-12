@@ -1593,7 +1593,7 @@ func status(in *serviceProto.Service, out *serviceProto.Statuses) func(t *testin
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		err = client.Call("service.Status", in, out)
+		err = client.Call("service.Statuses", in, out)
 		require.NoError(t, err)
 	}
 }

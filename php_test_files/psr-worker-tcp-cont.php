@@ -11,6 +11,10 @@ $worker = Worker::create();
 $tcpWorker = new TcpWorker($worker);
 
 while ($request = $tcpWorker->waitRequest()) {
+    if (is_null($request)) {
+            return;
+    }
+
     try {
         if ($request->event === TcpWorker::EVENT_CONNECTED) {
             // -----------------

@@ -23,4 +23,4 @@ jobs:
     num_workers: 10
     max_jobs: 0
     allocate_timeout: 60s
-    destroy_timeout: 60s
+    destroy_timeout: 1s
