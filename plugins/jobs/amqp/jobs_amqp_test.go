@@ -1361,7 +1361,7 @@ func TestAMQPRawPayload(t *testing.T) {
 	err = channel.ExchangeDeclare(
 		"default",
 		"direct",
-		true,
+		false,
 		false,
 		false,
 		false,
