@@ -331,6 +331,7 @@ github.com/centrifugal/centrifuge-go v0.9.3 h1:EgPhi4V3PBTPL6tOcSxKjtCXa3wG7s5nz
 github.com/centrifugal/centrifuge-go v0.9.3/go.mod h1:L0aQ0u5ixvTJ/pz7ZyXvwOXuRARzXW32fVRvCOUbu5I=
 github.com/centrifugal/protocol v0.8.11 h1:LP3fi5h8mApGmQ3iYb6PWrfID0PvGHS+zXZIjB82qhM=
 github.com/centrifugal/protocol v0.8.11/go.mod h1:qpYrxz4cDj+rlgC6giSADkf7XDN1K7aFmkkFwt/bayQ=
+github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.1.2 h1:YRXhKfTDauu4ajMg1TPgFO5jnlC2HCbmLXMcTG5cbYE=
@@ -521,6 +522,7 @@ github.com/gorilla/websocket v1.5.0 h1:PPwGk2jz7EePpoHN/+ClbZu8SPxiqlu12wZP/3sWm
 github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 h1:+9834+KizmvFV7pXQGSXQTsaWhq2GjuNUt0aUU0YBYw=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0/go.mod h1:z0ButlSOZa5vEBq9m2m2hlwIgKw+rp3sdCBRoJY+30Y=
+github.com/grpc-ecosystem/grpc-gateway v1.16.0 h1:gmcG1KaJ57LophUzW0Hy8NmPhnMZb4M0+kPpLofRdBo=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0/go.mod h1:hgWBS7lorOAVIJEQMi4ZsPv9hVvWI6+ch50m39Pf2Ks=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.13.0 h1:fi9bGIUJOGzzrHBbP8NWbTfNC5fKO6X7kFw40TOqGB8=
@@ -706,8 +708,8 @@ github.com/roadrunner-server/gzip/v3 v3.0.0 h1:RAJrsf+uKWXvYgRe3H08xyQGgfubLyGfx
 github.com/roadrunner-server/gzip/v3 v3.0.0/go.mod h1:5MsbqkK98XGfJ9o2zO9grtOkJUoTolsrhEmQEIuUZ2M=
 github.com/roadrunner-server/headers/v3 v3.0.0 h1:hDwJOV3sRAUrPFbjlxhaYKF/fDkfvU2SLOnjQAqsqRc=
 github.com/roadrunner-server/headers/v3 v3.0.0/go.mod h1:xKCIvKsBz+wwP0wOVIIAT+aJKVlQt1wxZB28YGlD/DM=
-github.com/roadrunner-server/http/v3 v3.0.0 h1:LJVhhlgpjuPWbeMcLirXIjY2nJKOLtwNnG8WmrufWq4=
-github.com/roadrunner-server/http/v3 v3.0.0/go.mod h1:dbiFGqmdnoQ/x7KMGghUKKtex8SIcABm+1E7YDos/oo=
+github.com/roadrunner-server/http/v3 v3.0.1 h1:iP7sdIjpS5B0V0xqCIq7Sesd5LMQm+ypXHC7IYoH3Z8=
+github.com/roadrunner-server/http/v3 v3.0.1/go.mod h1:drMOo7NzXzxVlBMzo4hb/QtPAjVp9TNomUAFV/+EK74=
 github.com/roadrunner-server/informer/v3 v3.0.0 h1:XbpSeg7fbp+un9Tte316oE0nI6pfECgEjKkefTjYp2A=
 github.com/roadrunner-server/informer/v3 v3.0.0/go.mod h1:y1e/ZHpx1/eg/kyej7mutt3FF+E+xO4bU5hMn2u6nko=
 github.com/roadrunner-server/jobs/v3 v3.0.0 h1:T8NinNqSjNAtrYgFkWc0HPs54Lbcq6dNl5T7sUrbcn0=
