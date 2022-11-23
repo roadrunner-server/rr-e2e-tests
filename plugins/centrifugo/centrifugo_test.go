@@ -108,17 +108,13 @@ func TestCentrifugoPluginInit(t *testing.T) {
 
 func connectToCentrifuge() {
 	client := centrifugeClient.NewProtobufClient("ws://localhost:8000/connection/websocket", centrifugeClient.Config{
-		Data:               []byte(`{"hui": "sosi huy pidoras"}`),
+		Data:               []byte(`{"test: data"}`),
 		Name:               "roadrunner_tests",
 		Version:            "3.0.0",
 		ReadTimeout:        time.Second * 100,
 		WriteTimeout:       time.Second * 100,
 		HandshakeTimeout:   time.Second * 100,
 		MaxServerPingDelay: time.Second * 100,
-		TLSConfig:          nil,
-		EnableCompression:  false,
-		CookieJar:          nil,
-		Header:             nil,
 	})
 
 	err := client.Connect()
@@ -126,7 +122,7 @@ func connectToCentrifuge() {
 		panic(err)
 	}
 
-	sub, err := client.NewSubscription("baaarr", centrifugeClient.SubscriptionConfig{
+	sub, err := client.NewSubscription("foo", centrifugeClient.SubscriptionConfig{
 		Data:        nil,
 		Positioned:  false,
 		Recoverable: true,

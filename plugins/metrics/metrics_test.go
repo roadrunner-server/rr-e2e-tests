@@ -40,7 +40,8 @@ func TestMetricsInit(t *testing.T) {
 	}
 
 	cfg := &config.Plugin{
-		Version: "2.9.0"}
+		Version: "2.9.0",
+	}
 	cfg.Prefix = "rr"
 	cfg.Path = "configs/.rr-test.yaml"
 
@@ -228,7 +229,8 @@ func TestMetricsGaugeCollector(t *testing.T) {
 	}
 
 	cfg := &config.Plugin{
-		Version: "2.9.0"}
+		Version: "2.9.0",
+	}
 	cfg.Prefix = "rr"
 	cfg.Path = "configs/.rr-test.yaml"
 
@@ -294,7 +296,8 @@ func TestMetricsDifferentRPCCalls(t *testing.T) {
 	}
 
 	cfg := &config.Plugin{
-		Version: "2.9.0"}
+		Version: "2.9.0",
+	}
 	cfg.Prefix = "rr"
 	cfg.Path = "configs/.rr-test.yaml"
 
@@ -895,6 +898,22 @@ func declareMetricsTest(t *testing.T) {
 	assert.True(t, ret)
 }
 
+func unregisterMetric(name string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial(dialNetwork, dialAddr)
+		assert.NoError(t, err)
+		defer func() {
+			_ = conn.Close()
+		}()
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+		var ret bool
+
+		err = client.Call("metrics.Unregister", "test_metrics_named_collector", &ret)
+		assert.NoError(t, err)
+		assert.True(t, ret)
+	}
+}
+
 func TestHTTPMetrics(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	if err != nil {
@@ -1063,6 +1082,81 @@ func TestHTTPMetricsNoFreeWorkers(t *testing.T) {
 	assert.Contains(t, genericOut, `rr_http_no_free_workers_total 1`)
 
 	close(sig)
+}
+
+func TestUnregister(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	cfg := &config.Plugin{
+		Version: "2.12.0",
+	}
+	cfg.Prefix = "rr"
+	cfg.Path = "configs/.rr-test.yaml"
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&metrics.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	tt := time.NewTimer(time.Minute * 3)
+	defer tt.Stop()
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-tt.C:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+	t.Run("DeclareMetric", declareMetricsTest)
+	genericOut, err := getIPV6()
+	assert.NoError(t, err)
+	assert.Contains(t, genericOut, "test_metrics_named_collector")
+
+	time.Sleep(time.Second * 2)
+	t.Run("UnregisterMetric", unregisterMetric("test_metrics_named_collector"))
+	genericOut, err = getIPV6()
+	assert.NoError(t, err)
+	assert.NotContains(t, genericOut, "test_metrics_named_collector")
+
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("collector was successfully unregistered").Len())
 }
 
 // get request and return body
