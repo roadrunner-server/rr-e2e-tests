@@ -1,4 +1,4 @@
-package app_logger
+package app_logger //nolint:stylecheck
 
 import (
 	"os"

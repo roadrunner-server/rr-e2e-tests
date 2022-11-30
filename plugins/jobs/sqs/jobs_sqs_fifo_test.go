@@ -446,7 +446,6 @@ func TestSQSPrefetch(t *testing.T) {
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		//&logger.Plugin{},
 		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
