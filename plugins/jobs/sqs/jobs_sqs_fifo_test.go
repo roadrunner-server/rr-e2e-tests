@@ -506,11 +506,11 @@ func TestSQSPrefetch(t *testing.T) {
 			t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false))
 		}()
 	}
-	time.Sleep(time.Second * 80)
+	time.Sleep(time.Second * 100)
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("prefetch limit was reached").Len(), 50)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("prefetch limit was reached").Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("receive message").Len(), 2)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 100)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was processed successfully").Len(), 100)

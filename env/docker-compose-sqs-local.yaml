@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  sqs:
+    build:
+      context: .
+      dockerfile: Dockerfile-elastic-mq.yaml
+    ports:
+      - "127.0.0.1:9324:9324"
