@@ -11,7 +11,7 @@ require (
 	github.com/beanstalkd/go-beanstalk v0.1.0
 	github.com/centrifugal/centrifuge-go v0.9.3
 	github.com/fatih/color v1.13.0
-	github.com/goccy/go-json v0.9.11
+	github.com/goccy/go-json v0.10.0
 	github.com/google/uuid v1.3.0
 	github.com/nats-io/nats.go v1.20.0
 	github.com/pborman/uuid v1.2.1
