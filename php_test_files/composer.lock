@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d6675fdd2e26a27480854ffcbd8709c",
+    "content-hash": "65af9400fbd4e74882c6395c3c98d9d9",
     "packages": [
         {
             "name": "brick/math",
@@ -2161,6 +2161,57 @@
                 }
             ],
             "time": "2022-02-11T10:27:51+00:00"
+        },
+        {
+            "name": "roadrunner-php/app-logger",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roadrunner-php/app-logger.git",
+                "reference": "3844e1bf7e1d59f80fcf590be34cb3efdbb0c189"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roadrunner-php/app-logger/zipball/3844e1bf7e1d59f80fcf590be34cb3efdbb0c189",
+                "reference": "3844e1bf7e1d59f80fcf590be34cb3efdbb0c189",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.1",
+                "spiral/goridge": "^3.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "phpunit/phpunit": "^8.0",
+                "vimeo/psalm": ">=4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RoadRunner\\Logger\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kirill Astakhov (kastahov)",
+                    "email": "kirill.astakhov@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "Send log messages to RoadRunner",
+            "support": {
+                "issues": "https://github.com/roadrunner-php/app-logger/issues",
+                "source": "https://github.com/roadrunner-php/app-logger/tree/1.0.0"
+            },
+            "time": "2022-11-03T15:47:26+00:00"
         },
         {
             "name": "roadrunner-php/centrifugo",

@@ -34,11 +34,12 @@ func TestSQSInitFifo(t *testing.T) {
 		Prefix:  "rr",
 	}
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
+		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
@@ -97,6 +98,14 @@ func TestSQSInitFifo(t *testing.T) {
 	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
 	wg.Wait()
+	time.Sleep(time.Second)
+
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("receive message").Len(), 2)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 2)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was processed successfully").Len(), 2)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("sqs listener was stopped").Len(), 2)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("destroy signal received").Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("pipeline was stopped").Len(), 2)
 }
 
 func TestSQSInitFifoAutoAck(t *testing.T) {
@@ -420,4 +429,93 @@ func TestSQSJobsErrorFifo(t *testing.T) {
 	wg.Wait()
 
 	time.Sleep(time.Second * 5)
+}
+
+func TestSQSPrefetch(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.12.1",
+		Path:    "configs/.rr-sqs-init_fifo-prefetch.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		//&logger.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&sqs.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	for i := 0; i < 50; i++ {
+		go func() {
+			t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false))
+			t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false))
+		}()
+	}
+	time.Sleep(time.Second * 80)
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("prefetch limit was reached").Len(), 50)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("receive message").Len(), 2)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 100)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was processed successfully").Len(), 100)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("sqs listener was stopped").Len(), 2)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("destroy signal received").Len(), 1)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("pipeline was stopped").Len(), 2)
 }

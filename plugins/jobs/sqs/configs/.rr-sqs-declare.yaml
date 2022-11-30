@@ -17,7 +17,7 @@ sqs:
   endpoint: http://127.0.0.1:9324
 
 logs:
-  level: error
+  level: debug
   encoding: console
   mode: development
 

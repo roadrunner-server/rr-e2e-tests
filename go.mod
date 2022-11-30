@@ -11,13 +11,14 @@ require (
 	github.com/beanstalkd/go-beanstalk v0.1.0
 	github.com/centrifugal/centrifuge-go v0.9.3
 	github.com/fatih/color v1.13.0
-	github.com/goccy/go-json v0.9.11
+	github.com/goccy/go-json v0.10.0
 	github.com/google/uuid v1.3.0
 	github.com/nats-io/nats.go v1.20.0
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.14.0
 	github.com/rabbitmq/amqp091-go v1.5.0
 	github.com/roadrunner-server/amqp/v3 v3.0.2
+	github.com/roadrunner-server/app-logger/v3 v3.0.1
 	github.com/roadrunner-server/beanstalk/v3 v3.0.2
 	github.com/roadrunner-server/boltdb/v3 v3.0.2
 	github.com/roadrunner-server/centrifuge/v3 v3.0.2
@@ -25,7 +26,7 @@ require (
 	github.com/roadrunner-server/endure v1.4.5
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v3 v3.0.2
-	github.com/roadrunner-server/goridge/v3 v3.6.1
+	github.com/roadrunner-server/goridge/v3 v3.6.2
 	github.com/roadrunner-server/grpc/v3 v3.0.2
 	github.com/roadrunner-server/gzip/v3 v3.0.2
 	github.com/roadrunner-server/headers/v3 v3.0.2
@@ -36,7 +37,7 @@ require (
 	github.com/roadrunner-server/kv/v3 v3.0.2
 	github.com/roadrunner-server/logger/v3 v3.0.1
 	github.com/roadrunner-server/memcached/v3 v3.0.2
-	github.com/roadrunner-server/memory/v3 v3.0.2
+	github.com/roadrunner-server/memory/v3 v3.1.0
 	github.com/roadrunner-server/metrics/v3 v3.1.0
 	github.com/roadrunner-server/nats/v3 v3.0.2
 	github.com/roadrunner-server/otel/v3 v3.0.2
@@ -50,7 +51,7 @@ require (
 	github.com/roadrunner-server/send/v3 v3.0.2
 	github.com/roadrunner-server/server/v3 v3.0.2
 	github.com/roadrunner-server/service/v3 v3.0.2
-	github.com/roadrunner-server/sqs/v3 v3.0.2
+	github.com/roadrunner-server/sqs/v3 v3.1.0
 	github.com/roadrunner-server/static/v3 v3.0.2
 	github.com/roadrunner-server/status/v3 v3.0.2
 	github.com/roadrunner-server/tcp/v3 v3.0.2
@@ -164,7 +165,7 @@ require (
 	github.com/twmb/murmur3 v1.1.6 // indirect
 	github.com/uber-go/tally/v4 v4.1.3 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.41.0 // indirect
+	github.com/valyala/fasthttp v1.43.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect

@@ -4,7 +4,7 @@ rpc:
   listen: tcp://127.0.0.1:6001
 
 server:
-  command: "php ../../../php_test_files/jobs/jobs_ok.php"
+  command: "php ../../../php_test_files/jobs/jobs_ok_sleep1.php"
   relay: "pipes"
   relay_timeout: "20s"
 
@@ -32,19 +32,31 @@ jobs:
     test-1:
       driver: sqs
       config:
-        prefetch: 1000
+        prefetch: 1
         visibility_timeout: 0
         wait_time_seconds: 0
-        message_group_id: 'foo'
-        queue: default.fifo
+        message_group_id: 'RR'
+        queue: default-pref1.fifo
         attributes:
           FifoQueue: 'true'
+          DelaySeconds: 0
           MaximumMessageSize: 262144
           MessageRetentionPeriod: 345600
           ReceiveMessageWaitTimeSeconds: 0
           VisibilityTimeout: 30
-          ContentBasedDeduplication: 'true'
         tags:
           test: "tag"
 
-  consume: [ "test-1" ]
+    test-2:
+      driver: sqs
+      config:
+        prefetch: 1
+        queue: default-pref2.fifo
+        message_group_id: 'RR'
+        attributes:
+          FifoQueue: 'true'
+          MessageRetentionPeriod: 86400
+        tags:
+          test: "tag"
+  consume: [ "test-1", "test-2" ]
+
