@@ -26,7 +26,7 @@ jobs:
     num_workers: 10
     max_jobs: 0
     allocate_timeout: 60s
-    destroy_timeout: 60s
+    destroy_timeout: 2s
 
   pipelines:
     test-1:
@@ -36,7 +36,7 @@ jobs:
         visibility_timeout: 0
         wait_time_seconds: 0
         message_group_id: 'RR'
-        queue: default-pref1.fifo
+        queue: default-pref-1.fifo
         attributes:
           FifoQueue: 'true'
           DelaySeconds: 0
@@ -51,7 +51,7 @@ jobs:
       driver: sqs
       config:
         prefetch: 1
-        queue: default-pref2.fifo
+        queue: default-pref-2.fifo
         message_group_id: 'RR'
         attributes:
           FifoQueue: 'true'

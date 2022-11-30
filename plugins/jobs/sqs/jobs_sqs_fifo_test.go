@@ -507,7 +507,7 @@ func TestSQSPrefetch(t *testing.T) {
 		}()
 	}
 
-	time.Sleep(time.Second * 50)
+	time.Sleep(time.Second * 100)
 	stopCh <- struct{}{}
 	wg.Wait()
 
