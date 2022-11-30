@@ -500,20 +500,21 @@ func TestSQSPrefetch(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	for i := 0; i < 50; i++ {
+	for i := 0; i < 10; i++ {
 		go func() {
 			t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false))
 			t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false))
 		}()
 	}
-	time.Sleep(time.Second * 100)
+
+	time.Sleep(time.Second * 50)
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("prefetch limit was reached").Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("receive message").Len(), 2)
-	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 100)
-	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was processed successfully").Len(), 100)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 20)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was processed successfully").Len(), 20)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("sqs listener was stopped").Len(), 2)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("destroy signal received").Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("pipeline was stopped").Len(), 2)

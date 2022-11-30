@@ -37,7 +37,7 @@ require (
 	github.com/roadrunner-server/kv/v3 v3.0.2
 	github.com/roadrunner-server/logger/v3 v3.0.1
 	github.com/roadrunner-server/memcached/v3 v3.0.2
-	github.com/roadrunner-server/memory/v3 v3.1.0
+	github.com/roadrunner-server/memory/v3 v3.1.1
 	github.com/roadrunner-server/metrics/v3 v3.1.0
 	github.com/roadrunner-server/nats/v3 v3.0.2
 	github.com/roadrunner-server/otel/v3 v3.0.2
@@ -61,7 +61,7 @@ require (
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.27
 	go.temporal.io/api v1.13.0
 	go.temporal.io/sdk v1.18.1
-	go.uber.org/zap v1.23.0
+	go.uber.org/zap v1.24.0
 	golang.org/x/net v0.2.0
 	google.golang.org/grpc v1.51.0
 	google.golang.org/protobuf v1.28.1

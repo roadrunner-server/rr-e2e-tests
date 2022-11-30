@@ -696,13 +696,13 @@ func TestMemoryStats(t *testing.T) {
 	out := &jobState.State{}
 	t.Run("Stats", helpers.Stats(out))
 
-	assert.Equal(t, out.Pipeline, "test-3")
-	assert.Equal(t, out.Driver, "memory")
-	assert.Equal(t, out.Queue, "test-3")
+	assert.Equal(t, "test-3", out.Pipeline)
+	assert.Equal(t, "memory", out.Driver)
+	assert.Equal(t, "test-3", out.Queue)
 
-	assert.Equal(t, out.Active, int64(1))
-	assert.Equal(t, out.Delayed, int64(1))
-	assert.Equal(t, out.Reserved, int64(0))
+	assert.Equal(t, int64(0), out.Active)
+	assert.Equal(t, int64(1), out.Delayed)
+	assert.Equal(t, int64(0), out.Reserved)
 	assert.Equal(t, uint64(33), out.Priority)
 
 	time.Sleep(time.Second)
@@ -716,9 +716,9 @@ func TestMemoryStats(t *testing.T) {
 	assert.Equal(t, out.Driver, "memory")
 	assert.Equal(t, out.Queue, "test-3")
 
-	assert.Equal(t, out.Active, int64(0))
-	assert.Equal(t, out.Delayed, int64(0))
-	assert.Equal(t, out.Reserved, int64(0))
+	assert.Equal(t, int64(0), out.Active)
+	assert.Equal(t, int64(0), out.Delayed)
+	assert.Equal(t, int64(0), out.Reserved)
 	assert.Equal(t, uint64(33), out.Priority)
 
 	t.Run("DestroyEphemeralPipeline", helpers.DestroyPipelines("test-3"))

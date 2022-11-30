@@ -331,7 +331,6 @@ github.com/centrifugal/centrifuge-go v0.9.3 h1:EgPhi4V3PBTPL6tOcSxKjtCXa3wG7s5nz
 github.com/centrifugal/centrifuge-go v0.9.3/go.mod h1:L0aQ0u5ixvTJ/pz7ZyXvwOXuRARzXW32fVRvCOUbu5I=
 github.com/centrifugal/protocol v0.8.11 h1:LP3fi5h8mApGmQ3iYb6PWrfID0PvGHS+zXZIjB82qhM=
 github.com/centrifugal/protocol v0.8.11/go.mod h1:qpYrxz4cDj+rlgC6giSADkf7XDN1K7aFmkkFwt/bayQ=
-github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.1.2 h1:YRXhKfTDauu4ajMg1TPgFO5jnlC2HCbmLXMcTG5cbYE=
@@ -522,7 +521,6 @@ github.com/gorilla/websocket v1.5.0 h1:PPwGk2jz7EePpoHN/+ClbZu8SPxiqlu12wZP/3sWm
 github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 h1:+9834+KizmvFV7pXQGSXQTsaWhq2GjuNUt0aUU0YBYw=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0/go.mod h1:z0ButlSOZa5vEBq9m2m2hlwIgKw+rp3sdCBRoJY+30Y=
-github.com/grpc-ecosystem/grpc-gateway v1.16.0 h1:gmcG1KaJ57LophUzW0Hy8NmPhnMZb4M0+kPpLofRdBo=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0/go.mod h1:hgWBS7lorOAVIJEQMi4ZsPv9hVvWI6+ch50m39Pf2Ks=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.14.0 h1:t7uX3JBHdVwAi3G7sSSdbsk8NfgA+LnUS88V/2EKaA0=
@@ -724,8 +722,8 @@ github.com/roadrunner-server/logger/v3 v3.0.1 h1:gcz4PCmrFGjHjzpLLFy2T+KmlH5Oen2
 github.com/roadrunner-server/logger/v3 v3.0.1/go.mod h1:Uc6P2arkF1au8nfnlMl1Bif+zac5HR1rfaAioJeot5I=
 github.com/roadrunner-server/memcached/v3 v3.0.2 h1:FiMhaOqTBZyG84u9ZU26O7I5i2awdwTQn+be8qcE56k=
 github.com/roadrunner-server/memcached/v3 v3.0.2/go.mod h1:lPjv5rEIzKLCw3QEcIn18/qAdB8eXcxrYjC6FpNa3Ik=
-github.com/roadrunner-server/memory/v3 v3.1.0 h1:aZvXBSdKuucY9FSlJErUSSHcwEnzjFZPKqIqmHrjCyw=
-github.com/roadrunner-server/memory/v3 v3.1.0/go.mod h1:dVh6Flg3C5DQ5YcgKyPZv3cBX8q0Y9MAMlJEkU5Tbmg=
+github.com/roadrunner-server/memory/v3 v3.1.1 h1:yaVo7PyPeX6itEm2k+pY36GOdacAm3C5LxwVBee08+k=
+github.com/roadrunner-server/memory/v3 v3.1.1/go.mod h1:LXBiTzK1udFA4KCpT7VYnq8JdOSjnPmmD+PdugUTXp4=
 github.com/roadrunner-server/metrics/v3 v3.1.0 h1:YQ8874w6aWQaw7LrX4r5Nn8zyFQvyQbB9Ll1YnNnzY0=
 github.com/roadrunner-server/metrics/v3 v3.1.0/go.mod h1:4Mh7S2g9KZ0WMFri0eYBNx6XzGW324SGYkWsK+qdwi8=
 github.com/roadrunner-server/nats/v3 v3.0.2 h1:yf5RcYdj5FENH5OS4/gitztw8nbpJ1WgXJRgh/zRe0M=
@@ -909,8 +907,8 @@ go.uber.org/multierr v1.8.0 h1:dg6GjLku4EH+249NNmoIciG9N/jURbDG+pFlTkhzIC8=
 go.uber.org/multierr v1.8.0/go.mod h1:7EAYxJLBy9rStEaz58O2t4Uvip6FSURkq8/ppBp95ak=
 go.uber.org/zap v1.10.0/go.mod h1:vwi/ZaCAaUcBkycHslxD9B2zi4UTXhF60s6SWpuDF0Q=
 go.uber.org/zap v1.21.0/go.mod h1:wjWOCqI0f2ZZrJF/UufIOkiC8ii6tm1iqIsLo76RfJw=
-go.uber.org/zap v1.23.0 h1:OjGQ5KQDEUawVHxNwQgPpiypGHOxo2mNZsOqTak4fFY=
-go.uber.org/zap v1.23.0/go.mod h1:D+nX8jyLsMHMYrln8A0rJjFt/T/9/bGgIhAqxv5URuY=
+go.uber.org/zap v1.24.0 h1:FiJd5l1UOLj0wCgbSE0rwwXHzEdAZS6hiiSnxJN/D60=
+go.uber.org/zap v1.24.0/go.mod h1:2kMP+WWQ8aoFoedH3T2sq6iJ2yDWpHbP0f6MQbS9Gkg=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190510104115-cbcb75029529/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
