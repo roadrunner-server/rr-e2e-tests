@@ -52,7 +52,7 @@ require (
 	github.com/roadrunner-server/server/v3 v3.0.2
 	github.com/roadrunner-server/service/v3 v3.0.2
 	github.com/roadrunner-server/sqs/v3 v3.1.0
-	github.com/roadrunner-server/static/v3 v3.0.2
+	github.com/roadrunner-server/static/v3 v3.0.3
 	github.com/roadrunner-server/status/v3 v3.0.2
 	github.com/roadrunner-server/tcp/v3 v3.0.2
 	github.com/stretchr/testify v1.8.1
@@ -148,7 +148,7 @@ require (
 	github.com/prometheus/procfs v0.8.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
-	github.com/roadrunner-server/tcplisten v1.2.0 // indirect
+	github.com/roadrunner-server/tcplisten v1.2.1 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/segmentio/encoding v0.3.6 // indirect
