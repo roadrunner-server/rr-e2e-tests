@@ -744,8 +744,8 @@ github.com/roadrunner-server/rpc/v3 v3.0.2 h1:OsJFSNQDE1/DIw7OqKNXipDeSDiM47aUHL
 github.com/roadrunner-server/rpc/v3 v3.0.2/go.mod h1:dOYfm+i+h0ZzIDBgob1PcabBqmq4EzFXd1h+ksS4XyY=
 github.com/roadrunner-server/sdk/v3 v3.0.0 h1:DhSLwTCAP5yzUwgBcUo6M1jK8e1XufxYvpFCuGACruw=
 github.com/roadrunner-server/sdk/v3 v3.0.0/go.mod h1:R8CbJAIsHjye7asTIl0zLDRl89aIRETLFFfHbmczw04=
-github.com/roadrunner-server/send/v3 v3.0.2 h1:zcOxT+Ukk6+72XQuMkm6182pWZICc+Y+iVo0P0MZxik=
-github.com/roadrunner-server/send/v3 v3.0.2/go.mod h1:rXotgARjYZ8KGmQ9+FGE4ogD9i6W/cSPIFZB0tetM+g=
+github.com/roadrunner-server/send/v3 v3.0.3 h1:YO3rX6WzpxtkSQVaozJAfIArHBvcYPhnMuHRm4W1gTQ=
+github.com/roadrunner-server/send/v3 v3.0.3/go.mod h1:zDlOXyrxIZ0nQmkQ4/BiQEbQSrh4mdylJLUliOeWn1E=
 github.com/roadrunner-server/server/v3 v3.0.2 h1:wdFoVIcUNALBZOa92ZUz0PPAqBhQA0FnVNQVOCpTuPM=
 github.com/roadrunner-server/server/v3 v3.0.2/go.mod h1:hEDq7JtXzy4jJmepJWvzlDj5WHoo1jdwEPGH56Fil7g=
 github.com/roadrunner-server/service/v3 v3.0.2 h1:/in32R/6mssk+E2KHCMpIPfjBGKi9vnHEemGpIxSTgM=
@@ -758,8 +758,8 @@ github.com/roadrunner-server/status/v3 v3.0.2 h1:cYIUlvnCkS22l2osT90G2zB0J2Lu6iC
 github.com/roadrunner-server/status/v3 v3.0.2/go.mod h1:3UubQgEnfiXtqHoR9KuXiy04IGj+S1oT+SOCcQTHyJI=
 github.com/roadrunner-server/tcp/v3 v3.0.2 h1:svwqxhutJI4PPAdkJyi+YLQhvGgsxYaUeabaFfg603k=
 github.com/roadrunner-server/tcp/v3 v3.0.2/go.mod h1:Y0b7nCih4TVQ+A8hh5qMav6DPOf11jWrso2+zhjFbxU=
-github.com/roadrunner-server/tcplisten v1.2.0 h1:nsiXEEb0zP7vjAsCWNHKpM0HdwFK/KlafFF/2gsTJlg=
-github.com/roadrunner-server/tcplisten v1.2.0/go.mod h1:NhumKvt7dbIKVNZnqR1fA4ET1D8ngIKsg0TxnuJTL6A=
+github.com/roadrunner-server/tcplisten v1.2.1 h1:9hVVMlCRvMPewnJCnfSe/kKAqn2ZOF3wHy+ji0M/NKU=
+github.com/roadrunner-server/tcplisten v1.2.1/go.mod h1:TRJLGwIruiJ7QhmGVRgJFY5Ch72mPoLhLAxuxLnavpU=
 github.com/robfig/cron v1.2.0 h1:ZjScXvvxeQ63Dbyxy76Fj3AT3Ut0aKsyd2/tl3DTMuQ=
 github.com/robfig/cron v1.2.0/go.mod h1:JGuDeoQd7Z6yL4zQhZ3OPEVHB7fL6Ka6skscFHfmt2k=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
