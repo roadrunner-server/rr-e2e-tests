@@ -270,7 +270,7 @@ func declareSQSPipe(client *rpc.Client, n string) {
 		"priority":           "3",
 		"visibility_timeout": "0",
 		"wait_time_seconds":  "3",
-		"tags":               `{"key":"value"}`,
+		"tags":               `{"purpose":"roadrunner-load-testing"}`,
 	}}
 
 	er := &jobsProto.Empty{}
