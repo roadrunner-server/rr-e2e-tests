@@ -23,7 +23,7 @@ require (
 	github.com/roadrunner-server/boltdb/v3 v3.0.2
 	github.com/roadrunner-server/centrifuge/v3 v3.0.2
 	github.com/roadrunner-server/config/v3 v3.0.2
-	github.com/roadrunner-server/endure v1.4.5
+	github.com/roadrunner-server/endure v1.4.6
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v3 v3.0.2
 	github.com/roadrunner-server/goridge/v3 v3.6.2
