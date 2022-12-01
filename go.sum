@@ -714,8 +714,8 @@ github.com/roadrunner-server/informer/v3 v3.0.2 h1:PqqvdJAlDdtomavMaM20WWWs1YNkN
 github.com/roadrunner-server/informer/v3 v3.0.2/go.mod h1:sH09PfnZ2xYOhifiNVi+Vbul3hF2fmdEDDiICEKEu6I=
 github.com/roadrunner-server/jobs/v3 v3.0.2 h1:cwFd+0ostvqladEbYLvHp1nuTYJdkwLDO6VcSa3X7GM=
 github.com/roadrunner-server/jobs/v3 v3.0.2/go.mod h1:pBf/wPhCbhZ9W4KSsmURvw4vz6ZMslOOyy9tazSSNXM=
-github.com/roadrunner-server/kafka/v3 v3.0.2 h1:kxsnInTbDY8xyX/dreWnJuDWTUITscJFK0PtoH1H5iQ=
-github.com/roadrunner-server/kafka/v3 v3.0.2/go.mod h1:tKyGvnLPCD/QOQ35LQ6hMNx6dKRl5t3xhnnUg8Cp5hc=
+github.com/roadrunner-server/kafka/v3 v3.0.3 h1:fwCUBkYe8sbR+BxwqAmXZvoVYqZOSJKdN/ndggD1zUQ=
+github.com/roadrunner-server/kafka/v3 v3.0.3/go.mod h1:uyzB7KNgNYcb+/BKpW/hJqIAosif4N6EcQXpzivueKI=
 github.com/roadrunner-server/kv/v3 v3.0.2 h1:IfFG/OfaS2tUj6woz7YK6kE9dHxvmMTPz98+xR7GRgU=
 github.com/roadrunner-server/kv/v3 v3.0.2/go.mod h1:bo9WGfH70+xsbq5duGArtrPDdFIuviC5FR8Mf3wv06U=
 github.com/roadrunner-server/logger/v3 v3.0.1 h1:gcz4PCmrFGjHjzpLLFy2T+KmlH5Oen2/iUHY08OIA5w=
@@ -758,8 +758,8 @@ github.com/roadrunner-server/status/v3 v3.0.2 h1:cYIUlvnCkS22l2osT90G2zB0J2Lu6iC
 github.com/roadrunner-server/status/v3 v3.0.2/go.mod h1:3UubQgEnfiXtqHoR9KuXiy04IGj+S1oT+SOCcQTHyJI=
 github.com/roadrunner-server/tcp/v3 v3.0.2 h1:svwqxhutJI4PPAdkJyi+YLQhvGgsxYaUeabaFfg603k=
 github.com/roadrunner-server/tcp/v3 v3.0.2/go.mod h1:Y0b7nCih4TVQ+A8hh5qMav6DPOf11jWrso2+zhjFbxU=
-github.com/roadrunner-server/tcplisten v1.2.0 h1:nsiXEEb0zP7vjAsCWNHKpM0HdwFK/KlafFF/2gsTJlg=
-github.com/roadrunner-server/tcplisten v1.2.0/go.mod h1:NhumKvt7dbIKVNZnqR1fA4ET1D8ngIKsg0TxnuJTL6A=
+github.com/roadrunner-server/tcplisten v1.2.1 h1:9hVVMlCRvMPewnJCnfSe/kKAqn2ZOF3wHy+ji0M/NKU=
+github.com/roadrunner-server/tcplisten v1.2.1/go.mod h1:TRJLGwIruiJ7QhmGVRgJFY5Ch72mPoLhLAxuxLnavpU=
 github.com/robfig/cron v1.2.0 h1:ZjScXvvxeQ63Dbyxy76Fj3AT3Ut0aKsyd2/tl3DTMuQ=
 github.com/robfig/cron v1.2.0/go.mod h1:JGuDeoQd7Z6yL4zQhZ3OPEVHB7fL6Ka6skscFHfmt2k=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
