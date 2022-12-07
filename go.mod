@@ -60,7 +60,7 @@ require (
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.27
 	go.temporal.io/api v1.13.1-0.20221110200459-6a3cb21a3415
-	go.temporal.io/sdk v1.18.1
+	go.temporal.io/sdk v1.19.0
 	go.uber.org/zap v1.24.0
 	golang.org/x/net v0.2.0
 	google.golang.org/grpc v1.51.0
