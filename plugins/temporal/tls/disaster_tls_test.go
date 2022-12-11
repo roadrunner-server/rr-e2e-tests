@@ -149,11 +149,11 @@ func Test_ActivityError_DisasterRecovery(t *testing.T) {
 
 	defer func() {
 		// always restore script
-		_ = os.Rename("worker.bak", "worker.php")
+		_ = os.Rename("../../../php_test_files/temporal/worker.bak", "../../../php_test_files/temporal/worker.php")
 	}()
 
 	// Makes worker pool unable to recover for some time
-	_ = os.Rename("worker.php", "worker.bak")
+	_ = os.Rename("../../../php_test_files/temporal/worker.php", "../../../php_test_files/temporal/worker.bak")
 
 	// destroys all workers in activities
 
@@ -180,7 +180,7 @@ func Test_ActivityError_DisasterRecovery(t *testing.T) {
 	time.Sleep(time.Millisecond * 750)
 
 	// restore the script and recover activity pool
-	_ = os.Rename("worker.bak", "worker.php")
+	_ = os.Rename("../../../php_test_files/temporal/worker.bak", "../../../php_test_files/temporal/worker.php")
 
 	var result string
 	assert.NoError(t, w.Get(context.Background(), &result))
@@ -231,11 +231,11 @@ func Test_WorkerError_DisasterRecovery_Heavy(t *testing.T) {
 
 	defer func() {
 		// always restore script
-		_ = os.Rename("../../../php_test_files/worker.bak", "../../../php_test_files/worker.php")
+		_ = os.Rename("../../../php_test_files/temporal/worker.bak", "../../../php_test_files/temporal/worker.php")
 	}()
 
 	// Makes worker pool unable to recover for some time
-	require.NoError(t, os.Rename("../../../php_test_files/worker.php", "../../../php_test_files/worker.bak"))
+	require.NoError(t, os.Rename("../../../php_test_files/temporal/worker.php", "../../../php_test_files/temporal/worker.bak"))
 
 	conn, err := net.Dial("tcp", "127.0.0.1:6001")
 	assert.NoError(t, err)
@@ -268,7 +268,7 @@ func Test_WorkerError_DisasterRecovery_Heavy(t *testing.T) {
 	time.Sleep(time.Second * 5)
 
 	// restore the script and recover activity pool
-	_ = os.Rename("../../../php_test_files/worker.bak", "../../../php_test_files/worker.php")
+	_ = os.Rename("../../../php_test_files/temporal/worker.bak", "../../../php_test_files/temporal/worker.php")
 
 	var result string
 	assert.NoError(t, w.Get(context.Background(), &result))
@@ -285,11 +285,11 @@ func Test_WorkerError_DisasterRecovery_HeavyLA(t *testing.T) {
 
 	defer func() {
 		// always restore script
-		_ = os.Rename("../../../php_test_files/worker-la.bak", "../../../php_test_files/worker-la.php")
+		_ = os.Rename("../../../php_test_files/temporal/worker-la.bak", "../../../php_test_files/temporal/worker-la.php")
 	}()
 
 	// Makes worker pool unable to recover for some time
-	require.NoError(t, os.Rename("../../../php_test_files/worker-la.php", "../../../php_test_files/worker-la.bak"))
+	require.NoError(t, os.Rename("../../../php_test_files/temporal/worker-la.php", "../../../php_test_files/temporal/worker-la.bak"))
 
 	conn, err := net.Dial("tcp", "127.0.0.1:6001")
 	assert.NoError(t, err)
@@ -322,7 +322,7 @@ func Test_WorkerError_DisasterRecovery_HeavyLA(t *testing.T) {
 	time.Sleep(time.Second * 5)
 
 	// restore the script and recover activity pool
-	_ = os.Rename("../../../php_test_files/worker-la.bak", "../../../php_test_files/worker-la.php")
+	_ = os.Rename("../../../php_test_files/temporal/worker-la.bak", "../../../php_test_files/temporal/worker-la.php")
 
 	var result string
 	assert.NoError(t, w.Get(context.Background(), &result))
@@ -339,11 +339,11 @@ func Test_ActivityError_DisasterRecoveryProto(t *testing.T) {
 
 	defer func() {
 		// always restore script
-		_ = os.Rename("worker.bak", "worker.php")
+		_ = os.Rename("../../../php_test_files/temporal/worker.bak", "../../../php_test_files/temporal/worker.php")
 	}()
 
 	// Makes worker pool unable to recover for some time
-	_ = os.Rename("worker.php", "worker.bak")
+	_ = os.Rename("../../../php_test_files/temporal/worker.php", "../../../php_test_files/temporal/worker.bak")
 
 	// destroys all workers in activities
 	workers := getWorkers(t)
@@ -369,7 +369,7 @@ func Test_ActivityError_DisasterRecoveryProto(t *testing.T) {
 	time.Sleep(time.Millisecond * 750)
 
 	// restore the script and recover activity pool
-	_ = os.Rename("worker.bak", "worker.php")
+	_ = os.Rename("../../../php_test_files/temporal/worker.bak", "../../../php_test_files/temporal/worker.php")
 
 	var result string
 	assert.NoError(t, w.Get(context.Background(), &result))
@@ -463,11 +463,11 @@ func Test_ActivityErrorLA_DisasterRecovery(t *testing.T) {
 
 	defer func() {
 		// always restore script
-		_ = os.Rename("worker.bak", "worker.php")
+		_ = os.Rename("../../../php_test_files/temporal/worker-la.bak", "../../../php_test_files/temporal/worker-la.php")
 	}()
 
 	// Makes worker pool unable to recover for some time
-	_ = os.Rename("worker.php", "worker.bak")
+	_ = os.Rename("../../../php_test_files/temporal/worker-la.php", "../../../php_test_files/temporal/worker-la.bak")
 
 	// destroys all workers in activities
 
@@ -494,7 +494,7 @@ func Test_ActivityErrorLA_DisasterRecovery(t *testing.T) {
 	time.Sleep(time.Second)
 
 	// restore the script and recover activity pool
-	_ = os.Rename("worker.bak", "worker.php")
+	_ = os.Rename("../../../php_test_files/temporal/worker-la.bak", "../../../php_test_files/temporal/worker-la.php")
 
 	var result string
 	assert.NoError(t, w.Get(context.Background(), &result))
@@ -545,11 +545,11 @@ func Test_ActivityErrorLA_DisasterRecoveryProto(t *testing.T) {
 
 	defer func() {
 		// always restore script
-		_ = os.Rename("worker.bak", "worker.php")
+		_ = os.Rename("../../../php_test_files/temporal/worker-la.bak", "../../../php_test_files/temporal/worker-la.php")
 	}()
 
 	// Makes worker pool unable to recover for some time
-	_ = os.Rename("worker.php", "worker.bak")
+	_ = os.Rename("../../../php_test_files/temporal/worker-la.php", "../../../php_test_files/temporal/worker-la.bak")
 
 	// destroys all workers in activities
 	workers := getWorkers(t)
@@ -575,7 +575,7 @@ func Test_ActivityErrorLA_DisasterRecoveryProto(t *testing.T) {
 	time.Sleep(time.Millisecond * 750)
 
 	// restore the script and recover activity pool
-	_ = os.Rename("worker.bak", "worker.php")
+	_ = os.Rename("../../../php_test_files/temporal/worker-la.bak", "../../../php_test_files/temporal/worker-la.php")
 
 	var result string
 	assert.NoError(t, w.Get(context.Background(), &result))
