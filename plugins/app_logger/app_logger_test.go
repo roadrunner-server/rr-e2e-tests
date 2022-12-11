@@ -23,9 +23,9 @@ func TestAppLogger(t *testing.T) {
 	}
 
 	vp := &configImpl.Plugin{}
-	vp.Path = "configs/.rr-init-version-2.7.yaml"
+	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
-	vp.Version = "2.9.0"
+	vp.Version = "2.12.0"
 
 	err = container.RegisterAll(
 		&applogger.Plugin{},

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require __DIR__ . '/../vendor/autoload.php';
+
 use Temporal\Tests\Activity\SimpleLocalActivity;
 use Temporal\Tests\Workflow\CancelSignaledChildWorkflow;
 use Temporal\Tests\Workflow\ChildStubWorkflow;
@@ -36,8 +38,6 @@ use Temporal\Tests\WorkflowWithLocalActivity\SimpleWorkflow;
 use Temporal\Tests\WorkflowWithLocalActivity\TimerWorkflow;
 use Temporal\Tests\WorkflowWithLocalActivity\WorkflowWithSequence;
 use Temporal\Tests\WorkflowWithLocalActivity\WorkflowWithSignaledSteps;
-
-require __DIR__ . '/vendor/autoload.php';
 
 /**
  * @param string $dir

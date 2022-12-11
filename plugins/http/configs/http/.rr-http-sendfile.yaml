@@ -1,7 +1,7 @@
 version: '2.7'
 
 server:
-  command: "php ../../php_test_files/psr-worker.php"
+  command: "php ../../php_test_files/xsendfile.php"
   relay: "pipes"
   relay_timeout: "20s"
 
@@ -18,4 +18,4 @@ http:
 
 logs:
   mode: development
-  level: info
+  level: debug

@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
+
 
 /**
  * @param string $dir
@@ -16,17 +17,17 @@ $getClasses = static function (string $dir): iterable {
     }
 };
 
-$factory = \Temporal\WorkerFactory::create();
 
+$factory = \Temporal\WorkerFactory::create();
 $worker = $factory->newWorker('default');
 
 // register all workflows
-foreach ($getClasses(__DIR__ . '/src/Workflow') as $name) {
+foreach ($getClasses(__DIR__ . '/../src/Workflow') as $name) {
     $worker->registerWorkflowTypes('Temporal\\Tests\\Workflow\\' . $name);
 }
 
 // register all activity
-foreach ($getClasses(__DIR__ . '/src/Activity') as $name) {
+foreach ($getClasses(__DIR__ . '/../src/Activity') as $name) {
     $class = 'Temporal\\Tests\\Activity\\' . $name;
     $worker->registerActivityImplementations(new $class);
 }

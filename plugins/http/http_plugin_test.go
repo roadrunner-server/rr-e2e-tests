@@ -192,11 +192,11 @@ func echoAccessLogs(t *testing.T) {
 }
 
 func TestHTTPXSendFile(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute))
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0",
+		Version: "2.12.2",
 		Path:    "configs/http/.rr-http-sendfile.yaml",
 		Prefix:  "rr",
 	}
@@ -266,7 +266,6 @@ func xsendfile(t *testing.T) {
 	req := &http.Request{
 		Method: http.MethodGet,
 		URL:    parsedURL,
-		Header: map[string][]string{"x-sendfile": {fmt.Sprintf("%s/attributes_test.go", pwd)}},
 	}
 
 	resp, err := client.Do(req)
@@ -277,7 +276,7 @@ func xsendfile(t *testing.T) {
 	require.True(t, len(b) > 0)
 	require.Empty(t, resp.Header.Get("X-Sendfile"))
 
-	file, err := os.ReadFile(fmt.Sprintf("%s/attributes_test.go", pwd))
+	file, err := os.ReadFile(fmt.Sprintf("%s/../../php_test_files/well", pwd))
 	require.NoError(t, err)
 	require.Equal(t, file, b)
 	require.NoError(t, resp.Body.Close())
@@ -363,6 +362,7 @@ func TestHTTPInformerReset(t *testing.T) {
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
+		&send.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 		&informer.Plugin{},
@@ -438,6 +438,7 @@ func TestSSL(t *testing.T) {
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
+		&send.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)
@@ -599,6 +600,7 @@ func TestSSLRedirect(t *testing.T) {
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
+		&send.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
 	)

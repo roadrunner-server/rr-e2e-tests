@@ -8,7 +8,7 @@ server:
 http:
   address: :8085
   max_request_size: 1024
-  middleware: []
+  middleware: ["sendfile"]
   pool:
     num_workers: 1
     max_jobs: 0
