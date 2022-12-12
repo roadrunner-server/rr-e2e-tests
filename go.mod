@@ -8,7 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.18.4
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.4
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.16
-	github.com/beanstalkd/go-beanstalk v0.1.0
+	github.com/beanstalkd/go-beanstalk v0.2.0
 	github.com/centrifugal/centrifuge-go v0.9.3
 	github.com/fatih/color v1.13.0
 	github.com/goccy/go-json v0.10.0
