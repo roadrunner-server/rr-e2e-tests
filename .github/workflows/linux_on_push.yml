@@ -1,6 +1,6 @@
 name: linux_on_push
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   temporal_test:
