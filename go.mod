@@ -2,6 +2,8 @@ module github.com/roadrunner-server/rr-e2e-tests
 
 go 1.19
 
+replace github.com/roadrunner-server/grpc/v3 => github.com/cv65kr/grpc/v3 v3.0.0-20221221215336-df16511b05e8
+
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
 	github.com/aws/aws-sdk-go-v2 v1.17.2

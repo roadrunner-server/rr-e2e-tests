@@ -444,6 +444,8 @@ github.com/cncf/xds/go v0.0.0-20210922020428-25de7278fc84/go.mod h1:eXthEFrGJvWH
 github.com/cncf/xds/go v0.0.0-20211001041855-01bcc9b48dfe/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/cncf/xds/go v0.0.0-20211011173535-cb28da3451f1/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
+github.com/cv65kr/grpc/v3 v3.0.0-20221221215336-df16511b05e8 h1:bsGopNDeb+1EX1l7vM1rfuX3V7+MYWEkclSed9MiPM0=
+github.com/cv65kr/grpc/v3 v3.0.0-20221221215336-df16511b05e8/go.mod h1:HFYuwPVtkSnB3/j+32AJ2cdEQIpEfXpl92tFYqvQosE=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -790,8 +792,6 @@ github.com/roadrunner-server/fileserver/v3 v3.0.4 h1:hFgtyvf+fQInGTGvp/H7vk3kIde
 github.com/roadrunner-server/fileserver/v3 v3.0.4/go.mod h1:xV0lXawe3MSUdfY8Ypw7Ky7+pfOrUTjx5Oe1degY9T4=
 github.com/roadrunner-server/goridge/v3 v3.6.2 h1:LH5HXfCygDp05KnOaXpa4fqVPWTsH7V3lfvPtMwFU3k=
 github.com/roadrunner-server/goridge/v3 v3.6.2/go.mod h1:3B95k/wM5GGAD0h2hZlJagS9PlTDGs5jh8MpZYC12vA=
-github.com/roadrunner-server/grpc/v3 v3.0.5 h1:No3bxkIBWWDGrvrV+lwoDfRpa7MNIt3OMPLz9X/RAxI=
-github.com/roadrunner-server/grpc/v3 v3.0.5/go.mod h1:DKZai+6t1iGQNR4oIvZ6vMNa2X35xOBbbe8XeQ0fRZQ=
 github.com/roadrunner-server/gzip/v3 v3.0.4 h1:Uqlji74ZC/NNwmTmKp7v+hJz3olmXKWD98nscgoUySk=
 github.com/roadrunner-server/gzip/v3 v3.0.4/go.mod h1:96x7PTYkWGbvXG8I2aMwGmPt1D29zcJ5CTI6gYZ1m5s=
 github.com/roadrunner-server/headers/v3 v3.0.4 h1:euxTUa4GGVrXwTWGC3WNlDVMbQijtlSkTBKX4OYngTk=
