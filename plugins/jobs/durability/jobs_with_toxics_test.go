@@ -438,7 +438,7 @@ func TestDurabilityKafka(t *testing.T) {
 		_ = cmd.Wait()
 	}()
 
-	time.Sleep(time.Minute * 2)
+	time.Sleep(time.Second * 40)
 
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*30))
 	require.NoError(t, err)
@@ -567,7 +567,7 @@ func TestDurabilityKafkaCG(t *testing.T) {
 		_ = cmd.Wait()
 	}()
 
-	time.Sleep(time.Minute * 2)
+	time.Sleep(time.Second * 40)
 
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute))
 	require.NoError(t, err)
