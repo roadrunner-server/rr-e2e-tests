@@ -32,6 +32,188 @@ import (
 	"go.uber.org/zap"
 )
 
+func TestAMQPHeaders(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.12.2",
+		Path:    "configs/.rr-amqp-headers.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&amqpDriver.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
+	time.Sleep(time.Second)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+
+	t.Cleanup(func() {
+		helpers.DestroyPipelines("test-1", "test-2")
+	})
+}
+
+func TestAMQPDeclareHeaders(t *testing.T) {
+	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	assert.NoError(t, err)
+
+	cfg := &config.Plugin{
+		Version: "2.12.2",
+		Path:    "configs/.rr-amqp-headers-declare.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err = cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&amqpDriver.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+
+	headers := `{"x-queue-type": "quorum"}`
+
+	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-6", "test-6", "test-6", headers, "false", "true"))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-6"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-6", false))
+	time.Sleep(time.Second)
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-6"))
+	time.Sleep(time.Second)
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-6"))
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+
+	t.Cleanup(func() {
+		helpers.DestroyPipelines("test-6")
+	})
+}
+
 func TestAMQPInit(t *testing.T) {
 	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
 	assert.NoError(t, err)
@@ -629,7 +811,7 @@ func TestAMQPDeclare(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
+	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-3", "test-3", "test-3", "", "true", "false"))
 	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
 	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
 	time.Sleep(time.Second)
@@ -722,13 +904,13 @@ func TestAMQPDeclareDurable(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclareAMQPPipeline", declareAMQPPipeDurable)
-	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-8", "test-8", "test-8", "", "true", "true"))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-8"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-8", false))
 	time.Sleep(time.Second)
-	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-8"))
 	time.Sleep(time.Second)
-	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-8"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -741,7 +923,7 @@ func TestAMQPDeclareDurable(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-3")
+		helpers.DestroyPipelines("test-8")
 	})
 }
 
@@ -815,12 +997,12 @@ func TestAMQPJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
-	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-4", "test-4", "test-4", "", "true", "false"))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-4"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-4", false))
 	time.Sleep(time.Second * 25)
-	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
-	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-4"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-4"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -835,7 +1017,7 @@ func TestAMQPJobsError(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-3")
+		helpers.DestroyPipelines("test-4")
 	})
 }
 
@@ -941,21 +1123,21 @@ func TestAMQPStats(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclareAMQPPipeline", declareAMQPPipe)
-	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-5", "test-5", "test-5", "", "true", "false"))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-5"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-5", false))
 	time.Sleep(time.Second * 2)
-	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-5"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
-	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-5", false))
+	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-5", 5))
 
 	out := &jobsState.State{}
 	t.Run("Stats", helpers.Stats(out))
 
-	assert.Equal(t, out.Pipeline, "test-3")
+	assert.Equal(t, out.Pipeline, "test-5")
 	assert.Equal(t, out.Driver, "amqp")
-	assert.Equal(t, out.Queue, "default")
+	assert.Equal(t, out.Queue, "test-5")
 
 	assert.Equal(t, int64(1), out.Active)
 	assert.Equal(t, int64(1), out.Delayed)
@@ -964,15 +1146,15 @@ func TestAMQPStats(t *testing.T) {
 	assert.Equal(t, false, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("test-5"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobsState.State{}
 	t.Run("Stats", helpers.Stats(out))
 
-	assert.Equal(t, out.Pipeline, "test-3")
+	assert.Equal(t, out.Pipeline, "test-5")
 	assert.Equal(t, out.Driver, "amqp")
-	assert.Equal(t, out.Queue, "default")
+	assert.Equal(t, out.Queue, "test-5")
 
 	assert.Equal(t, int64(0), out.Active)
 	assert.Equal(t, int64(0), out.Delayed)
@@ -981,7 +1163,7 @@ func TestAMQPStats(t *testing.T) {
 	assert.Equal(t, true, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-5"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -995,7 +1177,7 @@ func TestAMQPStats(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 
 	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-3")
+		helpers.DestroyPipelines("test-5")
 	})
 }
 
@@ -1417,55 +1599,36 @@ func TestAMQPRawPayload(t *testing.T) {
 	})
 }
 
-func declareAMQPPipe(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	assert.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+func declareAMQPPipe(queue, routingKey, name, headers, exclusive, durable string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		assert.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-		"driver":               "amqp",
-		"name":                 "test-3",
-		"routing_key":          "test-3",
-		"queue":                "default",
-		"exchange_type":        "direct",
-		"exchange":             "amqp.default",
-		"prefetch":             "100",
-		"delete_queue_on_stop": "true",
-		"priority":             "3",
-		"exclusive":            "true",
-		"multiple_ask":         "true",
-		"requeue_on_fail":      "true",
-	}}
+		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
+			"driver":               "amqp",
+			"name":                 name,
+			"routing_key":          routingKey,
+			"queue":                queue,
+			"exchange_type":        "direct",
+			"exchange":             "amqp.default",
+			"prefetch":             "100",
+			"delete_queue_on_stop": "true",
+			"priority":             "3",
+			"exclusive":            exclusive,
+			"durable":              durable,
+			"multiple_ask":         "true",
+			"requeue_on_fail":      "true",
+		}}
 
-	er := &jobsProto.Empty{}
-	err = client.Call("jobs.Declare", pipe, er)
-	assert.NoError(t, err)
-}
+		if headers != "" {
+			pipe.Pipeline["queue_headers"] = headers
+		}
 
-func declareAMQPPipeDurable(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	assert.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
-	pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-		"driver":               "amqp",
-		"name":                 "test-3",
-		"routing_key":          "test-3",
-		"queue":                "default",
-		"exchange_type":        "direct",
-		"exchange":             "amqp.default",
-		"delete_queue_on_stop": "true",
-		"prefetch":             "100",
-		"durable":              "true",
-		"priority":             "3",
-		"exclusive":            "true",
-		"multiple_ask":         "true",
-		"requeue_on_fail":      "true",
-	}}
-
-	er := &jobsProto.Empty{}
-	err = client.Call("jobs.Declare", pipe, er)
-	assert.NoError(t, err)
+		er := &jobsProto.Empty{}
+		err = client.Call("jobs.Declare", pipe, er)
+		assert.NoError(t, err)
+	}
 }
 
 func reset(t *testing.T) {
