@@ -4,20 +4,20 @@ go 1.19
 
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
-	github.com/aws/aws-sdk-go-v2 v1.17.2
-	github.com/aws/aws-sdk-go-v2/config v1.18.4
-	github.com/aws/aws-sdk-go-v2/credentials v1.13.4
-	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.16
+	github.com/aws/aws-sdk-go-v2 v1.17.3
+	github.com/aws/aws-sdk-go-v2/config v1.18.7
+	github.com/aws/aws-sdk-go-v2/credentials v1.13.7
+	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.17
 	github.com/beanstalkd/go-beanstalk v0.2.0
 	github.com/centrifugal/centrifuge-go v0.9.3
 	github.com/fatih/color v1.13.0
 	github.com/goccy/go-json v0.10.0
 	github.com/google/uuid v1.3.0
-	github.com/nats-io/nats.go v1.21.0
+	github.com/nats-io/nats.go v1.22.0
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.14.0
 	github.com/rabbitmq/amqp091-go v1.5.0
-	github.com/roadrunner-server/amqp/v3 v3.0.4
+	github.com/roadrunner-server/amqp/v3 v3.1.0
 	github.com/roadrunner-server/app-logger/v3 v3.0.2
 	github.com/roadrunner-server/beanstalk/v3 v3.0.4
 	github.com/roadrunner-server/boltdb/v3 v3.0.4
@@ -27,7 +27,7 @@ require (
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v3 v3.0.4
 	github.com/roadrunner-server/goridge/v3 v3.6.2
-	github.com/roadrunner-server/grpc/v3 v3.0.5
+	github.com/roadrunner-server/grpc/v3 v3.1.0
 	github.com/roadrunner-server/gzip/v3 v3.0.4
 	github.com/roadrunner-server/headers/v3 v3.0.4
 	github.com/roadrunner-server/http/v3 v3.0.5
@@ -56,7 +56,7 @@ require (
 	github.com/roadrunner-server/status/v3 v3.0.4
 	github.com/roadrunner-server/tcp/v3 v3.0.4
 	github.com/stretchr/testify v1.8.1
-	github.com/temporalio/roadrunner-temporal/v2 v2.1.0
+	github.com/temporalio/roadrunner-temporal/v2 v2.1.1
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.27
 	go.temporal.io/api v1.13.1-0.20221110200459-6a3cb21a3415
@@ -70,14 +70,14 @@ require (
 require (
 	github.com/Shopify/sarama v1.37.2 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.20 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.26 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.20 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.27 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.20 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.11.26 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.13.9 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.17.6 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.21 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.27 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.21 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.28 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.21 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.11.28 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.13.11 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.17.7 // indirect
 	github.com/aws/smithy-go v1.13.5 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20221031212613-62deef7fc822 // indirect
@@ -108,7 +108,7 @@ require (
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.14.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/go-uuid v1.0.3 // indirect
@@ -144,8 +144,8 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_model v0.3.0 // indirect
-	github.com/prometheus/common v0.38.0 // indirect
-	github.com/prometheus/procfs v0.8.0 // indirect
+	github.com/prometheus/common v0.39.0 // indirect
+	github.com/prometheus/procfs v0.9.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
 	github.com/roadrunner-server/tcplisten v1.2.1 // indirect
