@@ -879,6 +879,9 @@ func TestGRPCMetrics(t *testing.T) {
 	assert.Contains(t, genericOut, `rr_grpc_workers_memory_bytes`)
 	assert.Contains(t, genericOut, `rr_grpc_worker_state`)
 	assert.Contains(t, genericOut, `rr_grpc_worker_memory_bytes`)
+	assert.Contains(t, genericOut, `rr_grpc_request_duration_seconds`)
+	assert.Contains(t, genericOut, `rr_grpc_request_total`)
+	assert.Contains(t, genericOut, `rr_grpc_requests_queue`)
 
 	close(sig)
 	wg.Wait()
