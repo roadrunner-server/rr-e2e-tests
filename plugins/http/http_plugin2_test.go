@@ -432,7 +432,7 @@ func TestHTTPBigResp(t *testing.T) {
 	wg.Wait()
 
 	t.Cleanup(func() {
-		_ = os.RemoveAll("well")
+		_ = os.RemoveAll("../../php_test_files/big-resp")
 	})
 }
 

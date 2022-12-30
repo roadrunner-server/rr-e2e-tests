@@ -14,7 +14,7 @@ $pdo = null;
 $log = $rrWorker->getLogger();
 $start = microtime(true);
 
-file_put_contents(__DIR__ . '/well', str_repeat('R', 1024 * 1024 * 10), FILE_APPEND);
+file_put_contents(__DIR__ . '/big-resp', str_repeat('R', 1024 * 1024 * 10), FILE_APPEND);
 
 while (true) {
     $req = microtime(true);
