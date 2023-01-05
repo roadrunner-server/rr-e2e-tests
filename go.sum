@@ -422,8 +422,8 @@ github.com/caddyserver/certmagic v0.17.2/go.mod h1:ouWUuC490GOLJzkyN35eXfV8bSbwM
 github.com/cenkalti/backoff/v4 v4.2.0 h1:HN5dHm3WBOgndBH6E8V0q2jIYIR3s9yglV8k/+MN3u4=
 github.com/cenkalti/backoff/v4 v4.2.0/go.mod h1:Y3VNntkOUPxTVeUxJ/G5vcM//AlwfmyYozVcomhLiZE=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
-github.com/centrifugal/centrifuge-go v0.9.3 h1:EgPhi4V3PBTPL6tOcSxKjtCXa3wG7s5nzBwk3p2q4vM=
-github.com/centrifugal/centrifuge-go v0.9.3/go.mod h1:L0aQ0u5ixvTJ/pz7ZyXvwOXuRARzXW32fVRvCOUbu5I=
+github.com/centrifugal/centrifuge-go v0.9.4 h1:YNuh3B3iiKj/6AVseiiGDG3NBW3ykHwVSz1kk+9YhuI=
+github.com/centrifugal/centrifuge-go v0.9.4/go.mod h1:L0aQ0u5ixvTJ/pz7ZyXvwOXuRARzXW32fVRvCOUbu5I=
 github.com/centrifugal/protocol v0.8.11/go.mod h1:qpYrxz4cDj+rlgC6giSADkf7XDN1K7aFmkkFwt/bayQ=
 github.com/centrifugal/protocol v0.9.0 h1:A4j9mKJW4Ghk840fR2A+23L400xb5piwvz7BMtzyd6k=
 github.com/centrifugal/protocol v0.9.0/go.mod h1:qpYrxz4cDj+rlgC6giSADkf7XDN1K7aFmkkFwt/bayQ=
