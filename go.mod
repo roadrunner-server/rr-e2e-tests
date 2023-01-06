@@ -47,7 +47,7 @@ require (
 	github.com/roadrunner-server/reload/v3 v3.0.3
 	github.com/roadrunner-server/resetter/v3 v3.0.3
 	github.com/roadrunner-server/rpc/v3 v3.0.5
-	github.com/roadrunner-server/sdk/v3 v3.0.1
+	github.com/roadrunner-server/sdk/v3 v3.1.0
 	github.com/roadrunner-server/send/v3 v3.1.2
 	github.com/roadrunner-server/server/v3 v3.0.5
 	github.com/roadrunner-server/service/v3 v3.0.5
@@ -193,7 +193,7 @@ require (
 	golang.org/x/crypto v0.4.0 // indirect
 	golang.org/x/mod v0.7.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
-	golang.org/x/sys v0.3.0 // indirect
+	golang.org/x/sys v0.4.0 // indirect
 	golang.org/x/text v0.5.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.4.0 // indirect
