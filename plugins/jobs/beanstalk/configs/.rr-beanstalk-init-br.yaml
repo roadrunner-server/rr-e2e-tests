@@ -13,7 +13,7 @@ beanstalk:
   timeout: 10s
 
 logs:
-  level: info
+  level: debug
   encoding: console
   mode: development
 
@@ -22,12 +22,11 @@ jobs:
   pipeline_size: 100000
   pool:
     num_workers: 10
-    max_jobs: 0
     allocate_timeout: 60s
     destroy_timeout: 60s
 
   pipelines:
-    test-1:
+    test-init-br-1:
       driver: beanstalk
       config:
         priority: 11
@@ -35,7 +34,7 @@ jobs:
         tube: default-1
         reserve_timeout: 10s
 
-    test-2:
+    test-init-br-2:
       driver: beanstalk
       config:
         priority: 11
@@ -45,5 +44,5 @@ jobs:
 
 
   # list of pipelines to be consumed by the server, keep empty if you want to start consuming manually
-  consume: [ "test-1", "test-2" ]
+  consume: [ "test-init-br-1", "test-init-br-2" ]
 

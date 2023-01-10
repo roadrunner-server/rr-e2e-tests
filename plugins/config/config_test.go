@@ -8,29 +8,28 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/amqp/v3"
-	"github.com/roadrunner-server/beanstalk/v3"
-	configImpl "github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/rpc/v3"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/amqp/v4"
+	"github.com/roadrunner-server/beanstalk/v4"
+	configImpl "github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/rpc/v4"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/exp/slog"
 )
 
 func TestViperProvider_Init(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
+
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
 	vp.Flags = nil
 
-	err = container.Register(vp)
+	err := container.Register(vp)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -75,16 +74,13 @@ func TestViperProvider_Init(t *testing.T) {
 }
 
 func TestConfigOverwriteFail(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
 	vp.Flags = []string{"rpc.listen=tcp//not_exist"}
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
@@ -97,16 +93,13 @@ func TestConfigOverwriteFail(t *testing.T) {
 }
 
 func TestConfigOverwriteFail_2(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
 	vp.Flags = []string{"rpc.listen="}
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
@@ -119,16 +112,14 @@ func TestConfigOverwriteFail_2(t *testing.T) {
 }
 
 func TestConfigOverwriteFail_3(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
+
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
 	vp.Flags = []string{"="}
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
@@ -141,16 +132,14 @@ func TestConfigOverwriteFail_3(t *testing.T) {
 }
 
 func TestConfigOverwriteValid(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
+
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
 	vp.Flags = []string{"rpc.listen=tcp://127.0.0.1:36643"}
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		&logger.Plugin{},
 		&rpc.Plugin{},
 		vp,
@@ -189,12 +178,9 @@ func TestConfigOverwriteValid(t *testing.T) {
 }
 
 func TestConfigEnvVariables(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
 
-	err = os.Setenv("SUPER_RPC_ENV", "tcp://127.0.0.1:36643")
+	err := os.Setenv("SUPER_RPC_ENV", "tcp://127.0.0.1:36643")
 	assert.NoError(t, err)
 
 	vp := &configImpl.Plugin{}
@@ -240,12 +226,9 @@ func TestConfigEnvVariables(t *testing.T) {
 }
 
 func TestConfigEnvVariablesFail(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
 
-	err = os.Setenv("SUPER_RPC_ENV", "tcp://127.0.0.1:6065")
+	err := os.Setenv("SUPER_RPC_ENV", "tcp://127.0.0.1:6065")
 	assert.NoError(t, err)
 
 	vp := &configImpl.Plugin{}
@@ -268,17 +251,15 @@ func TestConfigEnvVariablesFail(t *testing.T) {
 }
 
 func TestConfigProvider_GeneralSection(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
+
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
 	vp.Flags = nil
 	vp.Timeout = time.Second * 10
 
-	err = container.Register(vp)
+	err := container.Register(vp)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -325,10 +306,7 @@ func TestConfigProvider_GeneralSection(t *testing.T) {
 // VERSIONS
 
 func TestViperProvider_Init_Version(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
 
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr-init-version.yaml"
@@ -336,7 +314,7 @@ func TestViperProvider_Init_Version(t *testing.T) {
 	vp.Flags = nil
 	vp.Version = "2.7.2"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		&jobs.Plugin{},
 		&amqp.Plugin{},
 		&beanstalk.Plugin{},
@@ -395,10 +373,7 @@ func TestViperProvider_Init_Version(t *testing.T) {
 }
 
 func TestViperProvider_Init_Version27(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
 
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr-init-version-2.7.yaml"
@@ -406,7 +381,7 @@ func TestViperProvider_Init_Version27(t *testing.T) {
 	vp.Flags = nil
 	vp.Version = "2.7.0"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		&jobs.Plugin{},
 		&amqp.Plugin{},
 		&beanstalk.Plugin{},
@@ -465,10 +440,7 @@ func TestViperProvider_Init_Version27(t *testing.T) {
 }
 
 func TestViperProvider_Init_Version28(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
 
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr-init-version-2.7.yaml"
@@ -476,7 +448,7 @@ func TestViperProvider_Init_Version28(t *testing.T) {
 	vp.Flags = nil
 	vp.Version = "2.8.0"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		&jobs.Plugin{},
 		&amqp.Plugin{},
 		&beanstalk.Plugin{},
@@ -535,17 +507,14 @@ func TestViperProvider_Init_Version28(t *testing.T) {
 }
 
 func TestViperProvider_Init_Version29(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
 
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr-init-version-2.7.yaml"
 	vp.Prefix = "rr"
 	vp.Version = "2.9.0"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		&jobs.Plugin{},
 		&amqp.Plugin{},
 		&beanstalk.Plugin{},

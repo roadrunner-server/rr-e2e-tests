@@ -14,21 +14,22 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/metrics/v3"
+	"github.com/roadrunner-server/metrics/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/health/grpc_health_v1"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	grpcPlugin "github.com/roadrunner-server/grpc/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	grpcPlugin "github.com/roadrunner-server/grpc/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	"github.com/roadrunner-server/rr-e2e-tests/plugins/grpc/proto/service"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
@@ -38,8 +39,7 @@ import (
 const getAddr = "http://127.0.0.1:2112/metrics"
 
 func TestGrpcInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -47,7 +47,7 @@ func TestGrpcInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -106,8 +106,7 @@ func TestGrpcInit(t *testing.T) {
 
 // different services, same methods inside
 func TestGrpcInitDup2(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -115,7 +114,7 @@ func TestGrpcInitDup2(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -174,8 +173,7 @@ func TestGrpcInitDup2(t *testing.T) {
 }
 
 func TestGrpcInitMultiple(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -183,7 +181,7 @@ func TestGrpcInitMultiple(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -253,8 +251,7 @@ func TestGrpcInitMultiple(t *testing.T) {
 }
 
 func TestGrpcRqRs(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -262,7 +259,7 @@ func TestGrpcRqRs(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -331,8 +328,7 @@ func TestGrpcRqRs(t *testing.T) {
 }
 
 func TestGrpcFullErrorMessageIssue1193(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.10.6",
@@ -340,7 +336,7 @@ func TestGrpcFullErrorMessageIssue1193(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -360,8 +356,7 @@ func TestGrpcFullErrorMessageIssue1193(t *testing.T) {
 }
 
 func TestGrpcRqRsException(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -369,7 +364,7 @@ func TestGrpcRqRsException(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -439,8 +434,7 @@ func TestGrpcRqRsException(t *testing.T) {
 }
 
 func TestGrpcRqRsMultiple(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -448,7 +442,7 @@ func TestGrpcRqRsMultiple(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -534,8 +528,7 @@ func TestGrpcRqRsMultiple(t *testing.T) {
 }
 
 func TestGrpcRqRsTLS(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -543,7 +536,7 @@ func TestGrpcRqRsTLS(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -620,8 +613,7 @@ func TestGrpcRqRsTLS(t *testing.T) {
 }
 
 func TestGrpcRqRsTLSRootCA(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -629,7 +621,7 @@ func TestGrpcRqRsTLSRootCA(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -706,8 +698,7 @@ func TestGrpcRqRsTLSRootCA(t *testing.T) {
 }
 
 func TestGrpcRqRsTLS_WithReset(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -715,7 +706,7 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -799,18 +790,16 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 }
 
 func TestGRPCMetrics(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0"}
-	cfg.Prefix = "rr"
-	cfg.Path = "configs/.rr-grpc-metrics.yaml"
+		Version: "2.9.0",
+		Prefix:  "rr",
+		Path:    "configs/.rr-grpc-metrics.yaml",
+	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&grpcPlugin.Plugin{},

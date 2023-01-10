@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	jobState "github.com/roadrunner-server/api/v3/plugins/v1/jobs"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	jobState "github.com/roadrunner-server/sdk/v3/plugins/jobs"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"

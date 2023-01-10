@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	configImpl "github.com/roadrunner-server/config/v3"
+	configImpl "github.com/roadrunner-server/config/v4"
 	"github.com/stretchr/testify/assert"
 	"go.temporal.io/sdk/client"
 )

@@ -11,17 +11,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/gzip/v3"
-	httpPlugin "github.com/roadrunner-server/http/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/otel/v3"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	"github.com/roadrunner-server/gzip/v4"
+	httpPlugin "github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/otel/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestHTTPOTLP_Init(t *testing.T) {
@@ -29,8 +30,7 @@ func TestHTTPOTLP_Init(t *testing.T) {
 	require.NoError(t, err)
 	os.Stdout = wr
 
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.10.0",
@@ -125,7 +125,7 @@ func TestHTTPOTLP_WithPHP(t *testing.T) {
 	require.NoError(t, err)
 	os.Stdout = wr
 
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
+	cont := endure.New(slog.LevelDebug)
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
@@ -224,8 +224,7 @@ func TestHTTPOTLP_WithPHP(t *testing.T) {
 
 // should not be error on connect
 func TestHTTPOTLP_JaegerAgent(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.10.7",
@@ -233,7 +232,7 @@ func TestHTTPOTLP_JaegerAgent(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},

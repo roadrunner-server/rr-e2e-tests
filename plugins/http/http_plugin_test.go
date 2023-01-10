@@ -19,30 +19,30 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/gzip/v3"
-	httpPlugin "github.com/roadrunner-server/http/v3"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/gzip/v4"
+	httpPlugin "github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	"github.com/roadrunner-server/sdk/v3/state/process"
-	"github.com/roadrunner-server/send/v3"
-	"github.com/roadrunner-server/server/v3"
-	"github.com/roadrunner-server/static/v3"
+	"github.com/roadrunner-server/sdk/v4/state/process"
+	"github.com/roadrunner-server/send/v4"
+	"github.com/roadrunner-server/server/v4"
+	"github.com/roadrunner-server/static/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/yookoala/gofast"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 	"golang.org/x/net/http2"
 )
 
 func TestHTTPInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -50,7 +50,7 @@ func TestHTTPInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -107,8 +107,7 @@ func TestHTTPInit(t *testing.T) {
 }
 
 func TestHTTPAccessLogs(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -116,7 +115,7 @@ func TestHTTPAccessLogs(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -192,8 +191,7 @@ func echoAccessLogs(t *testing.T) {
 }
 
 func TestHTTPXSendFile(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Minute))
 
 	cfg := &config.Plugin{
 		Version: "2.12.2",
@@ -201,7 +199,7 @@ func TestHTTPXSendFile(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -284,8 +282,7 @@ func xsendfile(t *testing.T) {
 }
 
 func TestHTTPNoConfigSection(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -293,7 +290,7 @@ func TestHTTPNoConfigSection(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -349,8 +346,7 @@ func TestHTTPNoConfigSection(t *testing.T) {
 }
 
 func TestHTTPInformerReset(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -358,7 +354,7 @@ func TestHTTPInformerReset(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -425,8 +421,7 @@ func TestHTTPInformerReset(t *testing.T) {
 }
 
 func TestSSL(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -434,7 +429,7 @@ func TestSSL(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -587,8 +582,7 @@ func fcgiEcho(t *testing.T) {
 }
 
 func TestSSLRedirect(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -596,7 +590,7 @@ func TestSSLRedirect(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -690,8 +684,7 @@ func sslRedirect(t *testing.T) {
 }
 
 func TestSSLPushPipes(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -699,7 +692,7 @@ func TestSSLPushPipes(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -794,8 +787,7 @@ func sslPush(t *testing.T) {
 }
 
 func TestFastCGI_Echo(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -803,7 +795,7 @@ func TestFastCGI_Echo(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -881,8 +873,7 @@ func fcgiEcho1(t *testing.T) {
 }
 
 func TestFastCGI_EchoUnix(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -890,7 +881,7 @@ func TestFastCGI_EchoUnix(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -972,8 +963,7 @@ func fcgiEchoUnix(t *testing.T) {
 }
 
 func TestFastCGI_RequestUri(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -981,7 +971,7 @@ func TestFastCGI_RequestUri(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -1059,8 +1049,7 @@ func fcgiReqURI(t *testing.T) {
 }
 
 func TestHTTP2Req(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*5))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*5))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1069,7 +1058,7 @@ func TestHTTP2Req(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		l,
@@ -1160,8 +1149,7 @@ func TestHTTP2Req(t *testing.T) {
 }
 
 func TestH2CUpgrade(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*5))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*5))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1170,7 +1158,7 @@ func TestH2CUpgrade(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		l,
@@ -1253,8 +1241,7 @@ func TestH2CUpgrade(t *testing.T) {
 }
 
 func TestH2C(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1263,7 +1250,7 @@ func TestH2C(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		l,
@@ -1350,8 +1337,7 @@ func TestH2C(t *testing.T) {
 }
 
 func TestHttpMiddleware(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1359,7 +1345,7 @@ func TestHttpMiddleware(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -1452,8 +1438,7 @@ func middleware(t *testing.T) {
 }
 
 func TestHttpEchoErr(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	rIn := `
 rpc:
@@ -1490,7 +1475,7 @@ logs:
 		ReadInCfg: []byte(rIn),
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -1569,8 +1554,7 @@ func echoError(t *testing.T) {
 }
 
 func TestHttpBrokenPipes(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1579,7 +1563,7 @@ func TestHttpBrokenPipes(t *testing.T) {
 		Type:    "yaml",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -1632,8 +1616,7 @@ func TestHttpBrokenPipes(t *testing.T) {
 }
 
 func TestHTTPSupervisedPool(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1641,7 +1624,7 @@ func TestHTTPSupervisedPool(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -1766,8 +1749,7 @@ func informerTestAfter(t *testing.T) {
 }
 
 func TestHTTPBigRequestSize(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1776,7 +1758,7 @@ func TestHTTPBigRequestSize(t *testing.T) {
 		Type:    "yaml",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -1854,8 +1836,7 @@ func TestHTTPBigRequestSize(t *testing.T) {
 }
 
 func TestStaticEtagPlugin(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1863,7 +1844,7 @@ func TestStaticEtagPlugin(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -1966,8 +1947,7 @@ func noStaticHeaders(t *testing.T) {
 }
 
 func TestStaticPluginSecurity(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1975,7 +1955,7 @@ func TestStaticPluginSecurity(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -2116,8 +2096,7 @@ func serveStaticSampleNotAllowedPath(t *testing.T) {
 }
 
 func TestStaticPlugin(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -2125,7 +2104,7 @@ func TestStaticPlugin(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -2231,8 +2210,7 @@ func serveStaticSample(t *testing.T) {
 }
 
 func TestStaticDisabled_Error(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -2240,7 +2218,7 @@ func TestStaticDisabled_Error(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -2253,8 +2231,7 @@ func TestStaticDisabled_Error(t *testing.T) {
 }
 
 func TestStaticFilesDisabled(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -2262,7 +2239,7 @@ func TestStaticFilesDisabled(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -2332,8 +2309,7 @@ func staticFilesDisabled(t *testing.T) {
 }
 
 func TestStaticFilesForbid(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -2342,7 +2318,7 @@ func TestStaticFilesForbid(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&server.Plugin{},
@@ -2434,8 +2410,7 @@ func staticFilesForbid(t *testing.T) {
 }
 
 func TestHTTPIssue659(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -2443,7 +2418,7 @@ func TestHTTPIssue659(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -2504,8 +2479,7 @@ func TestHTTPIssue659(t *testing.T) {
 }
 
 func TestHTTPIPv6Long(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -2513,7 +2487,7 @@ func TestHTTPIPv6Long(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -2574,8 +2548,7 @@ func TestHTTPIPv6Long(t *testing.T) {
 }
 
 func TestHTTPIPv6Short(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -2583,7 +2556,7 @@ func TestHTTPIPv6Short(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},

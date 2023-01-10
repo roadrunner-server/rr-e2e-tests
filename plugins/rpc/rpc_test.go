@@ -8,22 +8,19 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	"github.com/roadrunner-server/errors"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/rpc/v4"
 	"github.com/stretchr/testify/assert"
+	"golang.org/x/exp/slog"
 )
 
-// graph https://bit.ly/3ensdNb
 func TestRpcInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
-	err = cont.Register(&Plugin1{})
+	err := cont.Register(&Plugin1{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -33,9 +30,11 @@ func TestRpcInit(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	v := &config.Plugin{}
-	v.Path = "configs/.rr.yaml"
-	v.Prefix = "rr"
+	v := &config.Plugin{
+		Path:   "configs/.rr.yaml",
+		Prefix: "rr",
+	}
+
 	err = cont.Register(v)
 	if err != nil {
 		t.Fatal(err)
@@ -93,14 +92,10 @@ func TestRpcInit(t *testing.T) {
 	wg.Wait()
 }
 
-// graph https://bit.ly/3ensdNb
 func TestRpcDisabled(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
-	err = cont.Register(&Plugin1{})
+	err := cont.Register(&Plugin1{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -157,8 +152,7 @@ func TestRpcDisabled(t *testing.T) {
 					assert.FailNow(t, "should not be disabled error")
 				}
 				assert.Error(t, e.Error)
-				err = cont.Stop()
-				assert.Error(t, err)
+				assert.NoError(t, cont.Stop())
 				return
 			case <-sig:
 				err = cont.Stop()

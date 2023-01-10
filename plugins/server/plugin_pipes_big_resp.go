@@ -4,11 +4,15 @@ import (
 	"context"
 	"time"
 
-	"github.com/roadrunner-server/sdk/v3/payload"
-	poolImpl "github.com/roadrunner-server/sdk/v3/pool"
-	serverImpl "github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/sdk/v4/payload"
+	poolImpl "github.com/roadrunner-server/sdk/v4/pool"
+	serverImpl "github.com/roadrunner-server/server/v4"
 	"go.uber.org/zap"
 )
+
+type Logger interface {
+	NamedLogger(string) *zap.Logger
+}
 
 type Foo4 struct {
 	configProvider Configurer
@@ -17,10 +21,10 @@ type Foo4 struct {
 	log            *zap.Logger
 }
 
-func (f *Foo4) Init(p Configurer, workerFactory Server, log *zap.Logger) error {
+func (f *Foo4) Init(p Configurer, workerFactory Server, log Logger) error {
 	f.configProvider = p
 	f.wf = workerFactory
-	f.log = log
+	f.log = log.NamedLogger("test")
 	return nil
 }
 
@@ -64,6 +68,6 @@ func (f *Foo4) Serve() chan error {
 	return errCh
 }
 
-func (f *Foo4) Stop() error {
+func (f *Foo4) Stop(context.Context) error {
 	return nil
 }

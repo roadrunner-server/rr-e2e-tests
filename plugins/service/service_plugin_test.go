@@ -12,26 +12,26 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/reload/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/reload/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	"github.com/roadrunner-server/sdk/v3/state/process"
-	"github.com/roadrunner-server/service/v3"
+	"github.com/roadrunner-server/sdk/v4/state/process"
+	"github.com/roadrunner-server/service/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	serviceProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/service/v1"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestServiceInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -39,7 +39,7 @@ func TestServiceInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -96,8 +96,7 @@ func TestServiceInit(t *testing.T) {
 }
 
 func TestServiceTrimOutput(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -106,7 +105,7 @@ func TestServiceTrimOutput(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&service.Plugin{},
@@ -165,8 +164,7 @@ func TestServiceTrimOutput(t *testing.T) {
 }
 
 func TestServiceWorkers(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -174,7 +172,7 @@ func TestServiceWorkers(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -235,8 +233,7 @@ func TestServiceWorkers(t *testing.T) {
 }
 
 func TestServiceInitStdout(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -244,7 +241,7 @@ func TestServiceInitStdout(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -301,8 +298,7 @@ func TestServiceInitStdout(t *testing.T) {
 }
 
 func TestServiceEnv(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -311,7 +307,7 @@ func TestServiceEnv(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&service.Plugin{},
@@ -369,8 +365,7 @@ func TestServiceEnv(t *testing.T) {
 }
 
 func TestServiceError(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -378,7 +373,7 @@ func TestServiceError(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -432,8 +427,7 @@ func TestServiceError(t *testing.T) {
 }
 
 func TestServiceRestarts(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -441,7 +435,7 @@ func TestServiceRestarts(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -498,8 +492,7 @@ func TestServiceRestarts(t *testing.T) {
 }
 
 func TestServiceCreate(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -507,7 +500,7 @@ func TestServiceCreate(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -585,8 +578,7 @@ func TestServiceCreate(t *testing.T) {
 }
 
 func TestServiceCreateEmptyConfig(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -594,7 +586,7 @@ func TestServiceCreateEmptyConfig(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -682,8 +674,7 @@ func TestServiceCreateEmptyConfig(t *testing.T) {
 }
 
 func TestServiceRestart(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -691,7 +682,7 @@ func TestServiceRestart(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -783,8 +774,7 @@ func TestServiceRestart(t *testing.T) {
 }
 
 func TestServiceRestartConcurrent(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -792,7 +782,7 @@ func TestServiceRestartConcurrent(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -903,8 +893,7 @@ func TestServiceRestartConcurrent(t *testing.T) {
 }
 
 func TestServiceListConcurrent(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*5))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*5))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -912,7 +901,7 @@ func TestServiceListConcurrent(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -1025,8 +1014,7 @@ func TestServiceListConcurrent(t *testing.T) {
 }
 
 func TestServiceStatus(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1034,7 +1022,7 @@ func TestServiceStatus(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -1127,8 +1115,7 @@ func TestServiceStatus(t *testing.T) {
 }
 
 func TestServiceInitRemain(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1136,7 +1123,7 @@ func TestServiceInitRemain(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&service.Plugin{},
@@ -1193,8 +1180,7 @@ func TestServiceInitRemain(t *testing.T) {
 }
 
 func TestServiceReset(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1203,7 +1189,7 @@ func TestServiceReset(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&resetter.Plugin{},
@@ -1276,8 +1262,7 @@ func TestServiceReset(t *testing.T) {
 }
 
 func TestServiceReset2(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1286,7 +1271,7 @@ func TestServiceReset2(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&reload.Plugin{},
@@ -1370,8 +1355,7 @@ func TestServiceReset2(t *testing.T) {
 }
 
 func TestServiceReset3(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1380,7 +1364,7 @@ func TestServiceReset3(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&rpcPlugin.Plugin{},
@@ -1453,8 +1437,7 @@ func TestServiceReset3(t *testing.T) {
 }
 
 func TestServiceReset4(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1463,7 +1446,7 @@ func TestServiceReset4(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&rpcPlugin.Plugin{},

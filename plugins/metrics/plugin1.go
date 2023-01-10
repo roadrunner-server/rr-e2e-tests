@@ -1,6 +1,8 @@
 package metrics
 
 import (
+	"context"
+
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -26,7 +28,7 @@ func (p1 *Plugin1) Serve() chan error {
 	return errCh
 }
 
-func (p1 *Plugin1) Stop() error {
+func (p1 *Plugin1) Stop(context.Context) error {
 	return nil
 }
 

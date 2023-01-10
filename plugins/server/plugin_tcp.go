@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/roadrunner-server/errors"
-	"github.com/roadrunner-server/sdk/v3/payload"
-	serverImpl "github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/sdk/v4/payload"
+	serverImpl "github.com/roadrunner-server/server/v4"
 )
 
 type Foo3 struct {
@@ -97,6 +97,6 @@ func (f *Foo3) Serve() chan error {
 	return errCh
 }
 
-func (f *Foo3) Stop() error {
+func (f *Foo3) Stop(context.Context) error {
 	return nil
 }

@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"context"
 	"strings"
 
 	"github.com/roadrunner-server/errors"
@@ -15,6 +16,10 @@ type Configurer interface {
 	Has(name string) bool
 }
 
+type Logger interface {
+	NamedLogger(name string) *zap.Logger
+}
+
 type TestPlugin struct {
 	config Configurer
 	log    *zap.Logger
@@ -27,9 +32,9 @@ func (l *Loggable) MarshalLogObject(encoder zapcore.ObjectEncoder) error {
 	return nil
 }
 
-func (p1 *TestPlugin) Init(cfg Configurer, log *zap.Logger) error {
+func (p1 *TestPlugin) Init(cfg Configurer, log Logger) error {
 	p1.config = cfg
-	p1.log = log
+	p1.log = log.NamedLogger("test")
 	return nil
 }
 
@@ -66,7 +71,7 @@ func (p1 *TestPlugin) Serve() chan error {
 	return errCh
 }
 
-func (p1 *TestPlugin) Stop() error {
+func (p1 *TestPlugin) Stop(context.Context) error {
 	return nil
 }
 

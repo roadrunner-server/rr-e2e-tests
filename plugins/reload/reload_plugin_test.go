@@ -12,18 +12,19 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	"github.com/roadrunner-server/errors"
-	httpPlugin "github.com/roadrunner-server/http/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/reload/v3"
-	"github.com/roadrunner-server/resetter/v3"
+	httpPlugin "github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/reload/v4"
+	"github.com/roadrunner-server/resetter/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 const testDir string = "unit_tests"
@@ -32,8 +33,7 @@ const dir1 string = "dir1"
 const hugeNumberOfFiles uint = 500
 
 func TestReloadInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -43,7 +43,7 @@ func TestReloadInit(t *testing.T) {
 
 	// try to remove, skip error
 	assert.NoError(t, freeResources(testDir))
-	err = os.Mkdir(testDir, 0755)
+	err := os.Mkdir(testDir, 0755)
 	assert.NoError(t, err)
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -121,8 +121,7 @@ func reloadTestInit(t *testing.T) {
 }
 
 func TestReloadBadWorker(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -132,7 +131,7 @@ func TestReloadBadWorker(t *testing.T) {
 
 	// try to remove, skip error
 	assert.NoError(t, freeResources(testDir))
-	err = os.Mkdir(testDir, 0755)
+	err := os.Mkdir(testDir, 0755)
 	assert.NoError(t, err)
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
@@ -218,8 +217,7 @@ func TestReloadBadWorker(t *testing.T) {
 }
 
 func TestReloadHugeNumberOfFiles(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -235,7 +233,7 @@ func TestReloadHugeNumberOfFiles(t *testing.T) {
 	assert.NoError(t, os.Mkdir(testCopyToDir, 0755))
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&server.Plugin{},
@@ -329,8 +327,7 @@ func reloadHugeNumberOfFiles(t *testing.T) {
 
 // Should be events only about creating files with txt ext
 func TestReloadFilterFileExt(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -342,7 +339,7 @@ func TestReloadFilterFileExt(t *testing.T) {
 	assert.NoError(t, freeResources(testDir))
 	assert.NoError(t, os.Mkdir(testDir, 0755))
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -443,8 +440,7 @@ func reloadFilteredExt(t *testing.T) {
 
 // Should be events only about creating files with txt ext
 func TestReloadCopy100(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -462,7 +458,7 @@ func TestReloadCopy100(t *testing.T) {
 	assert.NoError(t, os.Mkdir(dir1, 0755))
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&server.Plugin{},
@@ -726,8 +722,7 @@ func reloadMake100Files(t *testing.T) {
 }
 
 func TestReloadNoRecursion(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -744,7 +739,7 @@ func TestReloadNoRecursion(t *testing.T) {
 	assert.NoError(t, os.Mkdir(dir1, 0755))
 	assert.NoError(t, os.Mkdir(testCopyToDir, 0755))
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},

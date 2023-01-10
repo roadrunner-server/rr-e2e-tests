@@ -12,29 +12,29 @@ import (
 	"time"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-	amqpDriver "github.com/roadrunner-server/amqp/v3"
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	amqpDriver "github.com/roadrunner-server/amqp/v4"
+	jobsState "github.com/roadrunner-server/api/v3/plugins/v1/jobs"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/metrics/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/metrics/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	jobsState "github.com/roadrunner-server/sdk/v3/plugins/jobs"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestAMQPHeaders(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.12.2",
@@ -43,7 +43,7 @@ func TestAMQPHeaders(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -120,8 +120,7 @@ func TestAMQPHeaders(t *testing.T) {
 }
 
 func TestAMQPDeclareHeaders(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.12.2",
@@ -130,7 +129,7 @@ func TestAMQPDeclareHeaders(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -215,8 +214,7 @@ func TestAMQPDeclareHeaders(t *testing.T) {
 }
 
 func TestAMQPInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -225,7 +223,7 @@ func TestAMQPInit(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -302,8 +300,7 @@ func TestAMQPInit(t *testing.T) {
 }
 
 func TestAMQPInitV27(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-amqp-init.yaml",
@@ -312,7 +309,7 @@ func TestAMQPInitV27(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -389,8 +386,7 @@ func TestAMQPInitV27(t *testing.T) {
 }
 
 func TestAMQPRoutingQueue(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-amqp-routing-queue.yaml",
@@ -399,7 +395,7 @@ func TestAMQPRoutingQueue(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -476,8 +472,7 @@ func TestAMQPRoutingQueue(t *testing.T) {
 }
 
 func TestAMQPInitV27RR27(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-amqp-init-v27.yaml",
@@ -486,7 +481,7 @@ func TestAMQPInitV27RR27(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -563,8 +558,7 @@ func TestAMQPInitV27RR27(t *testing.T) {
 }
 
 func TestAMQPInitV27RR27Durable(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-amqp-init-v27-durable.yaml",
@@ -573,7 +567,7 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -650,8 +644,7 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 }
 
 func TestAMQPReset(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -660,7 +653,7 @@ func TestAMQPReset(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -742,8 +735,7 @@ func TestAMQPReset(t *testing.T) {
 }
 
 func TestAMQPDeclare(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -752,7 +744,7 @@ func TestAMQPDeclare(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -835,8 +827,7 @@ func TestAMQPDeclare(t *testing.T) {
 }
 
 func TestAMQPDeclareDurable(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -845,7 +836,7 @@ func TestAMQPDeclareDurable(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -928,8 +919,7 @@ func TestAMQPDeclareDurable(t *testing.T) {
 }
 
 func TestAMQPJobsError(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -938,7 +928,7 @@ func TestAMQPJobsError(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -1022,8 +1012,7 @@ func TestAMQPJobsError(t *testing.T) {
 }
 
 func TestAMQPNoGlobalSection(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1031,7 +1020,7 @@ func TestAMQPNoGlobalSection(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -1049,13 +1038,12 @@ func TestAMQPNoGlobalSection(t *testing.T) {
 	}
 
 	_, err = cont.Serve()
-	require.Error(t, err)
+	require.NoError(t, err)
 	_ = cont.Stop()
 }
 
 func TestAMQPStats(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1064,7 +1052,7 @@ func TestAMQPStats(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -1182,8 +1170,7 @@ func TestAMQPStats(t *testing.T) {
 }
 
 func TestAMQPBadResp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1192,7 +1179,7 @@ func TestAMQPBadResp(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -1272,8 +1259,7 @@ func TestAMQPBadResp(t *testing.T) {
 // redialer should be restarted
 // ack timeout is 30 seconds
 func TestAMQPSlow(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute*5))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Minute*5))
 
 	cfg := &config.Plugin{
 		Version: "2.9.2",
@@ -1282,7 +1268,7 @@ func TestAMQPSlow(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -1367,8 +1353,7 @@ func TestAMQPSlow(t *testing.T) {
 
 // Use auto-ack, jobs should not be timeouted
 func TestAMQPSlowAutoAck(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.2",
@@ -1377,7 +1362,7 @@ func TestAMQPSlowAutoAck(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -1464,8 +1449,7 @@ func TestAMQPSlowAutoAck(t *testing.T) {
 
 // custom payload
 func TestAMQPRawPayload(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.10.1",
@@ -1474,7 +1458,7 @@ func TestAMQPRawPayload(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},

@@ -9,21 +9,21 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/gzip/v3"
-	httpPlugin "github.com/roadrunner-server/http/v3"
-	"github.com/roadrunner-server/logger/v3"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	"github.com/roadrunner-server/gzip/v4"
+	httpPlugin "github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/logger/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestGzipPlugin(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -31,7 +31,7 @@ func TestGzipPlugin(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -108,8 +108,7 @@ func headerCheck(t *testing.T) {
 }
 
 func TestMiddlewareNotExist(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -118,7 +117,7 @@ func TestMiddlewareNotExist(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&server.Plugin{},

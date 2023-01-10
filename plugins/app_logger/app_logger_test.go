@@ -8,26 +8,24 @@ import (
 	"testing"
 	"time"
 
-	applogger "github.com/roadrunner-server/app-logger/v3"
-	configImpl "github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/logger/v3"
+	applogger "github.com/roadrunner-server/app-logger/v4"
+	configImpl "github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	"github.com/roadrunner-server/logger/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/exp/slog"
 )
 
 func TestAppLogger(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
 
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
 	vp.Version = "2.12.0"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		&applogger.Plugin{},
 		&logger.Plugin{},
 		vp,

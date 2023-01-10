@@ -1,6 +1,7 @@
 package rpc
 
 import (
+	"context"
 	"net"
 	"net/rpc"
 	"time"
@@ -48,6 +49,6 @@ func (p2 *Plugin2) Serve() chan error {
 	return errCh
 }
 
-func (p2 *Plugin2) Stop() error {
+func (p2 *Plugin2) Stop(context.Context) error {
 	return nil
 }

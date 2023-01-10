@@ -12,21 +12,21 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	statusStr "github.com/roadrunner-server/api/v3/plugins/v1/status"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	httpPlugin "github.com/roadrunner-server/http/v3"
-	"github.com/roadrunner-server/logger/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
-	statusStr "github.com/roadrunner-server/sdk/v3/plugins/status"
-	"github.com/roadrunner-server/server/v3"
-	"github.com/roadrunner-server/status/v3"
+	httpPlugin "github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/logger/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
+	"github.com/roadrunner-server/server/v4"
+	"github.com/roadrunner-server/status/v4"
 	"github.com/stretchr/testify/assert"
+	"golang.org/x/exp/slog"
 )
 
 func TestStatusHttp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -34,7 +34,7 @@ func TestStatusHttp(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -112,8 +112,7 @@ func checkHTTPStatus(t *testing.T) {
 }
 
 func TestStatusRPC(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -121,7 +120,7 @@ func TestStatusRPC(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -193,8 +192,7 @@ func checkRPCStatus(t *testing.T) {
 }
 
 func TestReadyHttp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -202,7 +200,7 @@ func TestReadyHttp(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -280,8 +278,7 @@ func checkHTTPReadiness(t *testing.T) {
 }
 
 func TestReadinessRPCWorkerNotReady(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*2))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*2))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -289,7 +286,7 @@ func TestReadinessRPCWorkerNotReady(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},

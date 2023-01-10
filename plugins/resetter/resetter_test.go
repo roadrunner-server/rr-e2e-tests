@@ -10,23 +10,21 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestResetterInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -35,7 +33,7 @@ func TestResetterInit(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		l,

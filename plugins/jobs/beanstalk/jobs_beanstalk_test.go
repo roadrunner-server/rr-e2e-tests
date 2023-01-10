@@ -12,28 +12,28 @@ import (
 
 	"github.com/beanstalkd/go-beanstalk"
 	"github.com/google/uuid"
-	beanstalkPlugin "github.com/roadrunner-server/beanstalk/v3"
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	jobState "github.com/roadrunner-server/api/v3/plugins/v1/jobs"
+	beanstalkPlugin "github.com/roadrunner-server/beanstalk/v4"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	jobState "github.com/roadrunner-server/sdk/v3/plugins/jobs"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestBeanstalkInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -42,7 +42,7 @@ func TestBeanstalkInit(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -117,8 +117,7 @@ func TestBeanstalkInit(t *testing.T) {
 }
 
 func TestBeanstalkInitAutoAck(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Version: "2.9.3",
@@ -127,7 +126,7 @@ func TestBeanstalkInitAutoAck(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -203,8 +202,7 @@ func TestBeanstalkInitAutoAck(t *testing.T) {
 }
 
 func TestBeanstalkInitV27(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-beanstalk-init-v27.yaml",
@@ -213,7 +211,7 @@ func TestBeanstalkInitV27(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -290,8 +288,7 @@ func TestBeanstalkInitV27(t *testing.T) {
 }
 
 func TestBeanstalkStats(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -299,7 +296,7 @@ func TestBeanstalkStats(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -412,8 +409,7 @@ func TestBeanstalkStats(t *testing.T) {
 }
 
 func TestBeanstalkDeclare(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -421,7 +417,7 @@ func TestBeanstalkDeclare(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -497,8 +493,7 @@ func TestBeanstalkDeclare(t *testing.T) {
 }
 
 func TestBeanstalkJobsError(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -506,7 +501,7 @@ func TestBeanstalkJobsError(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -583,8 +578,7 @@ func TestBeanstalkJobsError(t *testing.T) {
 }
 
 func TestBeanstalkNoGlobalSection(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -592,7 +586,7 @@ func TestBeanstalkNoGlobalSection(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -610,12 +604,11 @@ func TestBeanstalkNoGlobalSection(t *testing.T) {
 	}
 
 	_, err = cont.Serve()
-	require.Error(t, err)
+	require.NoError(t, err)
 }
 
 func TestBeanstalkRaw(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Version: "2.10.1",
@@ -624,7 +617,7 @@ func TestBeanstalkRaw(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -710,8 +703,7 @@ func TestBeanstalkRaw(t *testing.T) {
 }
 
 func TestBeanstalkInitV27BadResp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-beanstalk-init-br.yaml",
@@ -720,7 +712,7 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -779,8 +771,8 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-init-br-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-init-br-2", false))
 
 	time.Sleep(time.Second)
 
@@ -793,7 +785,7 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("beanstalk listener stopped").Len())
 
 	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
+		helpers.DestroyPipelines("test-init-br-1", "test-init-br-2")
 	})
 }
 

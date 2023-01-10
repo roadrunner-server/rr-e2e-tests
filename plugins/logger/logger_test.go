@@ -11,27 +11,26 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	httpPlugin "github.com/roadrunner-server/http/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/rpc/v3"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	httpPlugin "github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/rpc/v4"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/exp/slog"
 )
 
 func TestLogger(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
+
 	// config plugin
 	vp := &config.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		vp,
 		&TestPlugin{},
 		&logger.Plugin{},
@@ -81,8 +80,7 @@ func TestLogger(t *testing.T) {
 }
 
 func TestLoggerRawErr(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	// config plugin
 	cfg := &config.Plugin{
@@ -91,7 +89,7 @@ func TestLoggerRawErr(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -157,16 +155,14 @@ func TestLoggerRawErr(t *testing.T) {
 }
 
 func TestLoggerNoConfig(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
+
 	// config plugin
 	vp := &config.Plugin{}
 	vp.Path = "configs/.rr-no-logger.yaml"
 	vp.Prefix = "rr"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		vp,
 		&TestPlugin{},
 		&logger.Plugin{},
@@ -217,16 +213,14 @@ func TestLoggerNoConfig(t *testing.T) {
 
 // Should no panic
 func TestLoggerNoConfig2(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
+
 	// config plugin
 	vp := &config.Plugin{}
 	vp.Path = "configs/.rr-no-logger2.yaml"
 	vp.Prefix = "rr"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		vp,
 		&rpc.Plugin{},
 		&logger.Plugin{},
@@ -278,16 +272,14 @@ func TestLoggerNoConfig2(t *testing.T) {
 }
 
 func TestFileLogger(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
+
 	// config plugin
 	vp := &config.Plugin{}
 	vp.Path = "configs/.rr-file-logger.yaml"
 	vp.Prefix = "rr"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		vp,
 		&rpc.Plugin{},
 		&logger.Plugin{},
@@ -364,16 +356,14 @@ func httpEcho(t *testing.T) {
 }
 
 func TestMarshalObjectLogging(t *testing.T) {
-	container, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	container := endure.New(slog.LevelDebug)
+
 	// config plugin
 	vp := &config.Plugin{}
 	vp.Path = "configs/.rr-file-logger.yaml"
 	vp.Prefix = "rr"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		vp,
 		&TestPlugin{},
 		&logger.Plugin{},

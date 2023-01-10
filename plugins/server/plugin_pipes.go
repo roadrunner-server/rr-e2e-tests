@@ -6,11 +6,11 @@ import (
 	"time"
 
 	"github.com/roadrunner-server/errors"
-	"github.com/roadrunner-server/sdk/v3/payload"
-	"github.com/roadrunner-server/sdk/v3/pool"
-	staticPool "github.com/roadrunner-server/sdk/v3/pool/static_pool"
-	"github.com/roadrunner-server/sdk/v3/worker"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/sdk/v4/payload"
+	"github.com/roadrunner-server/sdk/v4/pool"
+	staticPool "github.com/roadrunner-server/sdk/v4/pool/static_pool"
+	"github.com/roadrunner-server/sdk/v4/worker"
+	"github.com/roadrunner-server/server/v4"
 	"go.uber.org/zap"
 )
 
@@ -151,6 +151,6 @@ func (f *Foo) Serve() chan error {
 	return errCh
 }
 
-func (f *Foo) Stop() error {
+func (f *Foo) Stop(context.Context) error {
 	return nil
 }

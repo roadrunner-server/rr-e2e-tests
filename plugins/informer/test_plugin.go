@@ -6,11 +6,11 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/roadrunner-server/sdk/v3/payload"
-	"github.com/roadrunner-server/sdk/v3/pool"
-	staticPool "github.com/roadrunner-server/sdk/v3/pool/static_pool"
-	"github.com/roadrunner-server/sdk/v3/state/process"
-	"github.com/roadrunner-server/sdk/v3/worker"
+	"github.com/roadrunner-server/sdk/v4/payload"
+	"github.com/roadrunner-server/sdk/v4/pool"
+	staticPool "github.com/roadrunner-server/sdk/v4/pool/static_pool"
+	"github.com/roadrunner-server/sdk/v4/state/process"
+	"github.com/roadrunner-server/sdk/v4/worker"
 	"go.uber.org/zap"
 )
 
@@ -45,13 +45,10 @@ type Server interface {
 type Pool interface {
 	// Workers returns worker list associated with the pool.
 	Workers() (workers []*worker.Process)
-
 	// Exec payload
 	Exec(ctx context.Context, p *payload.Payload) (*payload.Payload, error)
-
 	// Reset kill all workers inside the watcher and replaces with new
 	Reset(ctx context.Context) error
-
 	// Destroy all underlying stack (but let them complete the task).
 	Destroy(ctx context.Context)
 }
@@ -74,7 +71,7 @@ func (p1 *Plugin1) Serve() chan error {
 	return errCh
 }
 
-func (p1 *Plugin1) Stop() error {
+func (p1 *Plugin1) Stop(context.Context) error {
 	return nil
 }
 

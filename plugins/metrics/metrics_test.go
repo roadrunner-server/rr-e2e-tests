@@ -12,19 +12,20 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	httpPlugin "github.com/roadrunner-server/http/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/metrics/v3"
-	"github.com/roadrunner-server/prometheus/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	httpPlugin "github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/metrics/v4"
+	"github.com/roadrunner-server/prometheus/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 const dialAddr = "127.0.0.1:6001"
@@ -34,10 +35,7 @@ const getAddr2 = "http://127.0.0.1:2113/metrics"
 const getIPV6Addr = "http://[::1]:2112/metrics"
 
 func TestMetricsInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -45,7 +43,7 @@ func TestMetricsInit(t *testing.T) {
 	cfg.Prefix = "rr"
 	cfg.Path = "configs/.rr-test.yaml"
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&metrics.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -97,10 +95,7 @@ func TestMetricsInit(t *testing.T) {
 }
 
 func TestMetricsIssue571(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0"}
@@ -108,7 +103,7 @@ func TestMetricsIssue571(t *testing.T) {
 	cfg.Path = "configs/.rr-issue-571.yaml"
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&metrics.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -223,10 +218,7 @@ func issue571Metrics() (string, error) {
 }
 
 func TestMetricsGaugeCollector(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -234,7 +226,7 @@ func TestMetricsGaugeCollector(t *testing.T) {
 	cfg.Prefix = "rr"
 	cfg.Path = "configs/.rr-test.yaml"
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&metrics.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -290,10 +282,7 @@ func TestMetricsGaugeCollector(t *testing.T) {
 }
 
 func TestMetricsDifferentRPCCalls(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -302,7 +291,7 @@ func TestMetricsDifferentRPCCalls(t *testing.T) {
 	cfg.Path = "configs/.rr-test.yaml"
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&metrics.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -915,10 +904,7 @@ func unregisterMetric(name string) func(t *testing.T) {
 }
 
 func TestHTTPMetrics(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0"}
@@ -926,7 +912,7 @@ func TestHTTPMetrics(t *testing.T) {
 	cfg.Path = "configs/.rr-http-metrics.yaml"
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&metrics.Plugin{},
 		&server.Plugin{},
@@ -1013,17 +999,14 @@ func echoHTTP(port string) func(t *testing.T) {
 }
 
 func TestHTTPMetricsNoFreeWorkers(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0"}
 	cfg.Prefix = "rr"
 	cfg.Path = "configs/.rr-http-metrics-no-free-workers.yaml"
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&metrics.Plugin{},
 		&server.Plugin{},
@@ -1085,10 +1068,7 @@ func TestHTTPMetricsNoFreeWorkers(t *testing.T) {
 }
 
 func TestUnregister(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.12.0",
@@ -1097,7 +1077,7 @@ func TestUnregister(t *testing.T) {
 	cfg.Path = "configs/.rr-test.yaml"
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&metrics.Plugin{},
 		&rpcPlugin.Plugin{},
