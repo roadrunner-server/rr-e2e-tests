@@ -507,7 +507,7 @@ func TestDurabilityKafka(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 15)
 	cmd2 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")
 	err = cmd2.Start()
 	require.NoError(t, err)
@@ -637,7 +637,7 @@ func TestDurabilityKafkaCG(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 15)
 	cmd2 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")
 	err = cmd2.Start()
 	require.NoError(t, err)
