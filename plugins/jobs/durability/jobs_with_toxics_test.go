@@ -449,13 +449,12 @@ func TestDurabilityKafka(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	//l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err = cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
-		//l,
+		l,
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
@@ -541,10 +540,10 @@ func TestDurabilityKafka(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	//assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
-	//assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	//assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
-	//assert.Equal(t, 2, oLogger.FilterMessageSnippet("job push error").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job push error").Len())
 
 	t.Cleanup(func() {
 		cmd4 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")
