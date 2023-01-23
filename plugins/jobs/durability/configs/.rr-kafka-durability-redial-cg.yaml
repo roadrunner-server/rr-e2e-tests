@@ -19,7 +19,6 @@ kafka:
 jobs:
   num_pollers: 10
   pipeline_size: 100000
-  timeout: 3
   pool:
     num_workers: 2
     allocate_timeout: 60s
