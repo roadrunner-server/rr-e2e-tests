@@ -33,7 +33,7 @@ require (
 	github.com/roadrunner-server/http/v3 v3.2.0
 	github.com/roadrunner-server/informer/v3 v3.3.0
 	github.com/roadrunner-server/jobs/v3 v3.2.0
-	github.com/roadrunner-server/kafka/v3 v3.2.0
+	github.com/roadrunner-server/kafka/v3 v3.3.0
 	github.com/roadrunner-server/kv/v3 v3.2.0
 	github.com/roadrunner-server/logger/v3 v3.2.0
 	github.com/roadrunner-server/memcached/v3 v3.2.0
@@ -121,7 +121,7 @@ require (
 	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
-	github.com/klauspost/compress v1.15.14 // indirect
+	github.com/klauspost/compress v1.15.15 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.3 // indirect
 	github.com/libdns/libdns v0.2.1 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
