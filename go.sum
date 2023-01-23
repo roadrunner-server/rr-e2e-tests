@@ -445,6 +445,7 @@ github.com/centrifugal/centrifuge-go v0.9.4/go.mod h1:L0aQ0u5ixvTJ/pz7ZyXvwOXuRA
 github.com/centrifugal/protocol v0.8.11/go.mod h1:qpYrxz4cDj+rlgC6giSADkf7XDN1K7aFmkkFwt/bayQ=
 github.com/centrifugal/protocol v0.9.1 h1:DCoZvYtblUotGrM7GrpIvKtZYhjT03chvhEN9tyWZMY=
 github.com/centrifugal/protocol v0.9.1/go.mod h1:qpYrxz4cDj+rlgC6giSADkf7XDN1K7aFmkkFwt/bayQ=
+github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.2.0 h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj44=
@@ -623,6 +624,7 @@ github.com/gorilla/websocket v1.5.0 h1:PPwGk2jz7EePpoHN/+ClbZu8SPxiqlu12wZP/3sWm
 github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 h1:+9834+KizmvFV7pXQGSXQTsaWhq2GjuNUt0aUU0YBYw=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0/go.mod h1:z0ButlSOZa5vEBq9m2m2hlwIgKw+rp3sdCBRoJY+30Y=
+github.com/grpc-ecosystem/grpc-gateway v1.16.0 h1:gmcG1KaJ57LophUzW0Hy8NmPhnMZb4M0+kPpLofRdBo=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0/go.mod h1:hgWBS7lorOAVIJEQMi4ZsPv9hVvWI6+ch50m39Pf2Ks=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.0 h1:1JYBfzqrWPcCclBwxFCPAou9n+q86mfnu7NAeHfte7A=
@@ -714,6 +716,7 @@ github.com/openzipkin/zipkin-go v0.4.1 h1:kNd/ST2yLLWhaWrkgchya40TJabe8Hioj9udfP
 github.com/openzipkin/zipkin-go v0.4.1/go.mod h1:qY0VqDSN1pOBN94dBc6w2GJlWLiovAyg7Qt6/I9HecM=
 github.com/pborman/uuid v1.2.1 h1:+ZZIw58t/ozdjRaXh/3awHfmWRbzYxJoAdNJxe/3pvw=
 github.com/pborman/uuid v1.2.1/go.mod h1:X/NO0urCmaxf9VXbdlT7C2Yzkj2IKimNn4k+gtPdI/k=
+github.com/pelletier/go-toml v1.9.5 h1:4yBQzkHv+7BHq2PQUZF3Mx0IYxG7LsP222s7Agd3ve8=
 github.com/pelletier/go-toml/v2 v2.0.6 h1:nrzqCb7j9cDFj2coyLNLaZuJTLjWjlaz6nvTvIwycIU=
 github.com/pelletier/go-toml/v2 v2.0.6/go.mod h1:eumQOmlWiOPt5WriQQqoM5y18pDHwha2N+QD+EUNTek=
 github.com/pierrec/lz4/v4 v4.1.15/go.mod h1:gZWDp/Ze/IJXGXf23ltt2EXimqmTUXEy0GFuRQyBid4=
@@ -764,6 +767,8 @@ github.com/roadrunner-server/app-logger/v4 v4.0.0 h1:/6tRPnUFGJ+6vm4iTF9zeU2hHl1
 github.com/roadrunner-server/app-logger/v4 v4.0.0/go.mod h1:cWV6nWhwQmkyGZtefeWrqs59v0XTrQdm5B7y8ukFpQU=
 github.com/roadrunner-server/beanstalk/v4 v4.1.0 h1:LJIFJiAGA4SBCTJ4LVIhPIhmCblyYIM1kbjYYNoTaUA=
 github.com/roadrunner-server/beanstalk/v4 v4.1.0/go.mod h1:Ekpce6ise0aet/WJDregbecSho502uIgu9sKfce5/T4=
+github.com/roadrunner-server/boltdb/v4 v4.1.1 h1:fiNJhCo28x21Yww3iSR2FZ6bytu/HZTFfeBHELzO7P8=
+github.com/roadrunner-server/boltdb/v4 v4.1.1/go.mod h1:dVgez5eFAVivFeCEcycVT2fbb33dKbgESjXrkqmck3o=
 github.com/roadrunner-server/centrifuge/v4 v4.0.0 h1:0Ac7nS2Hv/EJ0tKnAUqu9U9rq02GABRoERWlIigFgN4=
 github.com/roadrunner-server/centrifuge/v4 v4.0.0/go.mod h1:rTkGOF4XBJxSKP9KNVudbiMBSLms03m4tp9ZgLpUvF8=
 github.com/roadrunner-server/config/v4 v4.1.0 h1:EyM632R4qVeO9tvhNItffBZMIBtuw70D3oYpPyRWoAs=

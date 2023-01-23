@@ -69,8 +69,6 @@ require (
 	google.golang.org/protobuf v1.28.1
 )
 
-replace github.com/roadrunner-server/boltdb/v4 => ../plugins/boltdb
-
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/aws/aws-sdk-go v1.44.185 // indirect
