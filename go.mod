@@ -10,7 +10,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.20.0
 	github.com/beanstalkd/go-beanstalk v0.2.0
 	github.com/centrifugal/centrifuge-go v0.9.4
-	github.com/fatih/color v1.13.0
+	github.com/fatih/color v1.14.0
 	github.com/goccy/go-json v0.10.0
 	github.com/google/uuid v1.3.0
 	github.com/nats-io/nats.go v1.22.1
