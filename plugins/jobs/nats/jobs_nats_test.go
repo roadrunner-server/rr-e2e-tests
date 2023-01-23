@@ -419,7 +419,7 @@ func TestNATSDeclare(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe("default-10", "stream-10"))
+	t.Run("DeclarePipeline", declareNATSPipe("127.0.0.1:6001", "default-10", "stream-10"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
@@ -499,7 +499,7 @@ func TestNATSJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe("default-11", "stream-11"))
+	t.Run("DeclarePipeline", declareNATSPipe("127.0.0.1:6001", "default-11", "stream-11"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 25)
@@ -725,16 +725,16 @@ func TestNATSStats(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe("default-13", "stream-13"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
+	t.Run("DeclarePipeline", declareNATSPipe("127.0.0.1:13001", "default-13", "stream-13"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:13001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:13001"))
 	time.Sleep(time.Second * 2)
-	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:13001", "test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:13001"))
 
 	out := &jobState.State{}
-	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:13001", out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "nats", out.Driver)
@@ -746,11 +746,11 @@ func TestNATSStats(t *testing.T) {
 	assert.Equal(t, false, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("127.0.0.1:13001", "test-3"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:13001", out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "nats", out.Driver)
@@ -762,16 +762,16 @@ func TestNATSStats(t *testing.T) {
 	assert.Equal(t, true, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:13001", "test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
-func declareNATSPipe(subj, stream string) func(t *testing.T) {
+func declareNATSPipe(address, subj, stream string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 

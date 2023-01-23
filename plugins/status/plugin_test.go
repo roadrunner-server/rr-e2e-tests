@@ -278,7 +278,7 @@ func checkHTTPReadiness(t *testing.T) {
 }
 
 func TestReadinessRPCWorkerNotReady(t *testing.T) {
-	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*2))
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -347,10 +347,13 @@ func TestReadinessRPCWorkerNotReady(t *testing.T) {
 
 func doHTTPReq(t *testing.T) {
 	go func() {
+		client := &http.Client{
+			Timeout: time.Second * 10,
+		}
 		req, err := http.NewRequest("GET", "http://127.0.0.1:11933", nil)
 		assert.NoError(t, err)
 
-		r, err := http.DefaultClient.Do(req)
+		r, err := client.Do(req)
 		assert.NoError(t, err)
 		b, err := io.ReadAll(r.Body)
 		assert.NoError(t, err)

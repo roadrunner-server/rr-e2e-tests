@@ -102,8 +102,10 @@ func TestKVInit(t *testing.T) {
 
 	wg.Wait()
 
-	_ = os.RemoveAll("rr.db")
-	_ = os.RemoveAll("africa.db")
+	t.Cleanup(func() {
+		_ = os.RemoveAll("rr.db")
+		_ = os.RemoveAll("africa.db")
+	})
 }
 
 func TestKVNoInterval(t *testing.T) {
