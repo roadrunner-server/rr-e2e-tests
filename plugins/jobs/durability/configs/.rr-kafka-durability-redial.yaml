@@ -30,35 +30,36 @@ jobs:
       driver: kafka
       config:
         priority: 1
-
-        create_topics:
-          number_of_partitions: 1
+        auto_create_topics_enable: true
 
         producer_options:
-          required_acks: 1
+          max_message_bytes: 1000
+          required_acks: LeaderAck
+          compression_codec: snappy
+          disable_idempotent: true
 
-        topics_config:
-          compression:type: snappy
-
-        topic: test-1
-        partitions:
-          - 0: 0
-          - 1: 1023
-          - 2: 3345
+        consumer_options:
+          topics: [ "test-1" ]
+          consumer_offset:
+            type: AtStart
 
     test-2:
       driver: kafka
       config:
         priority: 1
 
-        create_topics:
-          number_of_partitions: 1
+        auto_create_topics_enable: true
 
-        topic: test-2
-        partitions:
-          - 0: 0
-          - 1: 1023
-          - 2: 3345
+        producer_options:
+          max_message_bytes: 1000
+          required_acks: LeaderAck
+          compression_codec: snappy
+          disable_idempotent: true
+
+        consumer_options:
+          topics: [ "test-2" ]
+          consumer_offset:
+            type: AtStart
 
   consume: [ "test-1", "test-2" ]
 

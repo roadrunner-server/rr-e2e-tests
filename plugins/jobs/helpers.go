@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	jobState "github.com/roadrunner-server/api/v3/plugins/v1/jobs"
+	jobState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -24,9 +24,9 @@ const (
 	stat    string = "jobs.Stat"
 )
 
-func ResumePipes(pipes ...string) func(t *testing.T) {
+func ResumePipes(address string, pipes ...string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -42,9 +42,9 @@ func ResumePipes(pipes ...string) func(t *testing.T) {
 	}
 }
 
-func PushToDisabledPipe(pipeline string) func(t *testing.T) {
+func PushToDisabledPipe(address, pipeline string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -65,9 +65,9 @@ func PushToDisabledPipe(pipeline string) func(t *testing.T) {
 	}
 }
 
-func PushToPipe(pipeline string, autoAck bool) func(t *testing.T) {
+func PushToPipe(pipeline string, autoAck bool, address string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -80,7 +80,6 @@ func PushToPipe(pipeline string, autoAck bool) func(t *testing.T) {
 				AutoAck:   autoAck,
 				Priority:  1,
 				Pipeline:  pipeline,
-				Delay:     0,
 				Topic:     pipeline,
 				Partition: 0,
 				Offset:    0,
@@ -93,9 +92,9 @@ func PushToPipe(pipeline string, autoAck bool) func(t *testing.T) {
 	}
 }
 
-func PushToPipeDelayed(pipeline string, delay int64) func(t *testing.T) {
+func PushToPipeDelayed(address string, pipeline string, delay int64) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		assert.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -144,9 +143,9 @@ func PushToPipeErr(pipeline string) func(t *testing.T) {
 	}
 }
 
-func PausePipelines(pipes ...string) func(t *testing.T) {
+func PausePipelines(address string, pipes ...string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		assert.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -162,9 +161,9 @@ func PausePipelines(pipes ...string) func(t *testing.T) {
 	}
 }
 
-func DestroyPipelines(pipes ...string) func(t *testing.T) {
+func DestroyPipelines(address string, pipes ...string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		assert.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -227,9 +226,9 @@ func DeleteProxy(name string, t *testing.T) {
 	}
 }
 
-func Stats(state *jobState.State) func(t *testing.T) {
+func Stats(address string, state *jobState.State) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 

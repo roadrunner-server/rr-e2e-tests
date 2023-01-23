@@ -13,7 +13,7 @@ import (
 
 	amqp "github.com/rabbitmq/amqp091-go"
 	amqpDriver "github.com/roadrunner-server/amqp/v4"
-	jobsState "github.com/roadrunner-server/api/v3/plugins/v1/jobs"
+	jobsState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -101,9 +101,10 @@ func TestAMQPHeaders(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	helpers.DestroyPipelines("test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -113,10 +114,6 @@ func TestAMQPHeaders(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestAMQPDeclareHeaders(t *testing.T) {
@@ -191,12 +188,12 @@ func TestAMQPDeclareHeaders(t *testing.T) {
 	headers := `{"x-queue-type": "quorum"}`
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-6", "test-6", "test-6", headers, "false", "true"))
-	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-6"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-6", false))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("127.0.0.1:6001", "test-6"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-6", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-6"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("127.0.0.1:6001", "test-6"))
 	time.Sleep(time.Second)
-	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-6"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-6"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -207,10 +204,6 @@ func TestAMQPDeclareHeaders(t *testing.T) {
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-6")
-	})
 }
 
 func TestAMQPInit(t *testing.T) {
@@ -281,9 +274,10 @@ func TestAMQPInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	helpers.DestroyPipelines("test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -293,10 +287,6 @@ func TestAMQPInit(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestAMQPInitV27(t *testing.T) {
@@ -367,9 +357,10 @@ func TestAMQPInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -379,10 +370,6 @@ func TestAMQPInitV27(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestAMQPRoutingQueue(t *testing.T) {
@@ -454,8 +441,10 @@ func TestAMQPRoutingQueue(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 	// push to only 1 pipeline
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -465,10 +454,6 @@ func TestAMQPRoutingQueue(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestAMQPInitV27RR27(t *testing.T) {
@@ -539,9 +524,10 @@ func TestAMQPInitV27RR27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -551,10 +537,6 @@ func TestAMQPInitV27RR27(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestAMQPInitV27RR27Durable(t *testing.T) {
@@ -625,9 +607,10 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -637,10 +620,6 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestAMQPReset(t *testing.T) {
@@ -711,13 +690,15 @@ func TestAMQPReset(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
 	reset(t)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -728,10 +709,6 @@ func TestAMQPReset(t *testing.T) {
 	require.Equal(t, 4, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 4, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestAMQPDeclare(t *testing.T) {
@@ -804,12 +781,12 @@ func TestAMQPDeclare(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-3", "test-3", "test-3", "", "true", "false"))
-	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-3"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -820,10 +797,6 @@ func TestAMQPDeclare(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-3")
-	})
 }
 
 func TestAMQPDeclareDurable(t *testing.T) {
@@ -896,12 +869,12 @@ func TestAMQPDeclareDurable(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-8", "test-8", "test-8", "", "true", "true"))
-	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-8"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-8", false))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("127.0.0.1:6001", "test-8"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-8", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-8"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("127.0.0.1:6001", "test-8"))
 	time.Sleep(time.Second)
-	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-8"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-8"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -912,10 +885,6 @@ func TestAMQPDeclareDurable(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-8")
-	})
 }
 
 func TestAMQPJobsError(t *testing.T) {
@@ -988,11 +957,11 @@ func TestAMQPJobsError(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-4", "test-4", "test-4", "", "true", "false"))
-	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-4"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-4", false))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("127.0.0.1:6001", "test-4"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-4", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 25)
-	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-4"))
-	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-4"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("127.0.0.1:6001", "test-4"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-4"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1005,10 +974,6 @@ func TestAMQPJobsError(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 	require.Equal(t, 3, oLogger.FilterMessageSnippet("jobs protocol error").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-4")
-	})
 }
 
 func TestAMQPNoGlobalSection(t *testing.T) {
@@ -1112,16 +1077,16 @@ func TestAMQPStats(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclareAMQPPipeline", declareAMQPPipe("test-5", "test-5", "test-5", "", "true", "false"))
-	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("test-5"))
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-5", false))
+	t.Run("ConsumeAMQPPipeline", helpers.ResumePipes("127.0.0.1:6001", "test-5"))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-5", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 2)
-	t.Run("PauseAMQPPipeline", helpers.PausePipelines("test-5"))
+	t.Run("PauseAMQPPipeline", helpers.PausePipelines("127.0.0.1:6001", "test-5"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-5", false))
-	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-5", 5))
+	t.Run("PushAMQPPipeline", helpers.PushToPipe("test-5", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("127.0.0.1:6001", "test-5", 5))
 
 	out := &jobsState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
 
 	assert.Equal(t, out.Pipeline, "test-5")
 	assert.Equal(t, out.Driver, "amqp")
@@ -1134,11 +1099,11 @@ func TestAMQPStats(t *testing.T) {
 	assert.Equal(t, false, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", helpers.ResumePipes("test-5"))
+	t.Run("ResumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-5"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobsState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
 
 	assert.Equal(t, out.Pipeline, "test-5")
 	assert.Equal(t, out.Driver, "amqp")
@@ -1151,7 +1116,7 @@ func TestAMQPStats(t *testing.T) {
 	assert.Equal(t, true, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("test-5"))
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-5"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1163,10 +1128,6 @@ func TestAMQPStats(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-5")
-	})
 }
 
 func TestAMQPBadResp(t *testing.T) {
@@ -1237,9 +1198,10 @@ func TestAMQPBadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1250,10 +1212,6 @@ func TestAMQPBadResp(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("response handler error").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 // redialer should be restarted
@@ -1327,12 +1285,13 @@ func TestAMQPSlow(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 40)
 	for i := 0; i < 10; i++ {
-		t.Run("PushToPipeline", helpers.PushToPipe("test-1", false))
+		t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	}
 	time.Sleep(time.Second * 80)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1345,10 +1304,6 @@ func TestAMQPSlow(t *testing.T) {
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("queues and subscribers was redeclared successfully").Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("connection was successfully restored").Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("redialer restarted").Len(), 1)
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1")
-	})
 }
 
 // Use auto-ack, jobs should not be timeouted
@@ -1421,15 +1376,16 @@ func TestAMQPSlowAutoAck(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 40)
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
-	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 80)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1441,10 +1397,6 @@ func TestAMQPSlowAutoAck(t *testing.T) {
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("queues and subscribers was redeclared successfully").Len(), 0)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("connection was successfully restored").Len(), 0)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("redialer restarted").Len(), 0)
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1")
-	})
 }
 
 // custom payload
@@ -1569,6 +1521,8 @@ func TestAMQPRawPayload(t *testing.T) {
 
 	time.Sleep(time.Second * 10)
 
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-raw")
+
 	stopCh <- struct{}{}
 	wg.Wait()
 
@@ -1577,10 +1531,6 @@ func TestAMQPRawPayload(t *testing.T) {
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-raw")
-	})
 }
 
 func declareAMQPPipe(queue, routingKey, name, headers, exclusive, durable string) func(t *testing.T) {

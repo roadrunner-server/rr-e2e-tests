@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	statusStr "github.com/roadrunner-server/api/v3/plugins/v1/status"
+	statusStr "github.com/roadrunner-server/api/v4/plugins/v1/status"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
