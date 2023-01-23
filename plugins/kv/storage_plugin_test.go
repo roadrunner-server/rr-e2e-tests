@@ -322,8 +322,10 @@ func TestKVCreateToReopenWithPerms2(t *testing.T) {
 
 	wg.Wait()
 
-	_ = os.RemoveAll("rr.db")
-	_ = os.RemoveAll("africa.db")
+	t.Cleanup(func() {
+		_ = os.RemoveAll("rr.db")
+		_ = os.RemoveAll("africa.db")
+	})
 }
 
 func kvSetTest(t *testing.T) {

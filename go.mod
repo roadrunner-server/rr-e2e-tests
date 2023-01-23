@@ -21,7 +21,7 @@ require (
 	github.com/roadrunner-server/api/v4 v4.0.0
 	github.com/roadrunner-server/app-logger/v4 v4.0.0
 	github.com/roadrunner-server/beanstalk/v4 v4.1.0
-	github.com/roadrunner-server/boltdb/v4 v4.1.0
+	github.com/roadrunner-server/boltdb/v4 v4.1.1
 	github.com/roadrunner-server/centrifuge/v4 v4.0.0
 	github.com/roadrunner-server/config/v4 v4.1.0
 	github.com/roadrunner-server/endure/v2 v2.0.1
@@ -35,16 +35,16 @@ require (
 	github.com/roadrunner-server/informer/v4 v4.0.0
 	github.com/roadrunner-server/jobs/v4 v4.2.0
 	github.com/roadrunner-server/kafka/v4 v4.0.0
-	github.com/roadrunner-server/kv/v4 v4.0.0
+	github.com/roadrunner-server/kv/v4 v4.1.0
 	github.com/roadrunner-server/logger/v4 v4.0.0
-	github.com/roadrunner-server/memcached/v4 v4.0.0
+	github.com/roadrunner-server/memcached/v4 v4.1.1
 	github.com/roadrunner-server/memory/v4 v4.1.0
 	github.com/roadrunner-server/metrics/v4 v4.0.0
 	github.com/roadrunner-server/nats/v4 v4.1.0
 	github.com/roadrunner-server/otel/v4 v4.0.0
 	github.com/roadrunner-server/prometheus/v4 v4.0.0
 	github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.0
-	github.com/roadrunner-server/redis/v4 v4.0.0
+	github.com/roadrunner-server/redis/v4 v4.1.1
 	github.com/roadrunner-server/reload/v4 v4.0.0
 	github.com/roadrunner-server/resetter/v4 v4.0.0
 	github.com/roadrunner-server/rpc/v4 v4.0.0
@@ -68,6 +68,8 @@ require (
 	google.golang.org/grpc v1.52.0
 	google.golang.org/protobuf v1.28.1
 )
+
+replace github.com/roadrunner-server/boltdb/v4 => ../plugins/boltdb
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect

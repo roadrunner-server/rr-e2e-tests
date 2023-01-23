@@ -764,8 +764,6 @@ github.com/roadrunner-server/app-logger/v4 v4.0.0 h1:/6tRPnUFGJ+6vm4iTF9zeU2hHl1
 github.com/roadrunner-server/app-logger/v4 v4.0.0/go.mod h1:cWV6nWhwQmkyGZtefeWrqs59v0XTrQdm5B7y8ukFpQU=
 github.com/roadrunner-server/beanstalk/v4 v4.1.0 h1:LJIFJiAGA4SBCTJ4LVIhPIhmCblyYIM1kbjYYNoTaUA=
 github.com/roadrunner-server/beanstalk/v4 v4.1.0/go.mod h1:Ekpce6ise0aet/WJDregbecSho502uIgu9sKfce5/T4=
-github.com/roadrunner-server/boltdb/v4 v4.1.0 h1:fj216Ow1CYLyn+wk1vfuw4FxTpF+j2KwmFXk/9UYAVk=
-github.com/roadrunner-server/boltdb/v4 v4.1.0/go.mod h1:dVgez5eFAVivFeCEcycVT2fbb33dKbgESjXrkqmck3o=
 github.com/roadrunner-server/centrifuge/v4 v4.0.0 h1:0Ac7nS2Hv/EJ0tKnAUqu9U9rq02GABRoERWlIigFgN4=
 github.com/roadrunner-server/centrifuge/v4 v4.0.0/go.mod h1:rTkGOF4XBJxSKP9KNVudbiMBSLms03m4tp9ZgLpUvF8=
 github.com/roadrunner-server/config/v4 v4.1.0 h1:EyM632R4qVeO9tvhNItffBZMIBtuw70D3oYpPyRWoAs=
@@ -792,12 +790,12 @@ github.com/roadrunner-server/jobs/v4 v4.2.0 h1:rQqHO2D9qRrxaZbSJvXnrvcSZFLQJNCLs
 github.com/roadrunner-server/jobs/v4 v4.2.0/go.mod h1:oR+ARIW4oGLB+11Mn8Uk3OtLf44fGVluAoFQJEC18/0=
 github.com/roadrunner-server/kafka/v4 v4.0.0 h1:jytcs8XKzy0nzBwKIHlQAlNmHcD9JcmUKuEUpKfin6g=
 github.com/roadrunner-server/kafka/v4 v4.0.0/go.mod h1:GjRIxaiAoIIsYR0CxU1tmk942F/7fShHhM9iwPcXNpI=
-github.com/roadrunner-server/kv/v4 v4.0.0 h1:Qk+klLcxmjWfLtt2KfRtx1klMPOKfxwbZ1rm7hdx39k=
-github.com/roadrunner-server/kv/v4 v4.0.0/go.mod h1:98OUw5ulDg6P/dItp7S4A1YxALeND2eZtAq91tqyb60=
+github.com/roadrunner-server/kv/v4 v4.1.0 h1:Em7VypWeNMlZ3PQweMJHxXD3xSQAN3shryIrb0yibPg=
+github.com/roadrunner-server/kv/v4 v4.1.0/go.mod h1:OkPP8M2xqas1JpzlwkvP/CrRhr9+lVHkLI3QATA1MD0=
 github.com/roadrunner-server/logger/v4 v4.0.0 h1:IH0rA4klye0yqEtTNkkd6ScAa1HrD8w3CRrs1juC6PY=
 github.com/roadrunner-server/logger/v4 v4.0.0/go.mod h1:p2bTOmH6dmD3WPkFzDrO4jmDxbd/s2rxXY6EO6RFdbY=
-github.com/roadrunner-server/memcached/v4 v4.0.0 h1:l6abHUJsSy1YwJGqam2OwyO3oFHgVRErsTKNnaiyuV8=
-github.com/roadrunner-server/memcached/v4 v4.0.0/go.mod h1:bN4aRV6pdQ2NiKiDIEs/4ZvRjBwe3mY/vCTUO64T6Pg=
+github.com/roadrunner-server/memcached/v4 v4.1.1 h1:f6lNgb1oHMRvlYlyBlUDz0Ei0ZBSlRjLfniLfQILa9I=
+github.com/roadrunner-server/memcached/v4 v4.1.1/go.mod h1:td60kmGDWVHL7Wku4tz7JpV6d4xJ5w43uIaFfVzzFg8=
 github.com/roadrunner-server/memory/v4 v4.1.0 h1:06ctmj6FXAVxcQVlC1pYiVGHMHg7D+4azZJW9DR37zU=
 github.com/roadrunner-server/memory/v4 v4.1.0/go.mod h1:S8vKQmpu7fjGl0xSJcWkuoZyF0JMLoArlmniGcYP8uk=
 github.com/roadrunner-server/metrics/v4 v4.0.0 h1:Yuh2/b0iih1aTDueJvBaeNIhT7pmvvwOTA7WRu1TLL8=
@@ -810,8 +808,8 @@ github.com/roadrunner-server/prometheus/v4 v4.0.0 h1:L3U7GR+1AlE6v/X6aIt155z7N0O
 github.com/roadrunner-server/prometheus/v4 v4.0.0/go.mod h1:kBpAeeS3DtIrkj6beXR5TYZx6mhvCAuF2IlnACHPmXk=
 github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.0 h1:P1mSXeYkGRJijOZlMXkRBnnp4H/AnHbEwcTRv2qSAlc=
 github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.0/go.mod h1:Yiq4DdP3NGTXD8kViZMnyJvcQz3Co9Bh5O66brc9eK8=
-github.com/roadrunner-server/redis/v4 v4.0.0 h1:r3rRrldvYzSf3cWTZkww3O1QqiwLU7d/lqhmSvrzAvs=
-github.com/roadrunner-server/redis/v4 v4.0.0/go.mod h1:Y2VWZW3GXnRYTpoz1qnNKBWbZ+X08/t0vI8yUTkSSRo=
+github.com/roadrunner-server/redis/v4 v4.1.1 h1:kQm+f6et32hD0XS84Njswffe/C6KbxAAxvy8ccY4Cx0=
+github.com/roadrunner-server/redis/v4 v4.1.1/go.mod h1:TE5pe6wzfgfgAd7Y6zB6g+NRFEh6x5ck+1c80UZe6eE=
 github.com/roadrunner-server/reload/v4 v4.0.0 h1:86t25qzlLr0yDhJkLqw81VWemMvmOAtRZm8dx7HbaLI=
 github.com/roadrunner-server/reload/v4 v4.0.0/go.mod h1:PM6WHpckWSA8vcmyAIDDH7/ZgozML0hn+EIhaiZeag4=
 github.com/roadrunner-server/resetter/v4 v4.0.0 h1:BIK3poD8N9tyWrF2JsHn7FW7Qnb9GbPQlr5pquJOmc8=
