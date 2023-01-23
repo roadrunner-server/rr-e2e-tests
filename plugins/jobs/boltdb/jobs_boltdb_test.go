@@ -546,6 +546,7 @@ func TestBoltDBNoGlobalSection(t *testing.T) {
 
 	_, err = cont.Serve()
 	require.NoError(t, err)
+	_ = cont.Stop()
 }
 
 func TestBoltDBStats(t *testing.T) {
@@ -661,7 +662,10 @@ func TestBoltDBStats(t *testing.T) {
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
-	assert.NoError(t, os.Remove(rr1db))
+
+	t.Cleanup(func() {
+		assert.NoError(t, os.Remove(rr1db))
+	})
 }
 
 func declareBoltDBPipe(address string, file string) func(t *testing.T) {
@@ -671,11 +675,12 @@ func declareBoltDBPipe(address string, file string) func(t *testing.T) {
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-			"driver":   "boltdb",
-			"name":     "test-3",
-			"prefetch": "100",
-			"priority": "3",
-			"file":     file,
+			"driver":      "boltdb",
+			"name":        "test-3",
+			"prefetch":    "100",
+			"permissions": "0777",
+			"priority":    "3",
+			"file":        file,
 		}}
 
 		er := &jobsProto.Empty{}

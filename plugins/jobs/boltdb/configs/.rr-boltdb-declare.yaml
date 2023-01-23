@@ -8,9 +8,6 @@ server:
   relay: "pipes"
   relay_timeout: "20s"
 
-boltdb:
-  permissions: 0777
-
 logs:
   level: error
   encoding: console

@@ -259,9 +259,6 @@ func TestReadyHttp(t *testing.T) {
 	wg.Wait()
 }
 
-const resp2 = `Service: http: Status: 204
-Service: rpc not found`
-
 func checkHTTPReadiness(t *testing.T) {
 	req, err := http.NewRequest("GET", "http://127.0.0.1:34333/ready?plugin=http&plugin=rpc", nil)
 	assert.NoError(t, err)
@@ -353,15 +350,8 @@ func doHTTPReq(t *testing.T) {
 		req, err := http.NewRequest("GET", "http://127.0.0.1:11933", nil)
 		assert.NoError(t, err)
 
-		r, err := client.Do(req)
-		assert.NoError(t, err)
-		b, err := io.ReadAll(r.Body)
-		assert.NoError(t, err)
-		assert.Equal(t, 200, r.StatusCode)
-		assert.Equal(t, resp2, string(b))
-
-		err = r.Body.Close()
-		assert.NoError(t, err)
+		_, err = client.Do(req) //nolint:bodyclose
+		assert.Error(t, err)
 	}()
 }
 
