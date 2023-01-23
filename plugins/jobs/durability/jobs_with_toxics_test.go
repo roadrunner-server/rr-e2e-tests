@@ -532,7 +532,7 @@ func TestDurabilityKafka(t *testing.T) {
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job push error").Len())
 
 	t.Cleanup(func() {
-		cmd4 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "stop")
+		cmd4 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")
 		err = cmd4.Start()
 		require.NoError(t, err)
 
@@ -647,9 +647,8 @@ func TestDurabilityKafkaCG(t *testing.T) {
 
 	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-11", false, "127.0.0.1:6001"))
 	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-22", false, "127.0.0.1:6001"))
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 2)
 	t.Run("DestroyPipelines", helpers.DestroyPipelines("127.0.0.1:6001", "test-11", "test-22"))
-	time.Sleep(time.Second * 20)
 
 	stopCh <- struct{}{}
 	wg.Wait()
