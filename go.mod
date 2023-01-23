@@ -16,7 +16,7 @@ require (
 	github.com/nats-io/nats.go v1.22.1
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.14.0
-	github.com/rabbitmq/amqp091-go v1.5.0
+	github.com/rabbitmq/amqp091-go v1.6.0
 	github.com/roadrunner-server/amqp/v3 v3.3.0
 	github.com/roadrunner-server/app-logger/v3 v3.2.0
 	github.com/roadrunner-server/beanstalk/v3 v3.2.0
