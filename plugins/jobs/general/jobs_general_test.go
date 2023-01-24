@@ -12,26 +12,26 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/amqp/v3"
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/amqp/v4"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/memory/v3"
-	"github.com/roadrunner-server/metrics/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/memory/v4"
+	"github.com/roadrunner-server/metrics/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
+	"golang.org/x/exp/slog"
 )
 
 func TestJobsInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -39,7 +39,7 @@ func TestJobsInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -98,22 +98,22 @@ func TestJobsInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 5)
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-local", "test-local-2", "test-local-3", "test-1", "test-2-amqp", "test-3"))
+
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
 func TestJOBSMetrics(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0"}
-	cfg.Prefix = "rr"
-	cfg.Path = "configs/.rr-jobs-metrics.yaml"
+		Version: "2.9.0",
+		Prefix:  "rr",
+		Path:    "configs/.rr-jobs-metrics.yaml",
+	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&server.Plugin{},
@@ -171,11 +171,11 @@ func TestJOBSMetrics(t *testing.T) {
 
 	t.Run("DeclareEphemeralPipeline", declareMemoryPipe)
 	t.Run("ConsumeEphemeralPipeline", consumeMemoryPipe)
-	t.Run("PushEphemeralPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("PushInMemoryPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PushEphemeralPipeline", helpers.PushToPipeDelayed("test-3", 5))
+	t.Run("PushInMemoryPipeline", helpers.PushToPipeDelayed("127.0.0.1:6001", "test-3", 5))
 	time.Sleep(time.Second)
-	t.Run("PushEphemeralPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("PushInMemoryPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 5)
 
 	genericOut, err := get()
@@ -189,6 +189,8 @@ func TestJOBSMetrics(t *testing.T) {
 	assert.Contains(t, genericOut, `state="ready"}`)
 	assert.Contains(t, genericOut, `{pid=`)
 	assert.Contains(t, genericOut, `rr_jobs_total_workers 1`)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	close(sig)
 

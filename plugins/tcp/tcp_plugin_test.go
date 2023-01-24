@@ -12,20 +12,20 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/logger/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
-	"github.com/roadrunner-server/server/v3"
-	"github.com/roadrunner-server/tcp/v3"
+	"github.com/roadrunner-server/logger/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
+	"github.com/roadrunner-server/server/v4"
+	"github.com/roadrunner-server/tcp/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/exp/slog"
 )
 
 func TestTCPInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*30))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*30))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -33,7 +33,7 @@ func TestTCPInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -146,8 +146,7 @@ func TestTCPInit(t *testing.T) {
 }
 
 func TestTCPEmptySend(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Minute))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -155,7 +154,7 @@ func TestTCPEmptySend(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},
@@ -225,8 +224,7 @@ func TestTCPEmptySend(t *testing.T) {
 }
 
 func TestTCPConnClose(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Minute))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -234,7 +232,7 @@ func TestTCPConnClose(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
@@ -306,8 +304,7 @@ func TestTCPConnClose(t *testing.T) {
 }
 
 func TestTCPFull(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Minute))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -315,7 +312,7 @@ func TestTCPFull(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&logger.Plugin{},
 		&server.Plugin{},

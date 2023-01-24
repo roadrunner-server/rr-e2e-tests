@@ -4,7 +4,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/rpc/v4"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -11,37 +11,37 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go"
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	jobState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/logger/v3"
-	natsPlugin "github.com/roadrunner-server/nats/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/logger/v4"
+	natsPlugin "github.com/roadrunner-server/nats/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	jobState "github.com/roadrunner-server/sdk/v3/plugins/jobs"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestNATSInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0",
+		Version: "v2023.1.0",
 		Path:    "configs/.rr-nats-init.yaml",
 		Prefix:  "rr",
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -99,9 +99,11 @@ func TestNATSInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 	stopCh <- struct{}{}
 	wg.Wait()
 
@@ -112,8 +114,7 @@ func TestNATSInit(t *testing.T) {
 }
 
 func TestNATSInitAutoAck(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -122,7 +123,7 @@ func TestNATSInitAutoAck(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -180,9 +181,11 @@ func TestNATSInitAutoAck(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", true))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", true))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", true, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
+
 	stopCh <- struct{}{}
 	wg.Wait()
 
@@ -194,8 +197,7 @@ func TestNATSInitAutoAck(t *testing.T) {
 }
 
 func TestNATSInitV27(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-nats-init-v27.yaml",
@@ -203,7 +205,7 @@ func TestNATSInitV27(t *testing.T) {
 		Version: "2.7.0",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -261,17 +263,17 @@ func TestNATSInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
 func TestNATSInitV27BadResp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-nats-init-v27-br.yaml",
@@ -280,7 +282,7 @@ func TestNATSInitV27BadResp(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -338,9 +340,10 @@ func TestNATSInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 2)
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -349,8 +352,7 @@ func TestNATSInitV27BadResp(t *testing.T) {
 }
 
 func TestNATSDeclare(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -358,7 +360,7 @@ func TestNATSDeclare(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -417,21 +419,20 @@ func TestNATSDeclare(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe("default-10", "stream-10"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("DeclarePipeline", declareNATSPipe("127.0.0.1:6001", "default-10", "stream-10"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
 func TestNATSJobsError(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -439,7 +440,7 @@ func TestNATSJobsError(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -498,12 +499,12 @@ func TestNATSJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe("default-11", "stream-11"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("DeclarePipeline", declareNATSPipe("127.0.0.1:6001", "default-11", "stream-11"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -511,8 +512,7 @@ func TestNATSJobsError(t *testing.T) {
 }
 
 func TestNATSRaw(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.10.1",
@@ -521,7 +521,7 @@ func TestNATSRaw(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -615,6 +615,7 @@ func TestNATSRaw(t *testing.T) {
 	require.NoError(t, err)
 
 	time.Sleep(time.Second * 10)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-raw")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -624,15 +625,10 @@ func TestNATSRaw(t *testing.T) {
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-raw")
-	})
 }
 
 func TestNATSNoGlobalSection(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -640,7 +636,7 @@ func TestNATSNoGlobalSection(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -658,12 +654,11 @@ func TestNATSNoGlobalSection(t *testing.T) {
 	}
 
 	_, err = cont.Serve()
-	require.Error(t, err)
+	require.NoError(t, err)
 }
 
 func TestNATSStats(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -671,7 +666,7 @@ func TestNATSStats(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -730,16 +725,16 @@ func TestNATSStats(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareNATSPipe("default-13", "stream-13"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("DeclarePipeline", declareNATSPipe("127.0.0.1:13001", "default-13", "stream-13"))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:13001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:13001"))
 	time.Sleep(time.Second * 2)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:13001", "test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:13001"))
 
 	out := &jobState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:13001", out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "nats", out.Driver)
@@ -751,11 +746,11 @@ func TestNATSStats(t *testing.T) {
 	assert.Equal(t, false, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("127.0.0.1:13001", "test-3"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:13001", out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "nats", out.Driver)
@@ -767,16 +762,16 @@ func TestNATSStats(t *testing.T) {
 	assert.Equal(t, true, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:13001", "test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
-func declareNATSPipe(subj, stream string) func(t *testing.T) {
+func declareNATSPipe(address, subj, stream string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 

@@ -11,21 +11,21 @@ import (
 	"time"
 
 	centrifugeClient "github.com/centrifugal/centrifuge-go"
-	"github.com/roadrunner-server/centrifuge/v3"
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/centrifuge/v4"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestCentrifugoPluginInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.12.0",
@@ -35,7 +35,7 @@ func TestCentrifugoPluginInit(t *testing.T) {
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	_ = l
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&centrifuge.Plugin{},
 		&server.Plugin{},

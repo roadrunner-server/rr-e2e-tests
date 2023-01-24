@@ -14,7 +14,7 @@ logs:
   mode: development
 
 kafka:
-  addrs: "127.0.0.1:9092"
+  brokers: "127.0.0.1:9092"
 
 jobs:
   num_pollers: 10
@@ -25,47 +25,49 @@ jobs:
     destroy_timeout: 60s
 
   pipelines:
-    test-1:
+    test-11:
       driver: kafka
       config:
         priority: 1
 
-        create_topics:
-          number_of_partitions: 1
+        auto_create_topics_enable: true
+
+        group_options:
+          group_id: bar-3
+          block_rebalance_on_poll: true
 
         producer_options:
-          required_acks: 1
+          max_message_bytes: 1000
+          required_acks: LeaderAck
+          compression_codec: snappy
+          disable_idempotent: true
 
-        topics_config:
-          compression:type: snappy
+        consumer_options:
+          topics: [ "test-11" ]
+          consumer_offset:
+            type: AtStart
 
-        topic: test-1
-        group_id: default
-        partitions:
-          - 0: 0
-          - 1: 1023
-          - 2: 3345
-
-    test-2:
+    test-22:
       driver: kafka
       config:
         priority: 1
 
-        create_topics:
-          number_of_partitions: 1
+        auto_create_topics_enable: true
+
+        group_options:
+          group_id: bar-4
+          block_rebalance_on_poll: true
 
         producer_options:
-          required_acks: 1
+          max_message_bytes: 1000
+          required_acks: LeaderAck
+          compression_codec: snappy
+          disable_idempotent: true
 
-        topics_config:
-          compression:type: snappy
+        consumer_options:
+          topics: [ "test-22" ]
+          consumer_offset:
+            type: AtStart
 
-        topic: test-2
-        group_id: default-2
-        partitions:
-          - 0: 0
-          - 1: 1023
-          - 2: 3345
-
-  consume: [ "test-1", "test-2" ]
+  consume: [ "test-11", "test-22" ]
 

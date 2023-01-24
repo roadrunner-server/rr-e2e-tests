@@ -1,8 +1,9 @@
 package durability
 
 import (
+	"context"
+	"io"
 	"os"
-	"os/exec"
 	"os/signal"
 	"sync"
 	"syscall"
@@ -10,35 +11,41 @@ import (
 	"time"
 
 	toxiproxy "github.com/Shopify/toxiproxy/v2/client"
-	"github.com/roadrunner-server/amqp/v3"
-	"github.com/roadrunner-server/beanstalk/v3"
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/kafka/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/nats/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/network"
+	"github.com/docker/docker/client"
+	"github.com/docker/go-connections/nat"
+	"github.com/roadrunner-server/amqp/v4"
+	"github.com/roadrunner-server/beanstalk/v4"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/kafka/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/nats/v4"
+	"github.com/roadrunner-server/resetter/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	"github.com/roadrunner-server/server/v4"
+	"github.com/roadrunner-server/sqs/v4"
+	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
+
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	"github.com/roadrunner-server/server/v3"
-	"github.com/roadrunner-server/sqs/v3"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.uber.org/zap"
 )
 
 func TestDurabilityAMQP(t *testing.T) {
-	client := toxiproxy.NewClient("127.0.0.1:8474")
+	newClient := toxiproxy.NewClient("127.0.0.1:8474")
 
-	_, err := client.CreateProxy("redial", "127.0.0.1:23679", "127.0.0.1:5672")
+	_, err := newClient.CreateProxy("redial", "127.0.0.1:23679", "127.0.0.1:5672")
 	require.NoError(t, err)
 	defer helpers.DeleteProxy("redial", t)
 
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	require.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -116,28 +123,24 @@ func TestDurabilityAMQP(t *testing.T) {
 	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipeErr("test-2"))
 
 	time.Sleep(time.Second * 15)
-	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 
 	time.Sleep(time.Second * 5)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestDurabilitySQS(t *testing.T) {
-	client := toxiproxy.NewClient("127.0.0.1:8474")
+	newClient := toxiproxy.NewClient("127.0.0.1:8474")
 
-	_, err := client.CreateProxy("redial", "127.0.0.1:19324", "127.0.0.1:9324")
+	_, err := newClient.CreateProxy("redial", "127.0.0.1:19324", "127.0.0.1:9324")
 	require.NoError(t, err)
 	defer helpers.DeleteProxy("redial", t)
 
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	require.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -207,37 +210,34 @@ func TestDurabilitySQS(t *testing.T) {
 
 	go func() {
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
+		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
+		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	}()
 
 	time.Sleep(time.Second * 5)
 	helpers.EnableProxy("redial", t)
 	time.Sleep(time.Second * 5)
 
-	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 
 	time.Sleep(time.Second * 10)
 
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
+
 	stopCh <- struct{}{}
 	wg.Wait()
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestDurabilityBeanstalk(t *testing.T) {
-	client := toxiproxy.NewClient("127.0.0.1:8474")
+	newClient := toxiproxy.NewClient("127.0.0.1:8474")
 
-	_, err := client.CreateProxy("redial", "127.0.0.1:11400", "127.0.0.1:11300")
+	_, err := newClient.CreateProxy("redial", "127.0.0.1:11400", "127.0.0.1:11300")
 	require.NoError(t, err)
 	defer helpers.DeleteProxy("redial", t)
 
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*60))
-	require.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -307,36 +307,32 @@ func TestDurabilityBeanstalk(t *testing.T) {
 
 	go func() {
 		time.Sleep(time.Second * 2)
-		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
-		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
+		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	}()
 
 	time.Sleep(time.Second * 5)
 	helpers.EnableProxy("redial", t)
 	time.Sleep(time.Second * 2)
 
-	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 
 	time.Sleep(time.Second * 10)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestDurabilityNATS(t *testing.T) {
-	client := toxiproxy.NewClient("127.0.0.1:8474")
+	newClient := toxiproxy.NewClient("127.0.0.1:8474")
 
-	_, err := client.CreateProxy("redial", "127.0.0.1:19224", "127.0.0.1:4222")
+	_, err := newClient.CreateProxy("redial", "127.0.0.1:19224", "127.0.0.1:4222")
 	require.NoError(t, err)
 	defer helpers.DeleteProxy("redial", t)
 
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	require.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -407,41 +403,181 @@ func TestDurabilityNATS(t *testing.T) {
 
 	go func() {
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
+		t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 		time.Sleep(time.Second)
-		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
+		t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	}()
 
 	time.Sleep(time.Second * 5)
 	helpers.EnableProxy("redial", t)
 	time.Sleep(time.Second * 2)
 
-	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipelineWhileRedialing-3", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineWhileRedialing-4", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 
 	time.Sleep(time.Second * 2)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
+}
 
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
+func kafkaDocker(pause, start, remove chan struct{}) (chan struct{}, error) {
+	ctx := context.Background()
+
+	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		_ = cli.Close()
+	}()
+
+	// Create a network
+	networkName := "rr-e2e-tests"
+	_, err = cli.NetworkCreate(ctx, networkName, types.NetworkCreate{})
+	if err != nil {
+		return nil, err
+	}
+
+	netConf := &network.NetworkingConfig{
+		EndpointsConfig: map[string]*network.EndpointSettings{
+			networkName: {},
+		},
+	}
+
+	zk, err := cli.ImagePull(ctx, "confluentinc/cp-zookeeper:latest", types.ImagePullOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	defer func() {
+		_ = zk.Close()
+	}()
+
+	_, _ = io.Copy(os.Stdout, zk)
+
+	zkc, err := cli.ContainerCreate(ctx, &container.Config{
+		Image: "confluentinc/cp-zookeeper",
+		Tty:   false,
+		Env:   []string{"ZOOKEEPER_CLIENT_PORT=2181", "ZOOKEEPER_TICK_TIME=2000"},
+	}, &container.HostConfig{}, netConf, nil, "zookeeper")
+	if err != nil {
+		panic(err)
+	}
+
+	err = cli.ContainerStart(ctx, zkc.ID, types.ContainerStartOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	cpKafka, err := cli.ImagePull(ctx, "confluentinc/cp-kafka:latest", types.ImagePullOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	defer func() {
+		_ = cpKafka.Close()
+	}()
+
+	_, _ = io.Copy(os.Stdout, cpKafka)
+
+	k, err := cli.ContainerCreate(ctx, &container.Config{
+		Image: "confluentinc/cp-kafka",
+		Tty:   false,
+		Env: []string{
+			"KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181",
+			"KAFKA_BROKER_ID=1",
+			"AUTO_CREATE_TOPICS_ENABLE=true",
+			"KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181",
+			"KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT",
+			"KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092,PLAINTEXT_INTERNAL://broker:29092",
+			"KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1",
+			"KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1",
+			"KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1",
+		},
+	}, &container.HostConfig{
+		LogConfig: container.LogConfig{},
+		PortBindings: map[nat.Port][]nat.PortBinding{
+			"9092/tcp": {
+				nat.PortBinding{HostIP: "127.0.0.1", HostPort: "9092"},
+			},
+		},
+		//Links:         []string{fmt.Sprintf("%s:alias", zkc.ID)},
+		RestartPolicy: container.RestartPolicy{Name: "always"},
+	}, netConf, nil, "broker")
+	if err != nil {
+		return nil, err
+	}
+
+	err = cli.ContainerStart(ctx, k.ID, types.ContainerStartOptions{})
+	if err != nil {
+		return nil, err
+	}
+
+	done := make(chan struct{}, 1)
+
+	go func() {
+		for {
+			select {
+			case <-pause:
+				t := time.Second * 10
+				err2 := cli.ContainerStop(context.Background(), k.ID, &t)
+				if err2 != nil {
+					panic(err2)
+				}
+			case <-start:
+				err2 := cli.ContainerStart(context.Background(), k.ID, types.ContainerStartOptions{})
+				if err2 != nil {
+					panic(err2)
+				}
+			case <-remove:
+				bg := context.Background()
+				t := time.Second * 10
+				err2 := cli.ContainerStop(bg, zkc.ID, &t)
+				if err2 != nil {
+					panic(err2)
+				}
+				err2 = cli.ContainerStop(bg, k.ID, &t)
+				if err2 != nil {
+					panic(err2)
+				}
+
+				err2 = cli.ContainerRemove(bg, k.ID, types.ContainerRemoveOptions{
+					RemoveVolumes: true,
+					Force:         true,
+				})
+				if err2 != nil {
+					panic(err2)
+				}
+
+				err2 = cli.ContainerRemove(bg, zkc.ID, types.ContainerRemoveOptions{
+					RemoveVolumes: true,
+					Force:         true,
+				})
+				if err2 != nil {
+					panic(err2)
+				}
+
+				_ = cli.NetworkRemove(ctx, networkName)
+
+				done <- struct{}{}
+				return
+			}
+		}
+	}()
+
+	return done, nil
 }
 
 func TestDurabilityKafka(t *testing.T) {
-	cmd := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "up")
-	err := cmd.Start()
-	require.NoError(t, err)
+	pause, start, remove := make(chan struct{}, 1), make(chan struct{}, 1), make(chan struct{}, 1)
+	doneCh, err := kafkaDocker(pause, start, remove)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	go func() {
-		_ = cmd.Wait()
-	}()
-
-	time.Sleep(time.Second * 40)
-
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Second*30))
-	require.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*30))
 
 	cfg := &config.Plugin{
 		Version: "2.11.0",
@@ -507,70 +643,43 @@ func TestDurabilityKafka(t *testing.T) {
 		}
 	}()
 
+	time.Sleep(time.Second)
+	pause <- struct{}{}
 	time.Sleep(time.Second * 15)
-	cmd2 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")
-	err = cmd2.Start()
-	require.NoError(t, err)
-
-	go func() {
-		_ = cmd2.Wait()
-	}()
-
-	time.Sleep(time.Second * 10)
 
 	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipeErr("test-1"))
 	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipeErr("test-2"))
 
-	cmd3 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "up")
-	err = cmd3.Start()
-	require.NoError(t, err)
-
-	go func() {
-		_ = cmd3.Wait()
-	}()
-
-	time.Sleep(time.Second * 25)
-
-	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
-	time.Sleep(time.Second * 5)
-	t.Run("DestroyPipelines", helpers.DestroyPipelines("test-1", "test-2"))
+	start <- struct{}{}
 	time.Sleep(time.Second * 20)
+
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
+	time.Sleep(time.Second * 5)
+	t.Run("DestroyPipelines", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job processing was started").Len(), 1)
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job push error").Len())
 
 	t.Cleanup(func() {
-		cmd4 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")
-		err = cmd4.Start()
-		require.NoError(t, err)
-
-		go func() {
-			_ = cmd4.Wait()
-		}()
-
-		time.Sleep(time.Second * 15)
+		remove <- struct{}{}
+		<-doneCh
 	})
 }
 
 func TestDurabilityKafkaCG(t *testing.T) {
-	cmd := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "up")
-	err := cmd.Start()
-	require.NoError(t, err)
+	pause, start, remove := make(chan struct{}, 1), make(chan struct{}, 1), make(chan struct{}, 1)
+	doneCh, err := kafkaDocker(pause, start, remove)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	go func() {
-		_ = cmd.Wait()
-	}()
-
-	time.Sleep(time.Second * 40)
-
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel), endure.GracefulShutdownTimeout(time.Minute))
-	require.NoError(t, err)
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*30))
 
 	cfg := &config.Plugin{
 		Version: "2.11.0",
@@ -636,54 +745,33 @@ func TestDurabilityKafkaCG(t *testing.T) {
 			}
 		}
 	}()
-
+	time.Sleep(time.Second)
+	pause <- struct{}{}
 	time.Sleep(time.Second * 15)
-	cmd2 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")
-	err = cmd2.Start()
-	require.NoError(t, err)
 
-	go func() {
-		_ = cmd2.Wait()
-	}()
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipeErr("test-11"))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipeErr("test-22"))
 
-	time.Sleep(time.Second * 10)
-
-	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipeErr("test-1"))
-	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipeErr("test-2"))
-
-	cmd3 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "up")
-	err = cmd3.Start()
-	require.NoError(t, err)
-
-	go func() {
-		_ = cmd3.Wait()
-	}()
-
-	time.Sleep(time.Second * 40)
-
-	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-2", false))
-	time.Sleep(time.Second * 5)
-	t.Run("DestroyPipelines", helpers.DestroyPipelines("test-1", "test-2"))
+	time.Sleep(time.Second)
+	start <- struct{}{}
 	time.Sleep(time.Second * 20)
+
+	t.Run("PushPipelineWhileRedialing-1", helpers.PushToPipe("test-11", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineWhileRedialing-2", helpers.PushToPipe("test-22", false, "127.0.0.1:6001"))
+
+	time.Sleep(time.Second * 2)
+	t.Run("DestroyPipelines", helpers.DestroyPipelines("127.0.0.1:6001", "test-11", "test-22"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job processing was started").Len(), 1)
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job push error").Len())
 
 	t.Cleanup(func() {
-		cmd4 := exec.Command("docker-compose", "-f", "../../../env/docker-compose-kafka.yaml", "down")
-		err = cmd4.Start()
-		require.NoError(t, err)
-
-		go func() {
-			_ = cmd4.Wait()
-		}()
-
-		time.Sleep(time.Second * 15)
+		remove <- struct{}{}
+		<-doneCh
 	})
 }

@@ -11,17 +11,18 @@ import (
 	"testing"
 	"time"
 
+	"golang.org/x/exp/slog"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/health/grpc_health_v1"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	grpcPlugin "github.com/roadrunner-server/grpc/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	grpcPlugin "github.com/roadrunner-server/grpc/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	"github.com/roadrunner-server/rr-e2e-tests/plugins/grpc/proto/service"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc"
@@ -29,8 +30,7 @@ import (
 )
 
 func TestGrpcRqRsGzip(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -38,7 +38,7 @@ func TestGrpcRqRsGzip(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -107,8 +107,7 @@ func TestGrpcRqRsGzip(t *testing.T) {
 }
 
 func TestGrpcRqRsMultipleGzip(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -116,7 +115,7 @@ func TestGrpcRqRsMultipleGzip(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -202,8 +201,7 @@ func TestGrpcRqRsMultipleGzip(t *testing.T) {
 }
 
 func TestGrpcRqRsTLSGzip(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -211,7 +209,7 @@ func TestGrpcRqRsTLSGzip(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -291,8 +289,7 @@ func TestGrpcRqRsTLSRootCAGzip(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("root pool is not available on Windows")
 	}
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -300,7 +297,7 @@ func TestGrpcRqRsTLSRootCAGzip(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -377,8 +374,7 @@ func TestGrpcRqRsTLSRootCAGzip(t *testing.T) {
 }
 
 func TestGrpcRqRsTLS_WithResetGzip(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -386,7 +382,7 @@ func TestGrpcRqRsTLS_WithResetGzip(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&grpcPlugin.Plugin{},
 		&rpcPlugin.Plugin{},

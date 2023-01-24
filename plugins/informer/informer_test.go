@@ -10,26 +10,24 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/http/v3"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
-	"github.com/roadrunner-server/sdk/v3/state/process"
-	"github.com/roadrunner-server/server/v3"
-	"github.com/roadrunner-server/status/v3"
+	"github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
+	"github.com/roadrunner-server/sdk/v4/state/process"
+	"github.com/roadrunner-server/server/v4"
+	"github.com/roadrunner-server/status/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/exp/slog"
 )
 
 func TestInformerInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -37,7 +35,7 @@ func TestInformerInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&logger.Plugin{},
@@ -97,10 +95,7 @@ func TestInformerInit(t *testing.T) {
 }
 
 func TestInformerEarlyCall(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	if err != nil {
-		t.Fatal(err)
-	}
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -108,7 +103,7 @@ func TestInformerEarlyCall(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&logger.Plugin{},

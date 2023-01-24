@@ -17,28 +17,28 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	jobState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	jobState "github.com/roadrunner-server/sdk/v3/plugins/jobs"
-	"github.com/roadrunner-server/server/v3"
-	sqsPlugin "github.com/roadrunner-server/sqs/v3"
+	"github.com/roadrunner-server/server/v4"
+	sqsPlugin "github.com/roadrunner-server/sqs/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestSQSInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -46,7 +46,7 @@ func TestSQSInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -104,16 +104,18 @@ func TestSQSInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 2)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
+
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
 func TestSQSAutoAck(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.2",
@@ -122,7 +124,7 @@ func TestSQSAutoAck(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -180,9 +182,11 @@ func TestSQSAutoAck(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", true))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", true))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", true, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 2)
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
+
 	stopCh <- struct{}{}
 	wg.Wait()
 
@@ -190,8 +194,7 @@ func TestSQSAutoAck(t *testing.T) {
 }
 
 func TestSQSInitV27(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-sqs-init-v27.yaml",
@@ -199,7 +202,7 @@ func TestSQSInitV27(t *testing.T) {
 		Version: "2.7.0",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -257,17 +260,17 @@ func TestSQSInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
 func TestSQSInitV27Attributes(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-sqs-attr.yaml",
@@ -275,7 +278,7 @@ func TestSQSInitV27Attributes(t *testing.T) {
 		Version: "2.7.6",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -333,17 +336,17 @@ func TestSQSInitV27Attributes(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
 func TestSQSInitV27BadResp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-sqs-init-v27-br.yaml",
@@ -352,7 +355,7 @@ func TestSQSInitV27BadResp(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -410,11 +413,12 @@ func TestSQSInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -423,8 +427,7 @@ func TestSQSInitV27BadResp(t *testing.T) {
 }
 
 func TestSQSDeclare(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -432,7 +435,7 @@ func TestSQSDeclare(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -492,12 +495,12 @@ func TestSQSDeclare(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareSQSPipe("default"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -505,8 +508,7 @@ func TestSQSDeclare(t *testing.T) {
 }
 
 func TestSQSJobsError(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -514,7 +516,7 @@ func TestSQSJobsError(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -574,12 +576,12 @@ func TestSQSJobsError(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareSQSPipe("default"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -589,8 +591,7 @@ func TestSQSJobsError(t *testing.T) {
 }
 
 func TestSQSNoGlobalSection(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -598,7 +599,7 @@ func TestSQSNoGlobalSection(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -620,8 +621,7 @@ func TestSQSNoGlobalSection(t *testing.T) {
 }
 
 func TestSQSStat(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -629,7 +629,7 @@ func TestSQSStat(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -689,35 +689,35 @@ func TestSQSStat(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareSQSPipe("default-stat"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
 
-	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("127.0.0.1:6001", "test-3", 5))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
 
 	out := &jobState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "sqs")
 	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "sqs")
 	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
 
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -725,8 +725,7 @@ func TestSQSStat(t *testing.T) {
 }
 
 func TestSQSRawPayload(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.10.1",
@@ -735,7 +734,7 @@ func TestSQSRawPayload(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -796,11 +795,13 @@ func TestSQSRawPayload(t *testing.T) {
 
 	awsConf, err := sqsConf.LoadDefaultConfig(context.Background(),
 		sqsConf.WithRegion(os.Getenv("RR_SQS_TEST_REGION")),
-		sqsConf.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(os.Getenv("RR_SQS_TEST_KEY"), os.Getenv("RR_SQS_TEST_SECRET"), "")))
+		sqsConf.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(os.Getenv("RR_SQS_TEST_KEY"),
+			os.Getenv("RR_SQS_TEST_SECRET"), "")))
 	require.NoError(t, err)
 
 	// config with retries
-	client := sqs.NewFromConfig(awsConf, sqs.WithEndpointResolver(sqs.EndpointResolverFromURL(os.Getenv("RR_SQS_TEST_ENDPOINT"))), func(o *sqs.Options) {
+	client := sqs.NewFromConfig(awsConf, sqs.WithEndpointResolver(
+		sqs.EndpointResolverFromURL(os.Getenv("RR_SQS_TEST_ENDPOINT"))), func(o *sqs.Options) {
 		o.Retryer = retry.NewStandard(func(opts *retry.StandardOptions) {
 			opts.MaxAttempts = 60
 		})
@@ -812,7 +813,8 @@ func TestSQSRawPayload(t *testing.T) {
 	body := "fooobooobzzzzaaaaafdsasdfas"
 
 	attr := make(map[string]types.MessageAttributeValue)
-	attr["foo"] = types.MessageAttributeValue{DataType: aws.String("String"), BinaryValue: nil, BinaryListValues: nil, StringListValues: nil, StringValue: aws.String("fooooooobaaaaarrrrr")}
+	attr["foo"] = types.MessageAttributeValue{DataType: aws.String("String"), BinaryValue: nil, BinaryListValues: nil,
+		StringListValues: nil, StringValue: aws.String("fooooooobaaaaarrrrr")}
 
 	_, err = client.SendMessage(context.Background(), &sqs.SendMessageInput{
 		MessageBody:       &body,
@@ -823,6 +825,7 @@ func TestSQSRawPayload(t *testing.T) {
 	require.NoError(t, err)
 
 	time.Sleep(time.Second * 10)
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-raw"))
 
 	stopCh <- struct{}{}
 	wg.Wait()

@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/roadrunner-server/sdk/v3/state/process"
+	"github.com/roadrunner-server/sdk/v4/state/process"
 )
 
 // Gauge //////////////
@@ -39,7 +39,7 @@ func (p2 *Plugin2) Serve() chan error {
 	return errCh
 }
 
-func (p2 *Plugin2) Stop() error {
+func (p2 *Plugin2) Stop(context.Context) error {
 	return nil
 }
 

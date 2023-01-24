@@ -10,26 +10,26 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/boltdb/v3"
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	"github.com/roadrunner-server/boltdb/v4"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/kv/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/memcached/v3"
-	"github.com/roadrunner-server/memory/v3"
-	"github.com/roadrunner-server/redis/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/kv/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/memcached/v4"
+	"github.com/roadrunner-server/memory/v4"
+	"github.com/roadrunner-server/redis/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	kvProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/kv/v1"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestKVInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -37,7 +37,7 @@ func TestKVInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&memory.Plugin{},
 		&boltdb.Plugin{},
@@ -102,13 +102,14 @@ func TestKVInit(t *testing.T) {
 
 	wg.Wait()
 
-	_ = os.RemoveAll("rr.db")
-	_ = os.RemoveAll("africa.db")
+	t.Cleanup(func() {
+		_ = os.RemoveAll("rr.db")
+		_ = os.RemoveAll("africa.db")
+	})
 }
 
 func TestKVNoInterval(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -116,7 +117,7 @@ func TestKVNoInterval(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&boltdb.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -183,8 +184,7 @@ func TestKVNoInterval(t *testing.T) {
 }
 
 func TestKVCreateToReopenWithPerms(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -192,7 +192,7 @@ func TestKVCreateToReopenWithPerms(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&boltdb.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -252,8 +252,7 @@ func TestKVCreateToReopenWithPerms(t *testing.T) {
 }
 
 func TestKVCreateToReopenWithPerms2(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -261,7 +260,7 @@ func TestKVCreateToReopenWithPerms2(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&boltdb.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -323,8 +322,10 @@ func TestKVCreateToReopenWithPerms2(t *testing.T) {
 
 	wg.Wait()
 
-	_ = os.RemoveAll("rr.db")
-	_ = os.RemoveAll("africa.db")
+	t.Cleanup(func() {
+		_ = os.RemoveAll("rr.db")
+		_ = os.RemoveAll("africa.db")
+	})
 }
 
 func kvSetTest(t *testing.T) {
@@ -369,8 +370,7 @@ func kvHasTest(t *testing.T) {
 }
 
 func TestBoltDb(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -378,7 +378,7 @@ func TestBoltDb(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&kv.Plugin{},
 		&boltdb.Plugin{},
@@ -633,8 +633,7 @@ func testRPCMethods(t *testing.T) {
 }
 
 func TestMemcached(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -642,7 +641,7 @@ func TestMemcached(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&kv.Plugin{},
 		&memcached.Plugin{},
@@ -897,8 +896,7 @@ func testRPCMethodsMemcached(t *testing.T) {
 }
 
 func TestInMemory(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -906,7 +904,7 @@ func TestInMemory(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&kv.Plugin{},
 		&memory.Plugin{},
@@ -1159,8 +1157,7 @@ func testRPCMethodsInMemory(t *testing.T) {
 }
 
 func TestRedis(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1168,7 +1165,7 @@ func TestRedis(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&kv.Plugin{},
 		&redis.Plugin{},
@@ -1228,8 +1225,7 @@ func TestRedis(t *testing.T) {
 }
 
 func TestRedisGlobalSection(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1237,7 +1233,7 @@ func TestRedisGlobalSection(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&kv.Plugin{},
 		&redis.Plugin{},
@@ -1297,8 +1293,7 @@ func TestRedisGlobalSection(t *testing.T) {
 }
 
 func TestRedisNoConfig(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -1307,7 +1302,7 @@ func TestRedisNoConfig(t *testing.T) {
 	}
 
 	l, oLogger := mock_logger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		l,
 		&kv.Plugin{},

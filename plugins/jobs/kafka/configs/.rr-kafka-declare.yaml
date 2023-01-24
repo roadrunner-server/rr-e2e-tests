@@ -8,7 +8,7 @@ server:
   relay: pipes
 
 kafka:
-  addrs: 127.0.0.1:9092
+  brokers: 127.0.0.1:9092
 
 logs:
   level: debug
@@ -21,6 +21,5 @@ jobs:
   timeout: 1
   pool:
     num_workers: 5
-    max_jobs: 0
     allocate_timeout: 60s
     destroy_timeout: 60s

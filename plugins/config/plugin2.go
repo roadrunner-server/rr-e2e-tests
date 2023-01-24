@@ -1,6 +1,8 @@
 package config
 
 import (
+	"context"
+
 	"github.com/roadrunner-server/errors"
 )
 
@@ -44,6 +46,6 @@ func (f *Foo2) Serve() chan error {
 	return errCh
 }
 
-func (f *Foo2) Stop() error {
+func (f *Foo2) Stop(context.Context) error {
 	return nil
 }

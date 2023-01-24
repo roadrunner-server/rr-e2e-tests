@@ -10,23 +10,24 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/boltdb/v3"
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	jobState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
+	"github.com/roadrunner-server/boltdb/v4"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	jobState "github.com/roadrunner-server/sdk/v3/plugins/jobs"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 const (
@@ -35,8 +36,7 @@ const (
 )
 
 func TestBoltDBInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -44,7 +44,7 @@ func TestBoltDBInit(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -102,20 +102,16 @@ func TestBoltDBInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	assert.NoError(t, os.Remove(rr1db))
 	assert.NoError(t, os.Remove(rr2db))
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestBoltDBInitV27(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -123,7 +119,7 @@ func TestBoltDBInitV27(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -181,23 +177,19 @@ func TestBoltDBInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	assert.NoError(t, os.Remove(rr1db))
 	assert.NoError(t, os.Remove(rr2db))
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestBoltDBAutoAck(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.10.0",
@@ -206,7 +198,7 @@ func TestBoltDBAutoAck(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -264,25 +256,21 @@ func TestBoltDBAutoAck(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", true))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", true))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", true, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	helpers.DestroyPipelines("test-1", "test-2")
 	stopCh <- struct{}{}
 	wg.Wait()
 
 	assert.NoError(t, os.Remove(rr1db))
 	assert.NoError(t, os.Remove(rr2db))
 
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
-
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("auto ack is turned on, message acknowledged").Len())
 }
 
 func TestBoltDBInitV27BadResp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -291,7 +279,7 @@ func TestBoltDBInitV27BadResp(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -349,9 +337,10 @@ func TestBoltDBInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 	stopCh <- struct{}{}
 	wg.Wait()
 
@@ -359,15 +348,10 @@ func TestBoltDBInitV27BadResp(t *testing.T) {
 
 	assert.NoError(t, os.Remove(rr1db))
 	assert.NoError(t, os.Remove(rr2db))
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-1", "test-2")
-	})
 }
 
 func TestBoltDBDeclare(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -375,7 +359,7 @@ func TestBoltDBDeclare(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -434,27 +418,23 @@ func TestBoltDBDeclare(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareBoltDBPipe(rr1db))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("DeclarePipeline", declareBoltDBPipe("127.0.0.1:8001", rr1db))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:8001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:8001"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:8001", "test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
-
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:8001", "test-3"))
 	time.Sleep(time.Second * 5)
+
+	helpers.DestroyPipelines("127.0.0.1:8001", "test-3")
 	stopCh <- struct{}{}
 	wg.Wait()
 	assert.NoError(t, os.Remove(rr1db))
-
-	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-3")
-	})
 }
 
 func TestBoltDBJobsError(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -462,7 +442,7 @@ func TestBoltDBJobsError(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -521,26 +501,25 @@ func TestBoltDBJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareBoltDBPipe(rr1db))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("DeclarePipeline", declareBoltDBPipe("127.0.0.1:8005", rr1db))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:8005", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:8005"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
-
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:8005", "test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:8005", "test-3"))
 	time.Sleep(time.Second * 5)
+
+	helpers.DestroyPipelines("127.0.0.1:8005", "test-3")
 	stopCh <- struct{}{}
 	wg.Wait()
-	assert.NoError(t, os.Remove(rr1db))
 
 	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-3")
+		assert.NoError(t, os.Remove(rr1db))
 	})
 }
 
 func TestBoltDBNoGlobalSection(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -548,7 +527,7 @@ func TestBoltDBNoGlobalSection(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -566,12 +545,12 @@ func TestBoltDBNoGlobalSection(t *testing.T) {
 	}
 
 	_, err = cont.Serve()
-	require.Error(t, err)
+	require.NoError(t, err)
+	_ = cont.Stop()
 }
 
 func TestBoltDBStats(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -579,7 +558,7 @@ func TestBoltDBStats(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -638,17 +617,17 @@ func TestBoltDBStats(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareBoltDBPipe(rr1db))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("DeclarePipeline", declareBoltDBPipe("127.0.0.1:8001", rr1db))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:8001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:8001"))
 	time.Sleep(time.Second * 2)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:8001", "test-3"))
 	time.Sleep(time.Second * 2)
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
-	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("test-3", 5))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:8001"))
+	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("127.0.0.1:8001", "test-3", 5))
 
 	out := &jobState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:8001", out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "boltdb", out.Driver)
@@ -662,11 +641,11 @@ func TestBoltDBStats(t *testing.T) {
 	assert.Equal(t, uint64(3), out.Priority)
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", helpers.ResumePipes("test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes("127.0.0.1:8001", "test-3"))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:8001", out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "boltdb", out.Driver)
@@ -678,30 +657,30 @@ func TestBoltDBStats(t *testing.T) {
 	assert.Equal(t, true, out.Ready)
 
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:8001", "test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
 	wg.Wait()
-	assert.NoError(t, os.Remove(rr1db))
 
 	t.Cleanup(func() {
-		helpers.DestroyPipelines("test-3")
+		assert.NoError(t, os.Remove(rr1db))
 	})
 }
 
-func declareBoltDBPipe(file string) func(t *testing.T) {
+func declareBoltDBPipe(address string, file string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		assert.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-			"driver":   "boltdb",
-			"name":     "test-3",
-			"prefetch": "100",
-			"priority": "3",
-			"file":     file,
+			"driver":      "boltdb",
+			"name":        "test-3",
+			"prefetch":    "100",
+			"permissions": "0777",
+			"priority":    "3",
+			"file":        file,
 		}}
 
 		er := &jobsProto.Empty{}

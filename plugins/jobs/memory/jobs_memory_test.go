@@ -10,28 +10,28 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
+	jobState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/memory/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/memory/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	jobState "github.com/roadrunner-server/sdk/v3/plugins/jobs"
-	"github.com/roadrunner-server/server/v3"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestMemoryInit(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -40,7 +40,7 @@ func TestMemoryInit(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -99,12 +99,14 @@ func TestMemoryInit(t *testing.T) {
 
 	time.Sleep(time.Second)
 	out := &jobState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
 
 	assert.Equal(t, out.Active, int64(0))
 	assert.Equal(t, out.Delayed, int64(0))
 	assert.Equal(t, out.Reserved, int64(0))
 	assert.Equal(t, uint64(13), out.Priority)
+
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -113,8 +115,7 @@ func TestMemoryInit(t *testing.T) {
 }
 
 func TestMemoryInitV27(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-memory-init-v27.yaml",
@@ -123,7 +124,7 @@ func TestMemoryInitV27(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -181,9 +182,11 @@ func TestMemoryInitV27(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 1)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 1)
+
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -195,8 +198,7 @@ func TestMemoryInitV27(t *testing.T) {
 }
 
 func TestMemoryInitV27BadResp(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -205,7 +207,7 @@ func TestMemoryInitV27BadResp(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -263,9 +265,11 @@ func TestMemoryInitV27BadResp(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 1)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipeline", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 1)
+
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -275,8 +279,7 @@ func TestMemoryInitV27BadResp(t *testing.T) {
 
 func TestMemoryCreate(t *testing.T) {
 	t.Skip("not for the CI")
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -284,7 +287,7 @@ func TestMemoryCreate(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -342,14 +345,16 @@ func TestMemoryCreate(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 5)
-	t.Run("PushPipeline", helpers.PushToPipe("example", false))
+	t.Run("PushPipeline", helpers.PushToPipe("example", false, "127.0.0.1:6001"))
+
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
+
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
 func TestMemoryDeclare(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -358,7 +363,7 @@ func TestMemoryDeclare(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -419,11 +424,11 @@ func TestMemoryDeclare(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareMemoryPipe("10000"))
 	t.Run("ConsumePipeline", consumeMemoryPipe)
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -436,8 +441,7 @@ func TestMemoryDeclare(t *testing.T) {
 }
 
 func TestMemoryPauseResume(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -446,7 +450,7 @@ func TestMemoryPauseResume(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -506,11 +510,13 @@ func TestMemoryPauseResume(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("Pause", helpers.PausePipelines("test-local"))
-	t.Run("pushToDisabledPipe", helpers.PushToDisabledPipe("test-local"))
-	t.Run("Resume", helpers.ResumePipes("test-local"))
-	t.Run("pushToEnabledPipe", helpers.PushToPipe("test-local", false))
+	t.Run("Pause", helpers.PausePipelines("127.0.0.1:6001", "test-local"))
+	t.Run("pushToDisabledPipe", helpers.PushToDisabledPipe("127.0.0.1:6001", "test-local"))
+	t.Run("Resume", helpers.ResumePipes("127.0.0.1:6001", "test-local"))
+	t.Run("pushToEnabledPipe", helpers.PushToPipe("test-local", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 1)
+
+	helpers.DestroyPipelines("127.0.0.1:6001", "test-local")
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -523,8 +529,7 @@ func TestMemoryPauseResume(t *testing.T) {
 }
 
 func TestMemoryJobsError(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -533,7 +538,7 @@ func TestMemoryJobsError(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -593,12 +598,12 @@ func TestMemoryJobsError(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareMemoryPipe("10000"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -613,8 +618,7 @@ func TestMemoryJobsError(t *testing.T) {
 }
 
 func TestMemoryStats(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -623,7 +627,7 @@ func TestMemoryStats(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -684,17 +688,17 @@ func TestMemoryStats(t *testing.T) {
 
 	t.Run("DeclarePipeline", declareMemoryPipe("10000"))
 	t.Run("ConsumePipeline", consumeMemoryPipe)
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", helpers.PausePipelines("test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
 
-	t.Run("PushPipeline", helpers.PushToPipeDelayed("test-3", 5))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+	t.Run("PushPipeline", helpers.PushToPipeDelayed("127.0.0.1:6001", "test-3", 5))
+	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 
 	time.Sleep(time.Second)
 	out := &jobState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
 
 	assert.Equal(t, "test-3", out.Pipeline)
 	assert.Equal(t, "memory", out.Driver)
@@ -710,7 +714,7 @@ func TestMemoryStats(t *testing.T) {
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", helpers.Stats(out))
+	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
 
 	assert.Equal(t, out.Pipeline, "test-3")
 	assert.Equal(t, out.Driver, "memory")
@@ -721,7 +725,7 @@ func TestMemoryStats(t *testing.T) {
 	assert.Equal(t, int64(0), out.Reserved)
 	assert.Equal(t, uint64(33), out.Priority)
 
-	t.Run("DestroyEphemeralPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -735,8 +739,7 @@ func TestMemoryStats(t *testing.T) {
 }
 
 func TestMemoryPrefetch(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.12.1",
@@ -745,7 +748,7 @@ func TestMemoryPrefetch(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -807,12 +810,12 @@ func TestMemoryPrefetch(t *testing.T) {
 	t.Run("DeclarePipeline", declareMemoryPipe("1"))
 	t.Run("ConsumePipeline", consumeMemoryPipe)
 	for i := 0; i < 10; i++ {
-		t.Run("PushPipeline", helpers.PushToPipe("test-3", false))
+		t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	}
 
 	time.Sleep(time.Second * 15)
 
-	t.Run("DestroyEphemeralPipeline", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()

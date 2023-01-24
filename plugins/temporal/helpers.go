@@ -10,23 +10,24 @@ import (
 	"testing"
 	"time"
 
-	configImpl "github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	"github.com/roadrunner-server/rpc/v3"
-	"github.com/roadrunner-server/server/v3"
+	configImpl "github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	"github.com/roadrunner-server/rpc/v4"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	roadrunnerTemporal "github.com/temporalio/roadrunner-temporal/v3"
-	"github.com/temporalio/roadrunner-temporal/v3/data_converter"
+	roadrunnerTemporal "github.com/temporalio/roadrunner-temporal/v4"
+	"github.com/temporalio/roadrunner-temporal/v4/data_converter"
 	"go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/history/v1"
 	temporalClient "go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/converter"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"golang.org/x/exp/slog"
 )
 
 const (
@@ -93,8 +94,7 @@ func (l *log) fields(keyvals []any) []zap.Field {
 }
 
 func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
-	container, err := endure.NewContainer(initLogger(), endure.GracefulShutdownTimeout(time.Second*30))
-	assert.NoError(t, err)
+	container := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*30))
 
 	cfg := &configImpl.Plugin{
 		Timeout: time.Second * 30,
@@ -103,7 +103,7 @@ func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Test
 	cfg.Prefix = rrPrefix
 	cfg.Version = "2.10.0"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		cfg,
 		&roadrunnerTemporal.Plugin{},
 		&logger.Plugin{},
@@ -154,8 +154,7 @@ func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Test
 }
 
 func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
-	container, err := endure.NewContainer(initLogger(), endure.GracefulShutdownTimeout(time.Second*30))
-	assert.NoError(t, err)
+	container := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*30))
 
 	cfg := &configImpl.Plugin{
 		Timeout: time.Second * 30,
@@ -164,7 +163,7 @@ func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Te
 	cfg.Prefix = rrPrefix
 	cfg.Version = "2.11.0"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		cfg,
 		&roadrunnerTemporal.Plugin{},
 		&logger.Plugin{},
@@ -215,10 +214,9 @@ func NewTestServerLA(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Te
 }
 
 func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, cfg Configurer, wg *sync.WaitGroup) *TestServer {
-	container, err := endure.NewContainer(initLogger())
-	assert.NoError(t, err)
+	container := endure.New(slog.LevelDebug)
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		cfg,
 		&roadrunnerTemporal.Plugin{},
 		&logger.Plugin{},
@@ -266,8 +264,7 @@ func NewTestServerWithMetrics(t *testing.T, stopCh chan struct{}, cfg Configurer
 }
 
 func NewTestServerTLS(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup, configName string) *TestServer {
-	container, err := endure.NewContainer(initLogger(), endure.GracefulShutdownTimeout(time.Second*30))
-	assert.NoError(t, err)
+	container := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*30))
 
 	cfg := &configImpl.Plugin{
 		Timeout: time.Second * 30,
@@ -276,7 +273,7 @@ func NewTestServerTLS(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup, co
 	cfg.Prefix = rrPrefix
 	cfg.Version = "2.11.3"
 
-	err = container.RegisterAll(
+	err := container.RegisterAll(
 		cfg,
 		&roadrunnerTemporal.Plugin{},
 		&logger.Plugin{},

@@ -8,25 +8,25 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roadrunner-server/config/v3"
-	endure "github.com/roadrunner-server/endure/pkg/container"
-	"github.com/roadrunner-server/informer/v3"
-	"github.com/roadrunner-server/jobs/v3"
-	"github.com/roadrunner-server/logger/v3"
-	"github.com/roadrunner-server/resetter/v3"
-	rpcPlugin "github.com/roadrunner-server/rpc/v3"
+	"github.com/roadrunner-server/config/v4"
+	"github.com/roadrunner-server/endure/v2"
+	"github.com/roadrunner-server/informer/v4"
+	"github.com/roadrunner-server/jobs/v4"
+	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/resetter/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
-	"github.com/roadrunner-server/server/v3"
-	"github.com/roadrunner-server/sqs/v3"
+	"github.com/roadrunner-server/server/v4"
+	"github.com/roadrunner-server/sqs/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
+	"golang.org/x/exp/slog"
 )
 
 func TestSQSInitFifo(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -35,7 +35,7 @@ func TestSQSInitFifo(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -93,9 +93,12 @@ func TestSQSInitFifo(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 2)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
+
 	stopCh <- struct{}{}
 	wg.Wait()
 	time.Sleep(time.Second)
@@ -109,8 +112,7 @@ func TestSQSInitFifo(t *testing.T) {
 }
 
 func TestSQSInitFifoAutoAck(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	cfg := &config.Plugin{
@@ -119,7 +121,7 @@ func TestSQSInitFifoAutoAck(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -177,9 +179,12 @@ func TestSQSInitFifoAutoAck(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", true))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", true))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", true, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 2)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
+
 	stopCh <- struct{}{}
 	wg.Wait()
 
@@ -187,8 +192,7 @@ func TestSQSInitFifoAutoAck(t *testing.T) {
 }
 
 func TestSQSInitV27BadRespFifo(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Path:    "configs/.rr-sqs-init-v27-br_fifo.yaml",
@@ -197,7 +201,7 @@ func TestSQSInitV27BadRespFifo(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -255,9 +259,11 @@ func TestSQSInitV27BadRespFifo(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -266,8 +272,7 @@ func TestSQSInitV27BadRespFifo(t *testing.T) {
 }
 
 func TestSQSDeclareFifo(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -275,7 +280,7 @@ func TestSQSDeclareFifo(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -335,12 +340,12 @@ func TestSQSDeclareFifo(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipelineFifo", declareSQSPipeFifo("default-decl.fifo"))
-	t.Run("ConsumePipelineFifo", helpers.ResumePipes("test-3"))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3", false))
+	t.Run("ConsumePipelineFifo", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PausePipelineFifo", helpers.PausePipelines("test-3"))
+	t.Run("PausePipelineFifo", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -348,8 +353,7 @@ func TestSQSDeclareFifo(t *testing.T) {
 }
 
 func TestSQSJobsErrorFifo(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
@@ -357,7 +361,7 @@ func TestSQSJobsErrorFifo(t *testing.T) {
 		Prefix:  "rr",
 	}
 
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -417,12 +421,12 @@ func TestSQSJobsErrorFifo(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipelineFifo", declareSQSPipeFifo("default-err.fifo"))
-	t.Run("ConsumePipelineFifo", helpers.ResumePipes("test-3"))
-	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3", false))
+	t.Run("ConsumePipelineFifo", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("PushPipelineFifo", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 25)
-	t.Run("PausePipelineFifo", helpers.PausePipelines("test-3"))
+	t.Run("PausePipelineFifo", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
 	time.Sleep(time.Second)
-	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("test-3"))
+	t.Run("DestroyPipelineFifo", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -432,8 +436,7 @@ func TestSQSJobsErrorFifo(t *testing.T) {
 }
 
 func TestSQSPrefetch(t *testing.T) {
-	cont, err := endure.NewContainer(nil, endure.SetLogLevel(endure.ErrorLevel))
-	assert.NoError(t, err)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.12.1",
@@ -442,7 +445,7 @@ func TestSQSPrefetch(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	err = cont.RegisterAll(
+	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
@@ -502,13 +505,16 @@ func TestSQSPrefetch(t *testing.T) {
 	time.Sleep(time.Second * 3)
 	for i := 0; i < 10; i++ {
 		go func() {
-			t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false))
-			t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false))
+			t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+			t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 		}()
 	}
 
 	time.Sleep(time.Second * 100)
 	stopCh <- struct{}{}
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
+
 	wg.Wait()
 
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("prefetch limit was reached").Len(), 1)
