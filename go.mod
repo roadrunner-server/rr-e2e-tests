@@ -151,7 +151,7 @@ require (
 	github.com/subosito/gotenv v1.4.2 // indirect
 	github.com/tklauser/go-sysconf v0.3.11 // indirect
 	github.com/tklauser/numcpus v0.6.0 // indirect
-	github.com/twmb/franz-go v1.11.2 // indirect
+	github.com/twmb/franz-go v1.11.3 // indirect
 	github.com/twmb/franz-go/pkg/kmsg v1.2.0 // indirect
 	github.com/twmb/murmur3 v1.1.6 // indirect
 	github.com/uber-go/tally/v4 v4.1.5 // indirect
