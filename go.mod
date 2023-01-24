@@ -10,6 +10,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.20.1
 	github.com/beanstalkd/go-beanstalk v0.2.0
 	github.com/centrifugal/centrifuge-go v0.9.4
+	github.com/docker/docker v20.10.23+incompatible
+	github.com/docker/go-connections v0.4.0
 	github.com/fatih/color v1.14.1
 	github.com/goccy/go-json v0.10.0
 	github.com/google/uuid v1.3.0
@@ -34,7 +36,7 @@ require (
 	github.com/roadrunner-server/http/v4 v4.0.0
 	github.com/roadrunner-server/informer/v4 v4.0.0
 	github.com/roadrunner-server/jobs/v4 v4.2.0
-	github.com/roadrunner-server/kafka/v4 v4.0.1
+	github.com/roadrunner-server/kafka/v4 v4.0.2
 	github.com/roadrunner-server/kv/v4 v4.1.0
 	github.com/roadrunner-server/logger/v4 v4.0.0
 	github.com/roadrunner-server/memcached/v4 v4.1.1
@@ -70,6 +72,7 @@ require (
 )
 
 require (
+	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/aws/aws-sdk-go v1.44.185 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.21 // indirect
@@ -90,6 +93,8 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/docker/distribution v2.8.1+incompatible // indirect
+	github.com/docker/go-units v0.5.0 // indirect
 	github.com/emicklei/proto v1.11.1 // indirect
 	github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a // indirect
 	github.com/felixge/httpsnoop v1.0.3 // indirect
@@ -124,9 +129,13 @@ require (
 	github.com/miekg/dns v1.1.50 // indirect
 	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/moby/term v0.0.0-20221205130635-1aeaba878587 // indirect
+	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/nats-io/jwt/v2 v2.3.0 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/opencontainers/go-digest v1.0.0 // indirect
+	github.com/opencontainers/image-spec v1.0.2 // indirect
 	github.com/openzipkin/zipkin-go v0.4.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/pierrec/lz4/v4 v4.1.17 // indirect
@@ -142,6 +151,7 @@ require (
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/segmentio/encoding v0.3.6 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
+	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/spf13/afero v1.9.3 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -192,4 +202,5 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	gotest.tools/v3 v3.4.0 // indirect
 )

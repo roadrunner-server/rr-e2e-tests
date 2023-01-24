@@ -41,6 +41,10 @@ func (z *ZapLoggerMock) Provides() []*dep.Out {
 	}
 }
 
+func (z *ZapLoggerMock) Weight() uint {
+	return 100
+}
+
 func (z *ZapLoggerMock) ProvideLogger() *Log {
 	return NewLogger(z.l)
 }
