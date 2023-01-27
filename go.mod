@@ -36,7 +36,7 @@ require (
 	github.com/roadrunner-server/http/v4 v4.0.2
 	github.com/roadrunner-server/informer/v4 v4.0.1
 	github.com/roadrunner-server/jobs/v4 v4.2.1
-	github.com/roadrunner-server/kafka/v4 v4.0.3
+	github.com/roadrunner-server/kafka/v4 v4.0.4
 	github.com/roadrunner-server/kv/v4 v4.1.1
 	github.com/roadrunner-server/logger/v4 v4.0.1
 	github.com/roadrunner-server/memcached/v4 v4.1.2
