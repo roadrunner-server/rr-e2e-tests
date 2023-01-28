@@ -24,26 +24,26 @@ require (
 	github.com/roadrunner-server/app-logger/v4 v4.0.1
 	github.com/roadrunner-server/beanstalk/v4 v4.1.1
 	github.com/roadrunner-server/boltdb/v4 v4.2.1
-	github.com/roadrunner-server/centrifuge/v4 v4.0.1
+	github.com/roadrunner-server/centrifuge/v4 v4.0.2
 	github.com/roadrunner-server/config/v4 v4.1.1
 	github.com/roadrunner-server/endure/v2 v2.0.1
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v4 v4.0.1
 	github.com/roadrunner-server/goridge/v3 v3.6.2
-	github.com/roadrunner-server/grpc/v4 v4.0.1
+	github.com/roadrunner-server/grpc/v4 v4.0.2
 	github.com/roadrunner-server/gzip/v4 v4.0.1
 	github.com/roadrunner-server/headers/v4 v4.0.0
 	github.com/roadrunner-server/http/v4 v4.0.2
 	github.com/roadrunner-server/informer/v4 v4.0.1
 	github.com/roadrunner-server/jobs/v4 v4.2.1
-	github.com/roadrunner-server/kafka/v4 v4.0.3
+	github.com/roadrunner-server/kafka/v4 v4.0.4
 	github.com/roadrunner-server/kv/v4 v4.1.1
 	github.com/roadrunner-server/logger/v4 v4.0.1
 	github.com/roadrunner-server/memcached/v4 v4.1.2
 	github.com/roadrunner-server/memory/v4 v4.1.1
 	github.com/roadrunner-server/metrics/v4 v4.0.1
 	github.com/roadrunner-server/nats/v4 v4.1.1
-	github.com/roadrunner-server/otel/v4 v4.0.1
+	github.com/roadrunner-server/otel/v4 v4.0.2
 	github.com/roadrunner-server/prometheus/v4 v4.0.1
 	github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.1
 	github.com/roadrunner-server/redis/v4 v4.1.1
@@ -65,7 +65,7 @@ require (
 	go.temporal.io/api v1.15.0
 	go.temporal.io/sdk v1.20.0
 	go.uber.org/zap v1.24.0
-	golang.org/x/exp v0.0.0-20230125214544-b3c2aaf6208d
+	golang.org/x/exp v0.0.0-20230127193734-31bee513bff7
 	golang.org/x/net v0.5.0
 	google.golang.org/grpc v1.52.3
 	google.golang.org/protobuf v1.28.1
@@ -74,7 +74,7 @@ require (
 require (
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/aws/aws-sdk-go v1.44.187 // indirect
+	github.com/aws/aws-sdk-go v1.44.189 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.21 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.27 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.21 // indirect
@@ -198,7 +198,7 @@ require (
 	golang.org/x/text v0.6.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.5.0 // indirect
-	google.golang.org/genproto v0.0.0-20230125152338-dcaf20b6aeaa // indirect
+	google.golang.org/genproto v0.0.0-20230127162408-596548ed4efa // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
