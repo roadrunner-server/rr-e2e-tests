@@ -9,8 +9,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -71,8 +71,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -136,8 +136,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -200,8 +200,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -247,8 +247,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -294,8 +294,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -341,8 +341,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -403,8 +403,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -465,8 +465,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -527,8 +527,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -586,8 +586,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -654,8 +654,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -715,8 +715,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -774,8 +774,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -835,8 +835,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -901,8 +901,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -962,8 +962,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1021,8 +1021,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1080,8 +1080,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1151,8 +1151,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1226,7 +1226,7 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        go: [ "1.19" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1274,8 +1274,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1333,8 +1333,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1392,8 +1392,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1458,7 +1458,7 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        go: [ "1.19" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1498,8 +1498,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1559,8 +1559,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1625,8 +1625,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1684,8 +1684,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1750,8 +1750,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1809,8 +1809,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
@@ -1868,8 +1868,8 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        php: [ "8.1" ]
-        go: [ "1.19" ]
+        php: [ "8.2" ]
+        go: [ "1.20" ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
