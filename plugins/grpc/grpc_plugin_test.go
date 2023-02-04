@@ -1,6 +1,7 @@
 package grpc_test
 
 import (
+	"bytes"
 	"context"
 	"crypto/tls"
 	"io"
@@ -15,6 +16,7 @@ import (
 	"time"
 
 	"github.com/roadrunner-server/metrics/v4"
+	"github.com/roadrunner-server/otel/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"go.uber.org/zap"
 	"golang.org/x/exp/slog"
@@ -916,4 +918,94 @@ func get() (string, error) {
 	}
 	// unsafe
 	return string(b), err
+}
+
+func Test_GrpcRqOtlp(t *testing.T) {
+	rd, wr, err := os.Pipe()
+	assert.NoError(t, err)
+	os.Stdout = wr
+
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2.9.0",
+		Path:    "configs/.rr-grpc-rq-otlp.yaml",
+		Prefix:  "rr",
+	}
+
+	err = cont.RegisterAll(
+		cfg,
+		&grpcPlugin.Plugin{},
+		&rpcPlugin.Plugin{},
+		&logger.Plugin{},
+		&server.Plugin{},
+		&otel.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 1)
+
+	conn, err := grpc.Dial("127.0.0.1:9001", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	require.NoError(t, err)
+	require.NotNil(t, conn)
+
+	client := service.NewEchoClient(conn)
+	resp, err := client.Ping(context.Background(), &service.Message{Msg: "TOST"})
+	require.NoError(t, err)
+	require.Equal(t, "TOST", resp.Msg)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	time.Sleep(time.Second)
+	_ = wr.Close()
+	buf := new(bytes.Buffer)
+	_, err = io.Copy(buf, rd)
+	require.NoError(t, err)
+
+	// contains spans
+	require.Contains(t, buf.String(), `"Name": "service.Echo/Ping",`)
 }

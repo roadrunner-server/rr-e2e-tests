@@ -6,6 +6,8 @@ replace github.com/temporalio/roadrunner-temporal/v4 => github.com/cv65kr/roadru
 
 replace github.com/roadrunner-server/otel/v4 => github.com/cv65kr/otel/v4 v4.0.0-20230204084754-33cae7dad45c
 
+replace github.com/roadrunner-server/grpc/v4 => github.com/roadrunner-server/grpc/v4 v4.0.0-20230202011028-3a00b14fceff
+
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
 	github.com/aws/aws-sdk-go-v2 v1.17.4
