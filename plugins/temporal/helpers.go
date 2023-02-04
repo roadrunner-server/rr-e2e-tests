@@ -346,6 +346,67 @@ func NewTestServerTLS(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup, co
 	}
 }
 
+func NewTestServerWithInterceptor(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *TestServer {
+	container := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*30))
+
+	cfg := &configImpl.Plugin{
+		Timeout: time.Second * 30,
+	}
+	cfg.Path = "configs/.rr-proto.yaml"
+	cfg.Prefix = rrPrefix
+	cfg.Version = "2.10.0"
+
+	err := container.RegisterAll(
+		cfg,
+		&roadrunnerTemporal.Plugin{},
+		&logger.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&server.Plugin{},
+		&rpc.Plugin{},
+		&TemporalInterceptorPlugin{},
+	)
+
+	assert.NoError(t, err)
+	assert.NoError(t, container.Init())
+
+	errCh, err := container.Serve()
+	if err != nil {
+		panic(err)
+	}
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case er := <-errCh:
+				assert.Fail(t, fmt.Sprintf("got error from vertex: %s, error: %v", er.VertexID, er.Error))
+				assert.NoError(t, container.Stop())
+				return
+			case <-stopCh:
+				assert.NoError(t, container.Stop())
+				return
+			}
+		}
+	}()
+
+	dc := data_converter.NewDataConverter(converter.GetDefaultDataConverter())
+	client, err := temporalClient.Dial(temporalClient.Options{
+		HostPort:      "127.0.0.1:7233",
+		Namespace:     "default",
+		DataConverter: dc,
+		Logger:        newZapAdapter(initLogger()),
+	})
+	if err != nil {
+		panic(err)
+	}
+	require.NoError(t, err)
+
+	return &TestServer{
+		Client: client,
+	}
+}
+
 func (s *TestServer) AssertContainsEvent(client temporalClient.Client, t *testing.T, w temporalClient.WorkflowRun, assert func(*history.HistoryEvent) bool) {
 	i := client.GetWorkflowHistory(
 		context.Background(),
