@@ -32,7 +32,8 @@ import (
 )
 
 const (
-	rrPrefix string = "rr"
+	rrPrefix  string = "rr"
+	rrVersion string = "2.10.0"
 )
 
 type Configurer interface {
@@ -102,7 +103,7 @@ func NewTestServer(t *testing.T, stopCh chan struct{}, wg *sync.WaitGroup) *Test
 	}
 	cfg.Path = "configs/.rr-proto.yaml"
 	cfg.Prefix = rrPrefix
-	cfg.Version = "2.10.0"
+	cfg.Version = rrVersion
 
 	err := container.RegisterAll(
 		cfg,
@@ -355,7 +356,7 @@ func NewTestServerWithInterceptor(t *testing.T, stopCh chan struct{}, wg *sync.W
 	}
 	cfg.Path = "configs/.rr-proto.yaml"
 	cfg.Prefix = rrPrefix
-	cfg.Version = "2.10.0"
+	cfg.Version = rrVersion
 
 	err := container.RegisterAll(
 		cfg,
@@ -416,7 +417,7 @@ func NewTestServerWithOtelInterceptor(t *testing.T, stopCh chan struct{}, wg *sy
 	}
 	cfg.Path = "configs/.rr-otlp.yaml"
 	cfg.Prefix = rrPrefix
-	cfg.Version = "2.10.0"
+	cfg.Version = rrVersion
 
 	err := container.RegisterAll(
 		cfg,

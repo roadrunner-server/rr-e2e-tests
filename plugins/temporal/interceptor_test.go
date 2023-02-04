@@ -2,7 +2,6 @@ package tests
 
 import (
 	"context"
-	"errors"
 	"os"
 	"sync"
 	"testing"
@@ -34,9 +33,8 @@ func Test_CustomInterceptor(t *testing.T) {
 	assert.NoError(t, w.Get(context.Background(), &result))
 	assert.Equal(t, "TEST-INPUT", result)
 
-	if _, err := os.Stat("./interceptor_test"); errors.Is(err, os.ErrNotExist) {
-		assert.NoError(t, err)
-	}
+	_, err = os.Stat("./interceptor_test")
+	assert.NoError(t, err)
 
 	we, err := s.Client.DescribeWorkflowExecution(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)

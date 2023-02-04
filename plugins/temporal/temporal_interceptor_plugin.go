@@ -12,25 +12,25 @@ type TemporalInterceptorPlugin struct {
 	config Configurer
 }
 
-func (p1 *TemporalInterceptorPlugin) Init(cfg Configurer) error {
-	p1.config = cfg
+func (pt *TemporalInterceptorPlugin) Init(cfg Configurer) error {
+	pt.config = cfg
 	return nil
 }
 
-func (p1 *TemporalInterceptorPlugin) Serve() chan error {
+func (pt *TemporalInterceptorPlugin) Serve() chan error {
 	errCh := make(chan error, 1)
 	return errCh
 }
 
-func (p1 *TemporalInterceptorPlugin) Stop(context.Context) error {
+func (pt *TemporalInterceptorPlugin) Stop(context.Context) error {
 	return nil
 }
 
-func (p1 *TemporalInterceptorPlugin) Name() string {
+func (pt *TemporalInterceptorPlugin) Name() string {
 	return "temporal_test.incterceptor_plugin"
 }
 
-func (p *TemporalInterceptorPlugin) TemporalInterceptor() interceptor.WorkerInterceptor {
+func (pt *TemporalInterceptorPlugin) TemporalInterceptor() interceptor.WorkerInterceptor {
 	return &workerInterceptor{}
 }
 
