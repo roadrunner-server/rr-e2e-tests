@@ -4,6 +4,8 @@ go 1.20
 
 replace github.com/temporalio/roadrunner-temporal/v4 => github.com/cv65kr/roadrunner-temporal/v4 v4.0.0-20230204084812-7d6f210cdfcd
 
+replace github.com/roadrunner-server/otel/v4 => github.com/cv65kr/otel/v4 v4.0.0-20230204084754-33cae7dad45c
+
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
 	github.com/aws/aws-sdk-go-v2 v1.17.4
@@ -193,6 +195,7 @@ require (
 	go.opentelemetry.io/otel/sdk v1.12.0 // indirect
 	go.opentelemetry.io/otel/trace v1.12.0 // indirect
 	go.opentelemetry.io/proto/otlp v0.19.0 // indirect
+	go.temporal.io/sdk/contrib/opentelemetry v0.2.0 // indirect
 	go.temporal.io/sdk/contrib/tally v0.2.0 // indirect
 	go.temporal.io/server v1.19.1 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
