@@ -521,8 +521,11 @@ func kafkaDocker(pause, start, remove chan struct{}) (chan struct{}, error) {
 		for {
 			select {
 			case <-pause:
-				t := time.Second * 10
-				err2 := cli.ContainerStop(context.Background(), k.ID, &t)
+				timeout := 10
+				err2 := cli.ContainerStop(context.Background(), k.ID, container.StopOptions{
+					Signal:  "SIGKILL",
+					Timeout: &timeout,
+				})
 				if err2 != nil {
 					panic(err2)
 				}
@@ -533,12 +536,19 @@ func kafkaDocker(pause, start, remove chan struct{}) (chan struct{}, error) {
 				}
 			case <-remove:
 				bg := context.Background()
-				t := time.Second * 10
-				err2 := cli.ContainerStop(bg, zkc.ID, &t)
+
+				timeout := 10
+				err2 := cli.ContainerStop(bg, zkc.ID, container.StopOptions{
+					Signal:  "SIGKILL",
+					Timeout: &timeout,
+				})
 				if err2 != nil {
 					panic(err2)
 				}
-				err2 = cli.ContainerStop(bg, k.ID, &t)
+				err2 = cli.ContainerStop(bg, k.ID, container.StopOptions{
+					Signal:  "SIGKILL",
+					Timeout: &timeout,
+				})
 				if err2 != nil {
 					panic(err2)
 				}
