@@ -1,4 +1,4 @@
-package http
+package uploads
 
 import (
 	"bytes"
@@ -17,6 +17,7 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/roadrunner-server/http/v4/config"
 	"github.com/roadrunner-server/http/v4/handler"
+	"github.com/roadrunner-server/rr-e2e-tests/plugins/http/testLog"
 	"github.com/roadrunner-server/sdk/v4/ipc/pipe"
 	"github.com/roadrunner-server/sdk/v4/pool"
 	staticPool "github.com/roadrunner-server/sdk/v4/pool/static_pool"
@@ -28,9 +29,9 @@ const testFile = "uploads_test.go"
 func TestHandler_Upload_File(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -51,7 +52,7 @@ func TestHandler_Upload_File(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, pl, mockLog)
+	h, err := handler.NewHandler(cfg, pl, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9021", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -121,9 +122,9 @@ func TestHandler_Upload_File(t *testing.T) {
 func TestHandler_Upload_NestedFile(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -144,7 +145,7 @@ func TestHandler_Upload_NestedFile(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, pl, mockLog)
+	h, err := handler.NewHandler(cfg, pl, testLog.ZapLogger())
 
 	assert.NoError(t, err)
 
@@ -215,9 +216,9 @@ func TestHandler_Upload_NestedFile(t *testing.T) {
 func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -238,7 +239,7 @@ func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, pl, mockLog)
+	h, err := handler.NewHandler(cfg, pl, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9023", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -308,9 +309,9 @@ func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 func TestHandler_Upload_File_Forbids(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -331,7 +332,7 @@ func TestHandler_Upload_File_Forbids(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, pl, mockLog)
+	h, err := handler.NewHandler(cfg, pl, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9024", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -401,9 +402,9 @@ func TestHandler_Upload_File_Forbids(t *testing.T) {
 func TestHandler_Upload_File_NotAllowed(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "upload", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -424,7 +425,7 @@ func TestHandler_Upload_File_NotAllowed(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, pl, mockLog)
+	h, err := handler.NewHandler(cfg, pl, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":9024", Handler: h, ReadHeaderTimeout: time.Minute * 5}

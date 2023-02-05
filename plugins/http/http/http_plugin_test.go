@@ -29,6 +29,8 @@ import (
 	"github.com/roadrunner-server/resetter/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	"github.com/roadrunner-server/rr-e2e-tests/plugins/http/helpers"
+	http3 "github.com/roadrunner-server/rr-e2e-tests/plugins/http/test_plugins"
 	"github.com/roadrunner-server/sdk/v4/state/process"
 	"github.com/roadrunner-server/send/v4"
 	"github.com/roadrunner-server/server/v4"
@@ -46,7 +48,7 @@ func TestHTTPInit(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-init.yaml",
+		Path:    "../configs/http/.rr-http-init.yaml",
 		Prefix:  "rr",
 	}
 
@@ -111,7 +113,7 @@ func TestHTTPAccessLogs(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-access-logs.yaml",
+		Path:    "../configs/http/.rr-http-access-logs.yaml",
 		Prefix:  "rr",
 	}
 
@@ -195,7 +197,7 @@ func TestHTTPXSendFile(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.12.2",
-		Path:    "configs/http/.rr-http-sendfile.yaml",
+		Path:    "../configs/http/.rr-http-sendfile.yaml",
 		Prefix:  "rr",
 	}
 
@@ -274,7 +276,7 @@ func xsendfile(t *testing.T) {
 	require.True(t, len(b) > 0)
 	require.Empty(t, resp.Header.Get("X-Sendfile"))
 
-	file, err := os.ReadFile(fmt.Sprintf("%s/../../php_test_files/well", pwd))
+	file, err := os.ReadFile(fmt.Sprintf("%s/../../../php_test_files/well", pwd))
 	require.NoError(t, err)
 	assert.True(t, len(b) == len(file))
 	require.NoError(t, resp.Body.Close())
@@ -286,7 +288,7 @@ func TestHTTPNoConfigSection(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-no-http.yaml",
+		Path:    "../configs/http/.rr-no-http.yaml",
 		Prefix:  "rr",
 	}
 
@@ -350,7 +352,7 @@ func TestHTTPInformerReset(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-resetter.yaml",
+		Path:    "../configs/http/.rr-resetter.yaml",
 		Prefix:  "rr",
 	}
 
@@ -425,7 +427,7 @@ func TestSSL(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-ssl.yaml",
+		Path:    "../configs/http/.rr-ssl.yaml",
 		Prefix:  "rr",
 	}
 
@@ -492,7 +494,7 @@ func TestSSL(t *testing.T) {
 }
 
 func sslNoRedirect(t *testing.T) {
-	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../../test-certs/localhost+2-client.pem", "../../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	client := &http.Client{
@@ -526,7 +528,7 @@ func sslNoRedirect(t *testing.T) {
 }
 
 func sslEcho(t *testing.T) {
-	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../../test-certs/localhost+2-client.pem", "../../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	client := &http.Client{
@@ -586,7 +588,7 @@ func TestSSLRedirect(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-ssl-redirect.yaml",
+		Path:    "../configs/http/.rr-ssl-redirect.yaml",
 		Prefix:  "rr",
 	}
 
@@ -651,7 +653,7 @@ func TestSSLRedirect(t *testing.T) {
 }
 
 func sslRedirect(t *testing.T) {
-	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../../test-certs/localhost+2-client.pem", "../../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	client := &http.Client{
@@ -688,7 +690,7 @@ func TestSSLPushPipes(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-ssl-push.yaml",
+		Path:    "../configs/http/.rr-ssl-push.yaml",
 		Prefix:  "rr",
 	}
 
@@ -751,7 +753,7 @@ func TestSSLPushPipes(t *testing.T) {
 }
 
 func sslPush(t *testing.T) {
-	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../../test-certs/localhost+2-client.pem", "../../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	client := &http.Client{
@@ -791,7 +793,7 @@ func TestFastCGI_Echo(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-fcgi.yaml",
+		Path:    "../configs/http/.rr-fcgi.yaml",
 		Prefix:  "rr",
 	}
 
@@ -877,7 +879,7 @@ func TestFastCGI_EchoUnix(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-fcgi-unix.yaml",
+		Path:    "../configs/http/.rr-fcgi-unix.yaml",
 		Prefix:  "rr",
 	}
 
@@ -967,7 +969,7 @@ func TestFastCGI_RequestUri(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-fcgi-reqUri.yaml",
+		Path:    "../configs/http/.rr-fcgi-reqUri.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1053,7 +1055,7 @@ func TestHTTP2Req(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-h2-ssl.yaml",
+		Path:    "../configs/http/.rr-h2-ssl.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1112,7 +1114,7 @@ func TestHTTP2Req(t *testing.T) {
 
 	time.Sleep(time.Second * 1)
 
-	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../../test-certs/localhost+2-client.pem", "../../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	tr := &http2.Transport{
@@ -1153,7 +1155,7 @@ func TestH2CUpgrade(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-h2c.yaml",
+		Path:    "../configs/http/.rr-h2c.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1245,7 +1247,7 @@ func TestH2C(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-h2c.yaml",
+		Path:    "../configs/http/.rr-h2c.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1341,7 +1343,7 @@ func TestHttpMiddleware(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http.yaml",
+		Path:    "../configs/http/.rr-http.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1351,8 +1353,8 @@ func TestHttpMiddleware(t *testing.T) {
 		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
-		&PluginMiddleware{},
-		&PluginMiddleware2{},
+		&http3.PluginMiddleware{},
+		&http3.PluginMiddleware2{},
 	)
 	assert.NoError(t, err)
 
@@ -1446,7 +1448,7 @@ rpc:
   disabled: false
 
 server:
-  command: "php ../../php_test_files/http/client.php echoerr pipes"
+  command: "php ../../../php_test_files/http/client.php echoerr pipes"
   relay: "pipes"
   relay_timeout: "20s"
 
@@ -1480,8 +1482,8 @@ logs:
 		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
-		&PluginMiddleware{},
-		&PluginMiddleware2{},
+		&http3.PluginMiddleware{},
+		&http3.PluginMiddleware2{},
 	)
 	assert.NoError(t, err)
 
@@ -1558,7 +1560,7 @@ func TestHttpBrokenPipes(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-broken-pipes.yaml",
+		Path:    "../configs/http/.rr-broken-pipes.yaml",
 		Prefix:  "rr",
 		Type:    "yaml",
 	}
@@ -1568,8 +1570,8 @@ func TestHttpBrokenPipes(t *testing.T) {
 		&logger.Plugin{},
 		&server.Plugin{},
 		&httpPlugin.Plugin{},
-		&PluginMiddleware{},
-		&PluginMiddleware2{},
+		&http3.PluginMiddleware{},
+		&http3.PluginMiddleware2{},
 	)
 	assert.NoError(t, err)
 
@@ -1620,7 +1622,7 @@ func TestHTTPSupervisedPool(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-supervised-pool.yaml",
+		Path:    "../configs/http/.rr-http-supervised-pool.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1753,7 +1755,7 @@ func TestHTTPBigRequestSize(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-big-req-size.yaml",
+		Path:    "../configs/http/.rr-big-req-size.yaml",
 		Prefix:  "rr",
 		Type:    "yaml",
 	}
@@ -1840,7 +1842,7 @@ func TestStaticEtagPlugin(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-static.yaml",
+		Path:    "../configs/http/.rr-http-static.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1907,7 +1909,7 @@ func TestStaticEtagPlugin(t *testing.T) {
 
 func serveStaticSampleEtag(t *testing.T) {
 	// OK 200 response
-	b, r, err := get("http://127.0.0.1:21603/sample.txt")
+	b, r, err := helpers.Get("http://127.0.0.1:21603/sample.txt")
 	assert.NoError(t, err)
 	assert.Contains(t, b, "sample")
 	assert.Equal(t, r.StatusCode, http.StatusOK)
@@ -1937,7 +1939,7 @@ func serveStaticSampleEtag(t *testing.T) {
 // regular request should not contain static headers
 func noStaticHeaders(t *testing.T) {
 	// OK 200 response
-	_, r, err := get("http://127.0.0.1:21603")
+	_, r, err := helpers.Get("http://127.0.0.1:21603")
 	assert.NoError(t, err)
 	assert.NotContains(t, r.Header["input"], "custom-header")  //nolint:staticcheck
 	assert.NotContains(t, r.Header["output"], "output-header") //nolint:staticcheck
@@ -1951,7 +1953,7 @@ func TestStaticPluginSecurity(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-static-security.yaml",
+		Path:    "../configs/http/.rr-http-static-security.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2089,7 +2091,7 @@ func serveStaticSampleNotAllowedPath(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
 	_ = resp.Body.Close()
 
-	_, r, err := get("http://127.0.0.1:21603/../../sample.txt")
+	_, r, err := helpers.Get("http://127.0.0.1:21603/../../sample.txt")
 	assert.NoError(t, err)
 	assert.Equal(t, 403, r.StatusCode)
 	_ = r.Body.Close()
@@ -2100,7 +2102,7 @@ func TestStaticPlugin(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-static.yaml",
+		Path:    "../configs/http/.rr-http-static.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2190,20 +2192,20 @@ func staticHeaders(t *testing.T) {
 		_ = resp.Body.Close()
 	}()
 
-	require.Equal(t, all("../../php_test_files/client.php"), string(b))
-	require.Equal(t, all("../../php_test_files/client.php"), string(b))
+	require.Equal(t, helpers.All("../../../php_test_files/client.php"), string(b))
+	require.Equal(t, helpers.All("../../../php_test_files/client.php"), string(b))
 }
 
 func staticNotForbid(t *testing.T) {
-	b, r, err := get("http://127.0.0.1:21603/php_test_files/client.php")
+	b, r, err := helpers.Get("http://127.0.0.1:21603/php_test_files/client.php")
 	require.NoError(t, err)
-	require.Equal(t, all("../../php_test_files/client.php"), b)
-	require.Equal(t, all("../../php_test_files/client.php"), b)
+	require.Equal(t, helpers.All("../../../php_test_files/client.php"), b)
+	require.Equal(t, helpers.All("../../../php_test_files/client.php"), b)
 	_ = r.Body.Close()
 }
 
 func serveStaticSample(t *testing.T) {
-	b, r, err := get("http://127.0.0.1:21603/sample.txt")
+	b, r, err := helpers.Get("http://127.0.0.1:21603/sample.txt")
 	require.NoError(t, err)
 	require.Contains(t, b, "sample")
 	_ = r.Body.Close()
@@ -2214,7 +2216,7 @@ func TestStaticDisabled_Error(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-static-disabled.yaml",
+		Path:    "../configs/http/.rr-http-static-disabled.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2235,7 +2237,7 @@ func TestStaticFilesDisabled(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-static-files-disable.yaml",
+		Path:    "../configs/http/.rr-http-static-files-disable.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2300,7 +2302,7 @@ func TestStaticFilesDisabled(t *testing.T) {
 }
 
 func staticFilesDisabled(t *testing.T) {
-	b, r, err := get("http://127.0.0.1:45877/php_test_files/client.php?hello=world")
+	b, r, err := helpers.Get("http://127.0.0.1:45877/php_test_files/client.php?hello=world")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2313,7 +2315,7 @@ func TestStaticFilesForbid(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-static-files.yaml",
+		Path:    "../configs/http/.rr-http-static-files.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2389,19 +2391,19 @@ func TestStaticFilesForbid(t *testing.T) {
 }
 
 func staticTestFilesDir(t *testing.T) {
-	b, r, err := get("http://127.0.0.1:34653/http?hello=world")
+	b, r, err := helpers.Get("http://127.0.0.1:34653/http?hello=world")
 	assert.NoError(t, err)
 	assert.Equal(t, "WORLD", b)
 	_ = r.Body.Close()
 }
 
 func staticNotFound(t *testing.T) {
-	b, _, _ := get("http://127.0.0.1:34653/client.XXX?hello=world") //nolint:bodyclose
+	b, _, _ := helpers.Get("http://127.0.0.1:34653/client.XXX?hello=world") //nolint:bodyclose
 	assert.Equal(t, "WORLD", b)
 }
 
 func staticFilesForbid(t *testing.T) {
-	b, r, err := get("http://127.0.0.1:34653/client.php?hello=world")
+	b, r, err := helpers.Get("http://127.0.0.1:34653/client.php?hello=world")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -2414,7 +2416,7 @@ func TestHTTPIssue659(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-issue659.yaml",
+		Path:    "../configs/http/.rr-issue659.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2483,7 +2485,7 @@ func TestHTTPIPv6Long(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-ipv6.yaml",
+		Path:    "../configs/http/.rr-http-ipv6.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2552,7 +2554,7 @@ func TestHTTPIPv6Short(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-ipv6-2.yaml",
+		Path:    "../configs/http/.rr-http-ipv6-2.yaml",
 		Prefix:  "rr",
 	}
 
@@ -2713,44 +2715,4 @@ func informerTest(address string) func(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Len(t, list.Workers, 2)
 	}
-}
-
-// HELPERS
-func get(url string) (string, *http.Response, error) {
-	r, err := http.Get(url) //nolint:gosec
-	if err != nil {
-		return "", nil, err
-	}
-
-	b, err := io.ReadAll(r.Body)
-	if err != nil {
-		return "", nil, err
-	}
-
-	err = r.Body.Close()
-	if err != nil {
-		return "", nil, err
-	}
-
-	return string(b), r, err
-}
-
-func all(fn string) string {
-	f, err := os.Open(fn)
-	if err != nil {
-		panic(err)
-	}
-
-	b := new(bytes.Buffer)
-	_, err = io.Copy(b, f)
-	if err != nil {
-		return ""
-	}
-
-	err = f.Close()
-	if err != nil {
-		return ""
-	}
-
-	return b.String()
 }

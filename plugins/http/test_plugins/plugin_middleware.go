@@ -1,4 +1,4 @@
-package http
+package test_plugins //nolint: stylecheck
 
 import (
 	"net/http"

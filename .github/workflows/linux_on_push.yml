@@ -1137,13 +1137,22 @@ jobs:
           mkdir ./coverage-ci
           docker run --rm -d -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp -p5778:5778/tcp jaegertracing/jaeger-agent:1.6
           sleep 10
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/attributes.out -covermode=atomic ./plugins/http/attributes
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/handler.out -covermode=atomic ./plugins/http/handler
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http/http
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/otlp.out -covermode=atomic ./plugins/http/otlp
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/uploads.out -covermode=atomic ./plugins/http/uploads
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
           name: coverage
-          path: ./coverage-ci/http.out
+          path: |
+            ./coverage-ci/attributes.out
+            ./coverage-ci/handler.out
+            ./coverage-ci/http.out
+            ./coverage-ci/otlp.out
+            ./coverage-ci/uploads.out
 
   grpc_test:
     name: grpc plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})

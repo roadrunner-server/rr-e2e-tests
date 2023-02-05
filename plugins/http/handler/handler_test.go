@@ -1,4 +1,4 @@
-package http
+package handler
 
 import (
 	"bytes"
@@ -17,22 +17,21 @@ import (
 	"github.com/goccy/go-json"
 	"github.com/roadrunner-server/http/v4/config"
 	"github.com/roadrunner-server/http/v4/handler"
+	"github.com/roadrunner-server/rr-e2e-tests/plugins/http/helpers"
+	"github.com/roadrunner-server/rr-e2e-tests/plugins/http/testLog"
 	"github.com/roadrunner-server/sdk/v4/ipc/pipe"
 	"github.com/roadrunner-server/sdk/v4/pool"
 	staticPool "github.com/roadrunner-server/sdk/v4/pool/static_pool"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.uber.org/zap"
 )
-
-var mockLog = zap.NewNop() //nolint:gochecknoglobals
 
 func TestHandler_Echo(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "echo", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "echo", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -51,7 +50,7 @@ func TestHandler_Echo(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{
@@ -73,21 +72,22 @@ func TestHandler_Echo(t *testing.T) {
 	}(hs)
 	time.Sleep(time.Millisecond * 10)
 
-	body, r, err := get("http://127.0.0.1:9177/?hello=world")
+	body, r, err := helpers.Get("http://127.0.0.1:9177/?hello=world")
 	assert.NoError(t, err)
 	defer func() {
 		_ = r.Body.Close()
 	}()
 	assert.Equal(t, 201, r.StatusCode)
 	assert.Equal(t, "WORLD", body)
+	p.Destroy(context.Background())
 }
 
 func TestHandler_Headers(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "header", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "header", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -111,7 +111,7 @@ func TestHandler_Headers(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{
@@ -160,9 +160,9 @@ func TestHandler_Headers(t *testing.T) {
 func TestHandler_Empty_User_Agent(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "user-agent", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "user-agent", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -186,7 +186,7 @@ func TestHandler_Empty_User_Agent(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{
@@ -234,9 +234,9 @@ func TestHandler_Empty_User_Agent(t *testing.T) {
 func TestHandler_User_Agent(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "user-agent", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "user-agent", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -260,7 +260,7 @@ func TestHandler_User_Agent(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{
@@ -308,9 +308,9 @@ func TestHandler_User_Agent(t *testing.T) {
 func TestHandler_Cookies(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "cookie", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "cookie", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -334,7 +334,7 @@ func TestHandler_Cookies(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8079", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -383,9 +383,9 @@ func TestHandler_Cookies(t *testing.T) {
 func TestHandler_JsonPayload_POST(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "payload", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "payload", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -409,7 +409,7 @@ func TestHandler_JsonPayload_POST(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8090", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -457,9 +457,9 @@ func TestHandler_JsonPayload_POST(t *testing.T) {
 func TestHandler_JsonPayload_PUT(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "payload", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "payload", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -483,7 +483,7 @@ func TestHandler_JsonPayload_PUT(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8081", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -527,9 +527,9 @@ func TestHandler_JsonPayload_PUT(t *testing.T) {
 func TestHandler_JsonPayload_PATCH(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "payload", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "payload", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -553,7 +553,7 @@ func TestHandler_JsonPayload_PATCH(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8082", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -597,9 +597,9 @@ func TestHandler_JsonPayload_PATCH(t *testing.T) {
 func TestHandler_UrlEncoded_POST_DELETE(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/psr-worker-echo.php")
+			return exec.Command("php", "../../../php_test_files/psr-worker-echo.php")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -624,7 +624,7 @@ func TestHandler_UrlEncoded_POST_DELETE(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":10084", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -689,9 +689,9 @@ func TestHandler_UrlEncoded_POST_DELETE(t *testing.T) {
 func TestHandler_FormData_POST(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "data", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "data", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -715,7 +715,7 @@ func TestHandler_FormData_POST(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":10084", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -782,9 +782,9 @@ func TestHandler_FormData_POST(t *testing.T) {
 func TestHandler_FormData_POST_Overwrite(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "data", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "data", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -808,7 +808,7 @@ func TestHandler_FormData_POST_Overwrite(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8083", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -879,9 +879,9 @@ func TestHandler_FormData_POST_Overwrite(t *testing.T) {
 func TestHandler_FormData_POST_Form_UrlEncoded_Charset(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "data", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "data", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -905,7 +905,7 @@ func TestHandler_FormData_POST_Form_UrlEncoded_Charset(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8085", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -972,9 +972,9 @@ func TestHandler_FormData_POST_Form_UrlEncoded_Charset(t *testing.T) {
 func TestHandler_FormData_PUT(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "data", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "data", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -998,7 +998,7 @@ func TestHandler_FormData_PUT(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":17834", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1066,9 +1066,9 @@ func TestHandler_FormData_PUT(t *testing.T) {
 func TestHandler_FormData_PATCH(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "data", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "data", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1092,7 +1092,7 @@ func TestHandler_FormData_PATCH(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8086", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1159,9 +1159,9 @@ func TestHandler_FormData_PATCH(t *testing.T) {
 func TestHandler_Multipart_POST(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "data", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "data", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1185,7 +1185,7 @@ func TestHandler_Multipart_POST(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8019", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1294,9 +1294,9 @@ func TestHandler_Multipart_POST(t *testing.T) {
 func TestHandler_Multipart_PUT(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "data", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "data", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1320,7 +1320,7 @@ func TestHandler_Multipart_PUT(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8020", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1429,9 +1429,9 @@ func TestHandler_Multipart_PUT(t *testing.T) {
 func TestHandler_Multipart_PATCH(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "data", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "data", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1455,7 +1455,7 @@ func TestHandler_Multipart_PATCH(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8021", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1566,9 +1566,9 @@ func TestHandler_Multipart_PATCH(t *testing.T) {
 func TestHandler_Error(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "error", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "error", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1592,7 +1592,7 @@ func TestHandler_Error(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8177", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1611,7 +1611,7 @@ func TestHandler_Error(t *testing.T) {
 	}()
 	time.Sleep(time.Millisecond * 10)
 
-	_, r, err := get("http://127.0.0.1:8177/?hello=world")
+	_, r, err := helpers.Get("http://127.0.0.1:8177/?hello=world")
 	assert.NoError(t, err)
 	defer func() {
 		_ = r.Body.Close()
@@ -1622,9 +1622,9 @@ func TestHandler_Error(t *testing.T) {
 func TestHandler_Error2(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "error2", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "error2", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1648,7 +1648,7 @@ func TestHandler_Error2(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8178", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1667,7 +1667,7 @@ func TestHandler_Error2(t *testing.T) {
 	}()
 	time.Sleep(time.Millisecond * 10)
 
-	_, r, err := get("http://127.0.0.1:8178/?hello=world")
+	_, r, err := helpers.Get("http://127.0.0.1:8178/?hello=world")
 	assert.NoError(t, err)
 	defer func() {
 		_ = r.Body.Close()
@@ -1678,9 +1678,9 @@ func TestHandler_Error2(t *testing.T) {
 func TestHandler_ResponseDuration(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "echo", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "echo", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1704,7 +1704,7 @@ func TestHandler_ResponseDuration(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8180", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1723,7 +1723,7 @@ func TestHandler_ResponseDuration(t *testing.T) {
 	}()
 	time.Sleep(time.Millisecond * 10)
 
-	body, r, err := get("http://127.0.0.1:8180/?hello=world")
+	body, r, err := helpers.Get("http://127.0.0.1:8180/?hello=world")
 	assert.NoError(t, err)
 	defer func() {
 		_ = r.Body.Close()
@@ -1736,9 +1736,9 @@ func TestHandler_ResponseDuration(t *testing.T) {
 func TestHandler_ResponseDurationDelayed(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "echoDelay", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "echoDelay", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1762,7 +1762,7 @@ func TestHandler_ResponseDurationDelayed(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8181", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1777,9 +1777,9 @@ func TestHandler_ResponseDurationDelayed(t *testing.T) {
 func TestHandler_ErrorDuration(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "error", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "error", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1803,7 +1803,7 @@ func TestHandler_ErrorDuration(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: ":8182", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1822,7 +1822,7 @@ func TestHandler_ErrorDuration(t *testing.T) {
 	}()
 	time.Sleep(time.Millisecond * 10)
 
-	_, r, err := get("http://127.0.0.1:8182/?hello=world")
+	_, r, err := helpers.Get("http://127.0.0.1:8182/?hello=world")
 	assert.NoError(t, err)
 	defer func() {
 		_ = r.Body.Close()
@@ -1834,9 +1834,9 @@ func TestHandler_ErrorDuration(t *testing.T) {
 func TestHandler_IP(t *testing.T) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "ip", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "ip", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      1,
 			AllocateTimeout: time.Second * 1000,
@@ -1860,7 +1860,7 @@ func TestHandler_IP(t *testing.T) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(t, err)
 
 	hs := &http.Server{Addr: "127.0.0.1:8183", Handler: h, ReadHeaderTimeout: time.Minute * 5}
@@ -1879,7 +1879,7 @@ func TestHandler_IP(t *testing.T) {
 	}()
 	time.Sleep(time.Millisecond * 10)
 
-	body, r, err := get("http://127.0.0.1:8183/")
+	body, r, err := helpers.Get("http://127.0.0.1:8183/")
 	assert.NoError(t, err)
 	defer func() {
 		_ = r.Body.Close()
@@ -1891,9 +1891,9 @@ func TestHandler_IP(t *testing.T) {
 func BenchmarkHandler_Listen_Echo(b *testing.B) {
 	p, err := staticPool.NewPool(context.Background(),
 		func(cmd string) *exec.Cmd {
-			return exec.Command("php", "../../php_test_files/http/client.php", "echo", "pipes")
+			return exec.Command("php", "../../../php_test_files/http/client.php", "echo", "pipes")
 		},
-		pipe.NewPipeFactory(mockLog),
+		pipe.NewPipeFactory(testLog.ZapLogger()),
 		&pool.Config{
 			NumWorkers:      uint64(runtime.NumCPU()),
 			AllocateTimeout: time.Second * 1000,
@@ -1917,7 +1917,7 @@ func BenchmarkHandler_Listen_Echo(b *testing.B) {
 		},
 	}
 
-	h, err := handler.NewHandler(cfg, p, mockLog)
+	h, err := handler.NewHandler(cfg, p, testLog.ZapLogger())
 	assert.NoError(b, err)
 
 	hs := &http.Server{Addr: ":8188", Handler: h, ReadHeaderTimeout: time.Minute * 5}

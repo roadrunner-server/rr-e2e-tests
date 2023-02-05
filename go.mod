@@ -43,7 +43,7 @@ require (
 	github.com/roadrunner-server/memory/v4 v4.1.1
 	github.com/roadrunner-server/metrics/v4 v4.0.1
 	github.com/roadrunner-server/nats/v4 v4.1.1
-	github.com/roadrunner-server/otel/v4 v4.0.3
+	github.com/roadrunner-server/otel/v4 v4.0.4
 	github.com/roadrunner-server/prometheus/v4 v4.0.2
 	github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.2
 	github.com/roadrunner-server/redis/v4 v4.1.1
@@ -176,6 +176,7 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	go.buf.build/grpc/go/roadrunner-server/api v1.4.27 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect
+	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.38.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.38.0 // indirect
 	go.opentelemetry.io/contrib/propagators/jaeger v1.13.0 // indirect
 	go.opentelemetry.io/otel v1.12.0 // indirect

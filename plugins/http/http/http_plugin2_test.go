@@ -23,6 +23,7 @@ import (
 	"github.com/roadrunner-server/memory/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	"github.com/roadrunner-server/rr-e2e-tests/plugins/http/helpers"
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -36,7 +37,7 @@ func TestHTTPPost(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-post-test.yaml",
+		Path:    "../configs/http/.rr-post-test.yaml",
 		Prefix:  "rr",
 	}
 
@@ -145,7 +146,7 @@ func TestSSLNoHTTP(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-ssl-no-http.yaml",
+		Path:    "../configs/http/.rr-ssl-no-http.yaml",
 		Prefix:  "rr",
 	}
 
@@ -210,7 +211,7 @@ func TestSSLNoHTTP(t *testing.T) {
 }
 
 func sslEcho2(t *testing.T) {
-	cert, err := tls.LoadX509KeyPair("../../test-certs/localhost+2-client.pem", "../../test-certs/localhost+2-client-key.pem")
+	cert, err := tls.LoadX509KeyPair("../../../test-certs/localhost+2-client.pem", "../../../test-certs/localhost+2-client-key.pem")
 	require.NoError(t, err)
 
 	client := &http.Client{
@@ -247,7 +248,7 @@ func TestFileServer(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-http-static-new.yaml",
+		Path:    "../configs/http/.rr-http-static-new.yaml",
 		Prefix:  "rr",
 	}
 
@@ -310,7 +311,7 @@ func TestFileServer(t *testing.T) {
 
 func serveStaticSampleEtag2(t *testing.T) {
 	// OK 200 response
-	b, r, err := get("http://127.0.0.1:10101/foo/sample.txt")
+	b, r, err := helpers.Get("http://127.0.0.1:10101/foo/sample.txt")
 	assert.NoError(t, err)
 	assert.Contains(t, b, "sample")
 	assert.Equal(t, r.StatusCode, http.StatusOK)
@@ -341,7 +342,7 @@ func TestHTTPBigResp(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/http/.rr-init-big-resp.yaml",
+		Path:    "../configs/http/.rr-init-big-resp.yaml",
 		Prefix:  "rr",
 	}
 
@@ -429,7 +430,7 @@ func TestHTTPBigResp(t *testing.T) {
 	wg.Wait()
 
 	t.Cleanup(func() {
-		_ = os.RemoveAll("../../php_test_files/big-resp")
+		_ = os.RemoveAll("../../../php_test_files/big-resp")
 	})
 }
 
@@ -439,7 +440,7 @@ func TestHTTPExecTTL(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.1",
-		Path:    "configs/http/.rr-http-exec_ttl.yaml",
+		Path:    "../configs/http/.rr-http-exec_ttl.yaml",
 		Prefix:  "rr",
 	}
 
@@ -523,7 +524,7 @@ func TestHTTPBigRespMaxReqSize(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.1",
-		Path:    "configs/http/.rr-init-big-resp-max-req-size.yaml",
+		Path:    "../configs/http/.rr-init-big-resp-max-req-size.yaml",
 		Prefix:  "rr",
 	}
 

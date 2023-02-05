@@ -4,7 +4,7 @@ rpc:
   listen: tcp://127.0.0.1:6002
 
 server:
-  command: "php ../../php_test_files/psr-worker.php"
+  command: "php ../../../php_test_files/psr-worker.php"
   relay: "pipes"
   relay_timeout: "20s"
 
@@ -16,15 +16,15 @@ http:
     num_workers: 2
     max_jobs: 0
     allocate_timeout: 60s
-    destroy_timeout: 60s
-  otel:
-    insecure: false
-    compress: true
-    exporter: jaeger_agent
-    endpoint: localhost:6831
-    service_name: rr_test
-    service_version: 1.0.0
+    destroy_timeout: 1s
 
+otel:
+  insecure: false
+  compress: true
+  exporter: jaeger_agent
+  endpoint: localhost:6831
+  service_name: rr_test
+  service_version: 1.0.0
 
 logs:
   mode: development

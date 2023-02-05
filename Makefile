@@ -16,18 +16,22 @@ test_coverage: run_docker sleep-30
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/beanstalk
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/boltdb
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/durability
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/general
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/memory
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/nats
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/sqs
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/beanstalk.out -covermode=atomic ./plugins/jobs/beanstalk
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/boltdb.out -covermode=atomic ./plugins/jobs/boltdb
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/durability.out -covermode=atomic ./plugins/jobs/durability
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/general.out -covermode=atomic ./plugins/jobs/general
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/memory.out -covermode=atomic ./plugins/jobs/memory
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/nats.out -covermode=atomic ./plugins/jobs/nats
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/sqs.out -covermode=atomic ./plugins/jobs/sqs
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/kv_plugin.out -covermode=atomic ./plugins/kv
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/tcp_plugin.out -covermode=atomic ./plugins/tcp
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/proxy_ip.out -covermode=atomic ./plugins/proxy_ip_parser
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/reload.out -covermode=atomic ./plugins/reload
-	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/attributes.out -covermode=atomic ./plugins/http/attributes
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/handler.out -covermode=atomic ./plugins/http/handler
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http/http
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/otlp.out -covermode=atomic ./plugins/http/otlp
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/uploads.out -covermode=atomic ./plugins/http/uploads
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/grpc_plugin.out -covermode=atomic ./plugins/grpc
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/informer.out -covermode=atomic ./plugins/informer
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/server.out -covermode=atomic ./plugins/server
@@ -46,32 +50,36 @@ test_coverage: run_docker sleep-30
 	docker-compose -f env/docker-compose.yaml down
 
 test:
-	go test -v -race -cover -tags=debug ./plugins/temporal
-	go test -v -race -cover -tags=debug ./plugins/service
-	go test -v -race -cover -tags=debug ./plugins/jobs/amqp
-	go test -v -race -cover -tags=debug ./plugins/jobs/beanstalk
-	go test -v -race -cover -tags=debug ./plugins/jobs/boltdb
-	go test -v -race -cover -tags=debug ./plugins/jobs/durability
-	go test -v -race -cover -tags=debug ./plugins/jobs/general
-	go test -v -race -cover -tags=debug ./plugins/jobs/memory
-	go test -v -race -cover -tags=debug ./plugins/jobs/nats
-	go test -v -race -cover -tags=debug ./plugins/jobs/sqs
-	go test -v -race -cover -tags=debug ./plugins/kv
-	go test -v -race -cover -tags=debug ./plugins/tcp
-	go test -v -race -cover -tags=debug ./plugins/reload
-	go test -v -race -cover -tags=debug ./plugins/proxy_ip_parser
-	go test -v -race -cover -tags=debug ./plugins/http
-	go test -v -race -cover -tags=debug ./plugins/grpc
-	go test -v -race -cover -tags=debug ./plugins/informer
-	go test -v -race -cover -tags=debug ./plugins/server
-	go test -v -race -cover -tags=debug ./plugins/status
-	go test -v -race -cover -tags=debug ./plugins/config
-	go test -v -race -cover -tags=debug ./plugins/gzip
-	go test -v -race -cover -tags=debug ./plugins/headers
-	go test -v -race -cover -tags=debug ./plugins/logger
-	go test -v -race -cover -tags=debug ./plugins/metrics
-	go test -v -race -cover -tags=debug ./plugins/resetter
-	go test -v -race -cover -tags=debug ./plugins/rpc
+	go test -v -race -tags=debug ./plugins/temporal
+	go test -v -race -tags=debug ./plugins/service
+	go test -v -race -tags=debug ./plugins/jobs/amqp
+	go test -v -race -tags=debug ./plugins/jobs/beanstalk
+	go test -v -race -tags=debug ./plugins/jobs/boltdb
+	go test -v -race -tags=debug ./plugins/jobs/durability
+	go test -v -race -tags=debug ./plugins/jobs/general
+	go test -v -race -tags=debug ./plugins/jobs/memory
+	go test -v -race -tags=debug ./plugins/jobs/nats
+	go test -v -race -tags=debug ./plugins/jobs/sqs
+	go test -v -race -tags=debug ./plugins/kv
+	go test -v -race -tags=debug ./plugins/tcp
+	go test -v -race -tags=debug ./plugins/reload
+	go test -v -race -tags=debug ./plugins/proxy_ip_parser
+	go test -v -race -tags=debug ./plugins/http/attributes
+	go test -v -race -tags=debug ./plugins/http/handler
+	go test -v -race -tags=debug ./plugins/http/http
+	go test -v -race -tags=debug ./plugins/http/otlp
+	go test -v -race -tags=debug ./plugins/http/uploads
+	go test -v -race -tags=debug ./plugins/grpc
+	go test -v -race -tags=debug ./plugins/informer
+	go test -v -race -tags=debug ./plugins/server
+	go test -v -race -tags=debug ./plugins/status
+	go test -v -race -tags=debug ./plugins/config
+	go test -v -race -tags=debug ./plugins/gzip
+	go test -v -race -tags=debug ./plugins/headers
+	go test -v -race -tags=debug ./plugins/logger
+	go test -v -race -tags=debug ./plugins/metrics
+	go test -v -race -tags=debug ./plugins/resetter
+	go test -v -race -tags=debug ./plugins/rpc
 
 test_nightly:
 	go test -v -race -cover -tags=debug,nightly ./plugins/http

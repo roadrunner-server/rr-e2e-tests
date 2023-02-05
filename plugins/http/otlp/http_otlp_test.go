@@ -1,4 +1,4 @@
-package http
+package otlp
 
 import (
 	"bytes"
@@ -20,21 +20,21 @@ import (
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 	"golang.org/x/exp/slog"
 )
 
 func TestHTTPOTLP_Init(t *testing.T) {
+	// TODO(rustatian) use the: https://pkg.go.dev/go.opentelemetry.io/otel/sdk/trace/tracetest"
 	rd, wr, err := os.Pipe()
-	require.NoError(t, err)
-	os.Stdout = wr
+	assert.NoError(t, err)
+	os.Stderr = wr
 
 	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "2.10.0",
-		Path:    "configs/otel/.rr-http-otel.yaml",
+		Path:    "../configs/otel/.rr-http-otel.yaml",
 		Prefix:  "rr",
 	}
 
@@ -97,8 +97,8 @@ func TestHTTPOTLP_Init(t *testing.T) {
 	assert.NoError(t, err)
 
 	r, err := http.DefaultClient.Do(req)
-	require.NoError(t, err)
-	require.NotNil(t, r)
+	assert.NoError(t, err)
+	assert.NotNil(t, r)
 	_, err = io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, r.StatusCode)
@@ -113,24 +113,25 @@ func TestHTTPOTLP_Init(t *testing.T) {
 	_ = wr.Close()
 	buf := new(bytes.Buffer)
 	_, err = io.Copy(buf, rd)
-	require.NoError(t, err)
+	assert.NoError(t, err)
 
 	// contains spans
-	require.Contains(t, buf.String(), `"Name": "http",`)
-	require.Contains(t, buf.String(), `"Name": "gzip",`)
+	assert.Contains(t, buf.String(), `"Name": "http",`)
+	assert.Contains(t, buf.String(), `"Name": "gzip",`)
 }
 
 func TestHTTPOTLP_WithPHP(t *testing.T) {
+	// TODO(rustatian) use the: https://pkg.go.dev/go.opentelemetry.io/otel/sdk/trace/tracetest"
 	rd, wr, err := os.Pipe()
-	require.NoError(t, err)
-	os.Stdout = wr
+	assert.NoError(t, err)
+	os.Stderr = wr
 
 	cont := endure.New(slog.LevelDebug)
 	assert.NoError(t, err)
 
 	cfg := &config.Plugin{
 		Version: "2.10.0",
-		Path:    "configs/otel/.rr-http-otel2.yaml",
+		Path:    "../configs/otel/.rr-http-otel2.yaml",
 		Prefix:  "rr",
 	}
 
@@ -194,8 +195,8 @@ func TestHTTPOTLP_WithPHP(t *testing.T) {
 	assert.NoError(t, err)
 
 	r, err := http.DefaultClient.Do(req)
-	require.NoError(t, err)
-	require.NotNil(t, r)
+	assert.NoError(t, err)
+	assert.NotNil(t, r)
 	_, err = io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, r.StatusCode)
@@ -210,16 +211,16 @@ func TestHTTPOTLP_WithPHP(t *testing.T) {
 	_ = wr.Close()
 	buf := new(bytes.Buffer)
 	_, err = io.Copy(buf, rd)
-	require.NoError(t, err)
+	assert.NoError(t, err)
 
 	// contains spans
-	require.Contains(t, buf.String(), `"Name": "/",`)
-	require.Contains(t, buf.String(), `"Name": "http",`)
-	require.Contains(t, buf.String(), `"Name": "gzip",`)
+	assert.Contains(t, buf.String(), `"Name": "/",`)
+	assert.Contains(t, buf.String(), `"Name": "http",`)
+	assert.Contains(t, buf.String(), `"Name": "gzip",`)
 
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("trace_id").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("span_id").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("trace_state").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("trace_id").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("span_id").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("trace_state").Len())
 }
 
 // should not be error on connect
@@ -228,7 +229,7 @@ func TestHTTPOTLP_JaegerAgent(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.10.7",
-		Path:    "configs/otel/.rr-http-jaeger-agent.yaml",
+		Path:    "../configs/otel/.rr-http-jaeger-agent.yaml",
 		Prefix:  "rr",
 	}
 
@@ -291,8 +292,8 @@ func TestHTTPOTLP_JaegerAgent(t *testing.T) {
 	assert.NoError(t, err)
 
 	r, err := http.DefaultClient.Do(req)
-	require.NoError(t, err)
-	require.NotNil(t, r)
+	assert.NoError(t, err)
+	assert.NotNil(t, r)
 	_, err = io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 200, r.StatusCode)

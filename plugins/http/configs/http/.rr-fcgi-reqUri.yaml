@@ -1,7 +1,7 @@
 version: '2.7'
 
 server:
-  command: "php ../../php_test_files/psr-worker.php"
+  command: "php ../../../php_test_files/psr-worker.php"
   relay: "pipes"
   relay_timeout: "20s"
 
@@ -15,13 +15,13 @@ http:
     num_workers: 1
     max_jobs: 0
     allocate_timeout: 60s
-    destroy_timeout: 60s
+    destroy_timeout: 1s
 
   ssl:
     address: :8890
     redirect: false
-    key: "../../test-certs/localhost+2-key.pem"
-    cert: "../../test-certs/localhost+2.pem"
+    key: "../../../test-certs/localhost+2-key.pem"
+    cert: "../../../test-certs/localhost+2.pem"
   fcgi:
     address: tcp://127.0.0.1:6921
   http2:
