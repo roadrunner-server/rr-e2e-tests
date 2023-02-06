@@ -2,12 +2,6 @@ module github.com/roadrunner-server/rr-e2e-tests
 
 go 1.20
 
-replace github.com/temporalio/roadrunner-temporal/v4 => github.com/cv65kr/roadrunner-temporal/v4 v4.0.0-20230204084812-7d6f210cdfcd
-
-replace github.com/roadrunner-server/otel/v4 => github.com/cv65kr/otel/v4 v4.0.0-20230204084754-33cae7dad45c
-
-replace github.com/roadrunner-server/grpc/v4 => github.com/roadrunner-server/grpc/v4 v4.0.0-20230202011028-3a00b14fceff
-
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
 	github.com/aws/aws-sdk-go-v2 v1.17.4
@@ -36,7 +30,7 @@ require (
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v4 v4.0.1
 	github.com/roadrunner-server/goridge/v3 v3.6.2
-	github.com/roadrunner-server/grpc/v4 v4.0.3
+	github.com/roadrunner-server/grpc/v4 v4.1.0
 	github.com/roadrunner-server/gzip/v4 v4.0.1
 	github.com/roadrunner-server/headers/v4 v4.0.1
 	github.com/roadrunner-server/http/v4 v4.0.3
@@ -49,7 +43,7 @@ require (
 	github.com/roadrunner-server/memory/v4 v4.1.1
 	github.com/roadrunner-server/metrics/v4 v4.0.1
 	github.com/roadrunner-server/nats/v4 v4.1.1
-	github.com/roadrunner-server/otel/v4 v4.0.4
+	github.com/roadrunner-server/otel/v4 v4.1.0
 	github.com/roadrunner-server/prometheus/v4 v4.0.2
 	github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.2
 	github.com/roadrunner-server/redis/v4 v4.1.1
@@ -65,7 +59,7 @@ require (
 	github.com/roadrunner-server/status/v4 v4.0.1
 	github.com/roadrunner-server/tcp/v4 v4.0.1
 	github.com/stretchr/testify v1.8.1
-	github.com/temporalio/roadrunner-temporal/v4 v4.0.1
+	github.com/temporalio/roadrunner-temporal/v4 v4.1.0
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.27
 	go.temporal.io/api v1.16.0

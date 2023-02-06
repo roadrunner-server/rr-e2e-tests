@@ -30,7 +30,7 @@ func (pt *TemporalInterceptorPlugin) Name() string {
 	return "temporal_test.incterceptor_plugin"
 }
 
-func (pt *TemporalInterceptorPlugin) TemporalInterceptor() interceptor.WorkerInterceptor {
+func (pt *TemporalInterceptorPlugin) WorkerInterceptor() interceptor.WorkerInterceptor {
 	return &workerInterceptor{}
 }
 
