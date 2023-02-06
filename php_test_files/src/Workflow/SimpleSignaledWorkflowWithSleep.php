@@ -22,8 +22,8 @@ class SimpleSignaledWorkflowWithSleep
     #[WorkflowMethod(name: 'SimpleSignaledWorkflowWithSleep')]
     public function handler(): iterable
     {
-        // collect signals during one second
-        yield Workflow::timer(1);
+        // collect signals during 5 seconds ?
+        yield Workflow::timer(5);
 
         if (!Workflow::isReplaying()) {
             sleep(1);

@@ -1943,6 +1943,7 @@ jobs:
     needs:
       - service_test
       - temporal_test
+      - temporal_tls_test
       - amqp_test
       - kafka_test
       - grpc_test_unit

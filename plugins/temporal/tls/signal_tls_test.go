@@ -89,14 +89,16 @@ func Test_SendSignalBeforeCompletingWorkflowProto(t *testing.T) {
 	)
 	assert.NoError(t, err)
 
-	// should be around sleep(1) call
-	time.Sleep(time.Second + time.Millisecond*200)
+	// should be around sleep(5) call
+	time.Sleep(time.Second)
 
 	err = s.Client.SignalWorkflow(context.Background(), w.GetID(), w.GetRunID(), "add", -1)
 	assert.NoError(t, err)
 
 	var result int
-	assert.NoError(t, w.Get(context.Background(), &result))
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+	defer cancel()
+	assert.NoError(t, w.Get(ctx, &result))
 	assert.Equal(t, -1, result)
 
 	s.AssertContainsEvent(s.Client, t, w, func(event *history.HistoryEvent) bool {
