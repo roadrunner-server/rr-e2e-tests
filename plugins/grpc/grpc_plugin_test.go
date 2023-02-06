@@ -923,7 +923,7 @@ func get() (string, error) {
 func Test_GrpcRqOtlp(t *testing.T) {
 	rd, wr, err := os.Pipe()
 	assert.NoError(t, err)
-	os.Stdout = wr
+	os.Stderr = wr
 
 	cont := endure.New(slog.LevelDebug)
 

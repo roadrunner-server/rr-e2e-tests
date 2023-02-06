@@ -16,7 +16,7 @@ temporal:
 otel:
   insecure: false
   compress: true
-  exporter: stdout
+  exporter: stderr
   service_name: rr_test
   service_version: 1.0.0
 

@@ -17,7 +17,7 @@ import (
 func Test_OtlpInterceptor(t *testing.T) {
 	rd, wr, err := os.Pipe()
 	assert.NoError(t, err)
-	os.Stdout = wr
+	os.Stderr = wr
 
 	stopCh := make(chan struct{}, 1)
 	wg := &sync.WaitGroup{}
