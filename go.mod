@@ -26,7 +26,7 @@ require (
 	github.com/roadrunner-server/boltdb/v4 v4.2.1
 	github.com/roadrunner-server/centrifuge/v4 v4.0.2
 	github.com/roadrunner-server/config/v4 v4.1.1
-	github.com/roadrunner-server/endure/v2 v2.0.1
+	github.com/roadrunner-server/endure/v2 v2.1.0
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v4 v4.0.1
 	github.com/roadrunner-server/goridge/v3 v3.6.2
@@ -65,7 +65,7 @@ require (
 	go.temporal.io/api v1.16.0
 	go.temporal.io/sdk v1.21.0
 	go.uber.org/zap v1.24.0
-	golang.org/x/exp v0.0.0-20230203172020-98cc5a0785f9
+	golang.org/x/exp v0.0.0-20230206171751-46f607a40771
 	golang.org/x/net v0.5.0
 	google.golang.org/grpc v1.52.3
 	google.golang.org/protobuf v1.28.1
@@ -74,7 +74,7 @@ require (
 require (
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/aws/aws-sdk-go v1.44.194 // indirect
+	github.com/aws/aws-sdk-go v1.44.195 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.22 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.28 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.22 // indirect
@@ -164,7 +164,7 @@ require (
 	github.com/tinylib/msgp v1.1.8 // indirect
 	github.com/tklauser/go-sysconf v0.3.11 // indirect
 	github.com/tklauser/numcpus v0.6.0 // indirect
-	github.com/twmb/franz-go v1.11.5 // indirect
+	github.com/twmb/franz-go v1.11.6 // indirect
 	github.com/twmb/franz-go/pkg/kmsg v1.3.0 // indirect
 	github.com/twmb/murmur3 v1.1.6 // indirect
 	github.com/uber-go/tally/v4 v4.1.5 // indirect
@@ -205,7 +205,7 @@ require (
 	golang.org/x/tools v0.5.0 // indirect
 	google.golang.org/genproto v0.0.0-20230202175211-008b39050e57 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
-	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
+	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gotest.tools/v3 v3.4.0 // indirect
 )
