@@ -19,3 +19,5 @@ coverage-ci
 tests/php_test_files/composer.lock
 **/.rr.yaml
 .vscode
+
+plugins/temporal/interceptor_test
