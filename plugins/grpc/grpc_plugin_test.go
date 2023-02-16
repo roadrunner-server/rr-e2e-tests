@@ -882,6 +882,7 @@ func TestGRPCMetrics(t *testing.T) {
 }
 
 func sendReset(t *testing.T) {
+	time.Sleep(time.Second)
 	conn, err := net.Dial("tcp", "127.0.0.1:6001")
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
