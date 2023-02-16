@@ -876,8 +876,8 @@ github.com/roadrunner-server/status/v4 v4.0.1 h1:3xRN6Kyh6tyYkJKV1VVTuIHEQFctTy+
 github.com/roadrunner-server/status/v4 v4.0.1/go.mod h1:GfyQGw30coNNO4nPmkx0cNI/sEIN0X0r3yLyLgR5vVk=
 github.com/roadrunner-server/tcp/v4 v4.0.1 h1:qCrb8LrfkMkWSxR/5mfYAGocO82oFhZKRQZ/BKSQxQM=
 github.com/roadrunner-server/tcp/v4 v4.0.1/go.mod h1:njvNgrR/90XzVFDxKtgodhFq+0hVsNBjkBIRP07sqA0=
-github.com/roadrunner-server/tcplisten v1.2.1 h1:9hVVMlCRvMPewnJCnfSe/kKAqn2ZOF3wHy+ji0M/NKU=
-github.com/roadrunner-server/tcplisten v1.2.1/go.mod h1:TRJLGwIruiJ7QhmGVRgJFY5Ch72mPoLhLAxuxLnavpU=
+github.com/roadrunner-server/tcplisten v1.3.0 h1:VDd6IbP8oIjm5vKvMVozeZgeHgOcoP0XYLOyOqcZHCY=
+github.com/roadrunner-server/tcplisten v1.3.0/go.mod h1:VR6Ob5am0oEuLMOeLiVvQxG9ShykAEgrlvZddX8EfoU=
 github.com/robfig/cron v1.2.0 h1:ZjScXvvxeQ63Dbyxy76Fj3AT3Ut0aKsyd2/tl3DTMuQ=
 github.com/robfig/cron v1.2.0/go.mod h1:JGuDeoQd7Z6yL4zQhZ3OPEVHB7fL6Ka6skscFHfmt2k=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
@@ -935,8 +935,8 @@ github.com/stretchr/testify v1.8.1 h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKs
 github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/subosito/gotenv v1.4.2 h1:X1TuBLAMDFbaTAChgCBLu3DU3UPyELpnF2jjJ2cz/S8=
 github.com/subosito/gotenv v1.4.2/go.mod h1:ayKnFf/c6rvx/2iiLrJUk1e6plDbT3edrFNGqEflhK0=
-github.com/temporalio/roadrunner-temporal/v4 v4.1.0 h1:ilS355zImrQ10yIhpaGusJIpZBuqo9o5bJmzjI7AiCg=
-github.com/temporalio/roadrunner-temporal/v4 v4.1.0/go.mod h1:0w8k6fQakvmZZJ92L5uuR67sBfi9pSCZ+54MU0OJ3+Q=
+github.com/temporalio/roadrunner-temporal/v4 v4.1.1 h1:c9PMKYIDD0VpxWOk/8zOG1f+r22pLwbbu/1k2CSIrj0=
+github.com/temporalio/roadrunner-temporal/v4 v4.1.1/go.mod h1:Oel4gAUANw63Jz83FDW1n78+L5Cgks+ykCMd3y7SrzU=
 github.com/tinylib/msgp v1.1.6/go.mod h1:75BAfg2hauQhs3qedfdDZmWAPcFMAvJE5b9rGOMufyw=
 github.com/tinylib/msgp v1.1.8 h1:FCXC1xanKO4I8plpHGH2P7koL/RzZs12l/+r7vakfm0=
 github.com/tinylib/msgp v1.1.8/go.mod h1:qkpG+2ldGg4xRFmx+jfTvZPxfGFhi64BcnL9vkCm/Tw=

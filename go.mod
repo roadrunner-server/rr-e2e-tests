@@ -60,7 +60,7 @@ require (
 	github.com/roadrunner-server/status/v4 v4.0.1
 	github.com/roadrunner-server/tcp/v4 v4.0.1
 	github.com/stretchr/testify v1.8.1
-	github.com/temporalio/roadrunner-temporal/v4 v4.1.0
+	github.com/temporalio/roadrunner-temporal/v4 v4.1.1
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.31
 	go.temporal.io/api v1.17.0
@@ -148,7 +148,7 @@ require (
 	github.com/prometheus/procfs v0.9.0 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
 	github.com/roadrunner-server/api/v3 v3.2.1 // indirect
-	github.com/roadrunner-server/tcplisten v1.2.1 // indirect
+	github.com/roadrunner-server/tcplisten v1.3.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/savsgio/dictpool v0.0.0-20221023140959-7bf2e61cea94 // indirect
 	github.com/savsgio/gotils v0.0.0-20230208104028-c358bd845dee // indirect
