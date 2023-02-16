@@ -219,33 +219,10 @@ func TestAppPipesException(t *testing.T) {
 	err = container.Init()
 	require.NoError(t, err)
 
-	errCh, err := container.Serve()
-	require.NoError(t, err)
-
-	// stop by CTRL+C
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-errCh:
-				assert.Error(t, e.Error)
-				assert.Contains(t, e.Error.Error(), "validation failed on the message sent to STDOUT, see: https://roadrunner.dev/docs/known-issues-stdout-crc/2.x/en, invalid message: warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error")
-				return
-			case <-c:
-				er := container.Stop()
-				assert.NoError(t, er)
-				return
-			}
-		}
-	}()
-
-	wg.Wait()
+	_, err = container.Serve()
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "validation failed on the message sent to STDOUT, see: https://roadrunner.dev/docs/known-issues-stdout-crc/2.x/en, invalid message: warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error")
+	_ = container.Stop()
 }
 
 func TestAppTCPOnInit(t *testing.T) {
