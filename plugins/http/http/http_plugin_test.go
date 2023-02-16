@@ -1578,43 +1578,9 @@ func TestHttpBrokenPipes(t *testing.T) {
 	err = cont.Init()
 	assert.NoError(t, err)
 
-	ch, err := cont.Serve()
-	assert.NoError(t, err)
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	stopCh := make(chan struct{}, 1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			// should be error from the plugin
-			case e := <-ch:
-				assert.Error(t, e.Error)
-				return
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	wg.Wait()
+	_, err = cont.Serve()
+	assert.Error(t, err)
+	_ = cont.Stop()
 }
 
 func TestHTTPSupervisedPool(t *testing.T) {

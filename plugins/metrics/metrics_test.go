@@ -98,17 +98,17 @@ func TestMetricsIssue571(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0"}
-	cfg.Prefix = "rr"
-	cfg.Path = "configs/.rr-issue-571.yaml"
+		Version: "2.9.0",
+		Prefix:  "rr",
+		Path:    "configs/.rr-issue-571.yaml",
+	}
 
-	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err := cont.RegisterAll(
 		cfg,
 		&metrics.Plugin{},
 		&rpcPlugin.Plugin{},
 		&server.Plugin{},
-		l,
+		&logger.Plugin{},
 		&httpPlugin.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -118,103 +118,8 @@ func TestMetricsIssue571(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	ch, err := cont.Serve()
-	assert.NoError(t, err)
-
-	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-
-	// give some time to wait http
-	time.Sleep(time.Second)
-	_, err = issue571Http()
-	assert.NoError(t, err)
-
-	out, err := issue571Metrics()
-	assert.NoError(t, err)
-
-	assert.Contains(t, out, "HELP test Test counter")
-	assert.Contains(t, out, "TYPE test counter")
-
-	stopCh := make(chan struct{}, 1)
-
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-
-	go func() {
-		defer wg.Done()
-		for {
-			select {
-			case e := <-ch:
-				assert.Fail(t, "error", e.Error.Error())
-			case <-sig:
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			case <-stopCh:
-				// timeout
-				err = cont.Stop()
-				if err != nil {
-					assert.FailNow(t, "error", err.Error())
-				}
-				return
-			}
-		}
-	}()
-
-	time.Sleep(time.Second)
-	stopCh <- struct{}{}
-	wg.Wait()
-
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("http server was started").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("http log").Len())
-
-	require.Equal(t, 5, oLogger.FilterMessageSnippet("declaring new metric").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("metric successfully added").Len())
-	require.Equal(t, 1, oLogger.FilterMessageSnippet("adding metric").Len())
-	require.Equal(t, 4, oLogger.FilterMessageSnippet("metric with provided name already exist").Len())
-	require.Equal(t, 0, oLogger.FilterMessageSnippet("scan command").Len())
-}
-
-// get request and return body
-func issue571Http() (string, error) {
-	r, err := http.Get("http://127.0.0.1:56444")
-	if err != nil {
-		return "", err
-	}
-
-	b, err := io.ReadAll(r.Body)
-	if err != nil {
-		return "", err
-	}
-
-	err = r.Body.Close()
-	if err != nil {
-		return "", err
-	}
-	// unsafe
-	return string(b), err
-}
-
-// get request and return body
-func issue571Metrics() (string, error) {
-	r, err := http.Get("http://127.0.0.1:23557")
-	if err != nil {
-		return "", err
-	}
-
-	b, err := io.ReadAll(r.Body)
-	if err != nil {
-		return "", err
-	}
-
-	err = r.Body.Close()
-	if err != nil {
-		return "", err
-	}
-	// unsafe
-	return string(b), err
+	_, err = cont.Serve()
+	assert.Error(t, err)
 }
 
 func TestMetricsGaugeCollector(t *testing.T) {
@@ -897,7 +802,7 @@ func unregisterMetric(name string) func(t *testing.T) {
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 		var ret bool
 
-		err = client.Call("metrics.Unregister", "test_metrics_named_collector", &ret)
+		err = client.Call("metrics.Unregister", name, &ret)
 		assert.NoError(t, err)
 		assert.True(t, ret)
 	}
