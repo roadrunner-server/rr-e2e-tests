@@ -1,0 +1,14 @@
+{
+  "minimum-stability": "beta",
+  "require": {
+    "temporal/sdk": "dev-feature/undefined-responce-command",
+    "spiral/tokenizer": ">=2.7",
+    "symfony/var-dumper": "^6.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Temporal\\Samples\\": "src",
+      "Temporal\\SampleUtils\\": "util-src"
+    }
+  }
+}
