@@ -12,6 +12,9 @@ rr serve
 php app.php child
 ```
 
+> **Note**
+> The first two runs will be OK. Worker will be selfkilled each 3rd ChildWorkflow run.
+
 ## Preparing
 
 ### Install latest composer dependencies
