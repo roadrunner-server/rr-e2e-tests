@@ -494,7 +494,7 @@ func TestSQSDeclare(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe("default"))
+	t.Run("DeclarePipeline", declareSQSPipe("default", "test-3", "127.0.0.1:6001"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
@@ -575,7 +575,7 @@ func TestSQSJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe("default"))
+	t.Run("DeclarePipeline", declareSQSPipe("default", "test-3", "127.0.0.1:6001"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 25)
@@ -625,7 +625,7 @@ func TestSQSStat(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-sqs-declare.yaml",
+		Path:    "configs/.rr-sqs-stat.yaml",
 		Prefix:  "rr",
 	}
 
@@ -688,36 +688,40 @@ func TestSQSStat(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe("default-stat"))
-	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
+	address := "127.0.0.1:6010"
+	pipe := "default-stat"
+	queue := "test-stat-sqs"
+
+	t.Run("DeclarePipeline", declareSQSPipe(queue, address, pipe))
+	t.Run("ConsumePipeline", helpers.ResumePipes(address, pipe))
+	t.Run("PushPipeline", helpers.PushToPipe(pipe, false, address))
 	time.Sleep(time.Second)
-	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
+	t.Run("PausePipeline", helpers.PausePipelines(address, pipe))
 	time.Sleep(time.Second)
 
-	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed("127.0.0.1:6001", "test-3", 5))
-	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
+	t.Run("PushPipelineDelayed", helpers.PushToPipeDelayed(address, pipe, 5))
+	t.Run("PushPipeline", helpers.PushToPipe(pipe, false, address))
 	time.Sleep(time.Second)
 
 	out := &jobState.State{}
-	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
+	t.Run("Stats", helpers.Stats(address, out))
 
-	assert.Equal(t, out.Pipeline, "test-3")
+	assert.Equal(t, out.Pipeline, pipe)
 	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
+	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/test-stat-sqs")
 
 	time.Sleep(time.Second)
-	t.Run("ResumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
+	t.Run("ResumePipeline", helpers.ResumePipes(address, pipe))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
-	t.Run("Stats", helpers.Stats("127.0.0.1:6001", out))
+	t.Run("Stats", helpers.Stats(address, out))
 
-	assert.Equal(t, out.Pipeline, "test-3")
+	assert.Equal(t, out.Pipeline, pipe)
 	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/default-stat")
+	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/test-stat-sqs")
 
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines(address, pipe))
 
 	time.Sleep(time.Second * 5)
 	stopCh <- struct{}{}
@@ -834,15 +838,15 @@ func TestSQSRawPayload(t *testing.T) {
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 }
 
-func declareSQSPipe(queue string) func(t *testing.T) {
+func declareSQSPipe(queue string, address string, pipeline string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		assert.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
 			"driver":             "sqs",
-			"name":               "test-3",
+			"name":               pipeline,
 			"queue":              queue,
 			"prefetch":           "10",
 			"priority":           "3",
