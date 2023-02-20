@@ -455,7 +455,7 @@ func TestGrpcRqRsTLS_WithResetGzip(t *testing.T) {
 	require.Equal(t, "TOST", resp.Msg)
 
 	// reset
-	t.Run("SendReset", sendReset)
+	t.Run("SendReset", sendReset("127.0.0.1:6009"))
 
 	resp2, err2 := client.Ping(context.Background(), &service.Message{Msg: "TOST"})
 	require.NoError(t, err2)

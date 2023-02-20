@@ -771,7 +771,7 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 		MinVersion:   tls.VersionTLS12,
 	}
 
-	conn, err := grpc.Dial("localhost:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)))
+	conn, err := grpc.Dial("127.0.0.1:9002", grpc.WithTransportCredentials(credentials.NewTLS(tlscfg)))
 	require.NoError(t, err)
 	require.NotNil(t, conn)
 
@@ -781,7 +781,7 @@ func TestGrpcRqRsTLS_WithReset(t *testing.T) {
 	require.Equal(t, "TOST", resp.Msg)
 
 	// reset
-	t.Run("SendReset", sendReset)
+	t.Run("SendReset", sendReset("127.0.0.1:6009"))
 
 	resp2, err2 := client.Ping(context.Background(), &service.Message{Msg: "TOST"})
 	require.NoError(t, err2)
@@ -881,23 +881,25 @@ func TestGRPCMetrics(t *testing.T) {
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("method was called successfully").Len())
 }
 
-func sendReset(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	assert.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-	// WorkerList contains list of workers.
+func sendReset(address string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", address)
+		assert.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+		// WorkerList contains list of workers.
 
-	var ret bool
-	err = client.Call("resetter.Reset", "grpc", &ret)
-	assert.NoError(t, err)
-	assert.True(t, ret)
-	ret = false
+		var ret bool
+		err = client.Call("resetter.Reset", "grpc", &ret)
+		assert.NoError(t, err)
+		assert.True(t, ret)
+		ret = false
 
-	var services []string
-	err = client.Call("resetter.List", nil, &services)
-	assert.NotNil(t, services)
-	assert.NoError(t, err)
-	require.Equal(t, []string{"grpc"}, services)
+		var services []string
+		err = client.Call("resetter.List", nil, &services)
+		assert.NotNil(t, services)
+		assert.NoError(t, err)
+		require.Equal(t, []string{"grpc"}, services)
+	}
 }
 
 // get request and return body
