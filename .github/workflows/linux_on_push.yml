@@ -56,7 +56,7 @@ jobs:
           docker-compose -f env/docker-compose-temporal.yaml up -d --remove-orphans
           mkdir ./coverage-ci
           sleep 30
-          go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
+          go test -v -race -cover -tags=debug -coverpkg=$(cat pkgs.txt) -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
 
 
       - name: Archive code coverage results
@@ -121,7 +121,7 @@ jobs:
           docker-compose -f env/temporal_tls/docker-compose.yml up -d --remove-orphans
           mkdir ./coverage-ci
           sleep 30
-          go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal_tls.out -covermode=atomic ./plugins/temporal/tls
+          go test -v -race -cover -tags=debug -coverpkg=$(cat pkgs.txt) -failfast -coverprofile=./coverage-ci/temporal_tls.out -covermode=atomic ./plugins/temporal/tls
 
 
       - name: Archive code coverage results
@@ -186,7 +186,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
+          go test -v -race -cover -tags=debug -coverpkg=$(cat pkgs.txt) -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -233,7 +233,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service_unit.out -covermode=atomic ./...
+          go test -v -race -cover -tags=debug -coverpkg=$(cat pkgs.txt) -failfast -coverprofile=./coverage-ci/service_unit.out -covermode=atomic ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -280,7 +280,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/http_unit.out -covermode=atomic ./...
+          go test -v -race -cover -tags=debug -coverpkg=$(cat pkgs.txt) -failfast -coverprofile=./coverage-ci/http_unit.out -covermode=atomic ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -327,7 +327,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/proxy_ip.out -covermode=atomic ./...
+          go test -v -race -cover -tags=debug -coverpkg=$(cat pkgs.txt) -failfast -coverprofile=./coverage-ci/proxy_ip.out -covermode=atomic ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -388,7 +388,7 @@ jobs:
           docker compose -f env/docker-compose-kafka.yaml up -d
           sleep 30
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/kafka.out -covermode=atomic ./plugins/jobs/kafka
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/kafka.out -covermode=atomic ./plugins/jobs/kafka
           docker compose -f env/docker-compose-kafka.yaml down
 
       - name: Archive code coverage results
@@ -450,7 +450,7 @@ jobs:
           docker compose -f env/docker-compose-amqp.yaml up -d
           sleep 30
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
           docker compose -f env/docker-compose-amqp.yaml down
 
       - name: Archive code coverage results
@@ -513,7 +513,7 @@ jobs:
           docker run -d -p 127.0.0.1:11300:11300 beanstalk
           sleep 10
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/beanstalk.out -covermode=atomic ./plugins/jobs/beanstalk
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/beanstalk.out -covermode=atomic ./plugins/jobs/beanstalk
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -572,7 +572,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/boltdb.out -covermode=atomic ./plugins/jobs/boltdb
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/boltdb.out -covermode=atomic ./plugins/jobs/boltdb
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -640,7 +640,7 @@ jobs:
           docker-compose -f env/docker-compose.yaml up -d --remove-orphans
           sleep 30
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/durability.out -covermode=atomic ./plugins/jobs/durability
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/durability.out -covermode=atomic ./plugins/jobs/durability
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -701,7 +701,7 @@ jobs:
           docker-compose -f env/docker-compose.yaml up -d --remove-orphans
           sleep 30
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/general.out -covermode=atomic ./plugins/jobs/general
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/general.out -covermode=atomic ./plugins/jobs/general
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -760,7 +760,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/memory.out -covermode=atomic ./plugins/jobs/memory
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/memory.out -covermode=atomic ./plugins/jobs/memory
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -821,7 +821,7 @@ jobs:
           docker-compose -f env/docker-compose.yaml up -d --remove-orphans
           sleep 30
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/nats.out -covermode=atomic ./plugins/jobs/nats
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/nats.out -covermode=atomic ./plugins/jobs/nats
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -887,7 +887,7 @@ jobs:
 
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/sqs.out -covermode=atomic ./plugins/jobs/sqs
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/sqs.out -covermode=atomic ./plugins/jobs/sqs
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -948,7 +948,7 @@ jobs:
           docker-compose -f env/docker-compose-kv.yaml up -d --remove-orphans
           sleep 15
           mkdir ./coverage-ci
-          go test -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/kv.out -covermode=atomic ./plugins/kv
+          go test -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/kv.out -covermode=atomic ./plugins/kv
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1007,7 +1007,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/reload.out -covermode=atomic ./plugins/reload
+          go test -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/reload.out -covermode=atomic ./plugins/reload
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1066,7 +1066,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/tcp.out -covermode=atomic ./plugins/tcp
+          go test -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/tcp.out -covermode=atomic ./plugins/tcp
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1137,11 +1137,11 @@ jobs:
           mkdir ./coverage-ci
           docker run --rm -d -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp -p5778:5778/tcp jaegertracing/jaeger-agent:1.6
           sleep 10
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/attributes.out -covermode=atomic ./plugins/http/attributes
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/handler.out -covermode=atomic ./plugins/http/handler
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http/http
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/otlp.out -covermode=atomic ./plugins/http/otlp
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/uploads.out -covermode=atomic ./plugins/http/uploads
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/attributes.out -covermode=atomic ./plugins/http/attributes
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/handler.out -covermode=atomic ./plugins/http/handler
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/http.out -covermode=atomic ./plugins/http/http
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/otlp.out -covermode=atomic ./plugins/http/otlp
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/uploads.out -covermode=atomic ./plugins/http/uploads
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1221,7 +1221,7 @@ jobs:
           cp -r localhost+2-client-key.pem localhost+2-client.pem localhost+2-key.pem localhost+2.pem test-certs/
           cp -r $(mkcert -CAROOT)/rootCA.pem test-certs/
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/grpc.out -covermode=atomic ./plugins/grpc
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/grpc.out -covermode=atomic ./plugins/grpc
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1267,9 +1267,9 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/grpc-unit.out -covermode=atomic ./...
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/grpc-unit.out -covermode=atomic ./...
           cd protoc_plugins
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=../coverage-ci/grpc-unit_2.out -covermode=atomic ./...
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=../coverage-ci/grpc-unit_2.out -covermode=atomic ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1328,7 +1328,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/informer.out -covermode=atomic ./plugins/informer
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/informer.out -covermode=atomic ./plugins/informer
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1387,7 +1387,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/server.out -covermode=atomic ./plugins/server
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/server.out -covermode=atomic ./plugins/server
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1453,7 +1453,7 @@ jobs:
 
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/status.out -covermode=atomic ./plugins/status
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/status.out -covermode=atomic ./plugins/status
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1493,7 +1493,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/config_unit.out -covermode=atomic ./...
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/config_unit.out -covermode=atomic ./...
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1554,7 +1554,7 @@ jobs:
           docker-compose -f env/docker-compose-jobs.yaml up -d --remove-orphans
           sleep 30
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/config.out -covermode=atomic ./plugins/config
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/config.out -covermode=atomic ./plugins/config
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1620,7 +1620,7 @@ jobs:
 
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/gzip.out -covermode=atomic ./plugins/gzip
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/gzip.out -covermode=atomic ./plugins/gzip
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1679,7 +1679,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/headers.out -covermode=atomic ./plugins/headers
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/headers.out -covermode=atomic ./plugins/headers
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1745,7 +1745,7 @@ jobs:
 
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/logger.out -covermode=atomic ./plugins/logger
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/logger.out -covermode=atomic ./plugins/logger
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1804,7 +1804,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/metrics.out -covermode=atomic ./plugins/metrics
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/metrics.out -covermode=atomic ./plugins/metrics
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1863,7 +1863,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/resetter.out -covermode=atomic ./plugins/resetter
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/resetter.out -covermode=atomic ./plugins/resetter
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1929,7 +1929,7 @@ jobs:
 
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/rpc.out -covermode=atomic ./plugins/rpc
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/rpc.out -covermode=atomic ./plugins/rpc
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
@@ -1988,7 +1988,7 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           mkdir ./coverage-ci
-          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=all -coverprofile=./coverage-ci/locks.out -covermode=atomic ./plugins/lock
+          go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/locks.out -covermode=atomic ./plugins/lock
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
