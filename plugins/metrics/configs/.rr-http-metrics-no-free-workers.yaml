@@ -16,7 +16,7 @@ http:
     num_workers: 1
 
 metrics:
-  address: 127.0.0.1:2113
+  address: 127.0.0.1:2116
 
 logs:
   mode: development
