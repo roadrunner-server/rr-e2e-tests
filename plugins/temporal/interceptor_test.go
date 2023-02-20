@@ -11,9 +11,6 @@ import (
 )
 
 func Test_CustomInterceptor(t *testing.T) {
-	// Clean workspace
-	os.Remove("./interceptor_test")
-
 	stopCh := make(chan struct{}, 1)
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
@@ -42,4 +39,8 @@ func Test_CustomInterceptor(t *testing.T) {
 	assert.Equal(t, "Completed", we.WorkflowExecutionInfo.Status.String())
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	t.Cleanup(func() {
+		_ = os.Remove("interceptor_test")
+	})
 }

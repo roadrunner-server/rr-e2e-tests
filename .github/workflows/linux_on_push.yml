@@ -1938,7 +1938,7 @@ jobs:
           path: ./coverage-ci/rpc.out
 
   locks_test:
-    name: Kafka plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
+    name: Lock test (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
