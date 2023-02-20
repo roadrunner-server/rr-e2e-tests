@@ -24,7 +24,6 @@ jobs:
   pipeline_size: 100000
   pool:
     num_workers: 10
-    max_jobs: 0
     allocate_timeout: 60s
     destroy_timeout: 2s
 
@@ -58,5 +57,6 @@ jobs:
           MessageRetentionPeriod: 86400
         tags:
           test: "tag"
+
   consume: [ "test-1", "test-2" ]
 
