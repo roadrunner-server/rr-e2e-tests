@@ -575,7 +575,7 @@ func TestSQSJobsError(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 
-	t.Run("DeclarePipeline", declareSQSPipe("default", "test-3", "127.0.0.1:6001"))
+	t.Run("DeclarePipeline", declareSQSPipe("default", "127.0.0.1:6001", "test-3"))
 	t.Run("ConsumePipeline", helpers.ResumePipes("127.0.0.1:6001", "test-3"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 25)
