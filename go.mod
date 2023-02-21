@@ -4,10 +4,10 @@ go 1.20
 
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
-	github.com/aws/aws-sdk-go-v2 v1.17.4
+	github.com/aws/aws-sdk-go-v2 v1.17.5
 	github.com/aws/aws-sdk-go-v2/config v1.18.13
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.13
-	github.com/aws/aws-sdk-go-v2/service/sqs v1.20.2
+	github.com/aws/aws-sdk-go-v2/service/sqs v1.20.3
 	github.com/beanstalkd/go-beanstalk v0.2.0
 	github.com/centrifugal/centrifuge-go v0.9.4
 	github.com/docker/docker v23.0.1+incompatible
@@ -77,8 +77,8 @@ require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/aws/aws-sdk-go v1.44.204 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.22 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.28 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.22 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.29 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.23 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.29 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.22 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.12.2 // indirect
