@@ -36,7 +36,7 @@ require (
 	github.com/roadrunner-server/http/v4 v4.0.4
 	github.com/roadrunner-server/informer/v4 v4.0.2
 	github.com/roadrunner-server/jobs/v4 v4.2.2
-	github.com/roadrunner-server/kafka/v4 v4.0.6
+	github.com/roadrunner-server/kafka/v4 v4.0.7
 	github.com/roadrunner-server/kv/v4 v4.1.2
 	github.com/roadrunner-server/lock/v4 v4.0.0-beta.1
 	github.com/roadrunner-server/logger/v4 v4.0.2
@@ -75,7 +75,7 @@ require (
 require (
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go v1.44.210 // indirect
+	github.com/aws/aws-sdk-go v1.44.214 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.23 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.29 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.23 // indirect

@@ -405,8 +405,8 @@ github.com/andybalholm/brotli v1.0.4/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHG
 github.com/andybalholm/brotli v1.0.5 h1:8uQZIdzKmjc/iuPu7O2ioW48L81FgatrcpfFmiq/cCs=
 github.com/andybalholm/brotli v1.0.5/go.mod h1:fO7iG3H7G2nSZ7m0zPUDn85XEX2GTukHGRSepvi9Eig=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
-github.com/aws/aws-sdk-go v1.44.210 h1:/cqRMHSSgzLEKILIDGwhaX2hiIpyRurw7MRy6aaSufg=
-github.com/aws/aws-sdk-go v1.44.210/go.mod h1:aVsgQcEevwlmQ7qHE9I3h+dtQgpqhFB+i8Phjh7fkwI=
+github.com/aws/aws-sdk-go v1.44.214 h1:YzDuC+9UtrAOUkItlK7l3BvKI9o6qAog9X8i289HORc=
+github.com/aws/aws-sdk-go v1.44.214/go.mod h1:aVsgQcEevwlmQ7qHE9I3h+dtQgpqhFB+i8Phjh7fkwI=
 github.com/aws/aws-sdk-go-v2 v1.17.5 h1:TzCUW1Nq4H8Xscph5M/skINUitxM5UBAyvm2s7XBzL4=
 github.com/aws/aws-sdk-go-v2 v1.17.5/go.mod h1:uzbQtefpm44goOPmdKyAlXSNcwlRgF3ePWVW6EtJvvw=
 github.com/aws/aws-sdk-go-v2/config v1.18.15 h1:509yMO0pJUGUugBP2H9FOFyV+7Mz7sRR+snfDN5W4NY=
@@ -836,8 +836,8 @@ github.com/roadrunner-server/informer/v4 v4.0.2 h1:LHDirDWayHgpymzKOdEU4rySHEE7t
 github.com/roadrunner-server/informer/v4 v4.0.2/go.mod h1:NSjaNqz5IsE577Nzfh+RJt9eTHSn7yXKHGFP/sGfiDo=
 github.com/roadrunner-server/jobs/v4 v4.2.2 h1:jwvL6KfdINx7HlgryJi5MfbEwTnPjvDD19u/Gz3Bpi8=
 github.com/roadrunner-server/jobs/v4 v4.2.2/go.mod h1:TQ+Jsi+aJcQNpitQXBAEMLcwKB0tbjs1vwNqzyVq5zI=
-github.com/roadrunner-server/kafka/v4 v4.0.6 h1:8ylwt/rA+rLJ4H87vInpkjiGxclb6faampjgexjlwkQ=
-github.com/roadrunner-server/kafka/v4 v4.0.6/go.mod h1:3EufD3epDbUCJb7ROc73jkFKgkGXioi7OhzLUPHyW50=
+github.com/roadrunner-server/kafka/v4 v4.0.7 h1:pRvPjArLkshBgSB47KspT5yREp0yBCDEijXW0vu24u4=
+github.com/roadrunner-server/kafka/v4 v4.0.7/go.mod h1:b5puQAabQdp7JTJKc59GTN8KzxrbxB6SjMXo12kgZpY=
 github.com/roadrunner-server/kv/v4 v4.1.2 h1:1gMnBTk5txR2fXROLOsAn9qeskaz2Gm8wFgUsVzrYTs=
 github.com/roadrunner-server/kv/v4 v4.1.2/go.mod h1:fTQDKK07J0HTyfgsChZbmbT4OaoWIBh4OW19uoYw4c4=
 github.com/roadrunner-server/lock/v4 v4.0.0-beta.1 h1:b0QEmI8NW2OyZOtzIZEOoFTEwkBNhcurkca38ROso5I=
