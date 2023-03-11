@@ -2,10 +2,13 @@ package sqs
 
 import (
 	"context"
+	"io"
 	"net"
+	"net/http"
 	"net/rpc"
 	"os"
 	"os/signal"
+	"sort"
 	"sync"
 	"syscall"
 	"testing"
@@ -17,6 +20,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
+	"github.com/goccy/go-json"
 	jobState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
@@ -24,6 +28,7 @@ import (
 	"github.com/roadrunner-server/informer/v4"
 	"github.com/roadrunner-server/jobs/v4"
 	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/otel/v4"
 	"github.com/roadrunner-server/resetter/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
@@ -884,6 +889,112 @@ func declareSQSPipeFifo(queue string) func(t *testing.T) {
 		err = client.Call("jobs.Declare", pipe, er)
 		assert.NoError(t, err)
 	}
+}
+
+func TestSQSOTEL(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "v2023.1.0",
+		Path:    "configs/.rr-sqs-otel.yaml",
+		Prefix:  "rr",
+	}
+
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&otel.Plugin{},
+		&logger.Plugin{},
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&sqsPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	time.Sleep(time.Second * 2)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1"))
+	time.Sleep(time.Second)
+
+	resp, err := http.Get("http://127.0.0.1:9411/api/v2/spans?serviceName=rr_test_sqs")
+	assert.NoError(t, err)
+
+	buf, err := io.ReadAll(resp.Body)
+	assert.NoError(t, err)
+
+	var spans []string
+	err = json.Unmarshal(buf, &spans)
+	assert.NoError(t, err)
+
+	sort.Slice(spans, func(i, j int) bool {
+		return spans[i] < spans[j]
+	})
+
+	expected := []string{
+		"destroy_pipeline",
+		"jobs_listener",
+		"push",
+		"sqs_listener",
+		"sqs_push",
+		"sqs_stop",
+	}
+	assert.Equal(t, expected, spans)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	t.Cleanup(func() {
+		_ = resp.Body.Close()
+	})
 }
 
 func getQueueURL(client *sqs.Client, queueName string) (*string, error) {

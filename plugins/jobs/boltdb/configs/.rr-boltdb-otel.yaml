@@ -1,0 +1,43 @@
+version: '2.7'
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+server:
+  command: "php ../../../php_test_files/jobs/jobs_ok.php"
+  relay: "pipes"
+  relay_timeout: "20s"
+
+logs:
+  level: debug
+  encoding: console
+  mode: development
+
+otel:
+  insecure: true
+  compress: false
+  client: http
+  exporter: zipkin
+  service_name: "rr_test_boltdb"
+  service_version: "1.0.0"
+  endpoint: "http://127.0.0.1:9411/api/v2/spans"
+
+jobs:
+  num_pollers: 1
+  pipeline_size: 100000
+  pool:
+    num_workers: 10
+    allocate_timeout: 60s
+    destroy_timeout: 60s
+
+  pipelines:
+    test-1:
+      driver: boltdb
+      config:
+        prefetch: 100
+        file: "rr-otel.db"
+        priority: 1
+
+
+  consume: [ "test-1" ]
+

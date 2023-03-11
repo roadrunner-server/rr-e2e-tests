@@ -1,16 +1,20 @@
 package beanstalk
 
 import (
+	"io"
 	"net"
+	"net/http"
 	"net/rpc"
 	"os"
 	"os/signal"
+	"sort"
 	"sync"
 	"syscall"
 	"testing"
 	"time"
 
 	"github.com/beanstalkd/go-beanstalk"
+	"github.com/goccy/go-json"
 	"github.com/google/uuid"
 	jobState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
 	beanstalkPlugin "github.com/roadrunner-server/beanstalk/v4"
@@ -20,6 +24,7 @@ import (
 	"github.com/roadrunner-server/informer/v4"
 	"github.com/roadrunner-server/jobs/v4"
 	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/otel/v4"
 	"github.com/roadrunner-server/resetter/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
@@ -104,6 +109,10 @@ func TestBeanstalkInit(t *testing.T) {
 	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:7002"))
 	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:7002"))
 
+	time.Sleep(time.Second)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:7002", "test-1", "test-2"))
+
 	stopCh <- struct{}{}
 	wg.Wait()
 
@@ -185,7 +194,7 @@ func TestBeanstalkInitAutoAck(t *testing.T) {
 	t.Run("PushPipeline", helpers.PushToPipe("test-2", true, "127.0.0.1:7002"))
 
 	time.Sleep(time.Second)
-	helpers.DestroyPipelines("127.0.0.1:7002", "test-1", "test-2")
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:7002", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -269,7 +278,7 @@ func TestBeanstalkInitV27(t *testing.T) {
 	t.Run("PushPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:7004"))
 
 	time.Sleep(time.Second)
-	helpers.DestroyPipelines("127.0.0.1:7004", "test-1", "test-2")
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:7004", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -665,7 +674,7 @@ func TestBeanstalkRaw(t *testing.T) {
 	require.NoError(t, err)
 
 	time.Sleep(time.Second * 5)
-	helpers.DestroyPipelines("127.0.0.1:7006", "test-raw")
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:7006", "test-raw"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -755,8 +764,7 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 	t.Run("PushPipeline", helpers.PushToPipe("test-init-br-2", false, "127.0.0.1:7003"))
 
 	time.Sleep(time.Second)
-
-	helpers.DestroyPipelines("127.0.0.1:7003", "test-init-br-1", "test-init-br-2")
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:7003", "test-init-br-1", "test-init-br-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -765,6 +773,117 @@ func TestBeanstalkInitV27BadResp(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("response handler error").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("beanstalk listener stopped").Len())
+}
+
+func TestBeanstalkOTEL(t *testing.T) {
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
+
+	cfg := &config.Plugin{
+		Version: "2023.1.0",
+		Path:    "configs/.rr-beanstalk-otel.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+		&otel.Plugin{},
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&beanstalkPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:7002"))
+	time.Sleep(time.Second * 2)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:7002", "test-1"))
+	time.Sleep(time.Second * 2)
+
+	resp, err := http.Get("http://127.0.0.1:9411/api/v2/spans?serviceName=rr_test_beanstalk")
+	assert.NoError(t, err)
+
+	buf, err := io.ReadAll(resp.Body)
+	assert.NoError(t, err)
+
+	var spans []string
+	err = json.Unmarshal(buf, &spans)
+	assert.NoError(t, err)
+
+	sort.Slice(spans, func(i, j int) bool {
+		return spans[i] < spans[j]
+	})
+
+	expected := []string{
+		"beanstalk_listener",
+		"beanstalk_push",
+		"beanstalk_stop",
+		"destroy_pipeline",
+		"jobs_listener",
+		"push",
+	}
+	assert.Equal(t, expected, spans)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("beanstalk listener stopped").Len())
+
+	t.Cleanup(func() {
+		_ = resp.Body.Close()
+	})
 }
 
 func declareBeanstalkPipe(address string) func(t *testing.T) {

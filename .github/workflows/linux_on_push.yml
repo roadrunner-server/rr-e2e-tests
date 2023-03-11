@@ -1,6 +1,6 @@
 name: linux_on_push
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   temporal_test:
@@ -387,6 +387,8 @@ jobs:
         run: |
           docker compose -f env/docker-compose-kafka.yaml up -d
           sleep 30
+          docker compose -f env/docker-compose-http.yaml up -d
+          sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/kafka.out -covermode=atomic ./plugins/jobs/kafka
           docker compose -f env/docker-compose-kafka.yaml down
@@ -449,6 +451,9 @@ jobs:
         run: |
           docker compose -f env/docker-compose-amqp.yaml up -d
           sleep 30
+          docker compose -f env/docker-compose-http.yaml up -d
+          sleep 30
+          
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
           docker compose -f env/docker-compose-amqp.yaml down
@@ -512,6 +517,8 @@ jobs:
           docker build -t beanstalk -f env/Dockerfile-beanstalkd.yaml .
           docker run -d -p 127.0.0.1:11300:11300 beanstalk
           sleep 10
+          docker compose -f env/docker-compose-http.yaml up -d
+          sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/beanstalk.out -covermode=atomic ./plugins/jobs/beanstalk
 
@@ -571,6 +578,8 @@ jobs:
 
       - name: Run golang tests with coverage
         run: |
+          docker compose -f env/docker-compose-http.yaml up -d
+          sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/boltdb.out -covermode=atomic ./plugins/jobs/boltdb
 
@@ -883,6 +892,8 @@ jobs:
         run: |
           docker-compose -f env/docker-compose.yaml up -d --remove-orphans
           sleep 30
+          docker compose -f env/docker-compose-http.yaml up -d
+          sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/durability_sqs.out -covermode=atomic ./plugins/jobs/durability/sqs
 
@@ -1003,6 +1014,8 @@ jobs:
 
       - name: Run golang tests with coverage
         run: |
+          docker compose -f env/docker-compose-http.yaml up -d
+          sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/memory.out -covermode=atomic ./plugins/jobs/memory
 
@@ -1063,6 +1076,8 @@ jobs:
       - name: Run golang tests with coverage
         run: |
           docker-compose -f env/docker-compose.yaml up -d --remove-orphans
+          sleep 30
+          docker compose -f env/docker-compose-http.yaml up -d
           sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/nats.out -covermode=atomic ./plugins/jobs/nats
@@ -1397,6 +1412,7 @@ jobs:
             ./coverage-ci/http.out
             ./coverage-ci/otlp.out
             ./coverage-ci/uploads.out
+
 
   grpc_test:
     name: grpc plugin (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})

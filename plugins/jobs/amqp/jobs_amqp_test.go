@@ -2,15 +2,19 @@ package amqp
 
 import (
 	"context"
+	"io"
 	"net"
+	"net/http"
 	"net/rpc"
 	"os"
 	"os/signal"
+	"sort"
 	"sync"
 	"syscall"
 	"testing"
 	"time"
 
+	"github.com/goccy/go-json"
 	amqp "github.com/rabbitmq/amqp091-go"
 	amqpDriver "github.com/roadrunner-server/amqp/v4"
 	jobsState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
@@ -21,6 +25,7 @@ import (
 	"github.com/roadrunner-server/jobs/v4"
 	"github.com/roadrunner-server/logger/v4"
 	"github.com/roadrunner-server/metrics/v4"
+	"github.com/roadrunner-server/otel/v4"
 	"github.com/roadrunner-server/resetter/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
@@ -104,7 +109,7 @@ func TestAMQPHeaders(t *testing.T) {
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	helpers.DestroyPipelines("test-1", "test-2")
+	t.Run("PipelineDestroy", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -277,7 +282,7 @@ func TestAMQPInit(t *testing.T) {
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	helpers.DestroyPipelines("test-1", "test-2")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -360,7 +365,7 @@ func TestAMQPInitV27(t *testing.T) {
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -444,7 +449,7 @@ func TestAMQPRoutingQueue(t *testing.T) {
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
 
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -527,7 +532,7 @@ func TestAMQPInitV27RR27(t *testing.T) {
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -610,7 +615,7 @@ func TestAMQPInitV27RR27Durable(t *testing.T) {
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -698,7 +703,7 @@ func TestAMQPReset(t *testing.T) {
 	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
 
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1201,7 +1206,7 @@ func TestAMQPBadResp(t *testing.T) {
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	t.Run("PushToPipeline", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1291,7 +1296,7 @@ func TestAMQPSlow(t *testing.T) {
 		t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
 	}
 	time.Sleep(time.Second * 80)
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-1")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1385,7 +1390,7 @@ func TestAMQPSlowAutoAck(t *testing.T) {
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
 	t.Run("PushToPipeline", helpers.PushToPipe("test-1", true, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 80)
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-1")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1521,7 +1526,7 @@ func TestAMQPRawPayload(t *testing.T) {
 
 	time.Sleep(time.Second * 10)
 
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-raw")
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-raw"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -1531,6 +1536,118 @@ func TestAMQPRawPayload(t *testing.T) {
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+}
+
+func TestAMQPOTEL(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2023.1.0",
+		Path:    "configs/.rr-amqp-otel.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		&otel.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&amqpDriver.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	t.Run("PushToPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6100"))
+	time.Sleep(time.Second)
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6100", "test-1"))
+	time.Sleep(time.Second)
+
+	resp, err := http.Get("http://127.0.0.1:9411/api/v2/spans?serviceName=rr_test_amqp")
+	assert.NoError(t, err)
+
+	buf, err := io.ReadAll(resp.Body)
+	assert.NoError(t, err)
+
+	var spans []string
+	err = json.Unmarshal(buf, &spans)
+	assert.NoError(t, err)
+
+	sort.Slice(spans, func(i, j int) bool {
+		return spans[i] < spans[j]
+	})
+
+	expected := []string{
+		"amqp_listener",
+		"amqp_push",
+		"amqp_stop",
+		"destroy_pipeline",
+		"jobs_listener",
+		"push",
+	}
+	assert.Equal(t, expected, spans)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+
+	t.Cleanup(func() {
+		_ = resp.Body.Close()
+	})
 }
 
 func declareAMQPPipe(queue, routingKey, name, headers, exclusive, durable string) func(t *testing.T) {

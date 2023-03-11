@@ -1,0 +1,50 @@
+version: '2.7'
+
+rpc:
+  listen: tcp://127.0.0.1:7002
+
+server:
+  command: "php ../../../php_test_files/jobs/jobs_ok.php"
+  relay: "pipes"
+  relay_timeout: "20s"
+
+beanstalk:
+  addr: tcp://127.0.0.1:11300
+  timeout: 10s
+
+logs:
+  level: info
+  encoding: console
+  mode: development
+
+otel:
+  insecure: true
+  compress: false
+  client: http
+  exporter: zipkin
+  service_name: "rr_test_beanstalk"
+  service_version: "1.0.0"
+  endpoint: "http://127.0.0.1:9411/api/v2/spans"
+
+jobs:
+  num_pollers: 10
+  pipeline_size: 100000
+  pool:
+    num_workers: 10
+    max_jobs: 0
+    allocate_timeout: 60s
+    destroy_timeout: 60s
+
+  pipelines:
+    test-1:
+      driver: beanstalk
+      config:
+        priority: 11
+        tube_priority: 1
+        tube: default-otel
+        reserve_timeout: 10s
+
+
+  # list of pipelines to be consumed by the server, keep empty if you want to start consuming manually
+  consume: [ "test-1" ]
+
