@@ -843,54 +843,6 @@ func TestSQSRawPayload(t *testing.T) {
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 }
 
-func declareSQSPipe(queue string, address string, pipeline string) func(t *testing.T) {
-	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", address)
-		assert.NoError(t, err)
-		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
-		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-			"driver":             "sqs",
-			"name":               pipeline,
-			"queue":              queue,
-			"prefetch":           "10",
-			"priority":           "3",
-			"visibility_timeout": "0",
-			"wait_time_seconds":  "3",
-			"tags":               `{"key":"value"}`,
-		}}
-
-		er := &jobsProto.Empty{}
-		err = client.Call("jobs.Declare", pipe, er)
-		assert.NoError(t, err)
-	}
-}
-
-func declareSQSPipeFifo(queue string) func(t *testing.T) {
-	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
-		assert.NoError(t, err)
-		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
-		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
-			"driver":             "sqs",
-			"name":               "test-3",
-			"queue":              queue,
-			"prefetch":           "10",
-			"priority":           "3",
-			"visibility_timeout": "0",
-			"message_group_id":   "RR",
-			"wait_time_seconds":  "3",
-			"attributes":         `{"FifoQueue":"true"}`,
-			"tags":               `{"key":"value"}`,
-		}}
-
-		er := &jobsProto.Empty{}
-		err = client.Call("jobs.Declare", pipe, er)
-		assert.NoError(t, err)
-	}
-}
-
 func TestSQSOTEL(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
@@ -1006,4 +958,52 @@ func getQueueURL(client *sqs.Client, queueName string) (*string, error) {
 	}
 
 	return out.QueueUrl, nil
+}
+
+func declareSQSPipe(queue string, address string, pipeline string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", address)
+		assert.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
+			"driver":             "sqs",
+			"name":               pipeline,
+			"queue":              queue,
+			"prefetch":           "10",
+			"priority":           "3",
+			"visibility_timeout": "0",
+			"wait_time_seconds":  "3",
+			"tags":               `{"key":"value"}`,
+		}}
+
+		er := &jobsProto.Empty{}
+		err = client.Call("jobs.Declare", pipe, er)
+		assert.NoError(t, err)
+	}
+}
+
+func declareSQSPipeFifo(queue string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		assert.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+		pipe := &jobsProto.DeclareRequest{Pipeline: map[string]string{
+			"driver":             "sqs",
+			"name":               "test-3",
+			"queue":              queue,
+			"prefetch":           "10",
+			"priority":           "3",
+			"visibility_timeout": "0",
+			"message_group_id":   "RR",
+			"wait_time_seconds":  "3",
+			"attributes":         `{"FifoQueue":"true"}`,
+			"tags":               `{"key":"value"}`,
+		}}
+
+		er := &jobsProto.Empty{}
+		err = client.Call("jobs.Declare", pipe, er)
+		assert.NoError(t, err)
+	}
 }

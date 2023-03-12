@@ -1145,6 +1145,8 @@ jobs:
           RR_SQS_TEST_SECRET: ${{ secrets.RR_SQS_TEST_SECRET }}
 
         run: |
+          docker compose -f env/docker-compose-http.yaml up -d
+          sleep 30
           mkdir ./coverage-ci
           go test -timeout 20m -v -race -cover -tags=debug -failfast -coverpkg=$(cat pkgs.txt) -coverprofile=./coverage-ci/sqs.out -covermode=atomic ./plugins/jobs/sqs
 
