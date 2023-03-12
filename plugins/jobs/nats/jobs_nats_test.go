@@ -843,10 +843,10 @@ func TestNATSOTEL(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
+	t.Run("PushPipeline", helpers.PushToPipe("test-1", false, "127.0.0.1:6121"))
 	time.Sleep(time.Second)
 
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6121", "test-1"))
 	stopCh <- struct{}{}
 	wg.Wait()
 
