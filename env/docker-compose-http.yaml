@@ -8,8 +8,16 @@ services:
       - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     ports:
       - "4318:4318"
+    networks:
+      otel:
 
   zipkin:
     image: openzipkin/zipkin-slim
     ports:
       - "9411:9411"
+    networks:
+      otel:
+
+networks:
+  otel:
+    name: otel

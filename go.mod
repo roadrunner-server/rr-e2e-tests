@@ -20,7 +20,7 @@ require (
 	github.com/prometheus/client_golang v1.14.0
 	github.com/rabbitmq/amqp091-go v1.7.0
 	github.com/roadrunner-server/amqp/v4 v4.4.0-beta.1
-	github.com/roadrunner-server/api/v4 v4.2.0
+	github.com/roadrunner-server/api/v4 v4.2.1
 	github.com/roadrunner-server/app-logger/v4 v4.0.2
 	github.com/roadrunner-server/beanstalk/v4 v4.2.0-beta.2
 	github.com/roadrunner-server/boltdb/v4 v4.3.0-beta.1
@@ -35,7 +35,7 @@ require (
 	github.com/roadrunner-server/headers/v4 v4.0.2
 	github.com/roadrunner-server/http/v4 v4.0.4
 	github.com/roadrunner-server/informer/v4 v4.0.2
-	github.com/roadrunner-server/jobs/v4 v4.3.0-beta.1
+	github.com/roadrunner-server/jobs/v4 v4.3.0-beta.2
 	github.com/roadrunner-server/kafka/v4 v4.1.0-beta.1
 	github.com/roadrunner-server/kv/v4 v4.1.2
 	github.com/roadrunner-server/lock/v4 v4.0.0-beta.1
@@ -127,7 +127,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/mholt/acmez v1.1.0 // indirect
-	github.com/miekg/dns v1.1.51 // indirect
+	github.com/miekg/dns v1.1.52 // indirect
 	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/moby/term v0.0.0-20221205130635-1aeaba878587 // indirect

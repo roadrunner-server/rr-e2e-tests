@@ -456,7 +456,6 @@ github.com/centrifugal/centrifuge-go v0.9.4/go.mod h1:L0aQ0u5ixvTJ/pz7ZyXvwOXuRA
 github.com/centrifugal/protocol v0.8.11/go.mod h1:qpYrxz4cDj+rlgC6giSADkf7XDN1K7aFmkkFwt/bayQ=
 github.com/centrifugal/protocol v0.9.1 h1:DCoZvYtblUotGrM7GrpIvKtZYhjT03chvhEN9tyWZMY=
 github.com/centrifugal/protocol v0.9.1/go.mod h1:qpYrxz4cDj+rlgC6giSADkf7XDN1K7aFmkkFwt/bayQ=
-github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.2.0 h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj44=
@@ -650,7 +649,6 @@ github.com/gorilla/websocket v1.5.0 h1:PPwGk2jz7EePpoHN/+ClbZu8SPxiqlu12wZP/3sWm
 github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 h1:+9834+KizmvFV7pXQGSXQTsaWhq2GjuNUt0aUU0YBYw=
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0/go.mod h1:z0ButlSOZa5vEBq9m2m2hlwIgKw+rp3sdCBRoJY+30Y=
-github.com/grpc-ecosystem/grpc-gateway v1.16.0 h1:gmcG1KaJ57LophUzW0Hy8NmPhnMZb4M0+kPpLofRdBo=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0/go.mod h1:hgWBS7lorOAVIJEQMi4ZsPv9hVvWI6+ch50m39Pf2Ks=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3/go.mod h1:o//XUCC/F+yRGJoPO/VU0GSB0f8Nhgmxx0VIRUvaC0w=
@@ -716,8 +714,8 @@ github.com/matttproud/golang_protobuf_extensions v1.0.4 h1:mmDVorXM7PCGKw94cs5zk
 github.com/matttproud/golang_protobuf_extensions v1.0.4/go.mod h1:BSXmuO+STAnVfrANrmjBb36TMTDstsz7MSK+HVaYKv4=
 github.com/mholt/acmez v1.1.0 h1:IQ9CGHKOHokorxnffsqDvmmE30mDenO1lptYZ1AYkHY=
 github.com/mholt/acmez v1.1.0/go.mod h1:zwo5+fbLLTowAX8o8ETfQzbDtwGEXnPhkmGdKIP+bgs=
-github.com/miekg/dns v1.1.51 h1:0+Xg7vObnhrz/4ZCZcZh7zPXlmU0aveS2HDBd0m0qSo=
-github.com/miekg/dns v1.1.51/go.mod h1:2Z9d3CP1LQWihRZUf29mQ19yDThaI4DAYzte2CaQW5c=
+github.com/miekg/dns v1.1.52 h1:Bmlc/qsNNULOe6bpXcUTsuOajd0DzRHwup6D9k1An0c=
+github.com/miekg/dns v1.1.52/go.mod h1:uInx36IzPl7FYnDcMeVWxj9byh7DutNykX4G9Sj60FY=
 github.com/minio/highwayhash v1.0.2 h1:Aak5U0nElisjDCfPSG79Tgzkn2gl66NxOMspRrKnA/g=
 github.com/minio/highwayhash v1.0.2/go.mod h1:BQskDq+xkJ12lmlUUi7U0M5Swg3EWR+dLTk+kldvVxY=
 github.com/mitchellh/mapstructure v1.5.0 h1:jeMsZIYE/09sWLaz43PL7Gy6RuMjD2eJVyuac5Z2hdY=
@@ -802,8 +800,8 @@ github.com/roadrunner-server/amqp/v4 v4.4.0-beta.1 h1:xFpJQaw2lKEGZC8b8qBJUZQm9X
 github.com/roadrunner-server/amqp/v4 v4.4.0-beta.1/go.mod h1:B9/64ikl/og+hGiJMD7xImnP1RSG+yYRIcAkCz0pDmg=
 github.com/roadrunner-server/api/v3 v3.2.1 h1:N4rokKVkN8Phoodbqtil90G65t2BqIWvHCKaxIKajvs=
 github.com/roadrunner-server/api/v3 v3.2.1/go.mod h1:hlv546SS3tZVIDu68YekPCLS/82Y/AoS8Eu5xysvwBQ=
-github.com/roadrunner-server/api/v4 v4.2.0 h1:w6g3zIpNEQRNxyAZbFPmRjl45oZvQjufjk9PXxx5BII=
-github.com/roadrunner-server/api/v4 v4.2.0/go.mod h1:IjNTjfefcwRyc/RoquIYRmUuLYQTcL1UQk2GVfP0m0c=
+github.com/roadrunner-server/api/v4 v4.2.1 h1:baxVHErnfrmRCIimJDRGWBse8qu/ekeh8E89rPgVUtY=
+github.com/roadrunner-server/api/v4 v4.2.1/go.mod h1:HFb1kQ/H5UkD7MBNqi4L7hXQTtc919FcO8JKPqoSVzs=
 github.com/roadrunner-server/app-logger/v4 v4.0.2 h1:JBYMkh0gl5hgkeTzW7H/DFPk3ZGSPuFjHmC+JkrXmnk=
 github.com/roadrunner-server/app-logger/v4 v4.0.2/go.mod h1:sqEfHaQy98fbAxD9zbEHIUN6p07WMDN8XDEvl58nECg=
 github.com/roadrunner-server/beanstalk/v4 v4.2.0-beta.2 h1:lI+jmf6IyuoUDLtabP5R8XnUchGECbJPJAEVPcOoZJo=
@@ -832,8 +830,8 @@ github.com/roadrunner-server/http/v4 v4.0.4 h1:tJGM06S6Df9TeyGgBB0Q4exEA2AXYXJ3l
 github.com/roadrunner-server/http/v4 v4.0.4/go.mod h1:YOakL5GRHU66fJ+kloNOZgUn2Oy5vv3T0XhBggaDwSA=
 github.com/roadrunner-server/informer/v4 v4.0.2 h1:LHDirDWayHgpymzKOdEU4rySHEE7tmTosULyLpSsV0Q=
 github.com/roadrunner-server/informer/v4 v4.0.2/go.mod h1:NSjaNqz5IsE577Nzfh+RJt9eTHSn7yXKHGFP/sGfiDo=
-github.com/roadrunner-server/jobs/v4 v4.3.0-beta.1 h1:+hbj8C03CKU0UY+4TZadej3gCTKidRxAEHUZqyFkS74=
-github.com/roadrunner-server/jobs/v4 v4.3.0-beta.1/go.mod h1:oDL58SlmWokAI84HvbTIxXDtSf5exCGNfbzgRBbULFI=
+github.com/roadrunner-server/jobs/v4 v4.3.0-beta.2 h1:7axECoPyjHNYCw89BW0dn+IcTtCWEhwhIkGZhADNtwU=
+github.com/roadrunner-server/jobs/v4 v4.3.0-beta.2/go.mod h1:eSt67dMobjgVEHecGk88m2MbMJvvGdLwgJz7EQnhFCw=
 github.com/roadrunner-server/kafka/v4 v4.1.0-beta.1 h1:c1q3t6PuQVw4s/UGC45lMp33BBSVLxIt9n8gNUcvE8k=
 github.com/roadrunner-server/kafka/v4 v4.1.0-beta.1/go.mod h1:bNp4jVDFoy8qh+0qCDqyAiFnyL2KgDm+8X2nq00xMco=
 github.com/roadrunner-server/kv/v4 v4.1.2 h1:1gMnBTk5txR2fXROLOsAn9qeskaz2Gm8wFgUsVzrYTs=

@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   rabbitmq:
@@ -6,6 +6,8 @@ services:
     ports:
       - "127.0.0.1:15672:15672"
       - "127.0.0.1:5672:5672"
+    networks:
+      amqp:
 
   rabbitmq_slow:
     image: rabbitmq:3-management
@@ -14,3 +16,9 @@ services:
     ports:
       - "127.0.0.1:15673:15672"
       - "127.0.0.1:5673:5672"
+    networks:
+      amqp:
+
+networks:
+  amqp:
+    name: amqp

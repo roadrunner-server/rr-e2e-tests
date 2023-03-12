@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   nats:
@@ -7,6 +7,8 @@ services:
       - "-js"
     ports:
       - "127.0.0.1:4222:4222"
+    networks:
+      jobs:
 
   toxicproxy:
     image: shopify/toxiproxy:latest
@@ -18,12 +20,16 @@ services:
       dockerfile: Dockerfile-beanstalkd.yaml
     ports:
       - "127.0.0.1:11300:11300"
+    networks:
+      jobs:
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "127.0.0.1:15672:15672"
       - "127.0.0.1:5672:5672"
+    networks:
+      jobs:
 
   rabbitmq_slow:
     image: rabbitmq:3-management
@@ -32,3 +38,9 @@ services:
     ports:
       - "127.0.0.1:15673:15672"
       - "127.0.0.1:5673:5672"
+    networks:
+      jobs:
+
+networks:
+  jobs:
+    name: jobs
