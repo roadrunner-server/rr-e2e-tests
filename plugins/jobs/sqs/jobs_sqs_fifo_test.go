@@ -505,15 +505,15 @@ func TestSQSPrefetch(t *testing.T) {
 	time.Sleep(time.Second * 3)
 	for i := 0; i < 10; i++ {
 		go func() {
-			t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false, "127.0.0.1:6001"))
-			t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false, "127.0.0.1:6001"))
+			t.Run("PushPipelineFifo", helpers.PushToPipe("test-1", false, "127.0.0.1:6232"))
+			t.Run("PushPipelineFifo", helpers.PushToPipe("test-2", false, "127.0.0.1:6232"))
 		}()
 	}
 
 	time.Sleep(time.Second * 40)
 	stopCh <- struct{}{}
 
-	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6232", "test-1", "test-2"))
 
 	wg.Wait()
 
