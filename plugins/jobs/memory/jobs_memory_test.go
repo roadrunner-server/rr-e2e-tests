@@ -908,6 +908,9 @@ func TestMemoryTracer(t *testing.T) {
 
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1"))
 
+	stopCh <- struct{}{}
+	wg.Wait()
+
 	resp, err := http.Get("http://127.0.0.1:9411/api/v2/spans?serviceName=rr_test")
 	assert.NoError(t, err)
 
@@ -932,9 +935,6 @@ func TestMemoryTracer(t *testing.T) {
 	}
 
 	assert.Equal(t, expected, spans)
-
-	stopCh <- struct{}{}
-	wg.Wait()
 
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("plugin was started").Len())
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())

@@ -1075,7 +1075,7 @@ jobs:
 
       - name: Run golang tests with coverage
         run: |
-          docker-compose -f env/docker-compose.yaml up -d --remove-orphans
+          docker-compose -f env/docker-compose-nats.yaml up -d
           sleep 30
           docker compose -f env/docker-compose-http.yaml up -d
           sleep 30

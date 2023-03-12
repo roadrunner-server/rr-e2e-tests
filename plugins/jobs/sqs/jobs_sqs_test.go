@@ -965,6 +965,9 @@ func TestSQSOTEL(t *testing.T) {
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-1"))
 	time.Sleep(time.Second)
 
+	stopCh <- struct{}{}
+	wg.Wait()
+
 	resp, err := http.Get("http://127.0.0.1:9411/api/v2/spans?serviceName=rr_test_sqs")
 	assert.NoError(t, err)
 
@@ -988,9 +991,6 @@ func TestSQSOTEL(t *testing.T) {
 		"sqs_stop",
 	}
 	assert.Equal(t, expected, spans)
-
-	stopCh <- struct{}{}
-	wg.Wait()
 
 	t.Cleanup(func() {
 		_ = resp.Body.Close()

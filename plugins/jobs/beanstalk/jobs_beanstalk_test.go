@@ -848,7 +848,9 @@ func TestBeanstalkOTEL(t *testing.T) {
 	time.Sleep(time.Second * 2)
 
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:7002", "test-1"))
-	time.Sleep(time.Second * 2)
+
+	stopCh <- struct{}{}
+	wg.Wait()
 
 	resp, err := http.Get("http://127.0.0.1:9411/api/v2/spans?serviceName=rr_test_beanstalk")
 	assert.NoError(t, err)
@@ -873,9 +875,6 @@ func TestBeanstalkOTEL(t *testing.T) {
 		"push",
 	}
 	assert.Equal(t, expected, spans)
-
-	stopCh <- struct{}{}
-	wg.Wait()
 
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was started").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was stopped").Len())

@@ -648,6 +648,9 @@ func TestKafkaOTEL(t *testing.T) {
 	t.Run("DestroyPipelines", helpers.DestroyPipelines("127.0.0.1:6001", "test-1"))
 	time.Sleep(time.Second)
 
+	stopCh <- struct{}{}
+	wg.Wait()
+
 	resp, err := http.Get("http://127.0.0.1:9411/api/v2/spans?serviceName=rr_test_kafka")
 	assert.NoError(t, err)
 
@@ -671,9 +674,6 @@ func TestKafkaOTEL(t *testing.T) {
 		"push",
 	}
 	assert.Equal(t, expected, spans)
-
-	stopCh <- struct{}{}
-	wg.Wait()
 
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 3)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 3)
