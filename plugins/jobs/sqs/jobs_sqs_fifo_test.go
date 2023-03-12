@@ -511,9 +511,8 @@ func TestSQSPrefetch(t *testing.T) {
 	}
 
 	time.Sleep(time.Second * 40)
-	stopCh <- struct{}{}
-
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6232", "test-1", "test-2"))
+	stopCh <- struct{}{}
 
 	wg.Wait()
 
