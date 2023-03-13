@@ -93,7 +93,7 @@ func TestStatusHttp(t *testing.T) {
 	wg.Wait()
 }
 
-const resp = `plugin: http: status: 200
+const resp = `plugin: http, status: 200
 plugin: rpc not found`
 
 func checkHTTPStatus(t *testing.T) {
@@ -368,7 +368,7 @@ func checkHTTPReadiness2(t *testing.T) {
 	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 503, r.StatusCode)
-	assert.Equal(t, "", string(b))
+	assert.Equal(t, "plugin: http, status: 503\n", string(b))
 
 	err = r.Body.Close()
 	assert.NoError(t, err)
