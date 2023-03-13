@@ -12,7 +12,6 @@ import (
 	"testing"
 	"time"
 
-	statusStr "github.com/roadrunner-server/api/v4/plugins/v1/status"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -22,6 +21,7 @@ import (
 	"github.com/roadrunner-server/server/v4"
 	"github.com/roadrunner-server/status/v4"
 	"github.com/stretchr/testify/assert"
+	statusv1beta1 "go.buf.build/protocolbuffers/go/roadrunner-server/api/status/v1beta1"
 	"golang.org/x/exp/slog"
 )
 
@@ -93,8 +93,8 @@ func TestStatusHttp(t *testing.T) {
 	wg.Wait()
 }
 
-const resp = `Service: http: Status: 200
-Service: rpc not found`
+const resp = `plugin: http, status: 200
+plugin: rpc not found`
 
 func checkHTTPStatus(t *testing.T) {
 	req, err := http.NewRequest("GET", "http://127.0.0.1:34333/health?plugin=http&plugin=rpc", nil)
@@ -184,11 +184,15 @@ func checkRPCStatus(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	st := &statusStr.Status{}
+	req := &statusv1beta1.Request{
+		Plugin: "http",
+	}
 
-	err = client.Call("status.Status", "http", &st)
+	rsp := &statusv1beta1.Response{}
+
+	err = client.Call("status.Status", req, rsp)
 	assert.NoError(t, err)
-	assert.Equal(t, st.Code, 200)
+	assert.Equal(t, rsp.Code, int64(200))
 }
 
 func TestReadyHttp(t *testing.T) {
@@ -364,7 +368,7 @@ func checkHTTPReadiness2(t *testing.T) {
 	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, 503, r.StatusCode)
-	assert.Equal(t, "", string(b))
+	assert.Equal(t, "plugin: http, status: 503\n", string(b))
 
 	err = r.Body.Close()
 	assert.NoError(t, err)
@@ -375,9 +379,13 @@ func checkRPCReadiness(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	st := &statusStr.Status{}
+	req := &statusv1beta1.Request{
+		Plugin: "http",
+	}
 
-	err = client.Call("status.Ready", "http", &st)
+	rsp := &statusv1beta1.Response{}
+
+	err = client.Call("status.Ready", req, rsp)
 	assert.NoError(t, err)
-	assert.Equal(t, st.Code, 503)
+	assert.Equal(t, rsp.GetCode(), int64(503))
 }

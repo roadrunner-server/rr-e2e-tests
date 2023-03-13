@@ -12,8 +12,8 @@ require (
 	github.com/centrifugal/centrifuge-go v0.9.4
 	github.com/docker/docker v23.0.1+incompatible
 	github.com/docker/go-connections v0.4.0
-	github.com/fatih/color v1.14.1
-	github.com/goccy/go-json v0.10.0
+	github.com/fatih/color v1.15.0
+	github.com/goccy/go-json v0.10.1
 	github.com/google/uuid v1.3.0
 	github.com/nats-io/nats.go v1.24.0
 	github.com/pborman/uuid v1.2.1
@@ -33,7 +33,7 @@ require (
 	github.com/roadrunner-server/grpc/v4 v4.1.2
 	github.com/roadrunner-server/gzip/v4 v4.0.2
 	github.com/roadrunner-server/headers/v4 v4.0.2
-	github.com/roadrunner-server/http/v4 v4.0.4
+	github.com/roadrunner-server/http/v4 v4.1.0
 	github.com/roadrunner-server/informer/v4 v4.0.2
 	github.com/roadrunner-server/jobs/v4 v4.3.0-beta.2
 	github.com/roadrunner-server/kafka/v4 v4.1.0-beta.1
@@ -57,12 +57,12 @@ require (
 	github.com/roadrunner-server/service/v4 v4.0.3
 	github.com/roadrunner-server/sqs/v4 v4.2.0-beta.1
 	github.com/roadrunner-server/static/v4 v4.0.3
-	github.com/roadrunner-server/status/v4 v4.0.2
+	github.com/roadrunner-server/status/v4 v4.1.0
 	github.com/roadrunner-server/tcp/v4 v4.0.2
 	github.com/stretchr/testify v1.8.2
 	github.com/temporalio/roadrunner-temporal/v4 v4.2.0-alpha.1
 	github.com/yookoala/gofast v0.7.0
-	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.31
+	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.32
 	go.temporal.io/api v1.18.1
 	go.temporal.io/sdk v1.21.1
 	go.uber.org/zap v1.24.0
@@ -117,7 +117,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
-	github.com/klauspost/compress v1.16.0 // indirect
+	github.com/klauspost/compress v1.16.3 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.4 // indirect
 	github.com/libdns/libdns v0.2.1 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
@@ -175,7 +175,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
-	go.buf.build/grpc/go/roadrunner-server/api v1.4.31 // indirect
+	go.buf.build/grpc/go/roadrunner-server/api v1.4.32 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.40.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.40.0 // indirect
