@@ -62,7 +62,7 @@ require (
 	github.com/stretchr/testify v1.8.2
 	github.com/temporalio/roadrunner-temporal/v4 v4.2.0-alpha.1
 	github.com/yookoala/gofast v0.7.0
-	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.31
+	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.32
 	go.temporal.io/api v1.18.1
 	go.temporal.io/sdk v1.21.1
 	go.uber.org/zap v1.24.0
@@ -71,6 +71,8 @@ require (
 	google.golang.org/grpc v1.53.0
 	google.golang.org/protobuf v1.29.0
 )
+
+//replace github.com/roadrunner-server/status/v4 => ../plugins/status
 
 require (
 	github.com/Microsoft/go-winio v0.6.0 // indirect
