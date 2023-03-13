@@ -34,7 +34,7 @@ require (
 	github.com/roadrunner-server/gzip/v4 v4.0.2
 	github.com/roadrunner-server/headers/v4 v4.0.2
 	github.com/roadrunner-server/http/v4 v4.1.0
-	github.com/roadrunner-server/informer/v4 v4.0.2
+	github.com/roadrunner-server/informer/v4 v4.1.0
 	github.com/roadrunner-server/jobs/v4 v4.3.0-beta.2
 	github.com/roadrunner-server/kafka/v4 v4.1.0-beta.1
 	github.com/roadrunner-server/kv/v4 v4.1.2
@@ -57,13 +57,13 @@ require (
 	github.com/roadrunner-server/service/v4 v4.0.3
 	github.com/roadrunner-server/sqs/v4 v4.2.0-beta.1
 	github.com/roadrunner-server/static/v4 v4.0.3
-	github.com/roadrunner-server/status/v4 v4.1.0
+	github.com/roadrunner-server/status/v4 v4.1.1
 	github.com/roadrunner-server/tcp/v4 v4.0.2
 	github.com/stretchr/testify v1.8.2
 	github.com/temporalio/roadrunner-temporal/v4 v4.2.0-alpha.1
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.32
-	go.temporal.io/api v1.18.1
+	go.temporal.io/api v1.19.0
 	go.temporal.io/sdk v1.21.1
 	go.uber.org/zap v1.24.0
 	golang.org/x/exp v0.0.0-20230310171629-522b1b587ee0
@@ -75,7 +75,7 @@ require (
 require (
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go v1.44.219 // indirect
+	github.com/aws/aws-sdk-go v1.44.220 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.24 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.30 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.24 // indirect
@@ -147,7 +147,6 @@ require (
 	github.com/prometheus/common v0.42.0 // indirect
 	github.com/prometheus/procfs v0.9.0 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
-	github.com/roadrunner-server/api/v3 v3.2.1 // indirect
 	github.com/roadrunner-server/tcplisten v1.3.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/savsgio/dictpool v0.0.0-20221023140959-7bf2e61cea94 // indirect
