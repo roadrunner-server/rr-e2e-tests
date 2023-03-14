@@ -57,7 +57,7 @@ require (
 	github.com/roadrunner-server/service/v4 v4.0.3
 	github.com/roadrunner-server/sqs/v4 v4.2.0-beta.1
 	github.com/roadrunner-server/static/v4 v4.0.3
-	github.com/roadrunner-server/status/v4 v4.1.1
+	github.com/roadrunner-server/status/v4 v4.1.2
 	github.com/roadrunner-server/tcp/v4 v4.0.2
 	github.com/stretchr/testify v1.8.2
 	github.com/temporalio/roadrunner-temporal/v4 v4.2.0-alpha.1
@@ -69,7 +69,7 @@ require (
 	golang.org/x/exp v0.0.0-20230310171629-522b1b587ee0
 	golang.org/x/net v0.8.0
 	google.golang.org/grpc v1.53.0
-	google.golang.org/protobuf v1.29.0
+	google.golang.org/protobuf v1.29.1
 )
 
 require (
@@ -164,7 +164,7 @@ require (
 	github.com/tinylib/msgp v1.1.8 // indirect
 	github.com/tklauser/go-sysconf v0.3.11 // indirect
 	github.com/tklauser/numcpus v0.6.0 // indirect
-	github.com/twmb/franz-go v1.12.1 // indirect
+	github.com/twmb/franz-go v1.13.0 // indirect
 	github.com/twmb/franz-go/pkg/kmsg v1.4.0 // indirect
 	github.com/twmb/murmur3 v1.1.6 // indirect
 	github.com/uber-go/tally/v4 v4.1.6 // indirect
