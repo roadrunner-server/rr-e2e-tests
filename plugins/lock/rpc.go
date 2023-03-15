@@ -7,7 +7,7 @@ import (
 
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/stretchr/testify/require"
-	lockApi "go.buf.build/protocolbuffers/go/roadrunner-server/api/lock/v1"
+	lockApi "go.buf.build/protocolbuffers/go/roadrunner-server/api/lock/v1beta1"
 )
 
 const (
@@ -24,7 +24,7 @@ func lock(t *testing.T, address string, resource, id string, ttl, wait int) bool
 	require.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	req := &lockApi.Lock{
+	req := &lockApi.Request{
 		Resource: resource,
 		Id:       id,
 		Ttl:      ptrTo(int64(ttl)),
@@ -42,7 +42,7 @@ func lockRead(t *testing.T, address string, resource, id string, ttl, wait int) 
 	require.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	req := &lockApi.Lock{
+	req := &lockApi.Request{
 		Resource: resource,
 		Id:       id,
 		Ttl:      ptrTo(int64(ttl)),
@@ -60,7 +60,7 @@ func release(t *testing.T, address string, resource, id string) bool {
 	require.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	req := &lockApi.Release{
+	req := &lockApi.Request{
 		Resource: resource,
 		Id:       id,
 	}
@@ -76,7 +76,7 @@ func updateTTL(t *testing.T, address string, resource, id string, ttl int) bool 
 	require.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	req := &lockApi.Lock{
+	req := &lockApi.Request{
 		Resource: resource,
 		Id:       id,
 		Ttl:      ptrTo(int64(ttl)),
@@ -93,7 +93,7 @@ func forceRelease(t *testing.T, address string, resource, id string) bool {
 	require.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	req := &lockApi.Lock{
+	req := &lockApi.Request{
 		Resource: resource,
 		Id:       id,
 	}
@@ -109,7 +109,7 @@ func exists(t *testing.T, address string, resource, id string) bool {
 	require.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	req := &lockApi.Lock{
+	req := &lockApi.Request{
 		Resource: resource,
 		Id:       id,
 	}

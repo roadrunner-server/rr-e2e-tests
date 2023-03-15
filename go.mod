@@ -38,7 +38,7 @@ require (
 	github.com/roadrunner-server/jobs/v4 v4.3.0-beta.2
 	github.com/roadrunner-server/kafka/v4 v4.1.0-beta.1
 	github.com/roadrunner-server/kv/v4 v4.1.2
-	github.com/roadrunner-server/lock/v4 v4.0.0-beta.1
+	github.com/roadrunner-server/lock/v4 v4.0.0-beta.2
 	github.com/roadrunner-server/logger/v4 v4.1.0
 	github.com/roadrunner-server/memcached/v4 v4.1.3
 	github.com/roadrunner-server/memory/v4 v4.2.0-beta.2
@@ -62,7 +62,7 @@ require (
 	github.com/stretchr/testify v1.8.2
 	github.com/temporalio/roadrunner-temporal/v4 v4.2.0-beta.1
 	github.com/yookoala/gofast v0.7.0
-	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.32
+	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.36
 	go.temporal.io/api v1.19.0
 	go.temporal.io/sdk v1.21.1
 	go.uber.org/zap v1.24.0
@@ -111,7 +111,7 @@ require (
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
-	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
+	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
@@ -174,7 +174,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
-	go.buf.build/grpc/go/roadrunner-server/api v1.4.32 // indirect
+	go.buf.build/grpc/go/roadrunner-server/api v1.4.36 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.40.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.40.0 // indirect
