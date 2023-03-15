@@ -713,7 +713,7 @@ func TestSQSStat(t *testing.T) {
 
 	assert.Equal(t, out.Pipeline, pipe)
 	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/test-stat-sqs")
+	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/569200086642/test-stat-sqs")
 
 	time.Sleep(time.Second)
 	t.Run("ResumePipeline", helpers.ResumePipes(address, pipe))
@@ -724,7 +724,7 @@ func TestSQSStat(t *testing.T) {
 
 	assert.Equal(t, out.Pipeline, pipe)
 	assert.Equal(t, out.Driver, "sqs")
-	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/588160034479/test-stat-sqs")
+	assert.Equal(t, out.Queue, "https://sqs.us-east-1.amazonaws.com/569200086642/test-stat-sqs")
 
 	t.Run("DestroyPipeline", helpers.DestroyPipelines(address, pipe))
 
