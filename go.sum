@@ -1019,8 +1019,8 @@ github.com/roadrunner-server/metrics/v4 v4.0.2 h1:gEG0llhF6ROqzhPvwYheDSWw1YZql/
 github.com/roadrunner-server/metrics/v4 v4.0.2/go.mod h1:Uur2reMHaCTMalvm0Emfh/myyGw4td1MkmDvUSLVg2Y=
 github.com/roadrunner-server/nats/v4 v4.2.0 h1:bWAgxWX5W9LJ3EnJN+1tn3tCRmwh/XyiMH8Qnp1eD0E=
 github.com/roadrunner-server/nats/v4 v4.2.0/go.mod h1:SEB6lxcU1HNt7QnPr8Tq8bHlMVEZ4TDj3SFw7uf/ZVw=
-github.com/roadrunner-server/otel/v4 v4.1.2 h1:QaZv+XIQIvc7liTXSVdpwW2WsN4pfPTv39eklorK2ew=
-github.com/roadrunner-server/otel/v4 v4.1.2/go.mod h1:NcbciG5YSoVOW20T6XMNgn/0FXMy15ctz0RvqVHFtTk=
+github.com/roadrunner-server/otel/v4 v4.1.3 h1:2V/pNW37XETN9lXn+50fTIMmQZBZcf4Vi8d5ffJyoAA=
+github.com/roadrunner-server/otel/v4 v4.1.3/go.mod h1:6c8r1FnmRtfpa+8Y/DGOWNaqpm9LgNDIAb6LMg8ke44=
 github.com/roadrunner-server/prometheus/v4 v4.0.3 h1:NoMCyrTerWQ8A0nCSyb+VCVv6PxMcnmy08p20Rh5Kbk=
 github.com/roadrunner-server/prometheus/v4 v4.0.3/go.mod h1:DPZCzWJXeSZjYDuwLXC6AG9fEVTXFyvq2px31LRlm5I=
 github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.3 h1:nVWcOZgVjOPcBGpOsRV8UB7LUSAcMQDDhwL2tObgDXo=
