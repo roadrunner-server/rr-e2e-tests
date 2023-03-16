@@ -1013,8 +1013,8 @@ github.com/roadrunner-server/logger/v4 v4.1.0 h1:Z6jc3Z+3Rp6HEUk4tf1o/wZslfOr9rT
 github.com/roadrunner-server/logger/v4 v4.1.0/go.mod h1:3bwQj5L8Bu3OtBTmur1oGgdX8cb+SFk78cght9loj0c=
 github.com/roadrunner-server/memcached/v4 v4.1.3 h1:SNrTM57oFZzc7Lz75huhWKWQJR6NWE0A2ADMwcpNayI=
 github.com/roadrunner-server/memcached/v4 v4.1.3/go.mod h1:/9OW57klFir1+H51N4TYqPOEPk2Hf3fkVpAAQtFHY2k=
-github.com/roadrunner-server/memory/v4 v4.2.0-beta.2 h1:bp36ObcXSIT9luGgftZqlzLX6/UQAc8zGo4cfb/uK+k=
-github.com/roadrunner-server/memory/v4 v4.2.0-beta.2/go.mod h1:LLMms9CucJqo95eJWPK2mw8aC4roa6XQgYuqEuet/dg=
+github.com/roadrunner-server/memory/v4 v4.2.0 h1:XVsxhhS+PyawtnkE/y8yJGOO/MRH5dncylIYwttTkPg=
+github.com/roadrunner-server/memory/v4 v4.2.0/go.mod h1:Y4zJejElKzvxwMIiV3x7OvGFk8Yu3LM7tbs2m3ySILE=
 github.com/roadrunner-server/metrics/v4 v4.0.2 h1:gEG0llhF6ROqzhPvwYheDSWw1YZql/00lQTBKboK2yM=
 github.com/roadrunner-server/metrics/v4 v4.0.2/go.mod h1:Uur2reMHaCTMalvm0Emfh/myyGw4td1MkmDvUSLVg2Y=
 github.com/roadrunner-server/nats/v4 v4.2.0 h1:bWAgxWX5W9LJ3EnJN+1tn3tCRmwh/XyiMH8Qnp1eD0E=
