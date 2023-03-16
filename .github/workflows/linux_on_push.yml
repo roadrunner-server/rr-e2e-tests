@@ -10,11 +10,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -72,11 +72,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -137,11 +137,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -201,11 +201,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -248,11 +248,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -295,11 +295,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -342,11 +342,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -406,11 +406,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -471,11 +471,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -535,11 +535,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -596,11 +596,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -657,11 +657,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -718,11 +718,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -779,11 +779,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -840,11 +840,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -910,11 +910,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -971,11 +971,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1032,11 +1032,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1095,11 +1095,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1163,11 +1163,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1224,11 +1224,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1283,11 +1283,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1342,11 +1342,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1423,11 +1423,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1497,11 +1497,11 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1546,11 +1546,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1605,11 +1605,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1664,11 +1664,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1729,11 +1729,11 @@ jobs:
     timeout-minutes: 60
     strategy:
       matrix:
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1770,11 +1770,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1831,11 +1831,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1897,11 +1897,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -1956,11 +1956,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -2022,11 +2022,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -2081,11 +2081,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -2140,11 +2140,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 
@@ -2206,11 +2206,11 @@ jobs:
     strategy:
       matrix:
         php: [ "8.2" ]
-        go: [ "1.20" ]
+        go: [ stable ]
         os: [ "ubuntu-latest" ]
     steps:
       - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v3 # action page: <https://github.com/actions/setup-go>
+        uses: actions/setup-go@v4 # action page: <https://github.com/actions/setup-go>
         with:
           go-version: ${{ matrix.go }}
 

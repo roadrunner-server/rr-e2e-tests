@@ -19,46 +19,46 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.14.0
 	github.com/rabbitmq/amqp091-go v1.7.0
-	github.com/roadrunner-server/amqp/v4 v4.4.0
+	github.com/roadrunner-server/amqp/v4 v4.4.1
 	github.com/roadrunner-server/api/v4 v4.3.1
-	github.com/roadrunner-server/app-logger/v4 v4.0.2
-	github.com/roadrunner-server/beanstalk/v4 v4.2.0
-	github.com/roadrunner-server/boltdb/v4 v4.3.0
-	github.com/roadrunner-server/centrifuge/v4 v4.0.3
+	github.com/roadrunner-server/app-logger/v4 v4.0.3
+	github.com/roadrunner-server/beanstalk/v4 v4.2.1
+	github.com/roadrunner-server/boltdb/v4 v4.3.1
+	github.com/roadrunner-server/centrifuge/v4 v4.0.4
 	github.com/roadrunner-server/config/v4 v4.2.0
 	github.com/roadrunner-server/endure/v2 v2.2.0
 	github.com/roadrunner-server/errors v1.2.0
-	github.com/roadrunner-server/fileserver/v4 v4.0.2
+	github.com/roadrunner-server/fileserver/v4 v4.0.3
 	github.com/roadrunner-server/goridge/v3 v3.6.2
-	github.com/roadrunner-server/grpc/v4 v4.1.2
-	github.com/roadrunner-server/gzip/v4 v4.0.2
-	github.com/roadrunner-server/headers/v4 v4.0.2
-	github.com/roadrunner-server/http/v4 v4.1.0
-	github.com/roadrunner-server/informer/v4 v4.1.0
-	github.com/roadrunner-server/jobs/v4 v4.3.0-beta.2
-	github.com/roadrunner-server/kafka/v4 v4.1.0-beta.1
-	github.com/roadrunner-server/kv/v4 v4.1.2
-	github.com/roadrunner-server/lock/v4 v4.0.0-beta.2
-	github.com/roadrunner-server/logger/v4 v4.1.0
-	github.com/roadrunner-server/memcached/v4 v4.1.3
-	github.com/roadrunner-server/memory/v4 v4.2.0-beta.2
-	github.com/roadrunner-server/metrics/v4 v4.0.2
-	github.com/roadrunner-server/nats/v4 v4.2.0
-	github.com/roadrunner-server/otel/v4 v4.1.2
-	github.com/roadrunner-server/prometheus/v4 v4.0.3
-	github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.3
-	github.com/roadrunner-server/redis/v4 v4.1.2
-	github.com/roadrunner-server/reload/v4 v4.0.2
+	github.com/roadrunner-server/grpc/v4 v4.1.3
+	github.com/roadrunner-server/gzip/v4 v4.0.3
+	github.com/roadrunner-server/headers/v4 v4.0.3
+	github.com/roadrunner-server/http/v4 v4.1.1
+	github.com/roadrunner-server/informer/v4 v4.1.1
+	github.com/roadrunner-server/jobs/v4 v4.3.0
+	github.com/roadrunner-server/kafka/v4 v4.1.0
+	github.com/roadrunner-server/kv/v4 v4.1.3
+	github.com/roadrunner-server/lock/v4 v4.0.1
+	github.com/roadrunner-server/logger/v4 v4.1.1
+	github.com/roadrunner-server/memcached/v4 v4.1.4
+	github.com/roadrunner-server/memory/v4 v4.2.0
+	github.com/roadrunner-server/metrics/v4 v4.0.3
+	github.com/roadrunner-server/nats/v4 v4.2.1
+	github.com/roadrunner-server/otel/v4 v4.1.3
+	github.com/roadrunner-server/prometheus/v4 v4.0.4
+	github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.4
+	github.com/roadrunner-server/redis/v4 v4.1.3
+	github.com/roadrunner-server/reload/v4 v4.0.3
 	github.com/roadrunner-server/resetter/v4 v4.0.2
-	github.com/roadrunner-server/rpc/v4 v4.1.1
+	github.com/roadrunner-server/rpc/v4 v4.1.2
 	github.com/roadrunner-server/sdk/v4 v4.2.0
-	github.com/roadrunner-server/send/v4 v4.0.3
-	github.com/roadrunner-server/server/v4 v4.0.2
-	github.com/roadrunner-server/service/v4 v4.0.3
-	github.com/roadrunner-server/sqs/v4 v4.2.0
-	github.com/roadrunner-server/static/v4 v4.0.3
-	github.com/roadrunner-server/status/v4 v4.1.2
-	github.com/roadrunner-server/tcp/v4 v4.0.2
+	github.com/roadrunner-server/send/v4 v4.0.4
+	github.com/roadrunner-server/server/v4 v4.0.3
+	github.com/roadrunner-server/service/v4 v4.0.4
+	github.com/roadrunner-server/sqs/v4 v4.2.1
+	github.com/roadrunner-server/static/v4 v4.0.4
+	github.com/roadrunner-server/status/v4 v4.1.3
+	github.com/roadrunner-server/tcp/v4 v4.0.3
 	github.com/stretchr/testify v1.8.2
 	github.com/temporalio/roadrunner-temporal/v4 v4.2.0-beta.1
 	github.com/yookoala/gofast v0.7.0
