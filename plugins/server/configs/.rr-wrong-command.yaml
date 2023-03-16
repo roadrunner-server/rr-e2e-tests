@@ -1,4 +1,4 @@
-version: '2.7'
+version: '3'
 
 server:
   command: "php some_absent_file.php"
