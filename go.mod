@@ -13,7 +13,7 @@ require (
 	github.com/docker/docker v23.0.1+incompatible
 	github.com/docker/go-connections v0.4.0
 	github.com/fatih/color v1.15.0
-	github.com/goccy/go-json v0.10.1
+	github.com/goccy/go-json v0.10.2
 	github.com/google/uuid v1.3.0
 	github.com/nats-io/nats.go v1.24.0
 	github.com/pborman/uuid v1.2.1
