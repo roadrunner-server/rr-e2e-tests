@@ -364,6 +364,7 @@ func TestForceRelease(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 	assert.True(t, lock(t, "127.0.0.1:6001", "foo", "bar", 1000, 0))
+	assert.False(t, lockRead(t, "127.0.0.1:6001", "foo", "bar1", 0, 1))
 	assert.True(t, forceRelease(t, "127.0.0.1:6001", "foo", "bar"))
 	assert.True(t, lockRead(t, "127.0.0.1:6001", "foo", "bar1", 0, 10))
 
@@ -375,7 +376,7 @@ func TestForceRelease(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	assert.Equal(t, 2, oLogger.FilterMessageSnippet("lock request received").Len())
+	assert.Equal(t, 3, oLogger.FilterMessageSnippet("lock request received").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("no such resource, creating new").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("lock successfully acquired").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("lock forcibly released").Len())
