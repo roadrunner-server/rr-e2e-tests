@@ -33,17 +33,6 @@ jobs:
 
         auto_create_topics_enable: true
 
-#        sasl:
-#          mechanism: aws_msk_iam
-#          username: foo
-#          password: bar
-#          zid: foo
-#
-#          access_key: foo
-#          secret_key: bar
-#          session_token: bar
-#          user_agent: baz
-
         group_options:
           group_id: bar
           block_rebalance_on_poll: true
@@ -55,12 +44,6 @@ jobs:
           disable_idempotent: true
 
         consumer_options:
-#          consume_partitions:
-#            foo:
-#              0:
-#                type: AtEnd
-#                value: 1
-
           topics: [ "foo" ]
           consumer_offset:
             type: AtStart

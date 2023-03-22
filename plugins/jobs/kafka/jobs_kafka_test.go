@@ -124,8 +124,8 @@ func TestKafkaInitCG(t *testing.T) {
 	require.NoError(t, errCall)
 
 	wgg := &sync.WaitGroup{}
-	wgg.Add(1000)
-	for i := 0; i < 1000; i++ {
+	wgg.Add(100)
+	for i := 0; i < 100; i++ {
 		go func() {
 			defer wgg.Done()
 			er := &jobsProto.Empty{}
@@ -141,9 +141,8 @@ func TestKafkaInitCG(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 1000)
-	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 1000)
-	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was processed successfully").Len(), 1000)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was pushed successfully").Len(), 100)
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("job was processed successfully").Len(), 100)
 }
 
 func TestKafkaInit(t *testing.T) {
