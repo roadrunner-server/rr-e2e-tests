@@ -22,7 +22,6 @@ import (
 	"github.com/roadrunner-server/informer/v4"
 	"github.com/roadrunner-server/jobs/v4"
 	kp "github.com/roadrunner-server/kafka/v4"
-	"github.com/roadrunner-server/logger/v4"
 	"github.com/roadrunner-server/otel/v4"
 	"github.com/roadrunner-server/resetter/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
@@ -46,15 +45,13 @@ func TestKafkaInitCG(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	_ = l
 	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
 		&jobs.Plugin{},
 		&kp.Plugin{},
-		&logger.Plugin{},
-		// l,
+		l,
 		&resetter.Plugin{},
 		&informer.Plugin{},
 	)

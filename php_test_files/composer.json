@@ -28,5 +28,10 @@
     }
   },
   "name": "test/test",
-  "description": "test"
+  "description": "test",
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  }
 }
