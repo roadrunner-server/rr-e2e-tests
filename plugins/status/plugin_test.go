@@ -16,7 +16,9 @@ import (
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	httpPlugin "github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/jobs/v4"
 	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/memory/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	"github.com/roadrunner-server/server/v4"
 	"github.com/roadrunner-server/status/v4"
@@ -24,6 +26,9 @@ import (
 	statusv1beta1 "go.buf.build/protocolbuffers/go/roadrunner-server/api/status/v1beta1"
 	"golang.org/x/exp/slog"
 )
+
+const resp = `plugin: http, status: 200
+plugin: rpc not found`
 
 func TestStatusHttp(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
@@ -91,24 +96,6 @@ func TestStatusHttp(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
-}
-
-const resp = `plugin: http, status: 200
-plugin: rpc not found`
-
-func checkHTTPStatus(t *testing.T) {
-	req, err := http.NewRequest("GET", "http://127.0.0.1:34333/health?plugin=http&plugin=rpc", nil)
-	assert.NoError(t, err)
-
-	r, err := http.DefaultClient.Do(req)
-	assert.NoError(t, err)
-	b, err := io.ReadAll(r.Body)
-	assert.NoError(t, err)
-	assert.Equal(t, 200, r.StatusCode)
-	assert.Equal(t, resp, string(b))
-
-	err = r.Body.Close()
-	assert.NoError(t, err)
 }
 
 func TestStatusRPC(t *testing.T) {
@@ -179,22 +166,6 @@ func TestStatusRPC(t *testing.T) {
 	wg.Wait()
 }
 
-func checkRPCStatus(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6005")
-	assert.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
-
-	req := &statusv1beta1.Request{
-		Plugin: "http",
-	}
-
-	rsp := &statusv1beta1.Response{}
-
-	err = client.Call("status.Status", req, rsp)
-	assert.NoError(t, err)
-	assert.Equal(t, rsp.Code, int64(200))
-}
-
 func TestReadyHttp(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
@@ -261,21 +232,6 @@ func TestReadyHttp(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
-}
-
-func checkHTTPReadiness(t *testing.T) {
-	req, err := http.NewRequest("GET", "http://127.0.0.1:34333/ready?plugin=http&plugin=rpc", nil)
-	assert.NoError(t, err)
-
-	r, err := http.DefaultClient.Do(req)
-	assert.NoError(t, err)
-	b, err := io.ReadAll(r.Body)
-	assert.NoError(t, err)
-	assert.Equal(t, 200, r.StatusCode)
-	assert.Equal(t, resp, string(b))
-
-	err = r.Body.Close()
-	assert.NoError(t, err)
 }
 
 func TestReadinessRPCWorkerNotReady(t *testing.T) {
@@ -346,6 +302,104 @@ func TestReadinessRPCWorkerNotReady(t *testing.T) {
 	wg.Wait()
 }
 
+func TestJobsStatus(t *testing.T) {
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second))
+
+	cfg := &config.Plugin{
+		Version: "2023.1.0",
+		Path:    "configs/.rr-jobs-status.yaml",
+		Prefix:  "rr",
+	}
+
+	err := cont.RegisterAll(
+		cfg,
+		&rpcPlugin.Plugin{},
+		&logger.Plugin{},
+		&server.Plugin{},
+		&status.Plugin{},
+		&jobs.Plugin{},
+		&memory.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout, error here is OK, because in the PHP we are sleeping for the 300s
+				_ = cont.Stop()
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second)
+
+	const resp = `plugin: jobs: pipeline: test-1 | priority: 13 | ready: true | queue: test-1 | active: 0 | delayed: 0 | reserved: 0 | driver: memory | error:  
+plugin: jobs: pipeline: test-2 | priority: 13 | ready: true | queue: test-2 | active: 0 | delayed: 0 | reserved: 0 | driver: memory | error:  
+`
+
+	req, err := http.NewRequest("GET", "http://127.0.0.1:35544/jobs", nil)
+	assert.NoError(t, err)
+
+	r, err := http.DefaultClient.Do(req)
+	assert.NoError(t, err)
+	b, err := io.ReadAll(r.Body)
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusOK, r.StatusCode)
+	assert.Equal(t, resp, string(b))
+
+	err = r.Body.Close()
+	assert.NoError(t, err)
+
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
+func checkHTTPStatus(t *testing.T) {
+	req, err := http.NewRequest("GET", "http://127.0.0.1:34333/health?plugin=http&plugin=rpc", nil)
+	assert.NoError(t, err)
+
+	r, err := http.DefaultClient.Do(req)
+	assert.NoError(t, err)
+	b, err := io.ReadAll(r.Body)
+	assert.NoError(t, err)
+	assert.Equal(t, 200, r.StatusCode)
+	assert.Equal(t, resp, string(b))
+
+	err = r.Body.Close()
+	assert.NoError(t, err)
+}
+
 func doHTTPReq(t *testing.T) {
 	go func() {
 		client := &http.Client{
@@ -374,6 +428,21 @@ func checkHTTPReadiness2(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func checkHTTPReadiness(t *testing.T) {
+	req, err := http.NewRequest("GET", "http://127.0.0.1:34333/ready?plugin=http&plugin=rpc", nil)
+	assert.NoError(t, err)
+
+	r, err := http.DefaultClient.Do(req)
+	assert.NoError(t, err)
+	b, err := io.ReadAll(r.Body)
+	assert.NoError(t, err)
+	assert.Equal(t, 200, r.StatusCode)
+	assert.Equal(t, resp, string(b))
+
+	err = r.Body.Close()
+	assert.NoError(t, err)
+}
+
 func checkRPCReadiness(t *testing.T) {
 	conn, err := net.Dial("tcp", "127.0.0.1:6007")
 	assert.NoError(t, err)
@@ -388,4 +457,20 @@ func checkRPCReadiness(t *testing.T) {
 	err = client.Call("status.Ready", req, rsp)
 	assert.NoError(t, err)
 	assert.Equal(t, rsp.GetCode(), int64(503))
+}
+
+func checkRPCStatus(t *testing.T) {
+	conn, err := net.Dial("tcp", "127.0.0.1:6005")
+	assert.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+	req := &statusv1beta1.Request{
+		Plugin: "http",
+	}
+
+	rsp := &statusv1beta1.Response{}
+
+	err = client.Call("status.Status", req, rsp)
+	assert.NoError(t, err)
+	assert.Equal(t, rsp.Code, int64(200))
 }
