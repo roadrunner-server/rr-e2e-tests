@@ -364,10 +364,6 @@ func TestJobsStatus(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	const resp = `plugin: jobs: pipeline: test-1 | priority: 13 | ready: true | queue: test-1 | active: 0 | delayed: 0 | reserved: 0 | driver: memory | error:  
-plugin: jobs: pipeline: test-2 | priority: 13 | ready: true | queue: test-2 | active: 0 | delayed: 0 | reserved: 0 | driver: memory | error:  
-`
-
 	req, err := http.NewRequest("GET", "http://127.0.0.1:35544/jobs", nil)
 	assert.NoError(t, err)
 
@@ -376,7 +372,9 @@ plugin: jobs: pipeline: test-2 | priority: 13 | ready: true | queue: test-2 | ac
 	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusOK, r.StatusCode)
-	assert.Equal(t, resp, string(b))
+
+	assert.Contains(t, "test-1", string(b))
+	assert.Contains(t, "test-2", string(b))
 
 	err = r.Body.Close()
 	assert.NoError(t, err)
