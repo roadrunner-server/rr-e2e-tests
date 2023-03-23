@@ -373,8 +373,8 @@ func TestJobsStatus(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusOK, r.StatusCode)
 
-	assert.Contains(t, "test-1", string(b))
-	assert.Contains(t, "test-2", string(b))
+	assert.Contains(t, string(b), "test-1")
+	assert.Contains(t, string(b), "test-2")
 
 	err = r.Body.Close()
 	assert.NoError(t, err)
