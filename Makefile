@@ -58,6 +58,7 @@ test:
 	go test -v -race -tags=debug ./plugins/jobs/durability
 	go test -v -race -tags=debug ./plugins/jobs/general
 	go test -v -race -tags=debug ./plugins/jobs/memory
+	go test -v -race -tags=debug ./plugins/jobs/kafka
 	go test -v -race -tags=debug ./plugins/jobs/nats
 	go test -v -race -tags=debug ./plugins/jobs/sqs
 	go test -v -race -tags=debug ./plugins/kv

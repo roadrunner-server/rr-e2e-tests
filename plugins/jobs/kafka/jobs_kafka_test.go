@@ -22,6 +22,7 @@ import (
 	"github.com/roadrunner-server/informer/v4"
 	"github.com/roadrunner-server/jobs/v4"
 	kp "github.com/roadrunner-server/kafka/v4"
+	"github.com/roadrunner-server/logger/v4"
 	"github.com/roadrunner-server/otel/v4"
 	"github.com/roadrunner-server/resetter/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
@@ -36,7 +37,7 @@ import (
 )
 
 func TestKafkaInitCG(t *testing.T) {
-	cont := endure.New(slog.LevelError)
+	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
 		Version: "v2023.1.0",
@@ -45,13 +46,15 @@ func TestKafkaInitCG(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	_ = l
 	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
 		&jobs.Plugin{},
 		&kp.Plugin{},
-		l,
+		&logger.Plugin{},
+		// l,
 		&resetter.Plugin{},
 		&informer.Plugin{},
 	)
@@ -105,6 +108,7 @@ func TestKafkaInitCG(t *testing.T) {
 	time.Sleep(time.Second * 3)
 	conn, err := net.Dial("tcp", "127.0.0.1:6001")
 	require.NoError(t, err)
+
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 	req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 		Job:     "some/php/namespace",
@@ -128,8 +132,8 @@ func TestKafkaInitCG(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		go func() {
 			defer wgg.Done()
-			er := &jobsProto.Empty{}
-			errCall := client.Call("jobs.Push", req, er)
+			resp := &jobsProto.Empty{}
+			errCall := client.Call("jobs.Push", req, resp)
 			require.NoError(t, errCall)
 		}()
 	}
