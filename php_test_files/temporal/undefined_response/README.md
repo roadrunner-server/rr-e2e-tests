@@ -29,7 +29,7 @@ composer update
 ### Download RoadRunner
 
 ```bash
-./vendor/bin/rr get -s alpha -f v2023.1.0-alpha.2
+./vendor/bin/rr get -s alpha -f v2023.1.0-beta.1
 ```
 
 ### Run Temporal Server

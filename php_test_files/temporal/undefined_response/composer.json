@@ -1,7 +1,7 @@
 {
   "minimum-stability": "beta",
   "require": {
-    "temporal/sdk": "dev-feature/undefined-responce-command",
+    "temporal/sdk": "dev-feature/undefined-response-command",
     "spiral/tokenizer": ">=2.7",
     "symfony/var-dumper": "^6.2"
   },

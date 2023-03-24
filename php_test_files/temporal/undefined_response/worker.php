@@ -9,12 +9,14 @@
 
 declare(strict_types=1);
 
-use Temporal\Samples\Mock\WorkerFactory;
 use Temporal\Samples\SampleUtils\DeclarationLocator;
 use Temporal\Samples\FileProcessing;
+use Temporal\WorkerFactory;
 
 ini_set('display_errors', 'stderr');
 include __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/src/Mock/Client.php';
+require __DIR__ . '/src/Mock/WorkerFactory.php';
 
 // finds all available workflows, activity types and commands in a given directory
 $declarations = DeclarationLocator::create(__DIR__ . '/src/');
