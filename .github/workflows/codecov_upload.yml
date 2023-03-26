@@ -1,0 +1,61 @@
+name: linux_on_push
+
+on: [ push, pull_request ]
+
+jobs:
+  codecov:
+    name: Upload codecov
+    runs-on: ubuntu-latest
+    needs:
+      - service_test
+      - temporal_test
+      - temporal_tls_test
+      - amqp_test
+      - locks_test
+      - kafka_test
+      - grpc_test_unit
+      - beanstalk_test
+      - service_unit_test
+      - boltdb_test
+      - durability_test_amqp
+      - durability_test_beanstalk
+      - durability_test_kafka
+      - durability_test_nats
+      - durability_test_sqs
+      - general_test
+      - memory_test
+      - nats_test
+      - sqs_test
+      - kv_test
+      - tcp_test
+      - reload_test
+      - http_test
+      - grpc_test
+      - informer_test
+      - server_test
+      - status_test
+      - config_test
+      - config_unit_test
+      - gzip_test
+      - http_unit_test
+      - headers_test
+      - logger_test
+      - metrics_test
+      - resetter_test
+      - rpc_test
+
+    timeout-minutes: 60
+    steps:
+      - name: Download code coverage results
+        uses: actions/download-artifact@v3
+      - run: |
+          cd coverage
+          echo 'mode: atomic' > summary.txt
+          tail -q -n +2 *.out >> summary.txt
+          sed -i '2,${/roadrunner/!d}' summary.txt
+
+      - name: upload to codecov
+        uses: codecov/codecov-action@v3 # Docs: <https://github.com/codecov/codecov-action>
+        with:
+          file: ./coverage/summary.txt
+          fail_ci_if_error: false
