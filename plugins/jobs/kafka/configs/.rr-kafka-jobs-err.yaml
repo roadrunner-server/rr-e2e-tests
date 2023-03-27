@@ -9,7 +9,7 @@ server:
   relay_timeout: "20s"
 
 kafka:
-  brokers: 127.0.0.1:9092
+  brokers: ["127.0.0.1:9092"]
 
 logs:
   level: debug

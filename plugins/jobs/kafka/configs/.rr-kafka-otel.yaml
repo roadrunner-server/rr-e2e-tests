@@ -23,7 +23,7 @@ otel:
   endpoint: "http://127.0.0.1:9411/api/v2/spans"
 
 kafka:
-  brokers: "127.0.0.1:9092"
+  brokers: ["127.0.0.1:9092"]
 
 jobs:
   num_pollers: 10
