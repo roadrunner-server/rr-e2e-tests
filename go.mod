@@ -33,7 +33,7 @@ require (
 	github.com/roadrunner-server/grpc/v4 v4.1.5
 	github.com/roadrunner-server/gzip/v4 v4.0.4
 	github.com/roadrunner-server/headers/v4 v4.0.4
-	github.com/roadrunner-server/http/v4 v4.1.2
+	github.com/roadrunner-server/http/v4 v4.1.3
 	github.com/roadrunner-server/informer/v4 v4.1.2
 	github.com/roadrunner-server/jobs/v4 v4.3.2
 	github.com/roadrunner-server/kafka/v4 v4.1.4
@@ -127,7 +127,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/mholt/acmez v1.1.0 // indirect
-	github.com/miekg/dns v1.1.52 // indirect
+	github.com/miekg/dns v1.1.53 // indirect
 	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/moby/term v0.0.0-20221205130635-1aeaba878587 // indirect
