@@ -60,7 +60,7 @@ require (
 	github.com/roadrunner-server/status/v4 v4.1.5
 	github.com/roadrunner-server/tcp/v4 v4.0.4
 	github.com/stretchr/testify v1.8.2
-	github.com/temporalio/roadrunner-temporal/v4 v4.2.0
+	github.com/temporalio/roadrunner-temporal/v4 v4.2.1
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.39
 	go.temporal.io/api v1.19.0
@@ -193,7 +193,7 @@ require (
 	go.opentelemetry.io/proto/otlp v0.19.0 // indirect
 	go.temporal.io/sdk/contrib/opentelemetry v0.2.0 // indirect
 	go.temporal.io/sdk/contrib/tally v0.2.0 // indirect
-	go.temporal.io/server v1.20.0 // indirect
+	go.temporal.io/server v1.20.1 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/crypto v0.7.0 // indirect
