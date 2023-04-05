@@ -1425,8 +1425,8 @@ func TestServiceReset3(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.Equal(t, 20, oLogger.FilterMessageSnippet("The number is: 0").Len())
-	require.Equal(t, 20, oLogger.FilterMessageSnippet("Hello 0").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("The number is: 0").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("Hello 0").Len())
 
 	t.Cleanup(func() {
 		_ = file.Close()

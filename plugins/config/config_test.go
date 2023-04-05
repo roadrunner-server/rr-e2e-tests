@@ -131,7 +131,7 @@ func TestConfigOverwriteExpandEnv(t *testing.T) {
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
-	vp.Flags = []string{"rpc.listen=tcp://${RPC_VAL:=tcp://127.0.0.1:6001}"}
+	vp.Flags = []string{"rpc.listen=tcp://${RPC_VAL:-127.0.0.1:6001}"}
 
 	err := container.RegisterAll(
 		&logger.Plugin{},
