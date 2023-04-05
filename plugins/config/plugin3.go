@@ -11,7 +11,6 @@ type Foo3 struct {
 	configProvider Configurer
 }
 
-// Depends on S2 and DB (S3 in the current case)
 func (f *Foo3) Init(p Configurer) error {
 	f.configProvider = p
 	return nil

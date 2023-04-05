@@ -43,6 +43,10 @@ type AllConfig struct {
 			} `mapstructure:"rpc"`
 		} `mapstructure:"services"`
 	} `mapstructure:"reload"`
+	Logs struct {
+		Mode  string `mapstructure:"mode"`
+		Level string `mapstructure:"level"`
+	} `mapstructure:"logs"`
 }
 
 // ReloadConfig is a Reload configuration point.
@@ -64,7 +68,6 @@ type Foo struct {
 	configProvider Configurer
 }
 
-// Depends on S2 and DB (S3 in the current case)
 func (f *Foo) Init(p Configurer) error {
 	f.configProvider = p
 	return nil

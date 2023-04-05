@@ -1,0 +1,8 @@
+version: '3'
+
+rpc:
+  listen: ${RR_TCP:-tcp}://127.0.0.1:${RPC_PORT:-36643}
+
+logs:
+  mode: ${LOGS_MODE:-development}
+  level: ${LOGS_LEVEL:-error}

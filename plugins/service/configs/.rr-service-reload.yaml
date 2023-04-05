@@ -17,19 +17,6 @@ service:
     restart_delay: 1s
 #    exec_timeout: 5s
 
-
-reload:
-  interval: 1s
-  patterns:
-    - .txt
-  services:
-    service:
-      patterns:
-        - .txt
-      dirs:
-        - '.'
-      recursive: true
-
 logs:
   mode: development
   level: debug

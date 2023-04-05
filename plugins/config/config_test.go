@@ -125,6 +125,29 @@ func TestViperProvider_OldConfig(t *testing.T) {
 	}
 }
 
+func TestConfigOverwriteExpandEnv(t *testing.T) {
+	container := endure.New(slog.LevelDebug)
+
+	vp := &configImpl.Plugin{}
+	vp.Path = "configs/.rr.yaml"
+	vp.Prefix = "rr"
+	vp.Flags = []string{"rpc.listen=tcp://${RPC_VAL:=tcp://127.0.0.1:6001}"}
+
+	err := container.RegisterAll(
+		&logger.Plugin{},
+		&rpc.Plugin{},
+		vp,
+	)
+	assert.NoError(t, err)
+
+	err = container.Init()
+	assert.NoError(t, err)
+
+	_, err = container.Serve()
+	assert.NoError(t, err)
+	_ = container.Stop()
+}
+
 func TestConfigOverwriteFail(t *testing.T) {
 	container := endure.New(slog.LevelDebug)
 	vp := &configImpl.Plugin{}
@@ -244,6 +267,98 @@ func TestConfigEnvVariables(t *testing.T) {
 		&rpc.Plugin{},
 		vp,
 		&Foo2{},
+	)
+	assert.NoError(t, err)
+
+	err = container.Init()
+	assert.NoError(t, err)
+
+	errCh, err := container.Serve()
+	assert.NoError(t, err)
+
+	// stop by CTRL+C
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	tt := time.NewTicker(time.Second * 3)
+	defer tt.Stop()
+
+	for {
+		select {
+		case e := <-errCh:
+			assert.NoError(t, e.Error)
+			assert.NoError(t, container.Stop())
+			return
+		case <-c:
+			er := container.Stop()
+			assert.NoError(t, er)
+			return
+		case <-tt.C:
+			assert.NoError(t, container.Stop())
+			return
+		}
+	}
+}
+
+func TestConfigEnvVariables2(t *testing.T) {
+	container := endure.New(slog.LevelDebug)
+
+	vp := &configImpl.Plugin{}
+	vp.Path = "configs/.rr-env2.yaml"
+	vp.Prefix = "rr"
+
+	err := container.RegisterAll(
+		&logger.Plugin{},
+		&rpc.Plugin{},
+		vp,
+		&Foo4{},
+	)
+	assert.NoError(t, err)
+
+	err = container.Init()
+	assert.NoError(t, err)
+
+	errCh, err := container.Serve()
+	assert.NoError(t, err)
+
+	// stop by CTRL+C
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	tt := time.NewTicker(time.Second * 3)
+	defer tt.Stop()
+
+	for {
+		select {
+		case e := <-errCh:
+			assert.NoError(t, e.Error)
+			assert.NoError(t, container.Stop())
+			return
+		case <-c:
+			er := container.Stop()
+			assert.NoError(t, er)
+			return
+		case <-tt.C:
+			assert.NoError(t, container.Stop())
+			return
+		}
+	}
+}
+
+func TestConfigEnvVariables3(t *testing.T) {
+	container := endure.New(slog.LevelDebug)
+
+	_ = os.Setenv("RPC_PORT", "6001")
+
+	vp := &configImpl.Plugin{}
+	vp.Path = "configs/.rr-env3.yaml"
+	vp.Prefix = "rr"
+
+	err := container.RegisterAll(
+		&logger.Plugin{},
+		&rpc.Plugin{},
+		vp,
+		&Foo5{},
 	)
 	assert.NoError(t, err)
 
