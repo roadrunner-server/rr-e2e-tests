@@ -1357,7 +1357,7 @@ func TestServiceReset3(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-service-reload.yaml",
+		Path:    "configs/.rr-service-reload-2.yaml",
 		Prefix:  "rr",
 	}
 
