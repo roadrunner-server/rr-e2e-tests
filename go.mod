@@ -42,7 +42,7 @@ require (
 	github.com/roadrunner-server/logger/v4 v4.1.4
 	github.com/roadrunner-server/memcached/v4 v4.1.6
 	github.com/roadrunner-server/memory/v4 v4.2.3
-	github.com/roadrunner-server/metrics/v4 v4.0.4
+	github.com/roadrunner-server/metrics/v4 v4.0.5
 	github.com/roadrunner-server/nats/v4 v4.2.3
 	github.com/roadrunner-server/otel/v4 v4.1.6
 	github.com/roadrunner-server/prometheus/v4 v4.0.6
