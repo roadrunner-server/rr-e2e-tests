@@ -1,0 +1,16 @@
+version: '3'
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+server:
+  command: "php ../../php_test_files/appLogger.php"
+
+http:
+  address: 127.0.0.1:35532
+  pool:
+    num_workers: 1
+
+logs:
+  mode: development
+  level: debug

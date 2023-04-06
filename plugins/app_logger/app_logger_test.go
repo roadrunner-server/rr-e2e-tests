@@ -25,7 +25,7 @@ func TestAppLogger(t *testing.T) {
 	container := endure.New(slog.LevelDebug)
 
 	vp := &configImpl.Plugin{}
-	vp.Path = "configs/.rr.yaml"
+	vp.Path = "configs/.rr-appl.yaml"
 	vp.Prefix = "rr"
 	vp.Version = "v2023.1.0"
 
