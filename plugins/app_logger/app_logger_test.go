@@ -11,9 +11,13 @@ import (
 	applogger "github.com/roadrunner-server/app-logger/v4"
 	configImpl "github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
-	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/http/v4"
+	"github.com/roadrunner-server/rpc/v4"
+	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
+	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"go.uber.org/zap"
 	"golang.org/x/exp/slog"
 )
 
@@ -23,11 +27,15 @@ func TestAppLogger(t *testing.T) {
 	vp := &configImpl.Plugin{}
 	vp.Path = "configs/.rr.yaml"
 	vp.Prefix = "rr"
-	vp.Version = "2.12.0"
+	vp.Version = "v2023.1.0"
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err := container.RegisterAll(
+		&rpc.Plugin{},
 		&applogger.Plugin{},
-		&logger.Plugin{},
+		l,
+		&server.Plugin{},
+		&http.Plugin{},
 		vp,
 	)
 
@@ -78,4 +86,9 @@ func TestAppLogger(t *testing.T) {
 	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("Debug message").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("Error message").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("Info message").Len())
+	assert.Equal(t, 1, oLogger.FilterMessageSnippet("Warning message").Len())
 }

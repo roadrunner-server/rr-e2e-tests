@@ -101,9 +101,6 @@ func TestCentrifugoPluginInit(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-
-	t.Cleanup(func() {
-	})
 }
 
 func connectToCentrifuge() {
