@@ -51,7 +51,7 @@ require (
 	github.com/roadrunner-server/reload/v4 v4.0.4
 	github.com/roadrunner-server/resetter/v4 v4.0.3
 	github.com/roadrunner-server/rpc/v4 v4.1.5
-	github.com/roadrunner-server/sdk/v4 v4.2.0
+	github.com/roadrunner-server/sdk/v4 v4.2.1
 	github.com/roadrunner-server/send/v4 v4.0.6
 	github.com/roadrunner-server/server/v4 v4.1.2
 	github.com/roadrunner-server/service/v4 v4.1.2
@@ -63,8 +63,8 @@ require (
 	github.com/temporalio/roadrunner-temporal/v4 v4.2.1
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.39
-	go.temporal.io/api v1.19.0
-	go.temporal.io/sdk v1.21.1
+	go.temporal.io/api v1.19.1-0.20230322213042-07fb271d475b
+	go.temporal.io/sdk v1.22.0
 	go.uber.org/zap v1.24.0
 	golang.org/x/exp v0.0.0-20230321023759-10a507213a29
 	golang.org/x/net v0.9.0
@@ -80,7 +80,7 @@ exclude (
 require (
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go v1.44.241 // indirect
+	github.com/aws/aws-sdk-go v1.44.242 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.2 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.32 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.26 // indirect
