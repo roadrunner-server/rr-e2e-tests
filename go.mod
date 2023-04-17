@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.20
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.20.8
 	github.com/beanstalkd/go-beanstalk v0.2.0
-	github.com/centrifugal/centrifuge-go v0.9.4
+	github.com/centrifugal/centrifuge-go v0.9.5
 	github.com/docker/docker v23.0.3+incompatible
 	github.com/docker/go-connections v0.4.0
 	github.com/fatih/color v1.15.0
@@ -72,10 +72,7 @@ require (
 	google.golang.org/protobuf v1.30.0
 )
 
-exclude (
-	github.com/centrifugal/protocol v0.10.0
-	github.com/uber-go/tally/v4 v4.1.7
-)
+exclude github.com/uber-go/tally/v4 v4.1.7
 
 require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
@@ -95,7 +92,7 @@ require (
 	github.com/cactus/go-statsd-client/statsd v0.0.0-20200423205355-cb0885a1018c // indirect
 	github.com/caddyserver/certmagic v0.17.2 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.0 // indirect
-	github.com/centrifugal/protocol v0.9.1 // indirect
+	github.com/centrifugal/protocol v0.10.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
