@@ -582,8 +582,8 @@ github.com/cactus/go-statsd-client/statsd v0.0.0-20200423205355-cb0885a1018c h1:
 github.com/cactus/go-statsd-client/statsd v0.0.0-20200423205355-cb0885a1018c/go.mod h1:l/bIBLeOl9eX+wxJAzxS4TveKRtAqlyDpHjhkfO0MEI=
 github.com/caddyserver/certmagic v0.17.2 h1:o30seC1T/dBqBCNNGNHWwj2i5/I/FMjBbTAhjADP3nE=
 github.com/caddyserver/certmagic v0.17.2/go.mod h1:ouWUuC490GOLJzkyN35eXfV8bSbwMwSf4bdhkIxtdQE=
-github.com/cenkalti/backoff/v4 v4.2.0 h1:HN5dHm3WBOgndBH6E8V0q2jIYIR3s9yglV8k/+MN3u4=
-github.com/cenkalti/backoff/v4 v4.2.0/go.mod h1:Y3VNntkOUPxTVeUxJ/G5vcM//AlwfmyYozVcomhLiZE=
+github.com/cenkalti/backoff/v4 v4.2.1 h1:y4OZtCnogmCPw98Zjyt5a6+QwPLGkiQsYW5oUqylYbM=
+github.com/cenkalti/backoff/v4 v4.2.1/go.mod h1:Y3VNntkOUPxTVeUxJ/G5vcM//AlwfmyYozVcomhLiZE=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/census-instrumentation/opencensus-proto v0.3.0/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/census-instrumentation/opencensus-proto v0.4.1/go.mod h1:4T9NM4+4Vw91VeyqjLS6ao50K5bOcLKN6Q42XnYaRYw=
@@ -979,8 +979,8 @@ github.com/roadrunner-server/beanstalk/v4 v4.2.5 h1:qzHS7FZ3xsIMf1SUmXI1SiT1ncZL
 github.com/roadrunner-server/beanstalk/v4 v4.2.5/go.mod h1:VHpGLarAsN2SNlGhz6KwW1DdikwVegUzp2eAKsaOopY=
 github.com/roadrunner-server/boltdb/v4 v4.3.5 h1:HQ9JUEtV9h5EI5bUmA9TVT2RdnhpXc4taQNcPpi9E0M=
 github.com/roadrunner-server/boltdb/v4 v4.3.5/go.mod h1:AVcUwby9LLLM/jOeGFJ020vS9i5IU3WTJt1L5/XmL+Y=
-github.com/roadrunner-server/centrifuge/v4 v4.1.5 h1:mjt9nmxm43gx7RD1ADZPEKGrikfK51MDynAVNZzM4kE=
-github.com/roadrunner-server/centrifuge/v4 v4.1.5/go.mod h1:uN8My9RrPI/7KJx89RSaX0+U2MM83a+I45kOWMLxZuc=
+github.com/roadrunner-server/centrifuge/v4 v4.1.6 h1:Ui77SxLIGMQtIVExWDG3IdLWcCclfGgqy1fgYBXZX2w=
+github.com/roadrunner-server/centrifuge/v4 v4.1.6/go.mod h1:/neixXBJ668GE7brdgLR6/HKe6acIJ5grPDNDQ9pFZk=
 github.com/roadrunner-server/config/v4 v4.3.1 h1:JdSoZpbRe+PagybqG+wvfSjpwW8BmCBg0t4EMIqedbw=
 github.com/roadrunner-server/config/v4 v4.3.1/go.mod h1:HteSYYEmvlALxhpOAaC47qth1IbDrK4jKvWOqbxSEZQ=
 github.com/roadrunner-server/endure/v2 v2.2.0 h1:oh4f7buoWygXRj0IBc5KQ7QTUckIytDv/RQU1GKivgA=
