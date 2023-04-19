@@ -1,9 +1,8 @@
 package centrifugo
 
 import (
-	"context"
-	"fmt"
 	"os"
+	"os/exec"
 	"os/signal"
 	"sync"
 	"syscall"
@@ -28,14 +27,22 @@ func TestCentrifugoPluginInit(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
-		Version: "2.12.0",
+		Version: "2023.1.0",
 		Path:    "configs/.rr-centrifugo-init.yaml",
 		Prefix:  "rr",
 	}
 
+	cmd := exec.Command("../../env/centrifugo", "--config", "../../env/config.json", "--admin")
+	err := cmd.Start()
+	assert.NoError(t, err)
+
+	go func() {
+		_ = cmd.Wait()
+	}()
+
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	_ = l
-	err := cont.RegisterAll(
+	err = cont.RegisterAll(
 		cfg,
 		&centrifuge.Plugin{},
 		&server.Plugin{},
@@ -91,20 +98,7 @@ func TestCentrifugoPluginInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 5)
-	connectToCentrifuge()
-	time.Sleep(time.Second * 10)
-	stopCh <- struct{}{}
-	wg.Wait()
-
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
-}
-
-func connectToCentrifuge() {
-	client := centrifugeClient.NewProtobufClient("ws://localhost:8000/connection/websocket", centrifugeClient.Config{
+	client := centrifugeClient.NewProtobufClient("ws://127.0.0.1:8000/connection/websocket", centrifugeClient.Config{
 		Data:               []byte(`{"test: data"}`),
 		Name:               "roadrunner_tests",
 		Version:            "3.0.0",
@@ -114,30 +108,15 @@ func connectToCentrifuge() {
 		MaxServerPingDelay: time.Second * 100,
 	})
 
-	err := client.Connect()
-	if err != nil {
-		panic(err)
-	}
+	err = client.Connect()
+	assert.NoError(t, err)
+	time.Sleep(time.Second * 10)
+	stopCh <- struct{}{}
+	wg.Wait()
 
-	sub, err := client.NewSubscription("foo", centrifugeClient.SubscriptionConfig{
-		Data:        nil,
-		Positioned:  false,
-		Recoverable: true,
-		JoinLeave:   true,
-	})
-	if err != nil {
-		panic(err)
-	}
-
-	err = sub.Subscribe()
-	if err != nil {
-		panic(err)
-	}
-
-	pr, err := sub.Publish(context.Background(), []byte("foo"))
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(pr)
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 }
