@@ -19,33 +19,33 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.15.0
 	github.com/rabbitmq/amqp091-go v1.8.0
-	github.com/roadrunner-server/amqp/v4 v4.4.5
+	github.com/roadrunner-server/amqp/v4 v4.4.6
 	github.com/roadrunner-server/api/v4 v4.3.2
 	github.com/roadrunner-server/app-logger/v4 v4.0.6
-	github.com/roadrunner-server/beanstalk/v4 v4.2.5
+	github.com/roadrunner-server/beanstalk/v4 v4.2.6
 	github.com/roadrunner-server/boltdb/v4 v4.3.5
 	github.com/roadrunner-server/centrifuge/v4 v4.1.6
 	github.com/roadrunner-server/config/v4 v4.3.1
 	github.com/roadrunner-server/endure/v2 v2.2.0
 	github.com/roadrunner-server/errors v1.2.0
-	github.com/roadrunner-server/fileserver/v4 v4.0.8
+	github.com/roadrunner-server/fileserver/v4 v4.0.9
 	github.com/roadrunner-server/goridge/v3 v3.6.2
-	github.com/roadrunner-server/grpc/v4 v4.1.9
-	github.com/roadrunner-server/gzip/v4 v4.0.7
+	github.com/roadrunner-server/grpc/v4 v4.1.10
+	github.com/roadrunner-server/gzip/v4 v4.0.8
 	github.com/roadrunner-server/headers/v4 v4.0.7
-	github.com/roadrunner-server/http/v4 v4.1.7
+	github.com/roadrunner-server/http/v4 v4.1.8
 	github.com/roadrunner-server/informer/v4 v4.1.5
-	github.com/roadrunner-server/jobs/v4 v4.3.5
-	github.com/roadrunner-server/kafka/v4 v4.1.7
+	github.com/roadrunner-server/jobs/v4 v4.3.6
+	github.com/roadrunner-server/kafka/v4 v4.1.8
 	github.com/roadrunner-server/kv/v4 v4.1.7
 	github.com/roadrunner-server/lock/v4 v4.0.6
 	github.com/roadrunner-server/logger/v4 v4.1.5
 	github.com/roadrunner-server/memcached/v4 v4.1.7
 	github.com/roadrunner-server/memory/v4 v4.2.5
-	github.com/roadrunner-server/metrics/v4 v4.0.6
+	github.com/roadrunner-server/metrics/v4 v4.0.7
 	github.com/roadrunner-server/nats/v4 v4.2.5
-	github.com/roadrunner-server/otel/v4 v4.1.9
-	github.com/roadrunner-server/prometheus/v4 v4.0.8
+	github.com/roadrunner-server/otel/v4 v4.1.10
+	github.com/roadrunner-server/prometheus/v4 v4.0.9
 	github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.7
 	github.com/roadrunner-server/redis/v4 v4.1.8
 	github.com/roadrunner-server/reload/v4 v4.0.4
@@ -66,7 +66,7 @@ require (
 	go.temporal.io/api v1.19.1-0.20230322213042-07fb271d475b
 	go.temporal.io/sdk v1.22.1
 	go.uber.org/zap v1.24.0
-	golang.org/x/exp v0.0.0-20230418202329-0354be287a23
+	golang.org/x/exp v0.0.0-20230419192730-864b3d6c5c2c
 	golang.org/x/net v0.9.0
 	google.golang.org/grpc v1.54.0
 	google.golang.org/protobuf v1.30.0
@@ -77,7 +77,7 @@ exclude github.com/uber-go/tally/v4 v4.1.7
 require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go v1.44.245 // indirect
+	github.com/aws/aws-sdk-go v1.44.246 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.2 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.32 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.26 // indirect

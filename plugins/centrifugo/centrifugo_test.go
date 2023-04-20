@@ -23,7 +23,7 @@ import (
 	"golang.org/x/exp/slog"
 )
 
-func TestCentrifugoPluginInit(t *testing.T) {
+func TestCentrifugoPlugiInit(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
@@ -99,7 +99,6 @@ func TestCentrifugoPluginInit(t *testing.T) {
 
 	time.Sleep(time.Second * 5)
 	client := centrifugeClient.NewProtobufClient("ws://127.0.0.1:8000/connection/websocket", centrifugeClient.Config{
-		Data:               []byte(`{"test: data"}`),
 		Name:               "roadrunner_tests",
 		Version:            "3.0.0",
 		ReadTimeout:        time.Second * 100,

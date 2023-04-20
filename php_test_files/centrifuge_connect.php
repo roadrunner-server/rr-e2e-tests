@@ -17,7 +17,6 @@ $requestFactory = new RequestFactory($worker);
 $centrifugoWorker = new CentrifugoWorker($worker, $requestFactory);
 
 while ($request = $centrifugoWorker->waitRequest()) {
-
     if ($request instanceof Request\Invalid) {
         $errorMessage = $request->getException()->getMessage();
 
@@ -66,6 +65,5 @@ while ($request = $centrifugoWorker->waitRequest()) {
         }
 
         continue;
-
     }
 }
