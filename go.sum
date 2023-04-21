@@ -1112,8 +1112,8 @@ github.com/stretchr/testify v1.8.2 h1:+h33VjcLVPDHtOdpUCuF+7gSuG3yGIftsP1YvFihtJ
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/subosito/gotenv v1.4.2 h1:X1TuBLAMDFbaTAChgCBLu3DU3UPyELpnF2jjJ2cz/S8=
 github.com/subosito/gotenv v1.4.2/go.mod h1:ayKnFf/c6rvx/2iiLrJUk1e6plDbT3edrFNGqEflhK0=
-github.com/temporalio/roadrunner-temporal/v4 v4.2.2 h1:KWRhUtJ0G2KCPO2FTAQaccsDzF3PwjM2Dw3HJR7dCKM=
-github.com/temporalio/roadrunner-temporal/v4 v4.2.2/go.mod h1:fSs6esnpHQo9MCOf9bhXvWN7sEHQsP/aODAMcs8fhfs=
+github.com/temporalio/roadrunner-temporal/v4 v4.2.3 h1:cjegI8XJ8n4BI+ijSoFkJ3bov3sU6pcwveTo+LLo8O0=
+github.com/temporalio/roadrunner-temporal/v4 v4.2.3/go.mod h1:3Wt9YD3sS3zXnrVAdZ0Fxj9WXVQaqGdrGglS7vFQ8e8=
 github.com/tinylib/msgp v1.1.6/go.mod h1:75BAfg2hauQhs3qedfdDZmWAPcFMAvJE5b9rGOMufyw=
 github.com/tinylib/msgp v1.1.8 h1:FCXC1xanKO4I8plpHGH2P7koL/RzZs12l/+r7vakfm0=
 github.com/tinylib/msgp v1.1.8/go.mod h1:qkpG+2ldGg4xRFmx+jfTvZPxfGFhi64BcnL9vkCm/Tw=
