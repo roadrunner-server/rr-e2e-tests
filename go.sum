@@ -993,8 +993,8 @@ github.com/roadrunner-server/goridge/v3 v3.6.2 h1:LH5HXfCygDp05KnOaXpa4fqVPWTsH7
 github.com/roadrunner-server/goridge/v3 v3.6.2/go.mod h1:3B95k/wM5GGAD0h2hZlJagS9PlTDGs5jh8MpZYC12vA=
 github.com/roadrunner-server/grpc/v4 v4.1.11 h1:IGMWbjfzLrYXnw+zHvy+7cEdRMJ14hsRbWCyR9v1H0I=
 github.com/roadrunner-server/grpc/v4 v4.1.11/go.mod h1:nPiZVmPGNnLkYCR9+J8s8yhkprok450uVurEWMq1jb8=
-github.com/roadrunner-server/gzip/v4 v4.0.9 h1:T5f2hlZVMu6vU3QPkDJsweVX8q3kcoJxL39kX3VwOBE=
-github.com/roadrunner-server/gzip/v4 v4.0.9/go.mod h1:QqDOfu5gCXrJl5DcZlKS7xh9ddRbMyEVRB5ESxRpGQQ=
+github.com/roadrunner-server/gzip/v4 v4.0.10 h1:VfkgK0QIhVXEH94lbqxcDE6x/5Vo+JBmuyNJAuGrocY=
+github.com/roadrunner-server/gzip/v4 v4.0.10/go.mod h1:5VDc1yjjBqwZt+5X8wKMNk7EGGzxM+7PZ8oBjZyoj3g=
 github.com/roadrunner-server/headers/v4 v4.0.8 h1:M4qYoJ8hqyHaRrB9CqeTVuzc23yRDIQ0t4qmtWwENW4=
 github.com/roadrunner-server/headers/v4 v4.0.8/go.mod h1:B1baeEGKWqGGaEidQctY5dMghp5YOiNCEVSQuZ0Q0ds=
 github.com/roadrunner-server/http/v4 v4.1.9 h1:LWZitAjGTmtavAXFhfgFk25/QhSf/fCt+f0uf2ECiSg=
@@ -1033,8 +1033,8 @@ github.com/roadrunner-server/resetter/v4 v4.0.3 h1:SEqd2BU5ToPT4d8H3Y8k2bI9WIL3Z
 github.com/roadrunner-server/resetter/v4 v4.0.3/go.mod h1:aMBbcnJrVlUm3QayCUyuEStAprAu42c9tNhuvS97Ue4=
 github.com/roadrunner-server/rpc/v4 v4.1.8 h1:qoCgLOAprDBKuCU9zNexZH43mm2dLR8ZTqdt0XyxHFk=
 github.com/roadrunner-server/rpc/v4 v4.1.8/go.mod h1:N9drfdRJATSyjFQYzUI4yteVZ8q9ldY1JN2xfr7y9uY=
-github.com/roadrunner-server/sdk/v4 v4.2.2 h1:3FfQs/1EUHwUburAcMm7CvglXxpcX7alYos6zR1Jdls=
-github.com/roadrunner-server/sdk/v4 v4.2.2/go.mod h1:PfIWvTTTgVV8F7rXPcDhx/BHynPN+Z/9wfXFcVqclfw=
+github.com/roadrunner-server/sdk/v4 v4.2.3 h1:vX0fyxEUnbZn8IKSpoPwkUFjHSpnU/n62T6uRnK5GPI=
+github.com/roadrunner-server/sdk/v4 v4.2.3/go.mod h1:E/YHqtsmp8mZ9QSmb4zBBp4MBS/vSX31yvQt3JQ4QdU=
 github.com/roadrunner-server/send/v4 v4.0.9 h1:KevM3cxcBSAyfzI8apwrg+RZG2oGT5tIG23YHw7e32o=
 github.com/roadrunner-server/send/v4 v4.0.9/go.mod h1:H55gGLlJlGvdv5GiSfdvdQoEWKGY3s4JPy4e0BrdTs8=
 github.com/roadrunner-server/server/v4 v4.1.5 h1:eN+8OT4f3qED96KeeSM6hqP0B2HhV/hdZUmSdnvMxEo=

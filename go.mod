@@ -31,7 +31,7 @@ require (
 	github.com/roadrunner-server/fileserver/v4 v4.0.10
 	github.com/roadrunner-server/goridge/v3 v3.6.2
 	github.com/roadrunner-server/grpc/v4 v4.1.11
-	github.com/roadrunner-server/gzip/v4 v4.0.9
+	github.com/roadrunner-server/gzip/v4 v4.0.10
 	github.com/roadrunner-server/headers/v4 v4.0.8
 	github.com/roadrunner-server/http/v4 v4.1.9
 	github.com/roadrunner-server/informer/v4 v4.1.6
@@ -51,7 +51,7 @@ require (
 	github.com/roadrunner-server/reload/v4 v4.0.4
 	github.com/roadrunner-server/resetter/v4 v4.0.3
 	github.com/roadrunner-server/rpc/v4 v4.1.8
-	github.com/roadrunner-server/sdk/v4 v4.2.2
+	github.com/roadrunner-server/sdk/v4 v4.2.3
 	github.com/roadrunner-server/send/v4 v4.0.9
 	github.com/roadrunner-server/server/v4 v4.1.5
 	github.com/roadrunner-server/service/v4 v4.1.5
