@@ -26,7 +26,7 @@ require (
 	github.com/roadrunner-server/boltdb/v4 v4.3.6
 	github.com/roadrunner-server/centrifuge/v4 v4.1.7
 	github.com/roadrunner-server/config/v4 v4.3.1
-	github.com/roadrunner-server/endure/v2 v2.2.0
+	github.com/roadrunner-server/endure/v2 v2.2.1
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v4 v4.0.10
 	github.com/roadrunner-server/goridge/v3 v3.6.2
@@ -66,7 +66,7 @@ require (
 	go.temporal.io/api v1.19.1-0.20230322213042-07fb271d475b
 	go.temporal.io/sdk v1.22.1
 	go.uber.org/zap v1.24.0
-	golang.org/x/exp v0.0.0-20230425010034-47ecfdc1ba53
+	golang.org/x/exp v0.0.0-20230510235704-dd950f8aeaea
 	golang.org/x/net v0.10.0
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0
