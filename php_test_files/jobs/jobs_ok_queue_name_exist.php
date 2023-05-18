@@ -9,7 +9,6 @@ use Spiral\RoadRunner;
 use Spiral\Goridge\StreamRelay;
 use Spiral\RoadRunner\Jobs\Consumer;
 use Spiral\RoadRunner\Jobs\Serializer\JsonSerializer;
-use RuntimeException;
 
 ini_set('display_errors', 'stderr');
 require dirname(__DIR__) . "/vendor/autoload.php";
