@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  rabbitmq_tls:
+    image: rabbitmq:3-management
+    volumes:
+      - ./rabbitmq-tls/:/etc/rabbitmq/
+      - ../test-certs/:/var/rabbitmq/
+    ports:
+      - "127.0.0.1:5677:5671"
+    networks:
+      amqptls:
+
+networks:
+  amqptls:
+    name: amqptls

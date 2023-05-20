@@ -447,6 +447,8 @@ jobs:
 
       - name: Run golang tests with coverage
         run: |
+          docker compose -f env/docker-compose-amqp-tls.yaml up -d
+          sleep 30
           docker compose -f env/docker-compose-amqp.yaml up -d
           sleep 30
           docker compose -f env/docker-compose-http.yaml up -d
