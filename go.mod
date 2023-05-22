@@ -51,7 +51,7 @@ require (
 	github.com/roadrunner-server/reload/v4 v4.0.4
 	github.com/roadrunner-server/resetter/v4 v4.0.4
 	github.com/roadrunner-server/rpc/v4 v4.1.9
-	github.com/roadrunner-server/sdk/v4 v4.2.4
+	github.com/roadrunner-server/sdk/v4 v4.2.5
 	github.com/roadrunner-server/send/v4 v4.0.10
 	github.com/roadrunner-server/server/v4 v4.1.6
 	github.com/roadrunner-server/service/v4 v4.1.6
@@ -125,7 +125,7 @@ require (
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
-	github.com/mattn/go-isatty v0.0.18 // indirect
+	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/mholt/acmez v1.1.1 // indirect
