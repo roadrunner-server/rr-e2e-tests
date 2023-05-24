@@ -34,7 +34,7 @@ services:
   rabbitmq_slow:
     image: rabbitmq:3-management
     volumes:
-      - ./rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     ports:
       - "127.0.0.1:15673:15672"
       - "127.0.0.1:5673:5672"

@@ -18,7 +18,9 @@
     "spiral/goridge": "^3.2",
     "roadrunner-php/centrifugo": "^1.0",
     "roadrunner-php/app-logger": "^1.0",
-    "open-telemetry/sdk": "^0.0.10"
+    "open-telemetry/sdk": "^0.0.10",
+    "psr/http-factory": "^1.0",
+    "php-http/message-factory": "^1.1"
   },
   "autoload": {
     "psr-4": {

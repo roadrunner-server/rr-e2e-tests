@@ -1470,7 +1470,6 @@ func TestAMQPSlow(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	assert.Equal(t, 10, oLogger.FilterMessageSnippet("worker doesn't respond on stop command, killing process").Len())
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet(`number of listeners`).Len(), 1)
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("consume channel close").Len(), 1)

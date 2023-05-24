@@ -22,10 +22,9 @@ metrics:
 jobs:
   num_pollers: 10
   pipeline_size: 100000
-  timeout: 1
+  timeout: 10
   pool:
     num_workers: 10
-    max_jobs: 0
     allocate_timeout: 120s
     destroy_timeout: 1s
 

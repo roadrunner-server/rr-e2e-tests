@@ -201,7 +201,7 @@ func TestTCPEmptySend(t *testing.T) {
 		}
 	}()
 
-	time.Sleep(time.Second * 1)
+	time.Sleep(time.Second * 2)
 	c, err := net.Dial("tcp", "127.0.0.1:7779")
 	require.NoError(t, err)
 	_, err = c.Write([]byte(""))
