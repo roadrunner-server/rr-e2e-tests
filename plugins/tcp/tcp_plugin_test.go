@@ -296,7 +296,7 @@ func TestTCPConnClose(t *testing.T) {
 
 	require.NotEmpty(t, d["uuid"].(string))
 
-	t.Run("CloseConnection", closeConn(d["uuid"].(string)))
+	t.Run("CloseConnection", closeConn(d["uuid"].(string), "127.0.0.1:6001"))
 	// ---
 
 	stopCh <- struct{}{}
@@ -386,6 +386,7 @@ func TestTCPFull(t *testing.T) {
 			require.Equal(t, d["remote_addr"].(string), "foo1")
 			require.Equal(t, d["body"].(string), "foo \r\n")
 		}
+
 		_ = c.Close()
 		waitCh <- struct{}{}
 	}()
@@ -457,9 +458,9 @@ func TestTCPFull(t *testing.T) {
 	wg.Wait()
 }
 
-func closeConn(uuid string) func(t *testing.T) {
+func closeConn(uuid string, address string) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 		var ret bool

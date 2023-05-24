@@ -591,7 +591,6 @@ github.com/centrifugal/centrifuge-go v0.9.6 h1:8ou/EG+ULH/5dQJUoyrFUVbSF0XvFN+fB
 github.com/centrifugal/centrifuge-go v0.9.6/go.mod h1:5SqXArftzrlx9TfEeEJ8hamYaSffZlYGPUoMm5ccm3A=
 github.com/centrifugal/protocol v0.10.0 h1:Lac48ATVjVjirYPTHxbSMmiQXXajx7dhARKHy1UOL+A=
 github.com/centrifugal/protocol v0.10.0/go.mod h1:Tq5I1mBpLHkLxNM9gfb3Gth+sTE2kKU5hH3cVgmVs9s=
-github.com/cespare/xxhash v1.1.0 h1:a6HrQnmkObjyL+Gs60czilIUGqrzKutQD6XZog3p+ko=
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cespare/xxhash/v2 v2.2.0 h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj44=
@@ -806,7 +805,6 @@ github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/ad
 github.com/grpc-ecosystem/go-grpc-middleware v1.3.0/go.mod h1:z0ButlSOZa5vEBq9m2m2hlwIgKw+rp3sdCBRoJY+30Y=
 github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 h1:UH//fgunKIs4JdUbpDl1VZCDaL56wXCB/5+wF6uHfaI=
 github.com/grpc-ecosystem/go-grpc-middleware v1.4.0/go.mod h1:g5qyo/la0ALbONm6Vbp88Yd8NsDy6rZz+RcrMPxvld8=
-github.com/grpc-ecosystem/grpc-gateway v1.16.0 h1:gmcG1KaJ57LophUzW0Hy8NmPhnMZb4M0+kPpLofRdBo=
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0/go.mod h1:hgWBS7lorOAVIJEQMi4ZsPv9hVvWI6+ch50m39Pf2Ks=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3/go.mod h1:o//XUCC/F+yRGJoPO/VU0GSB0f8Nhgmxx0VIRUvaC0w=
@@ -1039,8 +1037,8 @@ github.com/roadrunner-server/sdk/v4 v4.2.6 h1:BSQ+HHklszJKGCo91jqRwvgjhSkuz097cb
 github.com/roadrunner-server/sdk/v4 v4.2.6/go.mod h1:WBLEsz9EMY6CkwpdeageMEPLevD/PaUf4rOOsBsaKlo=
 github.com/roadrunner-server/send/v4 v4.0.11 h1:aERLiJOf2U6BHb6vu22a52uz50ISVbWlboTF3xx5wBE=
 github.com/roadrunner-server/send/v4 v4.0.11/go.mod h1:mXKV2shbHA2wXwexL35KpUA21lLuCmC4aj41xZS6cC0=
-github.com/roadrunner-server/server/v4 v4.1.7 h1:RjJOXrpj8o8QJ44DCvcTYnDxRvRLWgXdJ/cwZ1TDn5A=
-github.com/roadrunner-server/server/v4 v4.1.7/go.mod h1:HJIJcn9l+563DiI8xo+k7tk5RrLrHedwLhkPu52GXsw=
+github.com/roadrunner-server/server/v4 v4.1.8 h1:BnGNNirBFVP0XVV+qkYfoqCpH1FIvBbtXT/DEnWwQkI=
+github.com/roadrunner-server/server/v4 v4.1.8/go.mod h1:HJIJcn9l+563DiI8xo+k7tk5RrLrHedwLhkPu52GXsw=
 github.com/roadrunner-server/service/v4 v4.1.7 h1:wxE+xCBqMUXsV9aFEOMLx/kdcs8OEG/MAy4k50pA1/U=
 github.com/roadrunner-server/service/v4 v4.1.7/go.mod h1:n1PUi7AudlSGt1MKdhidV4WF36Gh0c+HKXhpwhHiDkM=
 github.com/roadrunner-server/sqs/v4 v4.2.10 h1:TP8xECH95aObLJW+F3NreE6CnYFup+xQ+DT/ifA/WnA=
