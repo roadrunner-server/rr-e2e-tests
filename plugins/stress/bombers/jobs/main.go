@@ -291,7 +291,7 @@ func declareAMQPPipe(client *rpc.Client, p string) {
 		"prefetch":        "1000",
 		"priority":        "1",
 		"exclusive":       "false",
-		"multiple_ask":    "false",
+		"multiple_ack":    "false",
 		"requeue_on_fail": "false",
 	}}
 
