@@ -1843,7 +1843,7 @@ func declareAMQPPipe(queue, routingKey, name, headers, exclusive, durable string
 			"priority":             "3",
 			"exclusive":            exclusive,
 			"durable":              durable,
-			"multiple_ask":         "true",
+			"multiple_ack":         "true",
 			"requeue_on_fail":      "true",
 		}}
 
