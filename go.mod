@@ -59,7 +59,7 @@ require (
 	github.com/roadrunner-server/static/v4 v4.0.11
 	github.com/roadrunner-server/status/v4 v4.1.11
 	github.com/roadrunner-server/tcp/v4 v4.0.10
-	github.com/stretchr/testify v1.8.3
+	github.com/stretchr/testify v1.8.4
 	github.com/temporalio/roadrunner-temporal/v4 v4.2.5
 	github.com/yookoala/gofast v0.7.0
 	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.39
