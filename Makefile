@@ -13,6 +13,8 @@ sleep-%:
 test_coverage: run_docker sleep-30
 	rm -rf coverage-ci
 	mkdir ./coverage-ci
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/app_logger.out -covermode=atomic ./plugins/app_logger
+	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/lock.out -covermode=atomic ./plugins/lock
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/temporal.out -covermode=atomic ./plugins/temporal
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/service.out -covermode=atomic ./plugins/service
 	go test -v -race -cover -tags=debug -coverpkg=all -failfast -coverprofile=./coverage-ci/amqp.out -covermode=atomic ./plugins/jobs/amqp
@@ -50,6 +52,8 @@ test_coverage: run_docker sleep-30
 	docker-compose -f env/docker-compose.yaml down
 
 test:
+	go test -v -race -tags=debug ./plugins/app_logger
+	go test -v -race -tags=debug ./plugins/lock
 	go test -v -race -tags=debug ./plugins/temporal
 	go test -v -race -tags=debug ./plugins/service
 	go test -v -race -tags=debug ./plugins/jobs/amqp
@@ -96,4 +100,4 @@ regenerate_test_proto:
 generate-test-local-certs:
 	mkcert localhost 127.0.0.1 ::1
 	mkcert -client localhost 127.0.0.1 ::1
-	cp (mkcert -CAROOT)/rootCA.pem test-certs
+	cp $(mkcert -CAROOT)/rootCA.pem test-certs

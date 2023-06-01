@@ -2,6 +2,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
+    "ext-curl": "*",
     "guzzlehttp/guzzle": "^6.5",
     "nyholm/psr7": "^1.5",
     "spiral/roadrunner": "^2.0",
