@@ -8,9 +8,9 @@ use Spiral\Goridge;
 use RoadRunner\Logger\Logger;
 use Spiral\RoadRunner;
 
-$rpc = RPC::fromEnvironment(new \Spiral\RoadRunner\Environment([
-    'RR_RPC' => 'tcp://127.0.0.1:6001'
-]));
+$rpc = new Goridge\RPC\RPC(
+    Goridge\Relay::create('tcp://127.0.0.1:6001')
+);
 
 $logger = new Logger($rpc);
 
