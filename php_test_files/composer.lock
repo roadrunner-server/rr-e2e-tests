@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02d9bd029da60863e36a02bb1c9cd9a0",
+    "content-hash": "23124a1b2172c8b46e7203c03f2787ce",
     "packages": [
         {
             "name": "brick/math",
@@ -684,16 +684,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.66.0",
+            "version": "2.67.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "496712849902241f04902033b0441b269effe001"
+                "reference": "c1001b3bc75039b07f38a79db5237c4c529e04c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/496712849902241f04902033b0441b269effe001",
-                "reference": "496712849902241f04902033b0441b269effe001",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/c1001b3bc75039b07f38a79db5237c4c529e04c8",
+                "reference": "c1001b3bc75039b07f38a79db5237c4c529e04c8",
                 "shasum": ""
             },
             "require": {
@@ -782,7 +782,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-29T18:53:47+00:00"
+            "time": "2023-05-25T22:09:47+00:00"
         },
         {
             "name": "nyholm/dsn",
@@ -1137,71 +1137,6 @@
                 "source": "https://github.com/opentelemetry-php/sem-conv/tree/0.0.10"
             },
             "time": "2022-02-16T07:32:22+00:00"
-        },
-        {
-            "name": "opis/closure",
-            "version": "3.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/opis/closure.git",
-                "reference": "3d81e4309d2a927abbe66df935f4bb60082805ad"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/3d81e4309d2a927abbe66df935f4bb60082805ad",
-                "reference": "3d81e4309d2a927abbe66df935f4bb60082805ad",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.4 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "jeremeamia/superclosure": "^2.0",
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.6.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "functions.php"
-                ],
-                "psr-4": {
-                    "Opis\\Closure\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marius Sarca",
-                    "email": "marius.sarca@gmail.com"
-                },
-                {
-                    "name": "Sorin Sarca",
-                    "email": "sarca_sorin@hotmail.com"
-                }
-            ],
-            "description": "A library that can be used to serialize closures (anonymous functions) and arbitrary objects.",
-            "homepage": "https://opis.io/closure",
-            "keywords": [
-                "anonymous functions",
-                "closure",
-                "function",
-                "serializable",
-                "serialization",
-                "serialize"
-            ],
-            "support": {
-                "issues": "https://github.com/opis/closure/issues",
-                "source": "https://github.com/opis/closure/tree/3.6.3"
-            },
-            "time": "2022-01-27T09:35:39+00:00"
         },
         {
             "name": "php-http/discovery",
@@ -2236,39 +2171,36 @@
         },
         {
             "name": "roadrunner-php/centrifugo",
-            "version": "1.0.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/centrifugo.git",
-                "reference": "5b6e67ef4242b66d5f95032b507b1f341818a28c"
+                "reference": "9b48bfa1d6aee0c889ea77bb2afe8f733e0ad8e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/centrifugo/zipball/5b6e67ef4242b66d5f95032b507b1f341818a28c",
-                "reference": "5b6e67ef4242b66d5f95032b507b1f341818a28c",
+                "url": "https://api.github.com/repos/roadrunner-php/centrifugo/zipball/9b48bfa1d6aee0c889ea77bb2afe8f733e0ad8e7",
+                "reference": "9b48bfa1d6aee0c889ea77bb2afe8f733e0ad8e7",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "google/protobuf": "^3.7",
                 "php": ">=8.1",
-                "spiral/goridge": "^3.1",
-                "spiral/roadrunner-worker": "^2.2"
+                "roadrunner-php/roadrunner-api-dto": "^1.0",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1",
+                "spiral/roadrunner-worker": "^3.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
-                "phpunit/phpunit": "^9.5",
-                "spiral/roadrunner-cli": "^2.3",
-                "vimeo/psalm": "^4.29"
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": ">= 5.8"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "GPBMetadata\\": "generated/GPBMetadata",
-                    "RoadRunner\\Centrifugo\\": [
-                        "src",
-                        "generated/RoadRunner/Centrifugo"
-                    ]
+                    "RoadRunner\\Centrifugo\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2277,16 +2209,105 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "Kirill Nesmeyanov (SerafimArts)",
+                    "email": "kirill.nesmeyanov@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
                 }
             ],
             "description": "RoadRunner: Centrifugo bridge",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/roadrunner-php/centrifugo/issues",
-                "source": "https://github.com/roadrunner-php/centrifugo/tree/1.0.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/centrifugo/tree/2.0.0"
             },
-            "time": "2022-11-11T18:30:55+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-13T11:38:58+00:00"
+        },
+        {
+            "name": "roadrunner-php/roadrunner-api-dto",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roadrunner-php/roadrunner-api-dto.git",
+                "reference": "30ca2ed4ff9d44835ee5874d6337d77a56227d55"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roadrunner-php/roadrunner-api-dto/zipball/30ca2ed4ff9d44835ee5874d6337d77a56227d55",
+                "reference": "30ca2ed4ff9d44835ee5874d6337d77a56227d55",
+                "shasum": ""
+            },
+            "require": {
+                "google/protobuf": "^v3.22",
+                "php": "^8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RoadRunner\\": "generated/RoadRunner"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Butchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "RoadRunner PHP API",
+            "homepage": "https://roadrunner.dev/",
+            "support": {
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/roadrunner-api-dto/tree/1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-07T06:14:49+00:00"
         },
         {
             "name": "spiral/attributes",
@@ -2418,31 +2439,31 @@
         },
         {
             "name": "spiral/goridge",
-            "version": "v3.2.0",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/goridge.git",
-                "reference": "3d8e97d7d1cc26b6130d233177b23ecb3c7d4efb"
+                "reference": "56302fc0b677e7874a64ad5d76177e802f963a2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/goridge/zipball/3d8e97d7d1cc26b6130d233177b23ecb3c7d4efb",
-                "reference": "3d8e97d7d1cc26b6130d233177b23ecb3c7d4efb",
+                "url": "https://api.github.com/repos/roadrunner-php/goridge/zipball/56302fc0b677e7874a64ad5d76177e802f963a2a",
+                "reference": "56302fc0b677e7874a64ad5d76177e802f963a2a",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-sockets": "*",
-                "php": ">=7.4",
-                "symfony/polyfill-php80": "^1.22"
+                "php": ">=8.1",
+                "spiral/roadrunner": "^2023"
             },
             "require-dev": {
-                "google/protobuf": "^3.17",
+                "google/protobuf": "^3.22",
                 "infection/infection": "^0.26.1",
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "phpunit/phpunit": "^9.5",
+                "phpunit/phpunit": "^10.0",
                 "rybakit/msgpack": "^0.7",
-                "vimeo/psalm": "^4.18.1"
+                "vimeo/psalm": "^5.9"
             },
             "suggest": {
                 "ext-msgpack": "MessagePack codec support",
@@ -2451,11 +2472,6 @@
                 "rybakit/msgpack": "(^0.7) MessagePack codec support"
             },
             "type": "goridge",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.3.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Spiral\\Goridge\\": "src"
@@ -2467,22 +2483,46 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Valery Piashchynski",
+                    "homepage": "https://github.com/rustatian"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
                 }
             ],
             "description": "High-performance PHP-to-Golang RPC bridge",
+            "homepage": "https://spiral.dev/",
             "support": {
-                "issues": "https://github.com/roadrunner-php/goridge/issues",
-                "source": "https://github.com/roadrunner-php/goridge/tree/v3.2.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/goridge/tree/4.0.0"
             },
             "funding": [
                 {
-                    "url": "https://github.com/roadrunner-server",
+                    "url": "https://github.com/sponsors/roadrunner-server",
                     "type": "github"
                 }
             ],
-            "time": "2022-03-21T20:32:19+00:00"
+            "time": "2023-04-13T11:38:18+00:00"
         },
         {
             "name": "spiral/logger",
@@ -2551,22 +2591,17 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2.12.3",
+            "version": "v2023.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "18f526ad9eef19b57bdf1ad4b0252683f514c718"
+                "reference": "d1a39a542cecf3ecedb4acf5978892e38bf15137"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/18f526ad9eef19b57bdf1ad4b0252683f514c718",
-                "reference": "18f526ad9eef19b57bdf1ad4b0252683f514c718",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/d1a39a542cecf3ecedb4acf5978892e38bf15137",
+                "reference": "d1a39a542cecf3ecedb4acf5978892e38bf15137",
                 "shasum": ""
-            },
-            "require": {
-                "spiral/roadrunner-cli": "^2.0",
-                "spiral/roadrunner-http": "^2.0",
-                "spiral/roadrunner-worker": "^2.0"
             },
             "type": "metapackage",
             "notification-url": "https://packagist.org/downloads/",
@@ -2594,7 +2629,7 @@
                 "docs": "https://roadrunner.dev/docs",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.12.3"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2023.1.4"
             },
             "funding": [
                 {
@@ -2602,7 +2637,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-16T13:00:26+00:00"
+            "time": "2023-05-25T10:57:00+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",
@@ -2671,44 +2706,35 @@
         },
         {
             "name": "spiral/roadrunner-grpc",
-            "version": "v2.0.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-grpc.git",
-                "reference": "41ddf6f9747c990609830c61723da9f9cccb9ded"
+                "url": "https://github.com/roadrunner-php/grpc.git",
+                "reference": "264ab8d570fcaf2d76a0fa76f1cc75968b08c887"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-grpc/zipball/41ddf6f9747c990609830c61723da9f9cccb9ded",
-                "reference": "41ddf6f9747c990609830c61723da9f9cccb9ded",
+                "url": "https://api.github.com/repos/roadrunner-php/grpc/zipball/264ab8d570fcaf2d76a0fa76f1cc75968b08c887",
+                "reference": "264ab8d570fcaf2d76a0fa76f1cc75968b08c887",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "google/common-protos": "^3.1",
                 "google/protobuf": "^3.7",
-                "php": ">=7.4",
-                "spiral/roadrunner": "^2.0",
-                "symfony/polyfill-php80": "^1.22"
+                "php": ">=8.1",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1",
+                "spiral/roadrunner-worker": "^3.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
                 "mockery/mockery": "^1.4",
-                "phpunit/phpunit": "^9.5",
-                "spiral/code-style": "^1.0",
-                "symfony/var-dumper": ">=4.4",
-                "vimeo/psalm": "^4.6"
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": ">=5.8"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
             "autoload": {
-                "files": [
-                    "src/polyfill.php"
-                ],
                 "psr-4": {
                     "Spiral\\RoadRunner\\GRPC\\": "src"
                 }
@@ -2719,55 +2745,76 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
                 }
             ],
             "description": "High-Performance GRPC server for PHP applications",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-grpc/issues",
-                "source": "https://github.com/spiral/roadrunner-grpc/tree/v2.0.1"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/grpc/tree/3.0.0"
             },
-            "time": "2022-11-10T10:11:03+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-14T14:11:02+00:00"
         },
         {
             "name": "spiral/roadrunner-http",
-            "version": "v2.2.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-http.git",
-                "reference": "2b397a27f19cbf8934c20b9e691e0f2edfd2d7b9"
+                "url": "https://github.com/roadrunner-php/http.git",
+                "reference": "ab62a2dbe09d62bcb42a297b19a25c7a913683f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-http/zipball/2b397a27f19cbf8934c20b9e691e0f2edfd2d7b9",
-                "reference": "2b397a27f19cbf8934c20b9e691e0f2edfd2d7b9",
+                "url": "https://api.github.com/repos/roadrunner-php/http/zipball/ab62a2dbe09d62bcb42a297b19a25c7a913683f9",
+                "reference": "ab62a2dbe09d62bcb42a297b19a25c7a913683f9",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=7.4",
+                "php": ">=8.1",
                 "psr/http-factory": "^1.0.1",
-                "psr/http-message": "^1.0.1",
-                "spiral/roadrunner-worker": "^2.2.0"
+                "psr/http-message": "^1.0.1 || ^2.0",
+                "spiral/roadrunner": "^2023.1",
+                "spiral/roadrunner-worker": "^3.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
                 "nyholm/psr7": "^1.3",
-                "phpstan/phpstan": "~0.12",
-                "phpunit/phpunit": "~8.0",
-                "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": "^4.22"
+                "phpunit/phpunit": "^10.0",
+                "symfony/process": "^6.2",
+                "vimeo/psalm": "^5.9"
             },
             "suggest": {
                 "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Spiral\\RoadRunner\\Http\\": "src"
@@ -2779,65 +2826,165 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Valery Piashchynski",
+                    "homepage": "https://github.com/rustatian"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "RoadRunner: HTTP and PSR-7 worker",
+            "homepage": "https://spiral.dev/",
+            "support": {
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/http/tree/3.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-24T06:50:34+00:00"
+        },
+        {
+            "name": "spiral/roadrunner-jobs",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roadrunner-php/jobs.git",
+                "reference": "ce9740fd624f2d2a785e24baed8031b096173546"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roadrunner-php/jobs/zipball/ce9740fd624f2d2a785e24baed8031b096173546",
+                "reference": "ce9740fd624f2d2a785e24baed8031b096173546",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "google/protobuf": "^v3.17",
+                "php": ">=8.1",
+                "ramsey/uuid": "^3 || ^4",
+                "roadrunner-php/roadrunner-api-dto": "^1.0",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1",
+                "spiral/roadrunner-worker": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.0",
+                "roave/security-advisories": "dev-master",
+                "vimeo/psalm": ">=5.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spiral\\RoadRunner\\Jobs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "Kirill Nesmeyanov (SerafimArts)",
+                    "email": "kirill.nesmeyanov@spiralscout.com"
                 },
                 {
                     "name": "RoadRunner Community",
                     "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
                 }
             ],
-            "description": "RoadRunner: HTTP and PSR-7 worker",
+            "description": "RoadRunner Queues (Jobs) plugin API library",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-http/issues",
-                "source": "https://github.com/spiral/roadrunner-http/tree/v2.2.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/jobs/tree/4.0.0"
             },
-            "time": "2022-11-30T11:40:04+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-13T10:35:45+00:00"
         },
         {
-            "name": "spiral/roadrunner-jobs",
-            "version": "v2.9.0",
+            "name": "spiral/roadrunner-kv",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-jobs.git",
-                "reference": "5d7b9d252c9453f7ec3f98c684a6051da3b5e8d2"
+                "url": "https://github.com/roadrunner-php/kv.git",
+                "reference": "fca0221f91de80ad7a8c3b03f5d4cdf5bfdf0a4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-jobs/zipball/5d7b9d252c9453f7ec3f98c684a6051da3b5e8d2",
-                "reference": "5d7b9d252c9453f7ec3f98c684a6051da3b5e8d2",
+                "url": "https://api.github.com/repos/roadrunner-php/kv/zipball/fca0221f91de80ad7a8c3b03f5d4cdf5bfdf0a4c",
+                "reference": "fca0221f91de80ad7a8c3b03f5d4cdf5bfdf0a4c",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "google/protobuf": "^3.7",
-                "opis/closure": "^3.6",
-                "php": ">=7.4",
-                "ramsey/uuid": "^3 || ^4",
-                "spiral/goridge": "^3.1",
-                "spiral/roadrunner": "^2.0",
-                "spiral/roadrunner-worker": "^2.0.2"
+                "php": ">=8.1",
+                "psr/simple-cache": "3",
+                "roadrunner-php/roadrunner-api-dto": "^1.0",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5",
+                "phpunit/phpunit": "^10.0",
                 "roave/security-advisories": "dev-master",
-                "spiral/code-style": "^1.0",
-                "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": "^4.14"
+                "vimeo/psalm": ">=5.8"
+            },
+            "suggest": {
+                "ext-igbinary": "(>3.1.6) Igbinary serailizer support",
+                "ext-sodium": "Sodium serailizer support"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
-                    "GPBMetadata\\": "generated/GPBMetadata",
-                    "Spiral\\RoadRunner\\Jobs\\": [
-                        "src",
-                        "generated/Spiral/RoadRunner/Jobs"
-                    ]
+                    "Spiral\\RoadRunner\\KeyValue\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2850,74 +2997,17 @@
                     "email": "wolfy.jd@gmail.com"
                 },
                 {
-                    "name": "Kirill Nesmeyanov (SerafimArts)",
-                    "email": "kirill.nesmeyanov@spiralscout.com"
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
                 },
                 {
-                    "name": "RoadRunner Community",
-                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
-                }
-            ],
-            "description": "RoadRunner Queues (Jobs) plugin API library",
-            "support": {
-                "issues": "https://github.com/spiral/roadrunner-jobs/issues",
-                "source": "https://github.com/spiral/roadrunner-jobs/tree/v2.9.0"
-            },
-            "time": "2023-03-20T08:02:16+00:00"
-        },
-        {
-            "name": "spiral/roadrunner-kv",
-            "version": "v3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/roadrunner-kv.git",
-                "reference": "4e9694faad119d3ece2d7632f85f980f14ab5daf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-kv/zipball/4e9694faad119d3ece2d7632f85f980f14ab5daf",
-                "reference": "4e9694faad119d3ece2d7632f85f980f14ab5daf",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "google/protobuf": "^3.7",
-                "php": ">=8.1",
-                "psr/simple-cache": "2 - 3",
-                "spiral/goridge": "^3.1",
-                "spiral/roadrunner": "^2.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.0",
-                "roave/security-advisories": "dev-master",
-                "spiral/code-style": "^1.0",
-                "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": ">=4.4"
-            },
-            "suggest": {
-                "ext-igbinary": "(>3.1.6) Igbinary serailizer support",
-                "ext-sodium": "Sodium serailizer support"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GPBMetadata\\": "generated/GPBMetadata",
-                    "Spiral\\RoadRunner\\KeyValue\\": [
-                        "src",
-                        "generated/Spiral/RoadRunner/KeyValue"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
                 {
                     "name": "Kirill Nesmeyanov (SerafimArts)",
                     "email": "kirill.nesmeyanov@spiralscout.com"
@@ -2928,45 +3018,50 @@
                 }
             ],
             "description": "RoadRunner kv plugin bridge",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-kv/issues",
-                "source": "https://github.com/spiral/roadrunner-kv/tree/v3.0.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/kv/tree/4.0.0"
             },
-            "time": "2022-09-26T08:54:18+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-13T12:55:51+00:00"
         },
         {
             "name": "spiral/roadrunner-metrics",
-            "version": "v2.0.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-metrics.git",
-                "reference": "256c121e0b33f445775a4d840ed5a72c558abcba"
+                "url": "https://github.com/roadrunner-php/metrics.git",
+                "reference": "27331968ecb789f5e9a3c603a4301e85f51f6156"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-metrics/zipball/256c121e0b33f445775a4d840ed5a72c558abcba",
-                "reference": "256c121e0b33f445775a4d840ed5a72c558abcba",
+                "url": "https://api.github.com/repos/roadrunner-php/metrics/zipball/27331968ecb789f5e9a3c603a4301e85f51f6156",
+                "reference": "27331968ecb789f5e9a3c603a4301e85f51f6156",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4",
-                "spiral/goridge": "^3.0",
-                "symfony/polyfill-php80": "^1.22"
+                "php": ">=8.1",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "phpunit/phpunit": "~8.0",
-                "vimeo/psalm": "^4.4"
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": ">=5.8"
             },
             "suggest": {
                 "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Spiral\\RoadRunner\\Metrics\\": "src"
@@ -2982,41 +3077,67 @@
                     "email": "wolfy-j@spiralscout.com"
                 },
                 {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "Kirill Nesmeyanov (SerafimArts)",
+                    "email": "kirill.nesmeyanov@spiralscout.com"
+                },
+                {
                     "name": "RoadRunner Community",
                     "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
                 }
             ],
             "description": "RoadRunner: Prometheus metrics RPC",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-metrics/issues",
-                "source": "https://github.com/spiral/roadrunner-metrics/tree/v2.0.1"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/metrics/tree/3.0.0"
             },
-            "time": "2021-02-18T17:53:39+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-13T10:43:10+00:00"
         },
         {
             "name": "spiral/roadrunner-tcp",
-            "version": "v2.0.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-tcp.git",
-                "reference": "d3d42b5bc8d96de466c86d52a281c90381f9514f"
+                "url": "https://github.com/roadrunner-php/tcp.git",
+                "reference": "ee4a060609a7540f60bbce8843704fb915fe6b02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-tcp/zipball/d3d42b5bc8d96de466c86d52a281c90381f9514f",
-                "reference": "d3d42b5bc8d96de466c86d52a281c90381f9514f",
+                "url": "https://api.github.com/repos/roadrunner-php/tcp/zipball/ee4a060609a7540f60bbce8843704fb915fe6b02",
+                "reference": "ee4a060609a7540f60bbce8843704fb915fe6b02",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=7.4",
-                "spiral/roadrunner-worker": "^2.0"
+                "php": ">=8.1",
+                "spiral/roadrunner": "^2023.1",
+                "spiral/roadrunner-worker": "^3.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "phpunit/phpunit": "~9.5.10",
-                "spiral/code-style": "^1.0",
-                "vimeo/psalm": "^4.4"
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": ">=5.8"
             },
             "suggest": {
                 "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
@@ -3033,8 +3154,20 @@
             ],
             "authors": [
                 {
-                    "name": "Pavel Buchnev / butschster",
-                    "email": "butschster@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
                 },
                 {
                     "name": "RoadRunner Community",
@@ -3042,49 +3175,55 @@
                 }
             ],
             "description": "RoadRunner: TCP worker",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-tcp/issues",
-                "source": "https://github.com/spiral/roadrunner-tcp/tree/v2.0.1"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/tcp/tree/3.0.0"
             },
-            "time": "2022-07-14T13:31:57+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-13T10:34:26+00:00"
         },
         {
             "name": "spiral/roadrunner-worker",
-            "version": "v2.3.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-worker.git",
-                "reference": "028adbbd43566b264fa3e3edb47cfbc3fb2cd11e"
+                "url": "https://github.com/roadrunner-php/worker.git",
+                "reference": "97f966a6685809c7fa024b022f953bd1ae3b6135"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-worker/zipball/028adbbd43566b264fa3e3edb47cfbc3fb2cd11e",
-                "reference": "028adbbd43566b264fa3e3edb47cfbc3fb2cd11e",
+                "url": "https://api.github.com/repos/roadrunner-php/worker/zipball/97f966a6685809c7fa024b022f953bd1ae3b6135",
+                "reference": "97f966a6685809c7fa024b022f953bd1ae3b6135",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.0",
                 "ext-json": "*",
                 "ext-sockets": "*",
-                "php": ">=7.4",
-                "psr/log": "^1.0|^2.0|^3.0",
-                "spiral/goridge": "^3.2.0",
-                "symfony/polyfill-php80": "^1.23"
+                "php": ">=8.1",
+                "psr/log": "^2.0|^3.0",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": "^4.4"
+                "phpunit/phpunit": "^10.0",
+                "symfony/var-dumper": "^6.3",
+                "vimeo/psalm": "^5.9"
             },
             "suggest": {
                 "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.3.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Spiral\\RoadRunner\\": "src"
@@ -3100,16 +3239,42 @@
                     "email": "wolfy-j@spiralscout.com"
                 },
                 {
+                    "name": "Valery Piashchynski",
+                    "homepage": "https://github.com/rustatian"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
                     "name": "RoadRunner Community",
-                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
                 }
             ],
             "description": "RoadRunner: PHP worker",
+            "homepage": "https://spiral.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-worker/issues",
-                "source": "https://github.com/spiral/roadrunner-worker/tree/v2.3.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/worker/tree/3.0.0"
             },
-            "time": "2022-10-28T09:36:29+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-12T11:16:47+00:00"
         },
         {
             "name": "spiral/tokenizer",
@@ -3182,23 +3347,23 @@
         },
         {
             "name": "symfony/console",
-            "version": "v6.2.11",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "5aa03db8ef0a5457c316ec580e69562d97734c77"
+                "reference": "8788808b07cf0bdd6e4b7fdd23d8ddb1470c83b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/5aa03db8ef0a5457c316ec580e69562d97734c77",
-                "reference": "5aa03db8ef0a5457c316ec580e69562d97734c77",
+                "url": "https://api.github.com/repos/symfony/console/zipball/8788808b07cf0bdd6e4b7fdd23d8ddb1470c83b7",
+                "reference": "8788808b07cf0bdd6e4b7fdd23d8ddb1470c83b7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
-                "symfony/deprecation-contracts": "^2.1|^3",
+                "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-mbstring": "~1.0",
-                "symfony/service-contracts": "^1.1|^2|^3",
+                "symfony/service-contracts": "^2.5|^3",
                 "symfony/string": "^5.4|^6.0"
             },
             "conflict": {
@@ -3219,12 +3384,6 @@
                 "symfony/lock": "^5.4|^6.0",
                 "symfony/process": "^5.4|^6.0",
                 "symfony/var-dumper": "^5.4|^6.0"
-            },
-            "suggest": {
-                "psr/log": "For using the console logger",
-                "symfony/event-dispatcher": "",
-                "symfony/lock": "",
-                "symfony/process": ""
             },
             "type": "library",
             "autoload": {
@@ -3258,7 +3417,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v6.2.11"
+                "source": "https://github.com/symfony/console/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -3274,20 +3433,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-26T08:16:21+00:00"
+            "time": "2023-05-29T12:49:39+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.2.1",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e"
+                "reference": "7c3aff79d10325257a001fcf92d991f24fc967cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
-                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/7c3aff79d10325257a001fcf92d991f24fc967cf",
+                "reference": "7c3aff79d10325257a001fcf92d991f24fc967cf",
                 "shasum": ""
             },
             "require": {
@@ -3296,7 +3455,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.3-dev"
+                    "dev-main": "3.4-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -3325,7 +3484,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.2.1"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -3341,20 +3500,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-01T10:25:55+00:00"
+            "time": "2023-05-23T14:45:45+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v6.2.10",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "fd588debf7d1bc16a2c84b4b3b71145d9946b894"
+                "reference": "97b698e1d77d356304def77a8d0cd73090b359ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/fd588debf7d1bc16a2c84b4b3b71145d9946b894",
-                "reference": "fd588debf7d1bc16a2c84b4b3b71145d9946b894",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/97b698e1d77d356304def77a8d0cd73090b359ea",
+                "reference": "97b698e1d77d356304def77a8d0cd73090b359ea",
                 "shasum": ""
             },
             "require": {
@@ -3388,7 +3547,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v6.2.10"
+                "source": "https://github.com/symfony/filesystem/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -3404,20 +3563,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-18T13:46:08+00:00"
+            "time": "2023-05-30T17:12:32+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v6.2.7",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "20808dc6631aecafbe67c186af5dcb370be3a0eb"
+                "reference": "d9b01ba073c44cef617c7907ce2419f8d00d75e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/20808dc6631aecafbe67c186af5dcb370be3a0eb",
-                "reference": "20808dc6631aecafbe67c186af5dcb370be3a0eb",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/d9b01ba073c44cef617c7907ce2419f8d00d75e2",
+                "reference": "d9b01ba073c44cef617c7907ce2419f8d00d75e2",
                 "shasum": ""
             },
             "require": {
@@ -3452,7 +3611,7 @@
             "description": "Finds files and directories via an intuitive fluent interface",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/finder/tree/v6.2.7"
+                "source": "https://github.com/symfony/finder/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -3468,28 +3627,32 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-16T09:57:23+00:00"
+            "time": "2023-04-02T01:25:41+00:00"
         },
         {
             "name": "symfony/http-client",
-            "version": "v6.2.11",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "39f679c12648cc43bd9f0db12cc69b82041b91a1"
+                "reference": "b2f892c91e4e02a939edddeb7ef452522d10a424"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/39f679c12648cc43bd9f0db12cc69b82041b91a1",
-                "reference": "39f679c12648cc43bd9f0db12cc69b82041b91a1",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/b2f892c91e4e02a939edddeb7ef452522d10a424",
+                "reference": "b2f892c91e4e02a939edddeb7ef452522d10a424",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "psr/log": "^1|^2|^3",
-                "symfony/deprecation-contracts": "^2.1|^3",
+                "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/http-client-contracts": "^3",
-                "symfony/service-contracts": "^1.0|^2|^3"
+                "symfony/service-contracts": "^2.5|^3"
+            },
+            "conflict": {
+                "php-http/discovery": "<1.15",
+                "symfony/http-foundation": "<6.3"
             },
             "provide": {
                 "php-http/async-client-implementation": "*",
@@ -3505,7 +3668,6 @@
                 "guzzlehttp/promises": "^1.4",
                 "nyholm/psr7": "^1.0",
                 "php-http/httplug": "^1.0|^2.0",
-                "php-http/message-factory": "^1.0",
                 "psr/http-client": "^1.0",
                 "symfony/dependency-injection": "^5.4|^6.0",
                 "symfony/http-kernel": "^5.4|^6.0",
@@ -3541,7 +3703,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v6.2.11"
+                "source": "https://github.com/symfony/http-client/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -3557,32 +3719,29 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-12T08:48:34+00:00"
+            "time": "2023-05-12T08:49:48+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "v3.2.1",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
-                "reference": "df2ecd6cb70e73c1080e6478aea85f5f4da2c48b"
+                "reference": "3b66325d0176b4ec826bffab57c9037d759c31fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/df2ecd6cb70e73c1080e6478aea85f5f4da2c48b",
-                "reference": "df2ecd6cb70e73c1080e6478aea85f5f4da2c48b",
+                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/3b66325d0176b4ec826bffab57c9037d759c31fb",
+                "reference": "3b66325d0176b4ec826bffab57c9037d759c31fb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1"
             },
-            "suggest": {
-                "symfony/http-client-implementation": ""
-            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.3-dev"
+                    "dev-main": "3.4-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -3622,7 +3781,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client-contracts/tree/v3.2.1"
+                "source": "https://github.com/symfony/http-client-contracts/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -3638,7 +3797,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-01T10:32:47+00:00"
+            "time": "2023-05-23T14:45:45+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -4218,16 +4377,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v6.2.11",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "97ae9721bead9d1a39b5650e2f4b7834b93b539c"
+                "reference": "8741e3ed7fe2e91ec099e02446fb86667a0f1628"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/97ae9721bead9d1a39b5650e2f4b7834b93b539c",
-                "reference": "97ae9721bead9d1a39b5650e2f4b7834b93b539c",
+                "url": "https://api.github.com/repos/symfony/process/zipball/8741e3ed7fe2e91ec099e02446fb86667a0f1628",
+                "reference": "8741e3ed7fe2e91ec099e02446fb86667a0f1628",
                 "shasum": ""
             },
             "require": {
@@ -4259,7 +4418,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v6.2.11"
+                "source": "https://github.com/symfony/process/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -4275,20 +4434,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-19T07:42:48+00:00"
+            "time": "2023-05-19T08:06:44+00:00"
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v3.2.1",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "a8c9cedf55f314f3a186041d19537303766df09a"
+                "reference": "40da9cc13ec349d9e4966ce18b5fbcd724ab10a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/a8c9cedf55f314f3a186041d19537303766df09a",
-                "reference": "a8c9cedf55f314f3a186041d19537303766df09a",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/40da9cc13ec349d9e4966ce18b5fbcd724ab10a4",
+                "reference": "40da9cc13ec349d9e4966ce18b5fbcd724ab10a4",
                 "shasum": ""
             },
             "require": {
@@ -4298,13 +4457,10 @@
             "conflict": {
                 "ext-psr": "<1.1|>=2"
             },
-            "suggest": {
-                "symfony/service-implementation": ""
-            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.3-dev"
+                    "dev-main": "3.4-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -4344,7 +4500,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/service-contracts/tree/v3.2.1"
+                "source": "https://github.com/symfony/service-contracts/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -4360,20 +4516,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-01T10:32:47+00:00"
+            "time": "2023-05-23T14:45:45+00:00"
         },
         {
             "name": "symfony/string",
-            "version": "v6.2.8",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "193e83bbd6617d6b2151c37fff10fa7168ebddef"
+                "reference": "f2e190ee75ff0f5eced645ec0be5c66fac81f51f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/193e83bbd6617d6b2151c37fff10fa7168ebddef",
-                "reference": "193e83bbd6617d6b2151c37fff10fa7168ebddef",
+                "url": "https://api.github.com/repos/symfony/string/zipball/f2e190ee75ff0f5eced645ec0be5c66fac81f51f",
+                "reference": "f2e190ee75ff0f5eced645ec0be5c66fac81f51f",
                 "shasum": ""
             },
             "require": {
@@ -4384,13 +4540,13 @@
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "conflict": {
-                "symfony/translation-contracts": "<2.0"
+                "symfony/translation-contracts": "<2.5"
             },
             "require-dev": {
                 "symfony/error-handler": "^5.4|^6.0",
                 "symfony/http-client": "^5.4|^6.0",
                 "symfony/intl": "^6.2",
-                "symfony/translation-contracts": "^2.0|^3.0",
+                "symfony/translation-contracts": "^2.5|^3.0",
                 "symfony/var-exporter": "^5.4|^6.0"
             },
             "type": "library",
@@ -4430,7 +4586,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v6.2.8"
+                "source": "https://github.com/symfony/string/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -4446,32 +4602,34 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-20T16:06:02+00:00"
+            "time": "2023-03-21T21:06:29+00:00"
         },
         {
             "name": "symfony/translation",
-            "version": "v6.2.11",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "64113df3e8b009f92fad63014f4ec647e65bc927"
+                "reference": "f72b2cba8f79dd9d536f534f76874b58ad37876f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/64113df3e8b009f92fad63014f4ec647e65bc927",
-                "reference": "64113df3e8b009f92fad63014f4ec647e65bc927",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/f72b2cba8f79dd9d536f534f76874b58ad37876f",
+                "reference": "f72b2cba8f79dd9d536f534f76874b58ad37876f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "symfony/polyfill-mbstring": "~1.0",
-                "symfony/translation-contracts": "^2.3|^3.0"
+                "symfony/translation-contracts": "^2.5|^3.0"
             },
             "conflict": {
                 "symfony/config": "<5.4",
                 "symfony/console": "<5.4",
                 "symfony/dependency-injection": "<5.4",
+                "symfony/http-client-contracts": "<2.5",
                 "symfony/http-kernel": "<5.4",
+                "symfony/service-contracts": "<2.5",
                 "symfony/twig-bundle": "<5.4",
                 "symfony/yaml": "<5.4"
             },
@@ -4485,19 +4643,13 @@
                 "symfony/console": "^5.4|^6.0",
                 "symfony/dependency-injection": "^5.4|^6.0",
                 "symfony/finder": "^5.4|^6.0",
-                "symfony/http-client-contracts": "^1.1|^2.0|^3.0",
+                "symfony/http-client-contracts": "^2.5|^3.0",
                 "symfony/http-kernel": "^5.4|^6.0",
                 "symfony/intl": "^5.4|^6.0",
                 "symfony/polyfill-intl-icu": "^1.21",
                 "symfony/routing": "^5.4|^6.0",
-                "symfony/service-contracts": "^1.1.2|^2|^3",
+                "symfony/service-contracts": "^2.5|^3",
                 "symfony/yaml": "^5.4|^6.0"
-            },
-            "suggest": {
-                "nikic/php-parser": "To use PhpAstExtractor",
-                "psr/log-implementation": "To use logging capability in translator",
-                "symfony/config": "",
-                "symfony/yaml": ""
             },
             "type": "library",
             "autoload": {
@@ -4528,7 +4680,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v6.2.11"
+                "source": "https://github.com/symfony/translation/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -4544,32 +4696,29 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-19T12:37:14+00:00"
+            "time": "2023-05-19T12:46:45+00:00"
         },
         {
             "name": "symfony/translation-contracts",
-            "version": "v3.2.1",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "dfec258b9dd17a6b24420d464c43bffe347441c8"
+                "reference": "02c24deb352fb0d79db5486c0c79905a85e37e86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/dfec258b9dd17a6b24420d464c43bffe347441c8",
-                "reference": "dfec258b9dd17a6b24420d464c43bffe347441c8",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/02c24deb352fb0d79db5486c0c79905a85e37e86",
+                "reference": "02c24deb352fb0d79db5486c0c79905a85e37e86",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1"
             },
-            "suggest": {
-                "symfony/translation-implementation": ""
-            },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.3-dev"
+                    "dev-main": "3.4-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -4609,7 +4758,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/translation-contracts/tree/v3.2.1"
+                "source": "https://github.com/symfony/translation-contracts/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -4625,20 +4774,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-01T10:32:47+00:00"
+            "time": "2023-05-30T17:17:10+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v6.2.10",
+            "version": "v6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "61916f3861b1e9705b18cfde723921a71dd1559d"
+                "reference": "a9a8337aa641ef2aa39c3e028f9107ec391e5927"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/61916f3861b1e9705b18cfde723921a71dd1559d",
-                "reference": "61916f3861b1e9705b18cfde723921a71dd1559d",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/a9a8337aa641ef2aa39c3e028f9107ec391e5927",
+                "reference": "a9a8337aa641ef2aa39c3e028f9107ec391e5927",
                 "shasum": ""
             },
             "require": {
@@ -4650,9 +4799,6 @@
             },
             "require-dev": {
                 "symfony/console": "^5.4|^6.0"
-            },
-            "suggest": {
-                "symfony/console": "For validating YAML files using the lint command"
             },
             "bin": [
                 "Resources/bin/yaml-lint"
@@ -4683,7 +4829,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v6.2.10"
+                "source": "https://github.com/symfony/yaml/tree/v6.3.0"
             },
             "funding": [
                 {
@@ -4699,20 +4845,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-28T13:25:36+00:00"
+            "time": "2023-04-28T13:28:14+00:00"
         },
         {
             "name": "temporal/sdk",
-            "version": "v2.5.0",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/temporalio/sdk-php.git",
-                "reference": "479b0b4fdae86811d5efcfee44cdddad6c411933"
+                "reference": "6c85e88783ad3a6f13106e536adbca35980e5b73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/479b0b4fdae86811d5efcfee44cdddad6c411933",
-                "reference": "479b0b4fdae86811d5efcfee44cdddad6c411933",
+                "url": "https://api.github.com/repos/temporalio/sdk-php/zipball/6c85e88783ad3a6f13106e536adbca35980e5b73",
+                "reference": "6c85e88783ad3a6f13106e536adbca35980e5b73",
                 "shasum": ""
             },
             "require": {
@@ -4789,7 +4935,7 @@
                 "issues": "https://github.com/temporalio/sdk-php/issues",
                 "source": "https://github.com/temporalio/sdk-php"
             },
-            "time": "2023-04-18T09:32:58+00:00"
+            "time": "2023-05-31T21:08:45+00:00"
         }
     ],
     "packages-dev": [],
