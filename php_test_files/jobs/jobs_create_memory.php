@@ -19,7 +19,8 @@ $queue = $jobs->create(new MemoryCreateInfo(
 ));
 $queue->resume();
 
-$consumer = new Consumer();
+$consumer = new Spiral\RoadRunner\Jobs\Consumer();
+
 while ($task = $consumer->waitTask()) {
     $task->complete();
 }

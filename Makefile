@@ -94,7 +94,8 @@ test_nightly:
 
 # only 1 sample here
 regenerate_test_proto:
-	protoc --plugin=protoc-gen-php-grpc --proto_path=plugins/grpc/proto/service --php_out=php_test_files/src --php-grpc_out=php_test_files/src service.proto
+	protoc --plugin=($HOME)/.local/bin/protoc-gen-php-grpc --proto_path=plugins/grpc/proto/service --php_out=php_test_files/src --php-grpc_out=php_test_files/src service.proto
+	protoc --plugin=($HOME)/.local/bin/protoc-gen-php-grpc --proto_path=plugins/grpc/proto/test --php_out=php_test_files/src --php-grpc_out=php_test_files/src test.proto
 
 # local generate certs
 generate-test-local-certs:

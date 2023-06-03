@@ -10,9 +10,7 @@ use Spiral\RoadRunner\Worker;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$server = new Server(null, [
-    'debug' => false, // optional (default: false)
-]);
+$server = new Server();
 
 $server->registerService(EchoInterface::class, new EchoServiceException());
 

@@ -25,4 +25,4 @@ tcp:
     destroy_timeout: 1s
 
 endure:
-  grace_period: 60s
+  grace_period: 10s

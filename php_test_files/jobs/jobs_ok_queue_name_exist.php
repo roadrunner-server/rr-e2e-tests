@@ -13,8 +13,7 @@ use Spiral\RoadRunner\Jobs\Serializer\JsonSerializer;
 ini_set('display_errors', 'stderr');
 require dirname(__DIR__) . "/vendor/autoload.php";
 
-$rr = new RoadRunner\Worker(new StreamRelay(\STDIN, \STDOUT));
-$consumer = new Consumer($rr, new JsonSerializer);
+$consumer = new Spiral\RoadRunner\Jobs\Consumer();
 
 while ($task = $consumer->waitTask()) {
     try {

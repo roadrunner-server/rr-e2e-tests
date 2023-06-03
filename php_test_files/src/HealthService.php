@@ -3,7 +3,7 @@
  * Sample GRPC PHP server.
  */
 
-use Spiral\GRPC\ContextInterface;
+use Spiral\RoadRunner\GRPC\ContextInterface;
 use Health\HealthInterface;
 use Health\HealthCheckRequest;
 use Health\HealthCheckResponse;
