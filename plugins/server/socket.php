@@ -8,12 +8,7 @@ use Spiral\RoadRunner;
 
 require dirname(__DIR__) . "/../php_test_files/vendor/autoload.php";
 
-$relay = new Goridge\SocketRelay(
-            "unix.sock",
-            null,
-            Goridge\SocketRelay::SOCK_UNIX
-        );
-
+$relay = Goridge\Relay::create("unix://unix.sock");
 $rr = new RoadRunner\Worker($relay);
 
 while ($in = $rr->waitPayload()) {

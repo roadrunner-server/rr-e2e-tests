@@ -6,8 +6,6 @@ server:
     exec_timeout: 20s
 
   command: "php socket.php"
-  user: ""
-  group: ""
   env:
     - RR_CONFIG: "/some/place/on/the/C134"
     - RR_CONFIG2: "C138"
@@ -16,4 +14,4 @@ server:
 
 logs:
   mode: development
-  level: info
+  level: debug
