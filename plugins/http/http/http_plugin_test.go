@@ -23,6 +23,7 @@ import (
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/roadrunner-server/gzip/v4"
+	"github.com/roadrunner-server/headers/v4"
 	httpPlugin "github.com/roadrunner-server/http/v4"
 	"github.com/roadrunner-server/informer/v4"
 	"github.com/roadrunner-server/logger/v4"
@@ -2063,6 +2064,79 @@ func serveStaticSampleNotAllowedPath(t *testing.T) {
 	_ = r.Body.Close()
 }
 
+func TestStaticBigFilePlugin(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2023.1.5",
+		Path:    "../configs/http/.rr-http-static-big-file.yaml",
+		Prefix:  "rr",
+	}
+
+	err := cont.RegisterAll(
+		cfg,
+		&logger.Plugin{},
+		&server.Plugin{},
+		&headers.Plugin{},
+		&send.Plugin{},
+		&httpPlugin.Plugin{},
+		&gzip.Plugin{},
+		&static.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second)
+	t.Run("ServeSample", serveStaticSample(21604, "sample-big.txt"))
+	t.Run("StaticNotForbid", staticNotForbid(21604))
+	t.Run("StaticHeaders", staticHeaders(21604))
+
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
 func TestStaticPlugin(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
@@ -2126,55 +2200,61 @@ func TestStaticPlugin(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second)
-	t.Run("ServeSample", serveStaticSample)
-	t.Run("StaticNotForbid", staticNotForbid)
-	t.Run("StaticHeaders", staticHeaders)
+	t.Run("ServeSample", serveStaticSample(21603, "sample.txt"))
+	t.Run("StaticNotForbid", staticNotForbid(21603))
+	t.Run("StaticHeaders", staticHeaders(21603))
 
 	stopCh <- struct{}{}
 	wg.Wait()
 }
 
-func staticHeaders(t *testing.T) {
-	req, err := http.NewRequest("GET", "http://127.0.0.1:21603/php_test_files/client.php", nil)
-	if err != nil {
-		t.Fatal(err)
+func staticHeaders(port int) func(t *testing.T) {
+	return func(t *testing.T) {
+		req, err := http.NewRequest("GET", fmt.Sprintf("http://127.0.0.1:%d/php_test_files/client.php", port), nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if resp.Header.Get("Output") != "output-header" {
+			t.Fatal("can't find output header in response")
+		}
+
+		b, err := io.ReadAll(resp.Body)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		defer func() {
+			_ = resp.Body.Close()
+		}()
+
+		require.Equal(t, helpers.All("../../../php_test_files/client.php"), string(b))
+		require.Equal(t, helpers.All("../../../php_test_files/client.php"), string(b))
 	}
-
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if resp.Header.Get("Output") != "output-header" {
-		t.Fatal("can't find output header in response")
-	}
-
-	b, err := io.ReadAll(resp.Body)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	defer func() {
-		_ = resp.Body.Close()
-	}()
-
-	require.Equal(t, helpers.All("../../../php_test_files/client.php"), string(b))
-	require.Equal(t, helpers.All("../../../php_test_files/client.php"), string(b))
 }
 
-func staticNotForbid(t *testing.T) {
-	b, r, err := helpers.Get("http://127.0.0.1:21603/php_test_files/client.php")
-	require.NoError(t, err)
-	require.Equal(t, helpers.All("../../../php_test_files/client.php"), b)
-	require.Equal(t, helpers.All("../../../php_test_files/client.php"), b)
-	_ = r.Body.Close()
+func staticNotForbid(port int) func(t *testing.T) {
+	return func(t *testing.T) {
+		b, r, err := helpers.Get(fmt.Sprintf("http://127.0.0.1:%d/php_test_files/client.php", port))
+		require.NoError(t, err)
+		require.Equal(t, helpers.All("../../../php_test_files/client.php"), b)
+		require.Equal(t, helpers.All("../../../php_test_files/client.php"), b)
+		_ = r.Body.Close()
+	}
 }
 
-func serveStaticSample(t *testing.T) {
-	b, r, err := helpers.Get("http://127.0.0.1:21603/sample.txt")
-	require.NoError(t, err)
-	require.Contains(t, b, "sample")
-	_ = r.Body.Close()
+func serveStaticSample(port int, filename string) func(t *testing.T) {
+	return func(t *testing.T) {
+		b, r, err := helpers.Get(fmt.Sprintf("http://127.0.0.1:%d/%s", port, filename))
+		require.NoError(t, err)
+		require.Contains(t, b, "sample")
+		_ = r.Body.Close()
+	}
 }
 
 func TestStaticDisabled_Error(t *testing.T) {

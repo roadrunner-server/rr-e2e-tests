@@ -28,4 +28,4 @@ http:
     destroy_timeout: 1s
 logs:
   mode: development
-  level: error
+  level: debug
