@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.18.0
 	github.com/aws/aws-sdk-go-v2/config v1.18.25
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.24
-	github.com/aws/aws-sdk-go-v2/service/sqs v1.22.0
+	github.com/aws/aws-sdk-go-v2/service/sqs v1.23.0
 	github.com/beanstalkd/go-beanstalk v0.2.0
 	github.com/centrifugal/centrifuge-go v0.9.6
 	github.com/docker/docker v24.0.2+incompatible
