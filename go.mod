@@ -33,7 +33,7 @@ require (
 	github.com/roadrunner-server/grpc/v4 v4.1.14
 	github.com/roadrunner-server/gzip/v4 v4.0.12
 	github.com/roadrunner-server/headers/v4 v4.0.11
-	github.com/roadrunner-server/http/v4 v4.1.12
+	github.com/roadrunner-server/http/v4 v4.1.13
 	github.com/roadrunner-server/informer/v4 v4.1.9
 	github.com/roadrunner-server/jobs/v4 v4.3.11
 	github.com/roadrunner-server/kafka/v4 v4.1.12
@@ -205,7 +205,6 @@ require (
 	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.9.3 // indirect
-	google.golang.org/genproto v0.0.0-20230530153820-e85fd2cbaebc // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20230530153820-e85fd2cbaebc // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230530153820-e85fd2cbaebc // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
