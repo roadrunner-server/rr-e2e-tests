@@ -181,10 +181,12 @@ func TestJOBSMetrics(t *testing.T) {
 	assert.Contains(t, genericOut, `rr_jobs_jobs_ok 0`)
 	assert.Contains(t, genericOut, `rr_jobs_push_err 0`)
 	assert.Contains(t, genericOut, `rr_jobs_push_ok 0`)
-	assert.Contains(t, genericOut, "workers_memory_bytes")
+	assert.Contains(t, genericOut, `workers_memory_bytes`)
 	assert.Contains(t, genericOut, `state="ready"}`)
 	assert.Contains(t, genericOut, `{pid=`)
 	assert.Contains(t, genericOut, `rr_jobs_total_workers 1`)
+	assert.NotContains(t, genericOut, `rr_jobs_requests_total`)
+	assert.NotContains(t, genericOut, `rr_jobs_push_latency`)
 
 	t.Run("PushInMemoryPipeline", helpers.PushToPipe("test-3", false, addr))
 	time.Sleep(time.Second)
@@ -200,6 +202,8 @@ func TestJOBSMetrics(t *testing.T) {
 	assert.Contains(t, genericOut, `rr_jobs_jobs_ok 3`)
 	assert.Contains(t, genericOut, `rr_jobs_push_err 0`)
 	assert.Contains(t, genericOut, `rr_jobs_push_ok 3`)
+	assert.Contains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="single"} 3`)
+	assert.NotContains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="batch"}`)
 
 	t.Run("PushInMemoryPipeline", helpers.PushToPipeBatch(addr, "test-3", 2, false))
 	t.Run("PushInMemoryPipeline", helpers.PushToPipeBatch(addr, "test-3", 5, false))
@@ -215,6 +219,7 @@ func TestJOBSMetrics(t *testing.T) {
 	assert.Contains(t, genericOut, `rr_jobs_push_ok 10`)
 	assert.Contains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="single"} 3`)
 	assert.Contains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="batch"} 7`)
+	assert.Contains(t, genericOut, `rr_jobs_push_latency_bucket{driver="memory",job="test-3"`)
 
 	t.Run("DestroyPipeline", helpers.DestroyPipelines(addr, "test-3"))
 
