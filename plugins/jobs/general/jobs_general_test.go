@@ -30,8 +30,6 @@ import (
 	"golang.org/x/exp/slog"
 )
 
-const addr = "127.0.0.1:6001"
-
 func TestJobsInit(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
@@ -100,7 +98,7 @@ func TestJobsInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 5)
-	t.Run("DestroyPipeline", helpers.DestroyPipelines(addr, "test-local", "test-local-2", "test-local-3", "test-1", "test-2-amqp", "test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-local", "test-local-2", "test-local-3", "test-1", "test-2-amqp", "test-3"))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -188,11 +186,11 @@ func TestJOBSMetrics(t *testing.T) {
 	assert.NotContains(t, genericOut, `rr_jobs_requests_total`)
 	assert.NotContains(t, genericOut, `rr_jobs_push_latency`)
 
-	t.Run("PushInMemoryPipeline", helpers.PushToPipe("test-3", false, addr))
+	t.Run("PushInMemoryPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
-	t.Run("PushInMemoryPipeline", helpers.PushToPipeDelayed(addr, "test-3", 5))
+	t.Run("PushInMemoryPipeline", helpers.PushToPipeDelayed("127.0.0.1:6001", "test-3", 5))
 	time.Sleep(time.Second)
-	t.Run("PushInMemoryPipeline", helpers.PushToPipe("test-3", false, addr))
+	t.Run("PushInMemoryPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 5)
 
 	genericOut, err = get()
@@ -205,8 +203,8 @@ func TestJOBSMetrics(t *testing.T) {
 	assert.Contains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="single"} 3`)
 	assert.NotContains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="batch"}`)
 
-	t.Run("PushInMemoryPipeline", helpers.PushToPipeBatch(addr, "test-3", 2, false))
-	t.Run("PushInMemoryPipeline", helpers.PushToPipeBatch(addr, "test-3", 5, false))
+	t.Run("PushInMemoryPipeline", helpers.PushToPipeBatch("127.0.0.1:6001", "test-3", 2, false))
+	t.Run("PushInMemoryPipeline", helpers.PushToPipeBatch("127.0.0.1:6001", "test-3", 5, false))
 
 	time.Sleep(time.Second)
 
@@ -221,7 +219,7 @@ func TestJOBSMetrics(t *testing.T) {
 	assert.Contains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="batch"} 7`)
 	assert.Contains(t, genericOut, `rr_jobs_push_latency_bucket{driver="memory",job="test-3"`)
 
-	t.Run("DestroyPipeline", helpers.DestroyPipelines(addr, "test-3"))
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
 	close(sig)
 
@@ -251,7 +249,7 @@ func get() (string, error) {
 }
 
 func declareMemoryPipe(t *testing.T) {
-	conn, err := net.Dial("tcp", addr)
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -267,7 +265,7 @@ func declareMemoryPipe(t *testing.T) {
 }
 
 func consumeMemoryPipe(t *testing.T) {
-	conn, err := net.Dial("tcp", addr)
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
