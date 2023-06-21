@@ -23,6 +23,7 @@ import (
 	"github.com/roadrunner-server/server/v4"
 	"github.com/roadrunner-server/status/v4"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	statusv1beta1 "go.buf.build/protocolbuffers/go/roadrunner-server/api/status/v1beta1"
 	"golang.org/x/exp/slog"
 )
@@ -369,6 +370,8 @@ func TestJobsStatus(t *testing.T) {
 
 	r, err := http.DefaultClient.Do(req)
 	assert.NoError(t, err)
+	require.NotNil(t, r)
+
 	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusOK, r.StatusCode)

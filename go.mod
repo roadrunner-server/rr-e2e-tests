@@ -57,7 +57,7 @@ require (
 	github.com/roadrunner-server/service/v4 v4.1.8
 	github.com/roadrunner-server/sqs/v4 v4.3.0
 	github.com/roadrunner-server/static/v4 v4.0.12
-	github.com/roadrunner-server/status/v4 v4.1.12
+	github.com/roadrunner-server/status/v4 v4.2.0
 	github.com/roadrunner-server/tcp/v4 v4.0.11
 	github.com/stretchr/testify v1.8.4
 	github.com/temporalio/roadrunner-temporal/v4 v4.2.6

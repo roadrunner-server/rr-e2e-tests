@@ -13,7 +13,8 @@ status:
 
 logs:
   mode: development
-  level: error
+  level: debug
+
 http:
   address: 127.0.0.1:11933
   max_request_size: 1024
