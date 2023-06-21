@@ -17,11 +17,12 @@ import (
 )
 
 const (
-	push    string = "jobs.Push"
-	pause   string = "jobs.Pause"
-	destroy string = "jobs.Destroy"
-	resume  string = "jobs.Resume"
-	stat    string = "jobs.Stat"
+	push      string = "jobs.Push"
+	pushBatch string = "jobs.PushBatch"
+	pause     string = "jobs.Pause"
+	destroy   string = "jobs.Destroy"
+	resume    string = "jobs.Resume"
+	stat      string = "jobs.Stat"
 )
 
 func ResumePipes(address string, pipes ...string) func(t *testing.T) {
@@ -71,20 +72,7 @@ func PushToPipe(pipeline string, autoAck bool, address string) func(t *testing.T
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-		req := &jobsProto.PushRequest{Job: &jobsProto.Job{
-			Job:     "some/php/namespace",
-			Id:      uuid.NewString(),
-			Payload: `{"hello":"world"}`,
-			Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
-			Options: &jobsProto.Options{
-				AutoAck:   autoAck,
-				Priority:  1,
-				Pipeline:  pipeline,
-				Topic:     pipeline,
-				Partition: 0,
-				Offset:    0,
-			},
-		}}
+		req := &jobsProto.PushRequest{Job: createDummyJob(pipeline, autoAck)}
 
 		er := &jobsProto.Empty{}
 		err = client.Call(push, req, er)
@@ -113,6 +101,45 @@ func PushToPipeDelayed(address string, pipeline string, delay int64) func(t *tes
 		er := &jobsProto.Empty{}
 		err = client.Call(push, req, er)
 		assert.NoError(t, err)
+	}
+}
+
+func PushToPipeBatch(address string, pipeline string, count int, autoAck bool) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", address)
+		assert.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+		jobs := make([]*jobsProto.Job, count)
+
+		for i := 0; i < count; i++ {
+			jobs[i] = createDummyJob(pipeline, autoAck)
+		}
+
+		req := &jobsProto.PushBatchRequest{
+			Jobs: jobs,
+		}
+
+		er := &jobsProto.Empty{}
+		err = client.Call(pushBatch, req, er)
+		assert.NoError(t, err)
+	}
+}
+
+func createDummyJob(pipeline string, autoAck bool) *jobsProto.Job {
+	return &jobsProto.Job{
+		Job:     "some/php/namespace",
+		Id:      uuid.NewString(),
+		Payload: `{"hello":"world"}`,
+		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
+		Options: &jobsProto.Options{
+			AutoAck:   autoAck,
+			Priority:  1,
+			Pipeline:  pipeline,
+			Topic:     pipeline,
+			Partition: 0,
+			Offset:    0,
+		},
 	}
 }
 

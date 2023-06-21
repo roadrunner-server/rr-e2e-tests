@@ -171,6 +171,21 @@ func TestJOBSMetrics(t *testing.T) {
 
 	t.Run("DeclareEphemeralPipeline", declareMemoryPipe)
 	t.Run("ConsumeEphemeralPipeline", consumeMemoryPipe)
+
+	genericOut, err := get()
+	assert.NoError(t, err)
+
+	assert.Contains(t, genericOut, `rr_jobs_jobs_err 0`)
+	assert.Contains(t, genericOut, `rr_jobs_jobs_ok 0`)
+	assert.Contains(t, genericOut, `rr_jobs_push_err 0`)
+	assert.Contains(t, genericOut, `rr_jobs_push_ok 0`)
+	assert.Contains(t, genericOut, `workers_memory_bytes`)
+	assert.Contains(t, genericOut, `state="ready"}`)
+	assert.Contains(t, genericOut, `{pid=`)
+	assert.Contains(t, genericOut, `rr_jobs_total_workers 1`)
+	assert.NotContains(t, genericOut, `rr_jobs_requests_total`)
+	assert.NotContains(t, genericOut, `rr_jobs_push_latency`)
+
 	t.Run("PushInMemoryPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
 	t.Run("PushInMemoryPipeline", helpers.PushToPipeDelayed("127.0.0.1:6001", "test-3", 5))
@@ -178,17 +193,31 @@ func TestJOBSMetrics(t *testing.T) {
 	t.Run("PushInMemoryPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second * 5)
 
-	genericOut, err := get()
+	genericOut, err = get()
 	assert.NoError(t, err)
 
 	assert.Contains(t, genericOut, `rr_jobs_jobs_err 0`)
 	assert.Contains(t, genericOut, `rr_jobs_jobs_ok 3`)
 	assert.Contains(t, genericOut, `rr_jobs_push_err 0`)
 	assert.Contains(t, genericOut, `rr_jobs_push_ok 3`)
-	assert.Contains(t, genericOut, "workers_memory_bytes")
-	assert.Contains(t, genericOut, `state="ready"}`)
-	assert.Contains(t, genericOut, `{pid=`)
-	assert.Contains(t, genericOut, `rr_jobs_total_workers 1`)
+	assert.Contains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="single"} 3`)
+	assert.NotContains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="batch"}`)
+
+	t.Run("PushInMemoryPipeline", helpers.PushToPipeBatch("127.0.0.1:6001", "test-3", 2, false))
+	t.Run("PushInMemoryPipeline", helpers.PushToPipeBatch("127.0.0.1:6001", "test-3", 5, false))
+
+	time.Sleep(time.Second)
+
+	genericOut, err = get()
+	assert.NoError(t, err)
+
+	assert.Contains(t, genericOut, `rr_jobs_jobs_err 0`)
+	assert.Contains(t, genericOut, `rr_jobs_jobs_ok 10`)
+	assert.Contains(t, genericOut, `rr_jobs_push_err 0`)
+	assert.Contains(t, genericOut, `rr_jobs_push_ok 10`)
+	assert.Contains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="single"} 3`)
+	assert.Contains(t, genericOut, `rr_jobs_requests_total{driver="memory",job="test-3",source="batch"} 7`)
+	assert.Contains(t, genericOut, `rr_jobs_push_latency_bucket{driver="memory",job="test-3"`)
 
 	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6001", "test-3"))
 
