@@ -2591,16 +2591,16 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2023.1.4",
+            "version": "v2023.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "d1a39a542cecf3ecedb4acf5978892e38bf15137"
+                "reference": "8683c0b03e9e9e52b30f7e7ad354d13ff17841b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/d1a39a542cecf3ecedb4acf5978892e38bf15137",
-                "reference": "d1a39a542cecf3ecedb4acf5978892e38bf15137",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/8683c0b03e9e9e52b30f7e7ad354d13ff17841b4",
+                "reference": "8683c0b03e9e9e52b30f7e7ad354d13ff17841b4",
                 "shasum": ""
             },
             "type": "metapackage",
@@ -2629,7 +2629,7 @@
                 "docs": "https://roadrunner.dev/docs",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2023.1.4"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2023.1.5"
             },
             "funding": [
                 {
@@ -2637,7 +2637,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-25T10:57:00+00:00"
+            "time": "2023-06-08T14:35:25+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",

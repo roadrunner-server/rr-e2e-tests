@@ -6,18 +6,22 @@ rpc:
 server:
   command: "php ../../../php_test_files/jobs/jobs_create_memory.php"
   relay: pipes
-  relay_timeout: "20s"
 
 logs:
-  level: error
+  level: debug
   encoding: console
   mode: development
 
 jobs:
-  num_pollers: 10
+  num_pollers: 1
   pipeline_size: 100000
   pool:
-    num_workers: 10
-    max_jobs: 0
+    num_workers: 1
     allocate_timeout: 60s
     destroy_timeout: 60s
+  pipelines:
+    local:
+      driver: memory
+      config:
+        priority: 10
+        prefetch: 10000

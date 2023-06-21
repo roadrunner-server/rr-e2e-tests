@@ -121,6 +121,94 @@ func TestBeanstalkInit(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("beanstalk listener stopped").Len())
 }
 
+func TestBeanstalkInitPQ(t *testing.T) {
+	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
+
+	cfg := &config.Plugin{
+		Version: "2023.2.0",
+		Path:    "configs/.rr-beanstalk-pq.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&beanstalkPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+
+	for i := 0; i < 100; i++ {
+		t.Run("PushPipeline", helpers.PushToPipe("test-1-pq", false, "127.0.0.1:6601"))
+		t.Run("PushPipeline", helpers.PushToPipe("test-2-pq", false, "127.0.0.1:6601"))
+	}
+
+	time.Sleep(time.Second)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6601", "test-1-pq", "test-2-pq"))
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 200, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("beanstalk listener stopped").Len())
+}
+
 func TestBeanstalkInitAutoAck(t *testing.T) {
 	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*60))
 
@@ -376,7 +464,7 @@ func TestBeanstalkStats(t *testing.T) {
 	out = &jobState.State{}
 	t.Run("Stats", helpers.Stats("127.0.0.1:7001", out))
 
-	assert.Equal(t, int64(1), out.Active)
+	assert.Equal(t, int64(201), out.Active)
 	assert.Equal(t, int64(1), out.Delayed)
 	assert.Equal(t, int64(0), out.Reserved)
 	assert.Equal(t, uint64(3), out.Priority)
@@ -392,7 +480,7 @@ func TestBeanstalkStats(t *testing.T) {
 	assert.Equal(t, out.Driver, "beanstalk")
 	assert.NotEmpty(t, out.Queue)
 
-	assert.Equal(t, int64(0), out.Active)
+	assert.Equal(t, int64(200), out.Active)
 	assert.Equal(t, int64(0), out.Delayed)
 	assert.Equal(t, int64(0), out.Reserved)
 	assert.Equal(t, uint64(3), out.Priority)

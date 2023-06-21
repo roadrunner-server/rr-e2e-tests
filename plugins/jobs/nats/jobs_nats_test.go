@@ -118,6 +118,92 @@ func TestNATSInit(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
 }
 
+func TestNATSRemoveAllPQ(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "v2023.2.0",
+		Path:    "configs/.rr-nats-pq.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&natsPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	for i := 0; i < 100; i++ {
+		t.Run("PushPipeline", helpers.PushToPipe("test-1-pq", false, "127.0.0.1:6601"))
+		t.Run("PushPipeline", helpers.PushToPipe("test-2-pq", false, "127.0.0.1:6601"))
+	}
+	time.Sleep(time.Second)
+
+	t.Run("DestroyPipeline", helpers.DestroyPipelines("127.0.0.1:6601", "test-1-pq", "test-2-pq"))
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.Equal(t, 0, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 200, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("nast disconnected").Len())
+}
+
 func TestNATSInitAutoAck(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 

@@ -20,6 +20,7 @@ http:
       allowed_methods: "GET,POST,PUT,DELETE"
       allow_credentials: true
       exposed_headers: "Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma"
+      debug: true
       max_age: 600
     request:
       input: "custom-header"

@@ -20,7 +20,6 @@ import (
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/roadrunner-server/informer/v4"
 	"github.com/roadrunner-server/jobs/v4"
-	"github.com/roadrunner-server/logger/v4"
 	"github.com/roadrunner-server/memory/v4"
 	"github.com/roadrunner-server/otel/v4"
 	"github.com/roadrunner-server/resetter/v4"
@@ -117,6 +116,94 @@ func TestMemoryInit(t *testing.T) {
 	wg.Wait()
 
 	require.Equal(t, 1, oLogger.FilterMessageSnippet("plugin was started").Len())
+}
+
+func TestMemoryPQ(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2023.2.0",
+		Path:    "configs/.rr-memory-pq.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		// &logger.Plugin{},
+		l,
+		&jobs.Plugin{},
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&memory.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second)
+
+	for i := 0; i < 100; i++ {
+		t.Run("PushPipeline-1", helpers.PushToPipe("test-1-pq", false, "127.0.0.1:6601"))
+		t.Run("PushPipeline-2", helpers.PushToPipe("test-2-pq", false, "127.0.0.1:6601"))
+	}
+
+	time.Sleep(time.Second)
+
+	helpers.DestroyPipelines("127.0.0.1:6601", "test-1-pq", "test-2-pq")
+
+	stopCh <- struct{}{}
+	wg.Wait()
+	assert.Equal(t, 0, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 200, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 }
 
 func TestMemoryInitV27(t *testing.T) {
@@ -283,20 +370,21 @@ func TestMemoryInitV27BadResp(t *testing.T) {
 }
 
 func TestMemoryCreate(t *testing.T) {
-	t.Skip("not for the CI")
 	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0",
+		Version: "2023.2.0",
 		Path:    "configs/.rr-memory-create.yaml",
 		Prefix:  "rr",
 	}
 
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err := cont.RegisterAll(
 		cfg,
 		&server.Plugin{},
 		&rpcPlugin.Plugin{},
-		&logger.Plugin{},
+		l,
+		// &logger.Plugin{},
 		&jobs.Plugin{},
 		&resetter.Plugin{},
 		&informer.Plugin{},
@@ -350,12 +438,16 @@ func TestMemoryCreate(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 5)
-	t.Run("PushPipeline", helpers.PushToPipe("example", false, "127.0.0.1:6001"))
 
-	helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2")
+	helpers.DestroyPipelines("127.0.0.1:6001", "local", "example")
 
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("message pushed to the priority queue").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job was processed successfully").Len())
+	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was resumed").Len())
 }
 
 func TestMemoryDeclare(t *testing.T) {
@@ -428,7 +520,7 @@ func TestMemoryDeclare(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareMemoryPipe("10000"))
-	t.Run("ConsumePipeline", consumeMemoryPipe)
+	t.Run("ConsumePipeline", consumeMemoryPipe("127.0.0.1:6001", []string{"test-3"}))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
@@ -692,7 +784,7 @@ func TestMemoryStats(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareMemoryPipe("10000"))
-	t.Run("ConsumePipeline", consumeMemoryPipe)
+	t.Run("ConsumePipeline", consumeMemoryPipe("127.0.0.1:6001", []string{"test-3"}))
 	t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	time.Sleep(time.Second)
 	t.Run("PausePipeline", helpers.PausePipelines("127.0.0.1:6001", "test-3"))
@@ -715,7 +807,7 @@ func TestMemoryStats(t *testing.T) {
 	assert.Equal(t, uint64(33), out.Priority)
 
 	time.Sleep(time.Second)
-	t.Run("ConsumePipeline", consumeMemoryPipe)
+	t.Run("ConsumePipeline", consumeMemoryPipe("127.0.0.1:6001", []string{"test-3"}))
 	time.Sleep(time.Second * 7)
 
 	out = &jobState.State{}
@@ -813,7 +905,7 @@ func TestMemoryPrefetch(t *testing.T) {
 	time.Sleep(time.Second * 3)
 
 	t.Run("DeclarePipeline", declareMemoryPipe("1"))
-	t.Run("ConsumePipeline", consumeMemoryPipe)
+	t.Run("ConsumePipeline", consumeMemoryPipe("127.0.0.1:6001", []string{"test-3"}))
 	for i := 0; i < 10; i++ {
 		t.Run("PushPipeline", helpers.PushToPipe("test-3", false, "127.0.0.1:6001"))
 	}
@@ -965,15 +1057,22 @@ func declareMemoryPipe(prefetch string) func(t *testing.T) {
 	}
 }
 
-func consumeMemoryPipe(t *testing.T) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6001")
-	assert.NoError(t, err)
-	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+func consumeMemoryPipe(address string, pipelines []string) func(t *testing.T) {
+	return func(t *testing.T) {
+		conn, err := net.Dial("tcp", address)
+		assert.NoError(t, err)
+		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	pipe := &jobsProto.Pipelines{Pipelines: make([]string, 1)}
-	pipe.GetPipelines()[0] = "test-3"
+		pipe := &jobsProto.Pipelines{
+			Pipelines: make([]string, 0, 1),
+		}
 
-	er := &jobsProto.Empty{}
-	err = client.Call("jobs.Resume", pipe, er)
-	assert.NoError(t, err)
+		for i := 0; i < len(pipelines); i++ {
+			pipe.Pipelines = append(pipe.Pipelines, pipelines[i])
+		}
+
+		er := &jobsProto.Empty{}
+		err = client.Call("jobs.Resume", pipe, er)
+		assert.NoError(t, err)
+	}
 }
