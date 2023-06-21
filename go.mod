@@ -32,7 +32,7 @@ require (
 	github.com/roadrunner-server/goridge/v3 v3.6.2
 	github.com/roadrunner-server/grpc/v4 v4.1.14
 	github.com/roadrunner-server/gzip/v4 v4.0.12
-	github.com/roadrunner-server/headers/v4 v4.0.11
+	github.com/roadrunner-server/headers/v4 v4.1.0
 	github.com/roadrunner-server/http/v4 v4.1.13
 	github.com/roadrunner-server/informer/v4 v4.1.9
 	github.com/roadrunner-server/jobs/v4 v4.4.0
@@ -151,6 +151,7 @@ require (
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/roadrunner-server/tcplisten v1.3.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
+	github.com/rs/cors v1.9.0 // indirect
 	github.com/savsgio/dictpool v0.0.0-20221023140959-7bf2e61cea94 // indirect
 	github.com/savsgio/gotils v0.0.0-20230208104028-c358bd845dee // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
