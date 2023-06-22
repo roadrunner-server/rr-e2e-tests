@@ -163,7 +163,7 @@ func TestStatusRPC(t *testing.T) {
 
 	time.Sleep(time.Second)
 	t.Run("CheckerGetStatusRpc", func(t *testing.T) {
-		checkRPCStatus(t, "http", 200)
+		checkRPCStatus(t, "http", 200, "6005")
 	})
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -301,7 +301,7 @@ func TestReadinessRPCWorkerNotReady(t *testing.T) {
 	time.Sleep(time.Second * 5)
 	t.Run("CheckerGetReadiness2", checkHTTPReadiness2)
 	t.Run("CheckerGetRpcReadiness", func(t *testing.T) {
-		checkRPCReadiness(t, "http", 503)
+		checkRPCReadiness(t, "http", 503, "6006")
 	})
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -452,8 +452,8 @@ func TestJobsReadiness(t *testing.T) {
 	time.Sleep(time.Second)
 	t.Run("checkJobsReadiness", checkJobsReadiness)
 	t.Run("checkJobsRPC", func(t *testing.T) {
-		checkRPCReadiness(t, "jobs", 200)
-		checkRPCStatus(t, "jobs", 200)
+		checkRPCReadiness(t, "jobs", 200, "6007")
+		checkRPCStatus(t, "jobs", 200, "6007")
 	})
 
 	stopCh <- struct{}{}
@@ -533,8 +533,8 @@ func checkHTTPReadiness(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func checkRPCReadiness(t *testing.T, plugin string, status int64) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6007")
+func checkRPCReadiness(t *testing.T, plugin string, status int64, port string) {
+	conn, err := net.Dial("tcp", "127.0.0.1:"+port)
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -549,8 +549,8 @@ func checkRPCReadiness(t *testing.T, plugin string, status int64) {
 	assert.Equal(t, rsp.GetCode(), status)
 }
 
-func checkRPCStatus(t *testing.T, plugin string, status int64) {
-	conn, err := net.Dial("tcp", "127.0.0.1:6007")
+func checkRPCStatus(t *testing.T, plugin string, status int64, port string) {
+	conn, err := net.Dial("tcp", "127.0.0.1:"+port)
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
