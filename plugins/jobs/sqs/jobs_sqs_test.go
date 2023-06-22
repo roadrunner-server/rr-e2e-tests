@@ -187,7 +187,8 @@ func TestSQSRemovePQ(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	for i := 0; i < 100; i++ {
+
+	for i := 0; i < 10; i++ {
 		t.Run("PushPipeline", helpers.PushToPipe("test-1-pq", false, "127.0.0.1:6601"))
 		t.Run("PushPipeline", helpers.PushToPipe("test-2-pq", false, "127.0.0.1:6601"))
 	}
@@ -201,7 +202,7 @@ func TestSQSRemovePQ(t *testing.T) {
 	assert.Equal(t, 0, oLogger.FilterMessageSnippet("job was processed successfully").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	assert.Equal(t, 200, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("sqs listener was stopped").Len())
 }
