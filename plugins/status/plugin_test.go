@@ -450,7 +450,6 @@ func TestJobsReadiness(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second)
-
 	t.Run("checkJobsReadiness", checkJobsReadiness)
 	t.Run("checkJobsRPC", func(t *testing.T) {
 		checkRPCReadiness(t, "jobs", 200)
