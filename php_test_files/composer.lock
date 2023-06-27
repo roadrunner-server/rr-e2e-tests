@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "23124a1b2172c8b46e7203c03f2787ce",
+    "content-hash": "2eb6d31c70e7f7ec3be7f71c1e29a23d",
     "packages": [
         {
             "name": "brick/math",
@@ -3113,6 +3113,77 @@
                 }
             ],
             "time": "2023-04-13T10:43:10+00:00"
+        },
+        {
+            "name": "spiral/roadrunner-services",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roadrunner-php/services.git",
+                "reference": "d11df8fb097d2fb3f717b1f76034b9420648aece"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roadrunner-php/services/zipball/d11df8fb097d2fb3f717b1f76034b9420648aece",
+                "reference": "d11df8fb097d2fb3f717b1f76034b9420648aece",
+                "shasum": ""
+            },
+            "require": {
+                "google/protobuf": "^3.7",
+                "php": ">=8.1",
+                "roadrunner-php/roadrunner-api-dto": "^1.0",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": ">=5.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spiral\\RoadRunner\\Services\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "RoadRunner services manager",
+            "homepage": "https://roadrunner.dev/",
+            "support": {
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/services/tree/2.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-13T11:38:40+00:00"
         },
         {
             "name": "spiral/roadrunner-tcp",

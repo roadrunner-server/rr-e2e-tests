@@ -21,7 +21,8 @@
     "open-telemetry/sdk": "^0.0.10",
     "psr/http-factory": "^1.0",
     "php-http/message-factory": "^1.1",
-    "spiral/roadrunner-kv": "^4.0"
+    "spiral/roadrunner-kv": "^4.0",
+    "spiral/roadrunner-services": "^2.0"
   },
   "autoload": {
     "psr-4": {

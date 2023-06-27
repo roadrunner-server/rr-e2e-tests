@@ -93,6 +93,75 @@ func TestServiceInit(t *testing.T) {
 	wg.Wait()
 }
 
+func TestServicePHPCreate(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2023.2.0",
+		Path:    "configs/.rr-service-from-php.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&rpcPlugin.Plugin{},
+		l,
+		&service.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 15)
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("service was stopped").Len(), 4)
+}
+
 func TestServiceTrimOutput(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
@@ -1528,7 +1597,7 @@ func TestServiceReset4(t *testing.T) {
 	stopCh <- struct{}{}
 	wg.Wait()
 
-	require.Equal(t, 20, oLogger.FilterMessageSnippet("service have started").Len())
+	require.Equal(t, 20, oLogger.FilterMessageSnippet("service was started").Len())
 	t.Cleanup(func() {
 		_ = file.Close()
 		_ = os.Remove("foo2.txt")
