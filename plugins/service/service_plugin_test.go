@@ -104,9 +104,9 @@ func TestServicePHPCreate(t *testing.T) {
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
 	err := cont.RegisterAll(
+		l,
 		cfg,
 		&rpcPlugin.Plugin{},
-		l,
 		&service.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -158,6 +158,7 @@ func TestServicePHPCreate(t *testing.T) {
 	time.Sleep(time.Second * 15)
 	stopCh <- struct{}{}
 	wg.Wait()
+	time.Sleep(time.Second)
 
 	assert.GreaterOrEqual(t, oLogger.FilterMessageSnippet("service was stopped").Len(), 4)
 }

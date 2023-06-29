@@ -11,6 +11,7 @@ coverage:
         threshold: 50%
         informational: true
 ignore:
+  - "test-certs"
   - "plugins"
   - "php_test_files"
   - "mock"

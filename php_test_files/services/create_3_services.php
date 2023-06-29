@@ -13,7 +13,7 @@ $manager = new Manager($rpc);
 try {
     $result = $manager->create(
         name: 'listen-jobs', 
-        command: 'sleep 10',
+        command: 'sleep 5',
         processNum: 3,
         execTimeout: 15,
         remainAfterExit: false,
