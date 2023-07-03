@@ -72,6 +72,8 @@ require (
 	google.golang.org/protobuf v1.31.0
 )
 
+replace github.com/roadrunner-server/lock/v4 => ../plugins/lock
+
 exclude github.com/uber-go/tally/v4 v4.1.7
 
 require (

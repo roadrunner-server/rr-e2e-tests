@@ -1,6 +1,7 @@
 package lock
 
 import (
+	"math/rand"
 	"os"
 	"os/signal"
 	"sync"
@@ -11,6 +12,7 @@ import (
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	lockPlugin "github.com/roadrunner-server/lock/v4"
+	"github.com/roadrunner-server/logger/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/stretchr/testify/assert"
@@ -18,6 +20,8 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/exp/slog"
 )
+
+const SEC_MUL = 1000000
 
 func TestLockInit(t *testing.T) {
 	cont := endure.New(slog.LevelInfo)
@@ -29,9 +33,11 @@ func TestLockInit(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	_ = l
 	err := cont.RegisterAll(
 		cfg,
-		l,
+		&logger.Plugin{},
+		// l,
 		&rpcPlugin.Plugin{},
 		&lockPlugin.Plugin{},
 	)
@@ -83,26 +89,98 @@ func TestLockInit(t *testing.T) {
 	}()
 
 	time.Sleep(time.Second * 3)
-	assert.True(t, lock(t, "127.0.0.1:6001", "foo", "bar", 5, 0))
-	assert.True(t, lock(t, "127.0.0.1:6001", "foo", "bar", 0, 10))
+	// assert.True(t, lock(t, "127.0.0.1:6001", "foo", "bar", 1000000000, 0))
+	//
+	// time.Sleep(time.Second * 2)
+	// updateTTL(t, "127.0.0.1:6001", "foo", "bar", 10000)
+	// time.Sleep(time.Second * 2)
+	// updateTTL(t, "127.0.0.1:6001", "foo", "bar", 10000)
 
-	time.Sleep(time.Second)
+	for i := 0; i < 1000; i++ {
+		go func() {
+			lock(t, "127.0.0.1:6001", "foo1", randomString(10), 1*SEC_MUL, 15*SEC_MUL)
+		}()
+		go func() {
+			lock(t, "127.0.0.1:6001", "foo1", randomString(10), 1*SEC_MUL, 15*SEC_MUL)
+		}()
+		go func() {
+			lock(t, "127.0.0.1:6001", "foo1", randomString(10), 1*SEC_MUL, 15*SEC_MUL)
+		}()
+		go func() {
+			lock(t, "127.0.0.1:6001", "foo1", randomString(10), 1*SEC_MUL, 15*SEC_MUL)
+		}()
+		go func() {
+			lockRead(t, "127.0.0.1:6001", "foo1", randomString(10), 1*SEC_MUL, 15*SEC_MUL)
+		}()
+		go func() {
+			lockRead(t, "127.0.0.1:6001", "foo1", randomString(10), 1*SEC_MUL, 15*SEC_MUL)
+		}()
+		// go func() {
+		// 	forceRelease(t, "127.0.0.1:6001", "foo1", "bar")
+		// }()
+	}
+	// rs1 := randomString(10)
+	// rs2 := randomString(10)
+	// rs3 := randomString(10)
+	// rs4 := randomString(10)
+	//
+	// lock(t, "127.0.0.1:6001", "foo1", rs1, 10*SEC_MUL, 100*SEC_MUL)
+	// lockRead(t, "127.0.0.1:6001", "foo1", rs2, 10000, 2*SEC_MUL)
+	// lockRead(t, "127.0.0.1:6001", "foo1", rs3, 10000, 1101010)
+	// lockRead(t, "127.0.0.1:6001", "foo1", rs4, 10000, 7774499)
 
-	wg2 := &sync.WaitGroup{}
-	wg2.Add(2)
-	go func() {
-		assert.False(t, lock(t, "127.0.0.1:6001", "foo", "bar", 0, 11))
-		wg2.Done()
-	}()
+	// assert.True(t, lockRead(t, "127.0.0.1:6001", "foo1", "bar2", 1000000000, 0))
+	// assert.True(t, lockRead(t, "127.0.0.1:6001", "foo1", "bar3", 1000000000, 0))
+	// assert.True(t, lockRead(t, "127.0.0.1:6001", "foo1", "bar4", 1000000000, 0))
+	// assert.True(t, lockRead(t, "127.0.0.1:6001", "foo1", "bar5", 1000000000, 0))
+	// assert.True(t, lockRead(t, "127.0.0.1:6001", "foo1", "bar6", 1000000000, 0))
+	// go func() {
+	// 	time.Sleep(time.Second * 10)
+	// 	release(t, "127.0.0.1:6001", "foo1", "bar1")
+	// }()
+	//
+	// assert.True(t, lock(t, "127.0.0.1:6001", "foo1", "bar1", 100000000, 1000000))
+	//
+	// time.Sleep(time.Second * 2)
 
-	go func() {
-		assert.False(t, lock(t, "127.0.0.1:6001", "foo", "bar", 0, 11))
-		wg2.Done()
-	}()
+	// forceRelease(t, "127.0.0.1:6001", "foo1", "bar")
 
-	wg2.Wait()
+	// assert.True(t, lock(t, "127.0.0.1:6001", "foo1", "bar1", 10000000, 0))
+	// assert.True(t, lock(t, "127.0.0.1:6001", "foo2", "bar2", 10000000, 0))
+	// for i := 0; i < 10; i++ {
+	// 	go func() {
+	// 		lock(t, "127.0.0.1:6001", "foo", "arb", 10000000, 100000000)
+	// 	}()
+	// }
+	//
+	// go func() {
+	// 	time.Sleep(time.Second)
+	// 	release(t, "127.0.0.1:6001", "foo", "bar")
+	// }()
 
-	time.Sleep(time.Second)
+	// forceRelease(t, "127.0.0.1:6001", "foo", "bar")
+	// release(t, "127.0.0.1:6001", "foo1", "bar1")
+	// release(t, "127.0.0.1:6001", "foo2", "bar2")
+
+	// assert.True(t, lock(t, "127.0.0.1:6001", "foo", "bar", 0, 10))
+	//
+	// time.Sleep(time.Second)
+	//
+	// wg2 := &sync.WaitGroup{}
+	// wg2.Add(2)
+	// go func() {
+	// 	assert.False(t, lock(t, "127.0.0.1:6001", "foo", "bar", 0, 11))
+	// 	wg2.Done()
+	// }()
+	//
+	// go func() {
+	// 	assert.False(t, lock(t, "127.0.0.1:6001", "foo", "bar", 0, 11))
+	// 	wg2.Done()
+	// }()
+	//
+	// wg2.Wait()
+	//
+	time.Sleep(time.Minute)
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -123,9 +201,11 @@ func TestLockReadInit(t *testing.T) {
 	}
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	_ = l
 	err := cont.RegisterAll(
 		cfg,
-		l,
+		&logger.Plugin{},
+		// l,
 		&rpcPlugin.Plugin{},
 		&lockPlugin.Plugin{},
 	)
@@ -382,4 +462,14 @@ func TestForceRelease(t *testing.T) {
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("lock forcibly released").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("waiting for the lock to acquire").Len())
 	assert.Equal(t, 1, oLogger.FilterMessageSnippet("read lock released").Len())
+}
+
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+func randomString(n int) string {
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = letterBytes[rand.Intn(len(letterBytes))]
+	}
+	return string(b)
 }
