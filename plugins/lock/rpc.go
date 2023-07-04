@@ -3,10 +3,8 @@ package lock
 import (
 	"net"
 	"net/rpc"
-	"testing"
 
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	"github.com/stretchr/testify/require"
 	lockApi "go.buf.build/protocolbuffers/go/roadrunner-server/api/lock/v1beta1"
 )
 
@@ -19,9 +17,11 @@ const (
 	existsRPC       string = "lock.Exists"
 )
 
-func lock(t *testing.T, address string, resource, id string, ttl, wait int) bool {
+func lock(address string, resource, id string, ttl, wait int) (bool, error) {
 	conn, err := net.Dial("tcp", address)
-	require.NoError(t, err)
+	if err != nil {
+		return false, err
+	}
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 	req := &lockApi.Request{
@@ -33,13 +33,17 @@ func lock(t *testing.T, address string, resource, id string, ttl, wait int) bool
 
 	resp := &lockApi.Response{}
 	err = client.Call(lockRPC, req, resp)
-	require.NoError(t, err)
-	return resp.Ok
+	if err != nil {
+		return false, err
+	}
+	return resp.Ok, nil
 }
 
-func lockRead(t *testing.T, address string, resource, id string, ttl, wait int) bool {
+func lockRead(address string, resource, id string, ttl, wait int) (bool, error) {
 	conn, err := net.Dial("tcp", address)
-	require.NoError(t, err)
+	if err != nil {
+		return false, err
+	}
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 	req := &lockApi.Request{
@@ -51,13 +55,17 @@ func lockRead(t *testing.T, address string, resource, id string, ttl, wait int) 
 
 	resp := &lockApi.Response{}
 	err = client.Call(rlockRPC, req, resp)
-	require.NoError(t, err)
-	return resp.Ok
+	if err != nil {
+		return false, err
+	}
+	return resp.Ok, nil
 }
 
-func release(t *testing.T, address string, resource, id string) bool {
+func release(address string, resource, id string) (bool, error) {
 	conn, err := net.Dial("tcp", address)
-	require.NoError(t, err)
+	if err != nil {
+		return false, err
+	}
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 	req := &lockApi.Request{
@@ -67,13 +75,17 @@ func release(t *testing.T, address string, resource, id string) bool {
 
 	resp := &lockApi.Response{}
 	err = client.Call(releaseRPC, req, resp)
-	require.NoError(t, err)
-	return resp.Ok
+	if err != nil {
+		return false, err
+	}
+	return resp.Ok, nil
 }
 
-func updateTTL(t *testing.T, address string, resource, id string, ttl int) bool {
+func updateTTL(address string, resource, id string, ttl int) (bool, error) {
 	conn, err := net.Dial("tcp", address)
-	require.NoError(t, err)
+	if err != nil {
+		return false, nil
+	}
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 	req := &lockApi.Request{
@@ -84,13 +96,17 @@ func updateTTL(t *testing.T, address string, resource, id string, ttl int) bool 
 
 	resp := &lockApi.Response{}
 	err = client.Call(updateTTLRPC, req, resp)
-	require.NoError(t, err)
-	return resp.Ok
+	if err != nil {
+		return false, nil
+	}
+	return resp.Ok, nil
 }
 
-func forceRelease(t *testing.T, address string, resource, id string) bool {
+func forceRelease(address string, resource, id string) (bool, error) {
 	conn, err := net.Dial("tcp", address)
-	require.NoError(t, err)
+	if err != nil {
+		return false, nil
+	}
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 	req := &lockApi.Request{
@@ -100,13 +116,17 @@ func forceRelease(t *testing.T, address string, resource, id string) bool {
 
 	resp := &lockApi.Response{}
 	err = client.Call(forceReleaseRPC, req, resp)
-	require.NoError(t, err)
-	return resp.Ok
+	if err != nil {
+		return false, nil
+	}
+	return resp.Ok, nil
 }
 
-func exists(t *testing.T, address string, resource, id string) bool {
+func exists(address string, resource, id string) (bool, error) {
 	conn, err := net.Dial("tcp", address)
-	require.NoError(t, err)
+	if err != nil {
+		return false, nil
+	}
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 	req := &lockApi.Request{
@@ -116,8 +136,10 @@ func exists(t *testing.T, address string, resource, id string) bool {
 
 	resp := &lockApi.Response{}
 	err = client.Call(existsRPC, req, resp)
-	require.NoError(t, err)
-	return resp.Ok
+	if err != nil {
+		return false, nil
+	}
+	return resp.Ok, nil
 }
 
 func ptrTo[T any](val T) *T {
