@@ -19,46 +19,46 @@ require (
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.16.0
 	github.com/rabbitmq/amqp091-go v1.8.1
-	github.com/roadrunner-server/amqp/v4 v4.6.1
+	github.com/roadrunner-server/amqp/v4 v4.7.0
 	github.com/roadrunner-server/api/v4 v4.5.0
 	github.com/roadrunner-server/app-logger/v4 v4.0.9
-	github.com/roadrunner-server/beanstalk/v4 v4.3.0
-	github.com/roadrunner-server/boltdb/v4 v4.4.1
-	github.com/roadrunner-server/centrifuge/v4 v4.1.11
-	github.com/roadrunner-server/config/v4 v4.3.5
+	github.com/roadrunner-server/beanstalk/v4 v4.4.0
+	github.com/roadrunner-server/boltdb/v4 v4.5.0
+	github.com/roadrunner-server/centrifuge/v4 v4.2.0
+	github.com/roadrunner-server/config/v4 v4.4.0
 	github.com/roadrunner-server/endure/v2 v2.2.1
 	github.com/roadrunner-server/errors v1.2.0
-	github.com/roadrunner-server/fileserver/v4 v4.0.14
+	github.com/roadrunner-server/fileserver/v4 v4.1.0
 	github.com/roadrunner-server/goridge/v3 v3.6.3
-	github.com/roadrunner-server/grpc/v4 v4.1.15
-	github.com/roadrunner-server/gzip/v4 v4.0.13
-	github.com/roadrunner-server/headers/v4 v4.1.1
-	github.com/roadrunner-server/http/v4 v4.1.14
-	github.com/roadrunner-server/informer/v4 v4.1.10
-	github.com/roadrunner-server/jobs/v4 v4.4.1
-	github.com/roadrunner-server/kafka/v4 v4.2.1
-	github.com/roadrunner-server/kv/v4 v4.1.13
-	github.com/roadrunner-server/lock/v4 v4.2.0
-	github.com/roadrunner-server/logger/v4 v4.1.10
+	github.com/roadrunner-server/grpc/v4 v4.2.0
+	github.com/roadrunner-server/gzip/v4 v4.1.0
+	github.com/roadrunner-server/headers/v4 v4.2.0
+	github.com/roadrunner-server/http/v4 v4.2.0
+	github.com/roadrunner-server/informer/v4 v4.2.0
+	github.com/roadrunner-server/jobs/v4 v4.5.0
+	github.com/roadrunner-server/kafka/v4 v4.3.0
+	github.com/roadrunner-server/kv/v4 v4.2.0
+	github.com/roadrunner-server/lock/v4 v4.3.0
+	github.com/roadrunner-server/logger/v4 v4.2.0
 	github.com/roadrunner-server/memcached/v4 v4.1.10
-	github.com/roadrunner-server/memory/v4 v4.3.0
-	github.com/roadrunner-server/metrics/v4 v4.0.12
-	github.com/roadrunner-server/nats/v4 v4.3.1
-	github.com/roadrunner-server/otel/v4 v4.1.15
-	github.com/roadrunner-server/prometheus/v4 v4.0.14
-	github.com/roadrunner-server/proxy_ip_parser/v4 v4.0.12
-	github.com/roadrunner-server/redis/v4 v4.1.13
+	github.com/roadrunner-server/memory/v4 v4.4.0
+	github.com/roadrunner-server/metrics/v4 v4.1.0
+	github.com/roadrunner-server/nats/v4 v4.4.0
+	github.com/roadrunner-server/otel/v4 v4.2.0
+	github.com/roadrunner-server/prometheus/v4 v4.1.0
+	github.com/roadrunner-server/proxy_ip_parser/v4 v4.1.0
+	github.com/roadrunner-server/redis/v4 v4.2.0
 	github.com/roadrunner-server/reload/v4 v4.0.4
 	github.com/roadrunner-server/resetter/v4 v4.0.7
-	github.com/roadrunner-server/rpc/v4 v4.1.12
+	github.com/roadrunner-server/rpc/v4 v4.2.0
 	github.com/roadrunner-server/sdk/v4 v4.3.1
-	github.com/roadrunner-server/send/v4 v4.1.0
-	github.com/roadrunner-server/server/v4 v4.1.10
-	github.com/roadrunner-server/service/v4 v4.2.0
-	github.com/roadrunner-server/sqs/v4 v4.3.1
-	github.com/roadrunner-server/static/v4 v4.0.13
-	github.com/roadrunner-server/status/v4 v4.2.0
-	github.com/roadrunner-server/tcp/v4 v4.0.12
+	github.com/roadrunner-server/send/v4 v4.2.0
+	github.com/roadrunner-server/server/v4 v4.2.0
+	github.com/roadrunner-server/service/v4 v4.3.0
+	github.com/roadrunner-server/sqs/v4 v4.4.0
+	github.com/roadrunner-server/static/v4 v4.1.0
+	github.com/roadrunner-server/status/v4 v4.3.0
+	github.com/roadrunner-server/tcp/v4 v4.1.0
 	github.com/stretchr/testify v1.8.4
 	github.com/temporalio/roadrunner-temporal/v4 v4.3.2
 	github.com/yookoala/gofast v0.7.0
@@ -105,7 +105,6 @@ require (
 	github.com/go-logr/logr v1.2.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
-	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/gofiber/fiber/v2 v2.47.0 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
@@ -148,6 +147,7 @@ require (
 	github.com/prometheus/client_model v0.4.0 // indirect
 	github.com/prometheus/common v0.44.0 // indirect
 	github.com/prometheus/procfs v0.11.0 // indirect
+	github.com/redis/go-redis/v9 v9.0.5 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/roadrunner-server/tcplisten v1.3.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
