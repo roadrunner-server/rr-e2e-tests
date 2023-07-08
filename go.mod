@@ -168,7 +168,7 @@ require (
 	github.com/tklauser/go-sysconf v0.3.11 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/twmb/franz-go v1.13.6 // indirect
-	github.com/twmb/franz-go/pkg/kmsg v1.5.0 // indirect
+	github.com/twmb/franz-go/pkg/kmsg v1.6.0 // indirect
 	github.com/twmb/murmur3 v1.1.8 // indirect
 	github.com/uber-go/tally/v4 v4.1.6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
