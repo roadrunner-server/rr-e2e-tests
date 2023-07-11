@@ -93,9 +93,22 @@ echo "\n";
 // Exit and get results
 foreach ($runs as $key => $run) {
     echo \sprintf("Send exit [wf:%d]... ", $key);
-    $run[1]->exit();
+    try {
+        $run[1]->exit();
+    } catch (\Throwable $e) {
+        echo \sprintf("\e[31mSIGNAL ERROR\e[0m\n");
+        echo \sprintf("Error: \e[31m%s\e[0m\n", $e->getMessage());
+        continue;
+    }
     // Out result
-    $result = $run[0]->getResult();
+    try {
+        $result = $run[0]->getResult();
+    } catch (\Throwable $e) {
+        echo \sprintf("\e[31mGET RESULT ERROR\e[0m\n");
+        echo \sprintf("Error: \e[31m%s\e[0m\n", $e->getMessage());
+        continue;
+    }
+
     $time['first result'] = \microtime(true);
 
     if (\count($result) === $waves) {
