@@ -66,12 +66,15 @@ $workflowsCount = 20;
 $waves = 100;
 //////////////
 
+$time['begin'] = \microtime(true);
+
 /** @var array<array{WorkflowRunInterface, SimpleWorkflow}> $runs */
 $runs = [];
 
 for ($i = 0; $i < $workflowsCount; $i++) {
     $runs[] = runWorkflow($workflowClient);
 }
+$time['workflows were run'] = \microtime(true);
 
 $iterator = 0;
 for ($i = 0; $i < $waves; $i++) {
@@ -83,6 +86,7 @@ for ($i = 0; $i < $waves; $i++) {
         $run[1]->addName($name);
     }
 }
+$time['signals were sent'] = \microtime(true);
 
 echo "\n";
 
@@ -92,6 +96,7 @@ foreach ($runs as $key => $run) {
     $run[1]->exit();
     // Out result
     $result = $run[0]->getResult();
+    $time['first result'] = \microtime(true);
 
     if (\count($result) === $waves) {
         // Print Ok
@@ -103,3 +108,11 @@ foreach ($runs as $key => $run) {
         echo \sprintf("Skipped names: \e[31m%s\e[0m\n", \implode(', ', findSkipped($result, $waves)));
     }
 }
+$time['end'] = \microtime(true);
+
+$prev = \reset($time);
+foreach ($time as $label => $s) {
+    echo \sprintf("%s: \e[32m%.4f\e[0m\n", $label,  $s - $prev);
+    $prev = $s;
+}
+
