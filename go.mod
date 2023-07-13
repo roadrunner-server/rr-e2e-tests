@@ -30,7 +30,7 @@ require (
 	github.com/roadrunner-server/errors v1.2.0
 	github.com/roadrunner-server/fileserver/v4 v4.1.0
 	github.com/roadrunner-server/goridge/v3 v3.6.3
-	github.com/roadrunner-server/grpc/v4 v4.2.0
+	github.com/roadrunner-server/grpc/v4 v4.3.0
 	github.com/roadrunner-server/gzip/v4 v4.1.0
 	github.com/roadrunner-server/headers/v4 v4.2.0
 	github.com/roadrunner-server/http/v4 v4.2.0
@@ -208,7 +208,7 @@ require (
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.11.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20230710151506-e685fd7b542b // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230710151506-e685fd7b542b // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230711160842-782d3b101e98 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
