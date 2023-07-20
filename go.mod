@@ -43,7 +43,7 @@ require (
 	github.com/roadrunner-server/memcached/v4 v4.1.10
 	github.com/roadrunner-server/memory/v4 v4.4.0
 	github.com/roadrunner-server/metrics/v4 v4.1.1
-	github.com/roadrunner-server/nats/v4 v4.4.0
+	github.com/roadrunner-server/nats/v4 v4.4.1
 	github.com/roadrunner-server/otel/v4 v4.2.0
 	github.com/roadrunner-server/prometheus/v4 v4.1.0
 	github.com/roadrunner-server/proxy_ip_parser/v4 v4.1.0
@@ -77,7 +77,7 @@ exclude github.com/uber-go/tally/v4 v4.1.7
 require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go v1.44.304 // indirect
+	github.com/aws/aws-sdk-go v1.44.305 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.5 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.35 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.29 // indirect
@@ -203,8 +203,8 @@ require (
 	golang.org/x/text v0.11.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.11.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20230717213848-3f92550aa753 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230717213848-3f92550aa753 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20230720185612-659f7aaaa771 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230720185612-659f7aaaa771 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
