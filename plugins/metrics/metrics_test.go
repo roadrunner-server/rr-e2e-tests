@@ -123,7 +123,8 @@ func TestMetricsIssue571(t *testing.T) {
 	}
 
 	_, err = cont.Serve()
-	assert.Error(t, err)
+	assert.NoError(t, err)
+	assert.NoError(t, cont.Stop())
 }
 
 func TestMetricsGaugeCollector(t *testing.T) {

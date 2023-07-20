@@ -15,6 +15,9 @@ import (
 	"github.com/roadrunner-server/endure/v2"
 	httpPlugin "github.com/roadrunner-server/http/v4"
 	"github.com/roadrunner-server/logger/v4"
+	"github.com/roadrunner-server/metrics/v4"
+	"github.com/roadrunner-server/prometheus/v4"
+	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mockLogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
@@ -778,4 +781,59 @@ func TestAppNoAppSectionInConfig(t *testing.T) {
 
 	_, err = container.Serve()
 	require.Error(t, err)
+}
+
+func TestOnInitMetrics(t *testing.T) {
+	container := endure.New(slog.LevelDebug)
+
+	// config plugin
+	vp := &config.Plugin{}
+	vp.Path = "configs/.rr-metrics-oninit.yaml"
+	vp.Prefix = "rr"
+
+	err := container.RegisterAll(
+		vp,
+		&server.Plugin{},
+		&metrics.Plugin{},
+		&prometheus.Plugin{},
+		&rpcPlugin.Plugin{},
+		&logger.Plugin{},
+	)
+	require.NoError(t, err)
+
+	err = container.Init()
+	require.NoError(t, err)
+
+	errCh, err := container.Serve()
+	require.NoError(t, err)
+
+	// stop by CTRL+C
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	tt := time.NewTimer(time.Second * 5)
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+		defer tt.Stop()
+		for {
+			select {
+			case e := <-errCh:
+				assert.NoError(t, e.Error)
+				assert.NoError(t, container.Stop())
+				return
+			case <-c:
+				er := container.Stop()
+				assert.NoError(t, er)
+				return
+			case <-tt.C:
+				assert.NoError(t, container.Stop())
+				return
+			}
+		}
+	}()
+
+	wg.Wait()
 }
