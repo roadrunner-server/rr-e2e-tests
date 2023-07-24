@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.27
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.23.3
 	github.com/beanstalkd/go-beanstalk v0.2.0
-	github.com/centrifugal/centrifuge-go v0.10.0
+	github.com/centrifugal/centrifuge-go v0.10.1
 	github.com/docker/docker v24.0.4+incompatible
 	github.com/docker/go-connections v0.4.0
 	github.com/fatih/color v1.15.0
