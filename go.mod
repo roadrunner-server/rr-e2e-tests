@@ -20,7 +20,7 @@ require (
 	github.com/prometheus/client_golang v1.16.0
 	github.com/rabbitmq/amqp091-go v1.8.1
 	github.com/roadrunner-server/amqp/v4 v4.7.0
-	github.com/roadrunner-server/api/v4 v4.5.0
+	github.com/roadrunner-server/api/v4 v4.6.0
 	github.com/roadrunner-server/app-logger/v4 v4.0.9
 	github.com/roadrunner-server/beanstalk/v4 v4.4.0
 	github.com/roadrunner-server/boltdb/v4 v4.5.0
