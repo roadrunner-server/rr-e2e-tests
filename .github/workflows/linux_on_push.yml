@@ -1423,7 +1423,7 @@ jobs:
         run: go mod download
 
       - name: Install protoc
-        uses: arduino/setup-protoc@v1
+        uses: arduino/setup-protoc@v2
         with:
           version: '3.x'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -1479,7 +1479,7 @@ jobs:
         run: go mod download
 
       - name: Install protoc
-        uses: arduino/setup-protoc@v1
+        uses: arduino/setup-protoc@v2
         with:
           version: '3.x'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
