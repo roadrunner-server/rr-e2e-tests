@@ -1423,9 +1423,9 @@ jobs:
         run: go mod download
 
       - name: Install protoc
-        uses: arduino/setup-protoc@v1
+        uses: arduino/setup-protoc@v2
         with:
-          version: '3.x'
+          version: '23.x'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run golang tests with coverage
@@ -1479,9 +1479,9 @@ jobs:
         run: go mod download
 
       - name: Install protoc
-        uses: arduino/setup-protoc@v1
+        uses: arduino/setup-protoc@v2
         with:
-          version: '3.x'
+          version: '23.x'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run golang tests with coverage
