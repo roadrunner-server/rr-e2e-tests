@@ -34,13 +34,10 @@ type Server interface {
 type Pool interface {
 	// Workers returns worker list associated with the pool.
 	Workers() (workers []*worker.Process)
-
 	// Exec payload
-	Exec(ctx context.Context, p *payload.Payload) (*payload.Payload, error)
-
+	Exec(ctx context.Context, p *payload.Payload, stopCh chan struct{}) (chan *staticPool.PExec, error)
 	// Reset kill all workers inside the watcher and replaces with new
 	Reset(ctx context.Context) error
-
 	// Destroy all underlying stack (but let them complete the task).
 	Destroy(ctx context.Context)
 }
@@ -110,7 +107,7 @@ func (f *Foo) Serve() chan error {
 
 	// test that our worker is functional
 
-	rsp, err := w.Exec(r)
+	rsp, err := w.Exec(context.Background(), r)
 	if err != nil {
 		errCh <- err
 		return errCh
@@ -136,15 +133,17 @@ func (f *Foo) Serve() chan error {
 	}
 
 	// test pool execution
-	rsp, err = f.pool.Exec(context.Background(), r)
+	rs, err := f.pool.Exec(context.Background(), r, make(chan struct{}, 1))
 	if err != nil {
 		errCh <- err
 		return errCh
 	}
 
+	rspp := <-rs
+
 	// echo of the "test" should be -> test
-	if string(rsp.Body) != Response {
-		errCh <- errors.E("response from worker is wrong", errors.Errorf("response: %s", rsp.Body))
+	if string(rspp.Body()) != Response {
+		errCh <- errors.E("response from worker is wrong", errors.Errorf("response: %s", rspp.Body()))
 		return errCh
 	}
 

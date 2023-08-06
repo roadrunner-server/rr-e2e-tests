@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/roadrunner-server/amqp/v4"
+	jobsProto "github.com/roadrunner-server/api/v4/build/jobs/v1"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -26,7 +27,6 @@ import (
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
-	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"golang.org/x/exp/slog"
 )
 

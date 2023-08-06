@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	kvProto "github.com/roadrunner-server/api/v4/build/kv/v1"
 	"github.com/roadrunner-server/boltdb/v4"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
@@ -25,7 +26,6 @@ import (
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	kvProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/kv/v1"
 	"go.uber.org/zap"
 	"golang.org/x/exp/slog"
 )

@@ -59,7 +59,7 @@ func (f *Foo4) Serve() chan error {
 	}
 
 	// test pool execution
-	_, err = f.pool.Exec(context.Background(), r)
+	_, err = f.pool.Exec(context.Background(), r, make(chan struct{}))
 	if err != nil {
 		errCh <- err
 		return errCh

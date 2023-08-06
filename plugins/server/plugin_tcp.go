@@ -56,7 +56,7 @@ func (f *Foo3) Serve() chan error {
 		_ = w.Wait()
 	}()
 
-	rsp, err := w.Exec(r)
+	rsp, err := w.Exec(context.Background(), r)
 	if err != nil {
 		errCh <- err
 		return errCh
@@ -82,15 +82,17 @@ func (f *Foo3) Serve() chan error {
 	}
 
 	// test pool execution
-	rsp, err = f.pool.Exec(context.Background(), r)
+	rs, err := f.pool.Exec(context.Background(), r, make(chan struct{}))
 	if err != nil {
 		errCh <- err
 		return errCh
 	}
 
+	rspp := <-rs
+
 	// echo of the "test" should be -> test
-	if string(rsp.Body) != Response {
-		errCh <- errors.E("response from worker is wrong", errors.Errorf("response: %s", rsp.Body))
+	if string(rspp.Body()) != Response {
+		errCh <- errors.E("response from worker is wrong", errors.Errorf("response: %s", rspp.Body()))
 		return errCh
 	}
 

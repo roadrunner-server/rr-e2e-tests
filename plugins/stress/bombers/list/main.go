@@ -5,8 +5,8 @@ import (
 	"net"
 	"net/rpc"
 
+	jobsProto "github.com/roadrunner-server/api/v4/build/jobs/v1"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 )
 
 func main() {

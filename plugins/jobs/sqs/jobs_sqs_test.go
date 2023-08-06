@@ -21,6 +21,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
 	"github.com/goccy/go-json"
+	jobsProto "github.com/roadrunner-server/api/v4/build/jobs/v1"
 	jobState "github.com/roadrunner-server/api/v4/plugins/v1/jobs"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
@@ -37,7 +38,6 @@ import (
 	sqsPlugin "github.com/roadrunner-server/sqs/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"go.uber.org/zap"
 	"golang.org/x/exp/slog"
 )
@@ -897,10 +897,11 @@ func TestSQSRawPayload(t *testing.T) {
 	require.NoError(t, err)
 
 	// config with retries
-	client := sqs.NewFromConfig(awsConf, sqs.WithEndpointResolver(
-		sqs.EndpointResolverFromURL(os.Getenv("RR_SQS_TEST_ENDPOINT"))), func(o *sqs.Options) {
-		o.Retryer = retry.NewStandard(func(opts *retry.StandardOptions) {
-			opts.MaxAttempts = 60
+	endpoint := os.Getenv("RR_SQS_TEST_ENDPOINT")
+	client := sqs.NewFromConfig(awsConf, func(o *sqs.Options) {
+		o.BaseEndpoint = &endpoint
+		o.Retryer = retry.NewStandard(func(so *retry.StandardOptions) {
+			so.MaxAttempts = 60
 		})
 	})
 

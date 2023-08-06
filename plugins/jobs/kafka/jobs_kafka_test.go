@@ -16,6 +16,7 @@ import (
 
 	"github.com/goccy/go-json"
 	"github.com/google/uuid"
+	jobsProto "github.com/roadrunner-server/api/v4/build/jobs/v1"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -30,7 +31,6 @@ import (
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	jobsProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/jobs/v1"
 	"go.uber.org/zap"
 	"golang.org/x/exp/slog"
 )

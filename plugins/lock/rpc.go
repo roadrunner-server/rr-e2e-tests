@@ -4,8 +4,8 @@ import (
 	"net"
 	"net/rpc"
 
+	lockApi "github.com/roadrunner-server/api/v4/build/lock/v1beta1"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
-	lockApi "go.buf.build/protocolbuffers/go/roadrunner-server/api/lock/v1beta1"
 )
 
 const (

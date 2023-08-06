@@ -54,7 +54,7 @@ func TestHandler_Echo(t *testing.T) {
 	assert.NoError(t, err)
 
 	hs := &http.Server{
-		Addr:              ":9177",
+		Addr:              ":19177",
 		ReadHeaderTimeout: time.Minute * 5,
 		Handler:           h,
 	}
@@ -72,7 +72,7 @@ func TestHandler_Echo(t *testing.T) {
 	}(hs)
 	time.Sleep(time.Millisecond * 10)
 
-	body, r, err := helpers.Get("http://127.0.0.1:9177/?hello=world")
+	body, r, err := helpers.Get("http://127.0.0.1:19177/?hello=world")
 	assert.NoError(t, err)
 	defer func() {
 		_ = r.Body.Close()
