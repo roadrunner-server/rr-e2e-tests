@@ -37,8 +37,8 @@ require (
 	github.com/roadrunner-server/informer/v4 v4.2.0
 	github.com/roadrunner-server/jobs/v4 v4.6.0-beta.1
 	github.com/roadrunner-server/kafka/v4 v4.3.0
-	github.com/roadrunner-server/kv/v4 v4.2.0
-	github.com/roadrunner-server/lock/v4 v4.3.1
+	github.com/roadrunner-server/kv/v4 v4.3.0-beta.1
+	github.com/roadrunner-server/lock/v4 v4.4.0-beta.1
 	github.com/roadrunner-server/logger/v4 v4.2.0
 	github.com/roadrunner-server/memcached/v4 v4.1.10
 	github.com/roadrunner-server/memory/v4 v4.4.0
@@ -54,7 +54,7 @@ require (
 	github.com/roadrunner-server/sdk/v4 v4.4.0-beta.4
 	github.com/roadrunner-server/send/v4 v4.2.0
 	github.com/roadrunner-server/server/v4 v4.3.0-beta.2
-	github.com/roadrunner-server/service/v4 v4.3.0
+	github.com/roadrunner-server/service/v4 v4.4.0-beta.1
 	github.com/roadrunner-server/sqs/v4 v4.4.0
 	github.com/roadrunner-server/static/v4 v4.1.0
 	github.com/roadrunner-server/status/v4 v4.3.0
