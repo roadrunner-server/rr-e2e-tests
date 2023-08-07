@@ -28,7 +28,7 @@ const testFile = "uploads_test.go"
 
 func TestHandler_Upload_File(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
-		func(cmd string) *exec.Cmd {
+		func(cmd []string) *exec.Cmd {
 			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(testLog.ZapLogger()),
@@ -121,7 +121,7 @@ func TestHandler_Upload_File(t *testing.T) {
 
 func TestHandler_Upload_NestedFile(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
-		func(cmd string) *exec.Cmd {
+		func(cmd []string) *exec.Cmd {
 			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(testLog.ZapLogger()),
@@ -215,7 +215,7 @@ func TestHandler_Upload_NestedFile(t *testing.T) {
 
 func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
-		func(cmd string) *exec.Cmd {
+		func(cmd []string) *exec.Cmd {
 			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(testLog.ZapLogger()),
@@ -308,7 +308,7 @@ func TestHandler_Upload_File_NoTmpDir(t *testing.T) {
 
 func TestHandler_Upload_File_Forbids(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
-		func(cmd string) *exec.Cmd {
+		func(cmd []string) *exec.Cmd {
 			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(testLog.ZapLogger()),
@@ -401,7 +401,7 @@ func TestHandler_Upload_File_Forbids(t *testing.T) {
 
 func TestHandler_Upload_File_NotAllowed(t *testing.T) {
 	pl, err := staticPool.NewPool(context.Background(),
-		func(cmd string) *exec.Cmd {
+		func(cmd []string) *exec.Cmd {
 			return exec.Command("php", "../../../php_test_files/http/client.php", "upload", "pipes")
 		},
 		pipe.NewPipeFactory(testLog.ZapLogger()),
