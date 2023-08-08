@@ -35,7 +35,7 @@ require (
 	github.com/roadrunner-server/headers/v4 v4.2.1
 	github.com/roadrunner-server/http/v4 v4.3.0-beta.3
 	github.com/roadrunner-server/informer/v4 v4.2.0
-	github.com/roadrunner-server/jobs/v4 v4.6.0-beta.1
+	github.com/roadrunner-server/jobs/v4 v4.6.0-beta.2
 	github.com/roadrunner-server/kafka/v4 v4.3.0
 	github.com/roadrunner-server/kv/v4 v4.3.0-beta.1
 	github.com/roadrunner-server/lock/v4 v4.4.0-beta.1
@@ -158,7 +158,7 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.16.0 // indirect
-	github.com/stretchr/objx v0.5.0 // indirect
+	github.com/stretchr/objx v0.5.1 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
 	github.com/tklauser/go-sysconf v0.3.11 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
