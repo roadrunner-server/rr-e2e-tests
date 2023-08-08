@@ -1682,7 +1682,7 @@ jobs:
           path: ./coverage-ci/status.out
 
   config_unit_test:
-    name: config plugin unit test (Go ${{ matrix.go }}, PHP ${{ matrix.php }}, OS ${{matrix.os}})
+    name: config plugin unit test (Go ${{ matrix.go }}, OS ${{matrix.os}})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
