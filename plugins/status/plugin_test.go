@@ -12,6 +12,7 @@ import (
 	"testing"
 	"time"
 
+	statusv1beta1 "github.com/roadrunner-server/api/v4/build/status/v1"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -24,7 +25,6 @@ import (
 	"github.com/roadrunner-server/status/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	statusv1beta1 "go.buf.build/protocolbuffers/go/roadrunner-server/api/status/v1beta1"
 	"golang.org/x/exp/slog"
 )
 

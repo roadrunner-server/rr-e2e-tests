@@ -62,7 +62,6 @@ require (
 	github.com/stretchr/testify v1.8.4
 	github.com/temporalio/roadrunner-temporal/v4 v4.3.2
 	github.com/yookoala/gofast v0.7.0
-	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.40
 	go.temporal.io/api v1.23.0
 	go.temporal.io/sdk v1.24.0
 	go.uber.org/zap v1.25.0

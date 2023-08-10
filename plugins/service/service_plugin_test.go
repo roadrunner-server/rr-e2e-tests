@@ -10,6 +10,7 @@ import (
 	"testing"
 	"time"
 
+	serviceProto "github.com/roadrunner-server/api/v4/build/service/v1"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -23,7 +24,6 @@ import (
 	"github.com/roadrunner-server/service/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	serviceProto "go.buf.build/protocolbuffers/go/roadrunner-server/api/service/v1"
 	"go.uber.org/zap"
 	"golang.org/x/exp/slog"
 )
