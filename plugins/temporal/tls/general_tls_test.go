@@ -12,6 +12,7 @@ import (
 )
 
 func Test_HistoryLen(t *testing.T) {
+	t.Skip("wait for the 2.6 php-sdk")
 	stopCh := make(chan struct{}, 1)
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
