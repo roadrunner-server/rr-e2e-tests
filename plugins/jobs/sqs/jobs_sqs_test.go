@@ -897,10 +897,11 @@ func TestSQSRawPayload(t *testing.T) {
 	require.NoError(t, err)
 
 	// config with retries
-	client := sqs.NewFromConfig(awsConf, sqs.WithEndpointResolver(
-		sqs.EndpointResolverFromURL(os.Getenv("RR_SQS_TEST_ENDPOINT"))), func(o *sqs.Options) {
-		o.Retryer = retry.NewStandard(func(opts *retry.StandardOptions) {
-			opts.MaxAttempts = 60
+	endpoint := os.Getenv("RR_SQS_TEST_ENDPOINT")
+	client := sqs.NewFromConfig(awsConf, func(o *sqs.Options) {
+		o.BaseEndpoint = &endpoint
+		o.Retryer = retry.NewStandard(func(so *retry.StandardOptions) {
+			so.MaxAttempts = 60
 		})
 	})
 
