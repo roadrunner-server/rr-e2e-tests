@@ -23,7 +23,7 @@ class SimpleSignaledWorkflow
     public function handler(): iterable
     {
         // collect signals during one second
-        yield Workflow::timer(1);
+        yield Workflow::timer(10);
 
         return $this->counter;
     }
