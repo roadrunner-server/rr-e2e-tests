@@ -24,7 +24,7 @@ func Test_SimpleWorkflowCancelProto(t *testing.T) {
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
 		},
-		"SimpleSignaledWorkflow")
+		"WaitWorkflow")
 	assert.NoError(t, err)
 
 	err = s.Client.CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())

@@ -25,7 +25,7 @@ func Test_SimpleWorkflowCancelTLSProto(t *testing.T) {
 		client.StartWorkflowOptions{
 			TaskQueue: "default",
 		},
-		"SimpleSignaledWorkflow")
+		"WaitWorkflow")
 	assert.NoError(t, err)
 
 	time.Sleep(time.Millisecond * 500)
