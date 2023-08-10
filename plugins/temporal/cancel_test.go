@@ -27,7 +27,6 @@ func Test_SimpleWorkflowCancelProto(t *testing.T) {
 		"SimpleSignaledWorkflow")
 	assert.NoError(t, err)
 
-	time.Sleep(time.Millisecond * 500)
 	err = s.Client.CancelWorkflow(context.Background(), w.GetID(), w.GetRunID())
 	assert.NoError(t, err)
 
