@@ -63,13 +63,15 @@ require (
 	github.com/temporalio/roadrunner-temporal/v4 v4.3.2
 	github.com/yookoala/gofast v0.7.0
 	go.temporal.io/api v1.23.0
-	go.temporal.io/sdk v1.24.0
+	go.temporal.io/sdk v1.23.1
 	go.uber.org/zap v1.25.0
 	golang.org/x/exp v0.0.0-20230810033253-352e893a4cad
 	golang.org/x/net v0.14.0
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
 )
+
+exclude go.temporal.io/sdk v1.24.0
 
 exclude github.com/uber-go/tally/v4 v4.1.7
 
