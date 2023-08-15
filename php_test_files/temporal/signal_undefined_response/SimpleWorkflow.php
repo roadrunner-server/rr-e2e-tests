@@ -29,7 +29,7 @@ class SimpleWorkflow
         $this->greetingsActivity = Workflow::newActivityStub(
             SimpleActivity::class,
             ActivityOptions::new()
-                ->withScheduleToCloseTimeout(CarbonInterval::seconds(20))
+                ->withStartToCloseTimeout(CarbonInterval::seconds(20))
         );
     }
 

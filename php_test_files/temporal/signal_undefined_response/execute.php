@@ -45,7 +45,7 @@ function runWorkflow($workflowClient): array
 {
     $workflow = $workflowClient->newWorkflowStub(
         SimpleWorkflow::class,
-        WorkflowOptions::new()->withWorkflowExecutionTimeout(CarbonInterval::minutes(5)),
+        WorkflowOptions::new()->withWorkflowExecutionTimeout(CarbonInterval::minutes(25)),
     );
 
     echo "Starting SignalWorkflow...\n";
@@ -63,7 +63,7 @@ function runWorkflow($workflowClient): array
 
 /// CONFIG ///
 $workflowsCount = 20;
-$waves = 100;
+$waves = 120;
 //////////////
 
 $time['begin'] = \microtime(true);
@@ -90,7 +90,6 @@ $time['signals were sent'] = \microtime(true);
 
 echo "\n";
 
-// Exit and get results
 foreach ($runs as $key => $run) {
     echo \sprintf("Send exit [wf:%d]... ", $key);
     try {
@@ -98,6 +97,10 @@ foreach ($runs as $key => $run) {
     } catch (\Throwable $e) {
         echo \sprintf("\e[31mSIGNAL ERROR\e[0m\n");
         echo \sprintf("Error: \e[31m%s\e[0m\n", $e->getMessage());
+        // more details
+        echo \sprintf("previous: \e[31m%s\e[0m\n", $e->getPrevious()?->getMessage());
+        echo \sprintf("previous previous: \e[31m%s\e[0m\n", $e->getPrevious()?->getPrevious()?->getMessage());
+
         continue;
     }
     // Out result
