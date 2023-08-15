@@ -1,6 +1,8 @@
 module github.com/roadrunner-server/rr-e2e-tests
 
-go 1.20
+go 1.21
+
+toolchain go1.21.0
 
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
@@ -20,16 +22,16 @@ require (
 	github.com/prometheus/client_golang v1.16.0
 	github.com/rabbitmq/amqp091-go v1.8.1
 	github.com/roadrunner-server/amqp/v4 v4.7.0
-	github.com/roadrunner-server/api/v4 v4.6.1
+	github.com/roadrunner-server/api/v4 v4.6.2
 	github.com/roadrunner-server/app-logger/v4 v4.0.9
 	github.com/roadrunner-server/beanstalk/v4 v4.4.0
 	github.com/roadrunner-server/boltdb/v4 v4.5.0
 	github.com/roadrunner-server/centrifuge/v4 v4.3.0-beta.2
 	github.com/roadrunner-server/config/v4 v4.4.0
-	github.com/roadrunner-server/endure/v2 v2.3.1
-	github.com/roadrunner-server/errors v1.2.0
+	github.com/roadrunner-server/endure/v2 v2.4.1
+	github.com/roadrunner-server/errors v1.3.0
 	github.com/roadrunner-server/fileserver/v4 v4.1.0
-	github.com/roadrunner-server/goridge/v3 v3.6.3
+	github.com/roadrunner-server/goridge/v3 v3.7.0
 	github.com/roadrunner-server/grpc/v4 v4.4.0-beta.1
 	github.com/roadrunner-server/gzip/v4 v4.1.0
 	github.com/roadrunner-server/headers/v4 v4.2.1
@@ -57,15 +59,15 @@ require (
 	github.com/roadrunner-server/service/v4 v4.4.0-beta.1
 	github.com/roadrunner-server/sqs/v4 v4.4.1
 	github.com/roadrunner-server/static/v4 v4.1.0
-	github.com/roadrunner-server/status/v4 v4.3.0
+	github.com/roadrunner-server/status/v4 v4.3.1
 	github.com/roadrunner-server/tcp/v4 v4.2.0-beta.1
 	github.com/stretchr/testify v1.8.4
-	github.com/temporalio/roadrunner-temporal/v4 v4.4.0-beta.1
+	github.com/temporalio/roadrunner-temporal/v4 v4.4.0-beta.2
 	github.com/yookoala/gofast v0.7.0
 	go.temporal.io/api v1.23.0
 	go.temporal.io/sdk v1.23.1
 	go.uber.org/zap v1.25.0
-	golang.org/x/exp v0.0.0-20230807204917-050eac23e9de
+	golang.org/x/exp v0.0.0-20230811145659-89c5cff77bcb
 	golang.org/x/net v0.14.0
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
@@ -76,7 +78,7 @@ exclude go.temporal.io/sdk v1.24.0
 require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go v1.44.318 // indirect
+	github.com/aws/aws-sdk-go v1.44.324 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.8 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.38 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.32 // indirect
@@ -137,7 +139,7 @@ require (
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.0.2 // indirect
-	github.com/openzipkin/zipkin-go v0.4.1 // indirect
+	github.com/openzipkin/zipkin-go v0.4.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.9 // indirect
 	github.com/pierrec/lz4/v4 v4.1.18 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -147,7 +149,7 @@ require (
 	github.com/prometheus/procfs v0.11.1 // indirect
 	github.com/redis/go-redis/v9 v9.0.5 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
-	github.com/roadrunner-server/tcplisten v1.3.0 // indirect
+	github.com/roadrunner-server/tcplisten v1.4.0 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/rs/cors v1.9.0 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
@@ -159,8 +161,8 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.16.0 // indirect
 	github.com/stretchr/objx v0.5.1 // indirect
-	github.com/subosito/gotenv v1.4.2 // indirect
-	github.com/tklauser/go-sysconf v0.3.11 // indirect
+	github.com/subosito/gotenv v1.6.0 // indirect
+	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/twmb/franz-go v1.14.3 // indirect
 	github.com/twmb/franz-go/pkg/kmsg v1.6.1 // indirect
@@ -173,7 +175,6 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.3 // indirect
 	github.com/zeebo/blake3 v0.2.3 // indirect
-	go.buf.build/protocolbuffers/go/roadrunner-server/api v1.3.40 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.42.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.42.0 // indirect
@@ -202,8 +203,8 @@ require (
 	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.12.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20230807174057-1744710a1577 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230807174057-1744710a1577 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20230814215434-ca7cfce7776a // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230814215434-ca7cfce7776a // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
