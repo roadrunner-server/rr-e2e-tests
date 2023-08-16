@@ -13,6 +13,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/goccy/go-json"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
@@ -29,7 +31,6 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"golang.org/x/exp/slog"
 )
 
 func TestHTTPPost(t *testing.T) {

@@ -19,6 +19,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
@@ -40,7 +42,6 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/yookoala/gofast"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 	"golang.org/x/net/http2"
 )
 

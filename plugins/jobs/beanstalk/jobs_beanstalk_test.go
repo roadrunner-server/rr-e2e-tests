@@ -13,6 +13,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/beanstalkd/go-beanstalk"
 	"github.com/goccy/go-json"
 	"github.com/google/uuid"
@@ -34,7 +36,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 )
 
 func TestBeanstalkInit(t *testing.T) {

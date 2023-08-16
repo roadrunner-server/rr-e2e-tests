@@ -14,6 +14,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/goccy/go-json"
 	"github.com/google/uuid"
 	jobsProto "github.com/roadrunner-server/api/v4/build/jobs/v1"
@@ -32,7 +34,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 )
 
 func TestKafkaInitCG(t *testing.T) {

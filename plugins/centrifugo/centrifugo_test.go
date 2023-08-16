@@ -9,6 +9,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	centrifugeClient "github.com/centrifugal/centrifuge-go"
 	"github.com/roadrunner-server/centrifuge/v4"
 	"github.com/roadrunner-server/config/v4"
@@ -20,7 +22,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 )
 
 func TestCentrifugoPlugiInit(t *testing.T) {

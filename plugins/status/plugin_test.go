@@ -12,6 +12,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	statusv1beta1 "github.com/roadrunner-server/api/v4/build/status/v1"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
@@ -25,7 +27,6 @@ import (
 	"github.com/roadrunner-server/status/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"golang.org/x/exp/slog"
 )
 
 const resp = `plugin: http, status: 200

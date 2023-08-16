@@ -9,6 +9,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	"github.com/roadrunner-server/gzip/v4"
@@ -19,7 +21,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 )
 
 func TestGzipPlugin(t *testing.T) {

@@ -15,6 +15,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/goccy/go-json"
 	amqp "github.com/rabbitmq/amqp091-go"
 	amqpDriver "github.com/roadrunner-server/amqp/v4"
@@ -36,7 +38,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 )
 
 // fanout received job queue name

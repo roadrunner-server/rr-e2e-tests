@@ -15,11 +15,12 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/roadrunner-server/metrics/v4"
 	"github.com/roadrunner-server/otel/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/health/grpc_health_v1"
 

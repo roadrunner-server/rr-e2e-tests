@@ -10,6 +10,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/network"
@@ -25,7 +27,6 @@ import (
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v4"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"

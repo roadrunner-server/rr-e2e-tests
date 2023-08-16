@@ -12,6 +12,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/roadrunner-server/amqp/v4"
 	jobsProto "github.com/roadrunner-server/api/v4/build/jobs/v1"
 	"github.com/roadrunner-server/config/v4"
@@ -27,7 +29,6 @@ import (
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
-	"golang.org/x/exp/slog"
 )
 
 func TestJobsInit(t *testing.T) {

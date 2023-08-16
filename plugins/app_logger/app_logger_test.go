@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	applogger "github.com/roadrunner-server/app-logger/v4"
 	configImpl "github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
@@ -18,7 +20,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 )
 
 func TestAppLogger(t *testing.T) {

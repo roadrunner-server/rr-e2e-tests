@@ -11,6 +11,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	httpPlugin "github.com/roadrunner-server/http/v4"
@@ -19,7 +21,6 @@ import (
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"golang.org/x/exp/slog"
 )
 
 func TestLogger(t *testing.T) {

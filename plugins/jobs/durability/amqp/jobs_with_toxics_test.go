@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	toxiproxy "github.com/Shopify/toxiproxy/v2/client"
 	"github.com/roadrunner-server/amqp/v4"
 	"github.com/roadrunner-server/config/v4"
@@ -19,7 +21,6 @@ import (
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v4"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	helpers "github.com/roadrunner-server/rr-e2e-tests/plugins/jobs"

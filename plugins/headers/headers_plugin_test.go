@@ -10,6 +10,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	"github.com/roadrunner-server/headers/v4"
@@ -17,7 +19,6 @@ import (
 	"github.com/roadrunner-server/logger/v4"
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
-	"golang.org/x/exp/slog"
 )
 
 func TestHeadersInit(t *testing.T) {

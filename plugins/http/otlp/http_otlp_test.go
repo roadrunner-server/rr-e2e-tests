@@ -11,6 +11,8 @@ import (
 	"testing"
 	"time"
 
+	"log/slog"
+
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	"github.com/roadrunner-server/gzip/v4"
@@ -21,7 +23,6 @@ import (
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
-	"golang.org/x/exp/slog"
 )
 
 func TestHTTPOTLP_Init(t *testing.T) {
