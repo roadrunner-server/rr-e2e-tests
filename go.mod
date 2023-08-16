@@ -37,7 +37,7 @@ require (
 	github.com/roadrunner-server/headers/v4 v4.2.1
 	github.com/roadrunner-server/http/v4 v4.3.0-beta.3
 	github.com/roadrunner-server/informer/v4 v4.2.0
-	github.com/roadrunner-server/jobs/v4 v4.6.0-beta.2
+	github.com/roadrunner-server/jobs/v4 v4.6.0-beta.3
 	github.com/roadrunner-server/kafka/v4 v4.3.0
 	github.com/roadrunner-server/kv/v4 v4.3.0-beta.1
 	github.com/roadrunner-server/lock/v4 v4.4.0-beta.1
@@ -73,6 +73,8 @@ require (
 	google.golang.org/protobuf v1.31.0
 )
 
+exclude github.com/uber-go/tally/v4 v4.1.7
+
 exclude go.temporal.io/sdk v1.24.0
 
 require (
@@ -105,7 +107,7 @@ require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-logr/logr v1.2.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/go-ole/go-ole v1.2.6 // indirect
+	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/gofiber/fiber/v2 v2.48.0 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
@@ -203,12 +205,10 @@ require (
 	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.12.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20230814215434-ca7cfce7776a // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20230814215434-ca7cfce7776a // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20230815205213-6bfd019c3878 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230815205213-6bfd019c3878 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gotest.tools/v3 v3.5.0 // indirect
 )
-
-exclude github.com/uber-go/tally/v4 v4.1.7

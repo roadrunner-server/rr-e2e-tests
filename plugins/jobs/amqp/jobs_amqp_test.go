@@ -2,6 +2,7 @@ package amqp
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"net"
 	"net/http"
@@ -465,6 +466,115 @@ func TestAMQPRemoveAllFromPQ(t *testing.T) {
 	assert.Equal(t, 200, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	assert.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+}
+
+func TestAMQP20Pipelines(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2023.3.0",
+		Path:    "configs/.rr-amqp-parallel.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&amqpDriver.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+	for i := 1; i < 21; i++ {
+		t.Run("PushToPipeline", helpers.PushToPipe(fmt.Sprintf("test-%d", i), false, "127.0.0.1:6001"))
+	}
+
+	time.Sleep(time.Second)
+	t.Run("DestroyAMQPPipeline", helpers.DestroyPipelines("127.0.0.1:6001",
+		"test-1",
+		"test-2",
+		"test-3",
+		"test-4",
+		"test-5",
+		"test-6",
+		"test-7",
+		"test-8",
+		"test-9",
+		"test-10",
+		"test-11",
+		"test-12",
+		"test-13",
+		"test-14",
+		"test-15",
+		"test-16",
+		"test-17",
+		"test-18",
+		"test-19",
+		"test-20",
+	))
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	assert.Equal(t, 10, oLogger.FilterMessageSnippet("exited from jobs processor").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("initializing driver").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("driver ready").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("job processing was started").Len())
+	assert.Equal(t, 20, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 }
 
 func TestAMQPInit(t *testing.T) {
@@ -1878,10 +1988,11 @@ func TestAMQPOTEL(t *testing.T) {
 	wg.Wait()
 
 	resp, err := http.Get("http://127.0.0.1:9411/api/v2/spans?serviceName=rr_test_amqp")
-	assert.NoError(t, err)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
 
 	buf, err := io.ReadAll(resp.Body)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	var spans []string
 	err = json.Unmarshal(buf, &spans)
