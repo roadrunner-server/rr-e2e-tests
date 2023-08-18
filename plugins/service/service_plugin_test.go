@@ -1,6 +1,7 @@
 package service
 
 import (
+	"log/slog"
 	"net"
 	"net/rpc"
 	"os"
@@ -10,15 +11,12 @@ import (
 	"testing"
 	"time"
 
-	"log/slog"
-
 	serviceProto "github.com/roadrunner-server/api/v4/build/service/v1"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	goridgeRpc "github.com/roadrunner-server/goridge/v3/pkg/rpc"
 	"github.com/roadrunner-server/informer/v4"
 	"github.com/roadrunner-server/logger/v4"
-	"github.com/roadrunner-server/reload/v4"
 	"github.com/roadrunner-server/resetter/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
@@ -1343,7 +1341,6 @@ func TestServiceReset2(t *testing.T) {
 	err := cont.RegisterAll(
 		cfg,
 		l,
-		&reload.Plugin{},
 		&rpcPlugin.Plugin{},
 		&resetter.Plugin{},
 		&service.Plugin{},
@@ -1438,7 +1435,6 @@ func TestServiceReset3(t *testing.T) {
 		l,
 		&rpcPlugin.Plugin{},
 		&resetter.Plugin{},
-		&reload.Plugin{},
 		&service.Plugin{},
 	)
 	assert.NoError(t, err)
@@ -1520,7 +1516,6 @@ func TestServiceReset4(t *testing.T) {
 		l,
 		&rpcPlugin.Plugin{},
 		&resetter.Plugin{},
-		&reload.Plugin{},
 		&service.Plugin{},
 	)
 	assert.NoError(t, err)
