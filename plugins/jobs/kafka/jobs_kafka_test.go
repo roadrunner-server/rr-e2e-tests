@@ -801,7 +801,7 @@ func TestKafkaPingFailed(t *testing.T) {
 	cont := endure.New(slog.LevelError)
 
 	cfg := &config.Plugin{
-		Version: "v2023.1.0",
+		Version: "v2023.3.0",
 		Path:    "configs/.rr-kafka-ping-failed.yaml",
 		Prefix:  "rr",
 	}
@@ -813,21 +813,17 @@ func TestKafkaPingFailed(t *testing.T) {
 		&rpcPlugin.Plugin{},
 		&jobs.Plugin{},
 		&kp.Plugin{},
-		&otel.Plugin{},
 		l,
-		&resetter.Plugin{},
-		&informer.Plugin{},
 	)
 	assert.NoError(t, err)
 
 	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
+
+	require.NoError(t, err)
 
 	_, err = cont.Serve()
 
-	assert.NotNil(t, err, "Failed: server should not run")
+	assert.Error(t, err, "Failed: server should not run")
 	assert.Contains(t, err.Error(), "ping kafka was failed: unable to dial: dial tcp 127.0.0.1:9093: connect: connection refused")
 }
 
@@ -835,7 +831,7 @@ func TestKafkaPingOk(t *testing.T) {
 	cont := endure.New(slog.LevelError)
 
 	cfg := &config.Plugin{
-		Version: "v2023.1.0",
+		Version: "v2023.3.0",
 		Path:    "configs/.rr-kafka-ping-ok.yaml",
 		Prefix:  "rr",
 	}
@@ -847,21 +843,20 @@ func TestKafkaPingOk(t *testing.T) {
 		&rpcPlugin.Plugin{},
 		&jobs.Plugin{},
 		&kp.Plugin{},
-		&otel.Plugin{},
 		l,
-		&resetter.Plugin{},
-		&informer.Plugin{},
 	)
 	assert.NoError(t, err)
 
 	err = cont.Init()
-	if err != nil {
-		t.Fatal(err)
-	}
+
+	require.NoError(t, err)
 
 	_, err = cont.Serve()
+	time.Sleep(time.Second)
 
-	assert.Nil(t, err)
+	err = cont.Stop()
+	assert.NoError(t, err)
+
 	assert.Equal(t, 1, oLogger.FilterMessage("ping kafka: ok").Len())
 }
 
