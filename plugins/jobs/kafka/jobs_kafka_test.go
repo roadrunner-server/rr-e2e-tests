@@ -852,6 +852,7 @@ func TestKafkaPingOk(t *testing.T) {
 	require.NoError(t, err)
 
 	_, err = cont.Serve()
+	require.NoError(t, err)
 	time.Sleep(time.Second)
 
 	err = cont.Stop()
