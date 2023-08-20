@@ -797,6 +797,74 @@ func TestKafkaOTEL(t *testing.T) {
 	})
 }
 
+func TestKafkaPingFailed(t *testing.T) {
+	cont := endure.New(slog.LevelError)
+
+	cfg := &config.Plugin{
+		Version: "v2023.1.0",
+		Path:    "configs/.rr-kafka-ping-failed.yaml",
+		Prefix:  "rr",
+	}
+
+	l, _ := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		&kp.Plugin{},
+		&otel.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&informer.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = cont.Serve()
+
+	assert.NotNil(t, err, "Failed: server should not run")
+	assert.Contains(t, err.Error(), "ping kafka was failed: unable to dial: dial tcp 127.0.0.1:9093: connect: connection refused")
+}
+
+func TestKafkaPingOk(t *testing.T) {
+	cont := endure.New(slog.LevelError)
+
+	cfg := &config.Plugin{
+		Version: "v2023.1.0",
+		Path:    "configs/.rr-kafka-ping-ok.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		&kp.Plugin{},
+		&otel.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&informer.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = cont.Serve()
+
+	assert.Nil(t, err)
+	assert.Equal(t, 1, oLogger.FilterMessage("ping kafka: ok").Len())
+}
+
 func declarePipe(topic string) func(t *testing.T) {
 	return func(t *testing.T) {
 		conn, err := net.Dial("tcp", "127.0.0.1:6001")
