@@ -626,8 +626,9 @@ github.com/apache/arrow/go/v11 v11.0.0/go.mod h1:Eg5OsL5H+e299f7u5ssuXsuHQVEGC4x
 github.com/apache/thrift v0.16.0/go.mod h1:PHK3hniurgQaNMZYaCLEqXKsYK8upmhPbmdP2FXSqgU=
 github.com/aws/aws-sdk-go v1.44.326 h1:/6xD/9mKZ2RMTDfbhh9qCxw+CaTbJRvfHJ/NHPFbI38=
 github.com/aws/aws-sdk-go v1.44.326/go.mod h1:aVsgQcEevwlmQ7qHE9I3h+dtQgpqhFB+i8Phjh7fkwI=
-github.com/aws/aws-sdk-go-v2 v1.20.2 h1:0Aok9u/HVTk7RtY6M1KDcthbaMKGhhS0eLPxIdSIzRI=
 github.com/aws/aws-sdk-go-v2 v1.20.2/go.mod h1:NU06lETsFm8fUC6ZjhgDpVBcGZTFQ6XM+LZWZxMI4ac=
+github.com/aws/aws-sdk-go-v2 v1.20.3 h1:lgeKmAZhlj1JqN43bogrM75spIvYnRxqTAh1iupu1yE=
+github.com/aws/aws-sdk-go-v2 v1.20.3/go.mod h1:/RfNgGmRxI+iFOB1OeJUyxiU+9s88k3pfHvDagGEp0M=
 github.com/aws/aws-sdk-go-v2/config v1.18.34 h1:bFf7CtSgwz/vE4tl0cNbWbf6EDQ2TZR5VrsrO9ardoY=
 github.com/aws/aws-sdk-go-v2/config v1.18.34/go.mod h1:uJ/keVhwR8vsSaErMu2Vb3dArUZZKLVTcOsKXIFfvjs=
 github.com/aws/aws-sdk-go-v2/credentials v1.13.33 h1:esA1X5Eti1xSGCF0W0LYpHH/r6p+MqT0DiKXsfDEPxs=
@@ -650,8 +651,9 @@ github.com/aws/aws-sdk-go-v2/service/ssooidc v1.15.3 h1:90qW9puxI7LgmiYKSPhx6wz4
 github.com/aws/aws-sdk-go-v2/service/ssooidc v1.15.3/go.mod h1:kKpyLjToIS7E3z0672lBhxIPD+uoQ9V0MYRYCVGIkO0=
 github.com/aws/aws-sdk-go-v2/service/sts v1.21.3 h1:s3wBkMxfA/u2EJJl6KRsPcWv858lDHkhinqXyN6fkZI=
 github.com/aws/aws-sdk-go-v2/service/sts v1.21.3/go.mod h1:b+y9zL57mwCRy6ftp9Nc7CONGHX3sZ50ZCLTrI5xpCc=
-github.com/aws/smithy-go v1.14.1 h1:EFKMUmH/iHMqLiwoEDx2rRjRQpI1YCn5jTysoaDujFs=
 github.com/aws/smithy-go v1.14.1/go.mod h1:Tg+OJXh4MB2R/uN61Ko2f6hTZwB/ZYGOtib8J3gBHzA=
+github.com/aws/smithy-go v1.14.2 h1:MJU9hqBGbvWZdApzpvoF2WAIJDbtjK2NDJSiJP7HblQ=
+github.com/aws/smithy-go v1.14.2/go.mod h1:Tg+OJXh4MB2R/uN61Ko2f6hTZwB/ZYGOtib8J3gBHzA=
 github.com/beanstalkd/go-beanstalk v0.2.0 h1:6UOJugnu47uNB2jJO/lxyDgeD1Yds7owYi1USELqexA=
 github.com/beanstalkd/go-beanstalk v0.2.0/go.mod h1:/G8YTyChOtpOArwLTQPY1CHB+i212+av35bkPXXj56Y=
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
