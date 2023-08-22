@@ -6,7 +6,7 @@ toolchain go1.21.0
 
 require (
 	github.com/Shopify/toxiproxy/v2 v2.5.0
-	github.com/aws/aws-sdk-go-v2 v1.20.2
+	github.com/aws/aws-sdk-go-v2 v1.21.0
 	github.com/aws/aws-sdk-go-v2/config v1.18.34
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.33
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.24.3
@@ -87,7 +87,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.13.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.15.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.21.3 // indirect
-	github.com/aws/smithy-go v1.14.1 // indirect
+	github.com/aws/smithy-go v1.14.2 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20230611145640-acc696258285 // indirect
 	github.com/cactus/go-statsd-client/statsd v0.0.0-20200423205355-cb0885a1018c // indirect
