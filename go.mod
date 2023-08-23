@@ -16,7 +16,7 @@ require (
 	github.com/docker/go-connections v0.4.0
 	github.com/fatih/color v1.15.0
 	github.com/goccy/go-json v0.10.2
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.3.1
 	github.com/nats-io/nats.go v1.28.0
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.16.0
@@ -31,7 +31,7 @@ require (
 	github.com/roadrunner-server/endure/v2 v2.4.2
 	github.com/roadrunner-server/errors v1.3.0
 	github.com/roadrunner-server/fileserver/v4 v4.1.1
-	github.com/roadrunner-server/goridge/v3 v3.7.0
+	github.com/roadrunner-server/goridge/v3 v3.8.0
 	github.com/roadrunner-server/grpc/v4 v4.4.0-beta.2
 	github.com/roadrunner-server/gzip/v4 v4.1.1
 	github.com/roadrunner-server/headers/v4 v4.2.2
@@ -52,7 +52,7 @@ require (
 	github.com/roadrunner-server/redis/v4 v4.2.1
 	github.com/roadrunner-server/resetter/v4 v4.0.8
 	github.com/roadrunner-server/rpc/v4 v4.2.1
-	github.com/roadrunner-server/sdk/v4 v4.4.0-beta.5
+	github.com/roadrunner-server/sdk/v4 v4.4.0-beta.8
 	github.com/roadrunner-server/send/v4 v4.2.1
 	github.com/roadrunner-server/server/v4 v4.3.0-beta.4
 	github.com/roadrunner-server/service/v4 v4.4.0-beta.2
