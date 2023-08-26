@@ -3,14 +3,13 @@ package durability
 import (
 	"context"
 	"io"
+	"log/slog"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
 	"testing"
 	"time"
-
-	"log/slog"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"

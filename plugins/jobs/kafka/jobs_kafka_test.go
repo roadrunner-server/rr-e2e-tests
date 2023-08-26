@@ -3,6 +3,7 @@ package kafka
 import (
 	"fmt"
 	"io"
+	"log/slog"
 	"net"
 	"net/http"
 	"net/rpc"
@@ -13,8 +14,6 @@ import (
 	"syscall"
 	"testing"
 	"time"
-
-	"log/slog"
 
 	"github.com/goccy/go-json"
 	"github.com/google/uuid"
@@ -111,7 +110,7 @@ func TestKafkaInitCG(t *testing.T) {
 	req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 		Job:     "some/php/namespace",
 		Id:      uuid.NewString(),
-		Payload: `{"hello":"world"}`,
+		Payload: []byte(`{"hello":"world"}`),
 		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 		Options: &jobsProto.Options{
 			Priority:  1,
@@ -222,7 +221,7 @@ func TestKafkaPQCG(t *testing.T) {
 	req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 		Job:     uuid.NewString(),
 		Id:      uuid.NewString(),
-		Payload: `{"hello":"world"}`,
+		Payload: []byte(`{"hello":"world"}`),
 		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 		Options: &jobsProto.Options{
 			Priority:  1,
@@ -333,7 +332,7 @@ func TestKafkaInit(t *testing.T) {
 	req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 		Job:     "some/php/namespace",
 		Id:      uuid.NewString(),
-		Payload: `{"hello":"world"}`,
+		Payload: []byte(`{"hello":"world"}`),
 		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 		Options: &jobsProto.Options{
 			Priority: 1,
@@ -731,7 +730,7 @@ func TestKafkaOTEL(t *testing.T) {
 	req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 		Job:     "some/php/namespace",
 		Id:      uuid.NewString(),
-		Payload: `{"hello":"world"}`,
+		Payload: []byte(`{"hello":"world"}`),
 		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 		Options: &jobsProto.Options{
 			Priority:  1,

@@ -1,10 +1,13 @@
 package http
 
 import (
+	"bufio"
 	"bytes"
 	"crypto/rand"
 	"crypto/tls"
+	"fmt"
 	"io"
+	"log/slog"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -17,8 +20,6 @@ import (
 	"testing"
 	"time"
 
-	"log/slog"
-
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
 	"github.com/roadrunner-server/gzip/v4"
@@ -29,6 +30,288 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+func TestStreamFail(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2023.3.0",
+		Path:    "../configs/http/.rr-stream-fail.yaml",
+		Prefix:  "rr",
+	}
+
+	err := cont.RegisterAll(
+		cfg,
+		&logger.Plugin{},
+		&server.Plugin{},
+		&gzip.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	req, err := http.NewRequest("GET", "http://127.0.0.1:19993", nil)
+	assert.NoError(t, err)
+
+	r, err := http.DefaultClient.Do(req)
+	require.NoError(t, err)
+	require.NotNil(t, r)
+
+	reader := bufio.NewReader(r.Body)
+	idx := 0
+	for {
+		line, ip, errR := reader.ReadLine()
+		if errR != nil && errR == io.EOF {
+			break
+		}
+
+		idx++
+		assert.False(t, ip)
+		assert.Equal(t, fmt.Sprintf("%d", idx), string(line))
+	}
+
+	assert.Equal(t, 2, idx)
+	assert.Equal(t, 200, r.StatusCode)
+
+	if r.Body != nil {
+		_ = r.Body.Close()
+	}
+
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
+func TestStreamResponse(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2023.3.0",
+		Path:    "../configs/http/.rr-stream-worker.yaml",
+		Prefix:  "rr",
+	}
+
+	err := cont.RegisterAll(
+		cfg,
+		&logger.Plugin{},
+		&server.Plugin{},
+		&gzip.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	req, err := http.NewRequest("GET", "http://127.0.0.1:19993", nil)
+	assert.NoError(t, err)
+
+	r, err := http.DefaultClient.Do(req)
+	require.NoError(t, err)
+	require.NotNil(t, r)
+
+	reader := bufio.NewReader(r.Body)
+	idx := 0
+	for {
+		line, ip, errR := reader.ReadLine()
+		if errR != nil && errR == io.EOF {
+			break
+		}
+
+		idx++
+		assert.False(t, ip)
+		assert.Equal(t, fmt.Sprintf("%d", idx), string(line))
+	}
+
+	assert.Equal(t, 10, idx)
+	assert.Equal(t, 200, r.StatusCode)
+
+	if r.Body != nil {
+		_ = r.Body.Close()
+	}
+
+	stopCh <- struct{}{}
+	wg.Wait()
+}
+
+func TestStream103(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2023.3.0",
+		Path:    "../configs/http/.rr-stream-103.yaml",
+		Prefix:  "rr",
+	}
+
+	err := cont.RegisterAll(
+		cfg,
+		&logger.Plugin{},
+		&server.Plugin{},
+		&gzip.Plugin{},
+		&httpPlugin.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	assert.NoError(t, err)
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 2)
+
+	req, err := http.NewRequest("GET", "http://127.0.0.1:19983", nil)
+	assert.NoError(t, err)
+
+	r, err := http.DefaultClient.Do(req)
+	require.NoError(t, err)
+	require.NotNil(t, r)
+
+	idx := 0
+	reader := bufio.NewReader(r.Body)
+	for {
+		line, ip, errR := reader.ReadLine()
+		if errR != nil && errR == io.EOF {
+			break
+		}
+
+		idx++
+		assert.False(t, ip)
+		assert.Equal(t, fmt.Sprintf("%d", idx), string(line))
+	}
+
+	assert.Equal(t, 10, idx)
+	assert.Equal(t, 200, r.StatusCode)
+
+	if r.Body != nil {
+		_ = r.Body.Close()
+	}
+
+	stopCh <- struct{}{}
+	wg.Wait()
+}
 
 func TestHTTPNonExistingHTTPCode(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)

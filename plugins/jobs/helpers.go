@@ -52,7 +52,7 @@ func PushToDisabledPipe(address, pipeline string) func(t *testing.T) {
 		req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 			Job:     "some/php/namespace",
 			Id:      "1",
-			Payload: `{"hello":"world"}`,
+			Payload: []byte(`{"hello":"world"}`),
 			Headers: nil,
 			Options: &jobsProto.Options{
 				Priority: 1,
@@ -89,7 +89,7 @@ func PushToPipeDelayed(address string, pipeline string, delay int64) func(t *tes
 		req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 			Job:     "some/php/namespace",
 			Id:      uuid.NewString(),
-			Payload: `{"hello":"world"}`,
+			Payload: []byte(`{"hello":"world"}`),
 			Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 			Options: &jobsProto.Options{
 				Priority: 1,
@@ -130,7 +130,7 @@ func createDummyJob(pipeline string, autoAck bool) *jobsProto.Job {
 	return &jobsProto.Job{
 		Job:     "some/php/namespace",
 		Id:      uuid.NewString(),
-		Payload: `{"hello":"world"}`,
+		Payload: []byte(`{"hello":"world"}`),
 		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 		Options: &jobsProto.Options{
 			AutoAck:   autoAck,
@@ -152,7 +152,7 @@ func PushToPipeErr(pipeline string) func(t *testing.T) {
 		req := &jobsProto.PushRequest{Job: &jobsProto.Job{
 			Job:     "some/php/namespace",
 			Id:      "1",
-			Payload: `{"hello":"world"}`,
+			Payload: []byte(`{"hello":"world"}`),
 			Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 			Options: &jobsProto.Options{
 				Priority:  1,
