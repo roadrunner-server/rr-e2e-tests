@@ -61,7 +61,7 @@ require (
 	github.com/roadrunner-server/status/v4 v4.4.0-beta.1
 	github.com/roadrunner-server/tcp/v4 v4.2.0-beta.3
 	github.com/stretchr/testify v1.8.4
-	github.com/temporalio/roadrunner-temporal/v4 v4.4.0-beta.4
+	github.com/temporalio/roadrunner-temporal/v4 v4.4.0-beta.5
 	github.com/yookoala/gofast v0.7.0
 	go.temporal.io/api v1.24.0
 	go.temporal.io/sdk v1.23.1

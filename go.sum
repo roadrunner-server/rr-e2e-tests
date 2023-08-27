@@ -1386,8 +1386,8 @@ github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcU
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 github.com/subosito/gotenv v1.6.0 h1:9NlTDc1FTs4qu0DDq7AEtTPNw6SVm7uBMsUCUjABIf8=
 github.com/subosito/gotenv v1.6.0/go.mod h1:Dk4QP5c2W3ibzajGcXpNraDfq2IrhjMIvMSWPKKo0FU=
-github.com/temporalio/roadrunner-temporal/v4 v4.4.0-beta.4 h1:Xr1MZeiuyXjTKNfSDXaM1GECiRsQxXzVgGnvFh5DtSY=
-github.com/temporalio/roadrunner-temporal/v4 v4.4.0-beta.4/go.mod h1:31gSbVbq3AnTJEiJhh7OW7ZXijq1QAE9vyK3Uw4iWrk=
+github.com/temporalio/roadrunner-temporal/v4 v4.4.0-beta.5 h1:6uZ30xcMFDbJjmnR2AdDnjfDDBsXQKmMYeNKAJGY4kY=
+github.com/temporalio/roadrunner-temporal/v4 v4.4.0-beta.5/go.mod h1:v09iCoAy52S65vrrgVYSnEXCH3FC6Tn55unqVF5HsKI=
 github.com/tklauser/go-sysconf v0.3.12 h1:0QaGUFOdQaIVdPgfITYzaTegZvdCjmYO52cSFAEVmqU=
 github.com/tklauser/go-sysconf v0.3.12/go.mod h1:Ho14jnntGE1fpdOqQEEaiKRpvIavV0hSfmBq8nJbHYI=
 github.com/tklauser/numcpus v0.6.1 h1:ng9scYS7az0Bk4OZLvrNXNSAO2Pxr1XXRAPyjhIx+Fk=
