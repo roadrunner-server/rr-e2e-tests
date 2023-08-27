@@ -12,7 +12,6 @@ import (
 )
 
 func Test_HistoryLen(t *testing.T) {
-	t.Skip("should be tested on 2.6")
 	stopCh := make(chan struct{}, 1)
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
