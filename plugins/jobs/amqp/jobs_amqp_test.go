@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/goccy/go-json"
+	"github.com/google/uuid"
 	amqp "github.com/rabbitmq/amqp091-go"
 	amqpDriver "github.com/roadrunner-server/amqp/v4"
 	jobsProto "github.com/roadrunner-server/api/v4/build/jobs/v1"
@@ -205,6 +206,116 @@ func TestAMQPHeaders(t *testing.T) {
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
 	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+}
+
+func TestAMQPHeadersXRoutingKey(t *testing.T) {
+	cont := endure.New(slog.LevelDebug)
+
+	cfg := &config.Plugin{
+		Version: "2023.3.0",
+		Path:    "configs/.rr-amqp-xroutingkey.yaml",
+		Prefix:  "rr",
+	}
+
+	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
+	err := cont.RegisterAll(
+		cfg,
+		&server.Plugin{},
+		&rpcPlugin.Plugin{},
+		&jobs.Plugin{},
+		l,
+		&resetter.Plugin{},
+		&informer.Plugin{},
+		&amqpDriver.Plugin{},
+	)
+	assert.NoError(t, err)
+
+	err = cont.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ch, err := cont.Serve()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	sig := make(chan os.Signal, 1)
+	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+
+	stopCh := make(chan struct{}, 1)
+
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case e := <-ch:
+				assert.Fail(t, "error", e.Error.Error())
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+			case <-sig:
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			case <-stopCh:
+				// timeout
+				err = cont.Stop()
+				if err != nil {
+					assert.FailNow(t, "error", err.Error())
+				}
+				return
+			}
+		}
+	}()
+
+	time.Sleep(time.Second * 3)
+
+	jb := &jobsProto.Job{
+		Job:     "some/php/namespace",
+		Id:      uuid.NewString(),
+		Payload: []byte(`{"hello":"world"}`),
+		Headers: map[string]*jobsProto.HeaderValue{
+			"test":          {Value: []string{"test2"}},
+			"x-routing-key": {Value: []string{"super-routing-key"}},
+		},
+		Options: &jobsProto.Options{
+			AutoAck:  false,
+			Priority: 1,
+			Pipeline: "test-1",
+		},
+	}
+
+	conn, err := net.Dial("tcp", "127.0.0.1:6001")
+	require.NoError(t, err)
+	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
+
+	req := &jobsProto.PushRequest{
+		Job: jb,
+	}
+
+	er := &jobsProto.Empty{}
+	err = client.Call("jobs.Push", req, er)
+	require.NoError(t, err)
+
+	time.Sleep(time.Second * 3)
+
+	t.Run("PipelineDestroy", helpers.DestroyPipelines("127.0.0.1:6001", "test-1", "test-2"))
+
+	stopCh <- struct{}{}
+	wg.Wait()
+
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("pipeline was started").Len())
+	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("job processing was started").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
 }
 
 func TestAMQPDeclareHeaders(t *testing.T) {

@@ -133,12 +133,10 @@ func createDummyJob(pipeline string, autoAck bool) *jobsProto.Job {
 		Payload: []byte(`{"hello":"world"}`),
 		Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"test2"}}},
 		Options: &jobsProto.Options{
-			AutoAck:   autoAck,
-			Priority:  1,
-			Pipeline:  pipeline,
-			Topic:     pipeline,
-			Partition: 0,
-			Offset:    0,
+			AutoAck:  autoAck,
+			Priority: 1,
+			Pipeline: pipeline,
+			Topic:    pipeline,
 		},
 	}
 }
