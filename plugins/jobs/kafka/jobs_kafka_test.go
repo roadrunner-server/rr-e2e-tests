@@ -823,7 +823,7 @@ func TestKafkaPingFailed(t *testing.T) {
 	_, err = cont.Serve()
 
 	assert.Error(t, err, "Failed: server should not run")
-	assert.Contains(t, err.Error(), "ping kafka was failed: unable to dial: dial tcp 127.0.0.1:9093: connect: connection refused")
+	assert.Contains(t, err.Error(), "kafka_ping: unable to dial: dial tcp 127.0.0.1:9093: connect: connection refused")
 }
 
 func TestKafkaPingOk(t *testing.T) {
