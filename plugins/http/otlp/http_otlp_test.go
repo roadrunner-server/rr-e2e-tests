@@ -3,6 +3,7 @@ package otlp
 import (
 	"bytes"
 	"io"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -10,8 +11,6 @@ import (
 	"syscall"
 	"testing"
 	"time"
-
-	"log/slog"
 
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
@@ -22,6 +21,7 @@ import (
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v4"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 )
 
@@ -229,7 +229,7 @@ func TestHTTPOTLP_JaegerAgent(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
-		Version: "2.10.7",
+		Version: "2023.3.0",
 		Path:    "../configs/otel/.rr-http-jaeger-agent.yaml",
 		Prefix:  "rr",
 	}
@@ -289,7 +289,7 @@ func TestHTTPOTLP_JaegerAgent(t *testing.T) {
 
 	time.Sleep(time.Second * 2)
 
-	req, err := http.NewRequest("GET", "http://127.0.0.1:43244", nil)
+	req, err := http.NewRequest(http.MethodGet, "http://127.0.0.1:43244", nil)
 	assert.NoError(t, err)
 
 	r, err := http.DefaultClient.Do(req)
@@ -304,4 +304,17 @@ func TestHTTPOTLP_JaegerAgent(t *testing.T) {
 
 	stopCh <- struct{}{}
 	wg.Wait()
+
+	req2, err := http.NewRequest(http.MethodGet, "http://127.0.0.1:16686/api/traces?service=rr_test&lookback=20m", nil)
+	require.NoError(t, err)
+	require.NotNil(t, req2)
+	resp, err := http.DefaultClient.Do(req2)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.NotNil(t, resp.Body)
+	require.Equal(t, http.StatusOK, resp.StatusCode)
+
+	bd, err := io.ReadAll(resp.Body)
+	assert.Contains(t, string(bd), "rr_test")
+	_ = resp.Body.Close()
 }

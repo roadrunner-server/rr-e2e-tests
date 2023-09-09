@@ -1667,7 +1667,7 @@ func echoHTTP2(t *testing.T) {
 	assert.NoError(t, err)
 	b, err := io.ReadAll(r.Body)
 	assert.NoError(t, err)
-	assert.Equal(t, 201, r.StatusCode)
+	assert.Equal(t, 200, r.StatusCode)
 	assert.Equal(t, "WORLD", string(b))
 
 	err = r.Body.Close()

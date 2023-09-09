@@ -42,11 +42,11 @@ require (
 	github.com/roadrunner-server/kv/v4 v4.4.1
 	github.com/roadrunner-server/lock/v4 v4.4.1
 	github.com/roadrunner-server/logger/v4 v4.2.1
-	github.com/roadrunner-server/memcached/v4 v4.1.12
+	github.com/roadrunner-server/memcached/v4 v4.2.0
 	github.com/roadrunner-server/memory/v4 v4.6.0
 	github.com/roadrunner-server/metrics/v4 v4.1.3
 	github.com/roadrunner-server/nats/v4 v4.5.1
-	github.com/roadrunner-server/otel/v4 v4.2.2
+	github.com/roadrunner-server/otel/v4 v4.2.4
 	github.com/roadrunner-server/prometheus/v4 v4.1.2
 	github.com/roadrunner-server/proxy_ip_parser/v4 v4.1.2
 	github.com/roadrunner-server/redis/v4 v4.2.2
@@ -61,7 +61,7 @@ require (
 	github.com/roadrunner-server/status/v4 v4.4.0-beta.1
 	github.com/roadrunner-server/tcp/v4 v4.2.0-beta.3
 	github.com/stretchr/testify v1.8.4
-	github.com/temporalio/roadrunner-temporal/v4 v4.4.0-beta.5
+	github.com/temporalio/roadrunner-temporal/v4 v4.4.0
 	github.com/yookoala/gofast v0.7.0
 	go.temporal.io/api v1.24.0
 	go.temporal.io/sdk v1.23.1
@@ -70,8 +70,6 @@ require (
 	google.golang.org/grpc v1.58.0
 	google.golang.org/protobuf v1.31.0
 )
-
-exclude github.com/uber-go/tally/v4 v4.1.7
 
 exclude go.temporal.io/sdk v1.24.0
 
@@ -90,7 +88,6 @@ require (
 	github.com/aws/smithy-go v1.14.2 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20230905024940-24af94b03874 // indirect
-	github.com/cactus/go-statsd-client/statsd v0.0.0-20200423205355-cb0885a1018c // indirect
 	github.com/cactus/go-statsd-client/v5 v5.1.0 // indirect
 	github.com/caddyserver/certmagic v0.19.2 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
@@ -169,7 +166,7 @@ require (
 	github.com/twmb/franz-go v1.14.4 // indirect
 	github.com/twmb/franz-go/pkg/kmsg v1.6.1 // indirect
 	github.com/twmb/murmur3 v1.1.8 // indirect
-	github.com/uber-go/tally/v4 v4.1.6 // indirect
+	github.com/uber-go/tally/v4 v4.1.7 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.49.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
@@ -182,7 +179,6 @@ require (
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.43.0 // indirect
 	go.opentelemetry.io/contrib/propagators/jaeger v1.18.0 // indirect
 	go.opentelemetry.io/otel v1.17.0 // indirect
-	go.opentelemetry.io/otel/exporters/jaeger v1.17.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.17.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.17.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.17.0 // indirect

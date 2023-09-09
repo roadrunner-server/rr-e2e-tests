@@ -18,6 +18,18 @@ services:
     networks:
       otel:
 
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "4319:4318"
+      - "4320:4317"
+    environment:
+      - LOG_LEVEL=debug
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      otel:
+
 networks:
   otel:
     name: otel
