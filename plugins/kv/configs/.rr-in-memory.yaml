@@ -5,10 +5,16 @@ rpc:
 
 logs:
   mode: development
-  level: error
+  level: debug
+
+otel:
+  insecure: false
+  compress: true
+  exporter: stderr
+  service_name: rr_test_inmemory
+  service_version: 1.0.0
 
 kv:
   memory-rr:
     driver: memory
-    config:
-      interval: 1
+    config: {}

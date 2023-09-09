@@ -1,6 +1,9 @@
 package kv
 
 import (
+	"bytes"
+	"io"
+	"log/slog"
 	"net"
 	"net/rpc"
 	"os"
@@ -9,8 +12,6 @@ import (
 	"syscall"
 	"testing"
 	"time"
-
-	"log/slog"
 
 	kvProto "github.com/roadrunner-server/api/v4/build/kv/v1"
 	"github.com/roadrunner-server/boltdb/v4"
@@ -22,6 +23,7 @@ import (
 	"github.com/roadrunner-server/logger/v4"
 	"github.com/roadrunner-server/memcached/v4"
 	"github.com/roadrunner-server/memory/v4"
+	"github.com/roadrunner-server/otel/v4"
 	"github.com/roadrunner-server/redis/v4"
 	rpcPlugin "github.com/roadrunner-server/rpc/v4"
 	mock_logger "github.com/roadrunner-server/rr-e2e-tests/mock"
@@ -613,7 +615,7 @@ func testRPCMethods(t *testing.T) {
 		},
 	}
 
-	clear := &kvProto.Request{Storage: "boltdb-rr"}
+	clr := &kvProto.Request{Storage: "boltdb-rr"}
 
 	ret = &kvProto.Response{}
 	// Register 3 keys with values
@@ -626,7 +628,7 @@ func testRPCMethods(t *testing.T) {
 	assert.Len(t, ret.GetItems(), 5) // should be 5
 
 	ret = &kvProto.Response{}
-	err = client.Call("kv.Clear", clear, ret)
+	err = client.Call("kv.Clear", clr, ret)
 	assert.NoError(t, err)
 
 	ret = &kvProto.Response{}
@@ -875,7 +877,7 @@ func testRPCMethodsMemcached(t *testing.T) {
 		},
 	}
 
-	clear := &kvProto.Request{Storage: "memcached-rr"}
+	clr := &kvProto.Request{Storage: "memcached-rr"}
 
 	ret = &kvProto.Response{}
 	// Register 3 keys with values
@@ -888,7 +890,7 @@ func testRPCMethodsMemcached(t *testing.T) {
 	assert.Len(t, ret.GetItems(), 5) // should be 5
 
 	ret = &kvProto.Response{}
-	err = client.Call("kv.Clear", clear, ret)
+	err = client.Call("kv.Clear", clr, ret)
 	assert.NoError(t, err)
 
 	time.Sleep(time.Second * 2)
@@ -970,7 +972,7 @@ func TestInMemory(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
-		Version: "2.9.0",
+		Version: "2023.3.0",
 		Path:    "configs/.rr-in-memory.yaml",
 		Prefix:  "rr",
 	}
@@ -979,6 +981,7 @@ func TestInMemory(t *testing.T) {
 		cfg,
 		&kv.Plugin{},
 		&memory.Plugin{},
+		&otel.Plugin{},
 		&rpcPlugin.Plugin{},
 		&logger.Plugin{},
 	)
@@ -1039,6 +1042,9 @@ func testRPCMethodsInMemory(t *testing.T) {
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
 	// add 5 second ttl
+	rd, wr, err := os.Pipe()
+	assert.NoError(t, err)
+	os.Stderr = wr
 
 	tt := time.Now().Add(time.Second * 5).Format(time.RFC3339)
 	keys := &kvProto.Request{
@@ -1064,8 +1070,9 @@ func testRPCMethodsInMemory(t *testing.T) {
 				Value: []byte("aa"),
 			},
 			{
-				Key:   "b",
-				Value: []byte("bb"),
+				Key:     "b",
+				Value:   []byte("bb"),
+				Timeout: time.Now().Add(time.Second * 500).Format(time.RFC3339),
 			},
 			{
 				Key:     "c",
@@ -1205,7 +1212,7 @@ func testRPCMethodsInMemory(t *testing.T) {
 		},
 	}
 
-	clear := &kvProto.Request{Storage: "memory-rr"}
+	clr := &kvProto.Request{Storage: "memory-rr"}
 
 	ret = &kvProto.Response{}
 	// Register 3 keys with values
@@ -1218,13 +1225,27 @@ func testRPCMethodsInMemory(t *testing.T) {
 	assert.Len(t, ret.GetItems(), 5) // should be 5
 
 	ret = &kvProto.Response{}
-	err = client.Call("kv.Clear", clear, ret)
+	err = client.Call("kv.Clear", clr, ret)
 	assert.NoError(t, err)
 
 	ret = &kvProto.Response{}
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0) // should be 5
+
+	time.Sleep(time.Second)
+	_ = wr.Close()
+	buf := new(bytes.Buffer)
+	_, err = io.Copy(buf, rd)
+	require.NoError(t, err)
+
+	// contains spans
+	require.Contains(t, buf.String(), `memory:set`)
+	require.Contains(t, buf.String(), `memory:clear`)
+	require.Contains(t, buf.String(), `memory:set`)
+	require.Contains(t, buf.String(), `memory:delete`)
+	require.Contains(t, buf.String(), `memory:mexpire`)
+	require.Contains(t, buf.String(), `memory:ttl`)
 }
 
 func TestRedis(t *testing.T) {
@@ -1572,7 +1593,7 @@ func testRPCMethodsRedis(t *testing.T) {
 		},
 	}
 
-	clear := &kvProto.Request{Storage: "redis-rr"}
+	clr := &kvProto.Request{Storage: "redis-rr"}
 
 	ret = &kvProto.Response{}
 	// Register 3 keys with values
@@ -1585,7 +1606,7 @@ func testRPCMethodsRedis(t *testing.T) {
 	assert.Len(t, ret.GetItems(), 5) // should be 5
 
 	ret = &kvProto.Response{}
-	err = client.Call("kv.Clear", clear, ret)
+	err = client.Call("kv.Clear", clr, ret)
 	assert.NoError(t, err)
 
 	ret = &kvProto.Response{}

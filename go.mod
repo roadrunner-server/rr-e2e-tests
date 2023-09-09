@@ -26,24 +26,24 @@ require (
 	github.com/roadrunner-server/app-logger/v4 v4.0.10
 	github.com/roadrunner-server/beanstalk/v4 v4.5.1
 	github.com/roadrunner-server/boltdb/v4 v4.6.1
-	github.com/roadrunner-server/centrifuge/v4 v4.3.0-beta.4
+	github.com/roadrunner-server/centrifuge/v4 v4.3.0
 	github.com/roadrunner-server/config/v4 v4.4.2
 	github.com/roadrunner-server/endure/v2 v2.4.2
 	github.com/roadrunner-server/errors v1.3.0
 	github.com/roadrunner-server/fileserver/v4 v4.1.2
 	github.com/roadrunner-server/goridge/v3 v3.8.1
-	github.com/roadrunner-server/grpc/v4 v4.4.0-beta.3
+	github.com/roadrunner-server/grpc/v4 v4.4.0
 	github.com/roadrunner-server/gzip/v4 v4.1.2
 	github.com/roadrunner-server/headers/v4 v4.2.3
 	github.com/roadrunner-server/http/v4 v4.3.1
 	github.com/roadrunner-server/informer/v4 v4.2.2
 	github.com/roadrunner-server/jobs/v4 v4.6.1
 	github.com/roadrunner-server/kafka/v4 v4.4.1
-	github.com/roadrunner-server/kv/v4 v4.3.1
+	github.com/roadrunner-server/kv/v4 v4.4.1
 	github.com/roadrunner-server/lock/v4 v4.4.1
 	github.com/roadrunner-server/logger/v4 v4.2.1
 	github.com/roadrunner-server/memcached/v4 v4.1.12
-	github.com/roadrunner-server/memory/v4 v4.5.1
+	github.com/roadrunner-server/memory/v4 v4.6.0
 	github.com/roadrunner-server/metrics/v4 v4.1.3
 	github.com/roadrunner-server/nats/v4 v4.5.1
 	github.com/roadrunner-server/otel/v4 v4.2.2
@@ -52,7 +52,7 @@ require (
 	github.com/roadrunner-server/redis/v4 v4.2.2
 	github.com/roadrunner-server/resetter/v4 v4.0.9
 	github.com/roadrunner-server/rpc/v4 v4.2.2
-	github.com/roadrunner-server/sdk/v4 v4.4.0-beta.8
+	github.com/roadrunner-server/sdk/v4 v4.4.0
 	github.com/roadrunner-server/send/v4 v4.2.2
 	github.com/roadrunner-server/server/v4 v4.3.1
 	github.com/roadrunner-server/service/v4 v4.4.1
@@ -78,7 +78,7 @@ exclude go.temporal.io/sdk v1.24.0
 require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go v1.45.5 // indirect
+	github.com/aws/aws-sdk-go v1.45.6 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.11 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.41 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.35 // indirect
