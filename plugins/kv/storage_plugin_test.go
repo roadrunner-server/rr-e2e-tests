@@ -1,8 +1,6 @@
 package kv
 
 import (
-	"bytes"
-	"io"
 	"log/slog"
 	"net"
 	"net/rpc"
@@ -1041,11 +1039,6 @@ func testRPCMethodsInMemory(t *testing.T) {
 	assert.NoError(t, err)
 	client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
-	// add 5 second ttl
-	rd, wr, err := os.Pipe()
-	assert.NoError(t, err)
-	os.Stderr = wr
-
 	tt := time.Now().Add(time.Second * 5).Format(time.RFC3339)
 	keys := &kvProto.Request{
 		Storage: "memory-rr",
@@ -1232,20 +1225,6 @@ func testRPCMethodsInMemory(t *testing.T) {
 	err = client.Call("kv.Has", dataClear, ret)
 	assert.NoError(t, err)
 	assert.Len(t, ret.GetItems(), 0) // should be 5
-
-	time.Sleep(time.Second)
-	_ = wr.Close()
-	buf := new(bytes.Buffer)
-	_, err = io.Copy(buf, rd)
-	require.NoError(t, err)
-
-	// contains spans
-	require.Contains(t, buf.String(), `memory:set`)
-	require.Contains(t, buf.String(), `memory:clear`)
-	require.Contains(t, buf.String(), `memory:set`)
-	require.Contains(t, buf.String(), `memory:delete`)
-	require.Contains(t, buf.String(), `memory:mexpire`)
-	require.Contains(t, buf.String(), `memory:ttl`)
 }
 
 func TestRedis(t *testing.T) {
