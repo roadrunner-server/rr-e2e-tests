@@ -128,7 +128,7 @@ jobs:
           export TEMPORAL_LOCAL_CERT_DIR=$(pwd)/env/temporal_tls/certs
           docker-compose -f env/temporal_tls/docker-compose.yml up -d --remove-orphans
           mkdir ./coverage-ci
-          sleep 30
+          sleep 60
           go test -v -race -cover -tags=debug -coverpkg=$(cat pkgs.txt) -failfast -coverprofile=./coverage-ci/temporal_tls.out -covermode=atomic ./plugins/temporal/tls
 
 

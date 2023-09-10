@@ -3,6 +3,7 @@ package server
 import (
 	"bytes"
 	"io"
+	"log/slog"
 	"os"
 	"os/signal"
 	"strings"
@@ -10,8 +11,6 @@ import (
 	"syscall"
 	"testing"
 	"time"
-
-	"log/slog"
 
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
@@ -225,7 +224,7 @@ func TestAppPipesException(t *testing.T) {
 
 	_, err = container.Serve()
 	require.Error(t, err)
-	assert.Contains(t, err.Error(), "validation failed on the message sent to STDOUT, see: https://roadrunner.dev/docs/known-issues-stdout-crc/2.x/en, invalid message: warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error")
+	assert.Contains(t, err.Error(), "validation failed on the message sent to STDOUT, see: https://roadrunner.dev/docs/known-issues-stdout-crc/current/en, invalid message: warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error warning: some weird php error")
 	_ = container.Stop()
 }
 

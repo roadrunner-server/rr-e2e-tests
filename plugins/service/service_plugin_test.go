@@ -638,7 +638,7 @@ func TestServiceCreate(t *testing.T) {
 	time.Sleep(time.Second * 2)
 
 	out = &serviceProto.Response{}
-	t.Run("terminate", terminate(&serviceProto.Service{Name: "foo"}, out))
+	t.Run("terminate", terminate("127.0.0.1:6001", &serviceProto.Service{Name: "foo"}, out))
 
 	stopCh <- struct{}{}
 	wg.Wait()
@@ -723,7 +723,7 @@ func TestServiceCreateEmptyConfig(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 	l := &serviceProto.List{}
-	t.Run("list", list(&serviceProto.Service{}, l))
+	t.Run("list", list("127.0.0.1:6001", &serviceProto.Service{}, l))
 
 	for i := 0; i < len(l.GetServices()); i++ {
 		cmd := &serviceProto.Service{
@@ -732,7 +732,7 @@ func TestServiceCreateEmptyConfig(t *testing.T) {
 
 		out = &serviceProto.Response{}
 
-		t.Run("terminate", terminate(cmd, out))
+		t.Run("terminate", terminate("127.0.0.1:6001", cmd, out))
 	}
 
 	time.Sleep(time.Second * 2)
@@ -819,7 +819,7 @@ func TestServiceRestart(t *testing.T) {
 
 	time.Sleep(time.Second * 3)
 	l := &serviceProto.List{}
-	t.Run("list", list(&serviceProto.Service{}, l))
+	t.Run("list", list("127.0.0.1:6001", &serviceProto.Service{}, l))
 
 	for i := 0; i < len(l.GetServices()); i++ {
 		cmd := &serviceProto.Service{
@@ -835,7 +835,7 @@ func TestServiceRestart(t *testing.T) {
 
 	time.Sleep(time.Second * 2)
 	out = &serviceProto.Response{}
-	t.Run("terminate", terminate(&serviceProto.Service{Name: "foo"}, out))
+	t.Run("terminate", terminate("127.0.0.1:6001", &serviceProto.Service{Name: "foo"}, out))
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -920,7 +920,7 @@ func TestServiceRestartConcurrent(t *testing.T) {
 	time.Sleep(time.Second)
 
 	l := &serviceProto.List{}
-	t.Run("list", list(nil, l))
+	t.Run("list", list("127.0.0.1:6001", nil, l))
 
 	for jj := 0; jj < 100; jj++ {
 		go func() {
@@ -954,7 +954,7 @@ func TestServiceRestartConcurrent(t *testing.T) {
 
 	time.Sleep(time.Second * 10)
 	out = &serviceProto.Response{}
-	t.Run("terminate", terminate(&serviceProto.Service{Name: "foo"}, out))
+	t.Run("terminate", terminate("127.0.0.1:6001", &serviceProto.Service{Name: "foo"}, out))
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -1036,7 +1036,7 @@ func TestServiceListConcurrent(t *testing.T) {
 	time.Sleep(time.Second)
 
 	l := &serviceProto.List{}
-	t.Run("list", list(nil, l))
+	t.Run("list", list("127.0.0.1:6001", nil, l))
 
 	for jj := 0; jj < 100; jj++ {
 		go func() {
@@ -1049,7 +1049,7 @@ func TestServiceListConcurrent(t *testing.T) {
 
 				t.Run("restart", restart(cmd, out1))
 				ll := &serviceProto.List{}
-				t.Run("list", list(nil, ll))
+				t.Run("list", list("127.0.0.1:6001", nil, ll))
 				require.Len(t, ll.GetServices(), 1)
 
 				time.Sleep(time.Millisecond * 100)
@@ -1065,7 +1065,7 @@ func TestServiceListConcurrent(t *testing.T) {
 				out2 := &serviceProto.Response{}
 				t.Run("restart", restart(cmd, out2))
 				ll := &serviceProto.List{}
-				t.Run("list", list(nil, ll))
+				t.Run("list", list("127.0.0.1:6001", nil, ll))
 				require.Len(t, ll.GetServices(), 1)
 
 				time.Sleep(time.Millisecond * 100)
@@ -1075,7 +1075,7 @@ func TestServiceListConcurrent(t *testing.T) {
 
 	time.Sleep(time.Second * 15)
 	out = &serviceProto.Response{}
-	t.Run("terminate", terminate(&serviceProto.Service{Name: "foo"}, out))
+	t.Run("terminate", terminate("127.0.0.1:6001", &serviceProto.Service{Name: "foo"}, out))
 	stopCh <- struct{}{}
 	wg.Wait()
 }
@@ -1160,7 +1160,7 @@ func TestServiceStatus(t *testing.T) {
 	time.Sleep(time.Second)
 
 	l := &serviceProto.List{}
-	t.Run("list", list(nil, l))
+	t.Run("list", list("127.0.0.1:6001", nil, l))
 	require.Len(t, l.GetServices(), 1)
 
 	inStat := &serviceProto.Service{
@@ -1174,7 +1174,7 @@ func TestServiceStatus(t *testing.T) {
 	require.NotZero(t, outStat.Status[0].GetPid())
 
 	out = &serviceProto.Response{}
-	t.Run("terminate", terminate(&serviceProto.Service{Name: l.GetServices()[0]}, out))
+	t.Run("terminate", terminate("127.0.0.1:6001", &serviceProto.Service{Name: l.GetServices()[0]}, out))
 
 	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
@@ -1333,7 +1333,7 @@ func TestServiceReset2(t *testing.T) {
 
 	cfg := &config.Plugin{
 		Version: "2.9.0",
-		Path:    "configs/.rr-service-reload.yaml",
+		Path:    "configs/.rr-service-reload-22.yaml",
 		Prefix:  "rr",
 	}
 
@@ -1397,7 +1397,7 @@ func TestServiceReset2(t *testing.T) {
 	require.NoError(t, err)
 
 	go func() {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", "127.0.0.1:6112")
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -1571,13 +1571,13 @@ func TestServiceReset4(t *testing.T) {
 
 	go func() {
 		l1 := &serviceProto.List{}
-		t.Run("list", list(nil, l1))
+		t.Run("list", list("127.0.0.1:6111", nil, l1))
 		require.Len(t, l1.GetServices(), 2)
 	}()
 
 	go func() {
 		l2 := &serviceProto.List{}
-		t.Run("list", list(nil, l2))
+		t.Run("list", list("127.0.0.1:6111", nil, l2))
 		require.Len(t, l2.GetServices(), 2)
 		for i := 0; i < len(l2.GetServices()); i++ {
 			cmd := &serviceProto.Service{
@@ -1586,7 +1586,7 @@ func TestServiceReset4(t *testing.T) {
 
 			out := &serviceProto.Response{}
 
-			t.Run("terminate", terminate(cmd, out))
+			t.Run("terminate", terminate("127.0.0.1:6111", cmd, out))
 		}
 	}()
 
@@ -1612,9 +1612,9 @@ func create(in *serviceProto.Create, out *serviceProto.Response) func(t *testing
 	}
 }
 
-func terminate(in *serviceProto.Service, out *serviceProto.Response) func(t *testing.T) {
+func terminate(address string, in *serviceProto.Service, out *serviceProto.Response) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 
@@ -1645,9 +1645,9 @@ func status(in *serviceProto.Service, out *serviceProto.Statuses) func(t *testin
 	}
 }
 
-func list(in *serviceProto.Service, out *serviceProto.List) func(t *testing.T) {
+func list(address string, in *serviceProto.Service, out *serviceProto.List) func(t *testing.T) {
 	return func(t *testing.T) {
-		conn, err := net.Dial("tcp", "127.0.0.1:6001")
+		conn, err := net.Dial("tcp", address)
 		require.NoError(t, err)
 		client := rpc.NewClientWithCodec(goridgeRpc.NewClientCodec(conn))
 

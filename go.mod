@@ -58,10 +58,10 @@ require (
 	github.com/roadrunner-server/service/v4 v4.4.1
 	github.com/roadrunner-server/sqs/v4 v4.5.1
 	github.com/roadrunner-server/static/v4 v4.1.3
-	github.com/roadrunner-server/status/v4 v4.4.0-beta.1
-	github.com/roadrunner-server/tcp/v4 v4.2.0-beta.3
+	github.com/roadrunner-server/status/v4 v4.4.0
+	github.com/roadrunner-server/tcp/v4 v4.2.0
 	github.com/stretchr/testify v1.8.4
-	github.com/temporalio/roadrunner-temporal/v4 v4.4.0
+	github.com/temporalio/roadrunner-temporal/v4 v4.4.1
 	github.com/yookoala/gofast v0.7.0
 	go.temporal.io/api v1.24.0
 	go.temporal.io/sdk v1.23.1

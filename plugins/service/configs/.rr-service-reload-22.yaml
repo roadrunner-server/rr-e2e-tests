@@ -1,7 +1,7 @@
 version: '3'
 
 rpc:
-  listen: tcp://127.0.0.1:6111
+  listen: tcp://127.0.0.1:6112
 
 service:
   some_service_1:

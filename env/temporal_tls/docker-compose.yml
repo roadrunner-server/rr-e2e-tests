@@ -14,7 +14,7 @@ services:
 
   postgresql:
     container_name: temporal-postgresql
-    image: postgres:14
+    image: postgres:15
     environment:
       POSTGRES_PASSWORD: temporal
       POSTGRES_USER: temporal
@@ -22,7 +22,7 @@ services:
       - "5432:5432"
 
   temporal:
-    image: temporalio/auto-setup:1.21
+    image: temporalio/auto-setup:1.22
     ports:
       - "7233:7233"
     depends_on:
@@ -57,7 +57,7 @@ services:
       - "TEMPORAL_CLI_TLS_ENABLE_HOST_VERIFICATION=true"
       - "TEMPORAL_CLI_TLS_SERVER_NAME=tls-sample"
   temporal-web:
-    image: temporalio/web:${WEB_TAG:-1.15.0}
+    image: temporalio/web:1.15.0
     ports:
       - "8088:8088"
     volumes:
@@ -72,7 +72,7 @@ services:
     depends_on:
       - temporal
   temporal-ui:
-    image: temporalio/ui:${UI_TAG:-2.17.2}
+    image: temporalio/ui:2.18.0
     ports:
       - "8080:8080"
     volumes:
@@ -87,7 +87,7 @@ services:
     depends_on:
       - temporal
   temporal-admin-tools:
-    image: temporalio/admin-tools:${SERVER_TAG:-1.21.4}
+    image: temporalio/admin-tools:1.22
     stdin_open: true
     tty: true
     volumes:
