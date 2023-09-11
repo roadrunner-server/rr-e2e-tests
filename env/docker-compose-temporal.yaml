@@ -14,7 +14,7 @@ services:
 
   postgresql:
     container_name: temporal-postgresql
-    image: postgres:14
+    image: postgres:15
     environment:
       POSTGRES_PASSWORD: temporal
       POSTGRES_USER: temporal
@@ -23,7 +23,7 @@ services:
 
   temporal-ui:
     container_name: temporal-ui
-    image: temporalio/ui:2.17.2
+    image: temporalio/ui:latest
     depends_on:
       - temporal
     environment:
@@ -34,7 +34,7 @@ services:
 
   temporal:
     container_name: temporal
-    image: temporalio/auto-setup:1.21.4
+    image: temporalio/auto-setup:1
     depends_on:
       - postgresql
     environment:
@@ -49,7 +49,7 @@ services:
 
   temporal-admin-tools:
     container_name: temporal-admin-tools
-    image: temporalio/admin-tools:1.21.4
+    image: temporalio/admin-tools:1
     depends_on:
       - temporal
     environment:
