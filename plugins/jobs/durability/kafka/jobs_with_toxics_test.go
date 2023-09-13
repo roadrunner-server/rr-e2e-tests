@@ -198,6 +198,9 @@ func TestDurabilityKafka(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	// we need to wait for the container, because of ping
+	time.Sleep(time.Second * 40)
+
 	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*30))
 
 	cfg := &config.Plugin{

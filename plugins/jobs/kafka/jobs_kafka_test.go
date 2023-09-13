@@ -817,13 +817,12 @@ func TestKafkaPingFailed(t *testing.T) {
 	assert.NoError(t, err)
 
 	err = cont.Init()
-
 	require.NoError(t, err)
 
 	_, err = cont.Serve()
 
-	assert.Error(t, err, "Failed: server should not run")
-	assert.Contains(t, err.Error(), "kafka_ping: unable to dial: dial tcp 127.0.0.1:9093: connect: connection refused")
+	assert.Error(t, err, "failed: server should not start because of kafka ping error")
+	assert.Contains(t, err.Error(), "serve error from the plugin *jobs.Plugin stopping execution, error: jobs_plugin_serve: kafka_ping: ping kafka was failed")
 }
 
 func TestKafkaPingOk(t *testing.T) {
