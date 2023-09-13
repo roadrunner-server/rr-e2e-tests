@@ -17,7 +17,7 @@ require (
 	github.com/fatih/color v1.15.0
 	github.com/goccy/go-json v0.10.2
 	github.com/google/uuid v1.3.1
-	github.com/nats-io/nats.go v1.28.0
+	github.com/nats-io/nats.go v1.29.0
 	github.com/pborman/uuid v1.2.1
 	github.com/prometheus/client_golang v1.16.0
 	github.com/rabbitmq/amqp091-go v1.8.1
@@ -25,7 +25,7 @@ require (
 	github.com/roadrunner-server/api/v4 v4.8.0
 	github.com/roadrunner-server/app-logger/v4 v4.1.0
 	github.com/roadrunner-server/beanstalk/v4 v4.5.1
-	github.com/roadrunner-server/boltdb/v4 v4.6.1
+	github.com/roadrunner-server/boltdb/v4 v4.7.0
 	github.com/roadrunner-server/centrifuge/v4 v4.3.0
 	github.com/roadrunner-server/config/v4 v4.4.2
 	github.com/roadrunner-server/endure/v2 v2.4.2
@@ -42,7 +42,7 @@ require (
 	github.com/roadrunner-server/kv/v4 v4.4.1
 	github.com/roadrunner-server/lock/v4 v4.4.1
 	github.com/roadrunner-server/logger/v4 v4.2.1
-	github.com/roadrunner-server/memcached/v4 v4.2.0
+	github.com/roadrunner-server/memcached/v4 v4.3.0
 	github.com/roadrunner-server/memory/v4 v4.6.0
 	github.com/roadrunner-server/metrics/v4 v4.1.3
 	github.com/roadrunner-server/nats/v4 v4.5.1
@@ -76,7 +76,7 @@ exclude go.temporal.io/sdk v1.24.0
 require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go v1.45.7 // indirect
+	github.com/aws/aws-sdk-go v1.45.8 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.11 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.41 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.35 // indirect
@@ -128,7 +128,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/mholt/acmez v1.2.0 // indirect
-	github.com/miekg/dns v1.1.55 // indirect
+	github.com/miekg/dns v1.1.56 // indirect
 	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/moby/term v0.5.0 // indirect
@@ -175,18 +175,19 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.3 // indirect
 	github.com/zeebo/blake3 v0.2.3 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect
-	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.43.0 // indirect
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.43.0 // indirect
-	go.opentelemetry.io/contrib/propagators/jaeger v1.18.0 // indirect
-	go.opentelemetry.io/otel v1.17.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.17.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.17.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.17.0 // indirect
-	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.17.0 // indirect
-	go.opentelemetry.io/otel/exporters/zipkin v1.17.0 // indirect
-	go.opentelemetry.io/otel/metric v1.17.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.17.0 // indirect
-	go.opentelemetry.io/otel/trace v1.17.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/github.com/bradfitz/gomemcache/memcache/otelmemcache v0.43.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.44.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.44.0 // indirect
+	go.opentelemetry.io/contrib/propagators/jaeger v1.19.0 // indirect
+	go.opentelemetry.io/otel v1.18.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.18.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.18.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.18.0 // indirect
+	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.18.0 // indirect
+	go.opentelemetry.io/otel/exporters/zipkin v1.18.0 // indirect
+	go.opentelemetry.io/otel/metric v1.18.0 // indirect
+	go.opentelemetry.io/otel/sdk v1.18.0 // indirect
+	go.opentelemetry.io/otel/trace v1.18.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.0.0 // indirect
 	go.temporal.io/sdk/contrib/opentelemetry v0.2.0 // indirect
 	go.temporal.io/sdk/contrib/tally v0.2.0 // indirect
