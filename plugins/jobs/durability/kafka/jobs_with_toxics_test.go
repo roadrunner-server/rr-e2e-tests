@@ -303,6 +303,8 @@ func TestDurabilityKafkaCG(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	time.Sleep(time.Second * 40)
+
 	cont := endure.New(slog.LevelDebug, endure.GracefulShutdownTimeout(time.Second*30))
 
 	cfg := &config.Plugin{
