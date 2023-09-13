@@ -822,7 +822,7 @@ func TestKafkaPingFailed(t *testing.T) {
 	_, err = cont.Serve()
 
 	assert.Error(t, err, "failed: server should not start because of kafka ping error")
-	assert.Contains(t, err.Error(), "ping kafka was failed")
+	assert.Contains(t, err.Error(), "kafka_ping: unable to dial")
 }
 
 func TestKafkaPingOk(t *testing.T) {

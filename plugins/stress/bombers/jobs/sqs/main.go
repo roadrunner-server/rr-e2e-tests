@@ -93,7 +93,7 @@ func push100(client *rpc.Client, pipe string, rate *uint64) {
 			Job: &jobsProto.Job{
 				Job:     "Some/Super/PHP/Class",
 				Id:      uuid.NewString(),
-				Payload: string(data),
+				Payload: data,
 				Headers: map[string]*jobsProto.HeaderValue{"test": {Value: []string{"hello"}}},
 				Options: &jobsProto.Options{
 					Priority: int64(rand2.Intn(100) + 1), //nolint:gosec
