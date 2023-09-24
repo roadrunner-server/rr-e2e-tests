@@ -9,4 +9,6 @@ server:
 centrifuge:
   proxy_address: "tcp://127.0.0.1:10001"
   grpc_api_address: "tcp"
-
+  pool:
+    num_workers: 1
+    destroy_timeout: 5s

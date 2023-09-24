@@ -1,6 +1,7 @@
 package centrifugo
 
 import (
+	"log/slog"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -9,13 +10,10 @@ import (
 	"testing"
 	"time"
 
-	"log/slog"
-
 	centrifugeClient "github.com/centrifugal/centrifuge-go"
 	"github.com/roadrunner-server/centrifuge/v4"
 	"github.com/roadrunner-server/config/v4"
 	"github.com/roadrunner-server/endure/v2"
-	"github.com/roadrunner-server/logger/v4"
 	"github.com/roadrunner-server/rpc/v4"
 	mocklogger "github.com/roadrunner-server/rr-e2e-tests/mock"
 	"github.com/roadrunner-server/server/v4"
@@ -24,11 +22,11 @@ import (
 	"go.uber.org/zap"
 )
 
-func TestCentrifugoPlugiInit(t *testing.T) {
+func TestCentrifugoPluginInit(t *testing.T) {
 	cont := endure.New(slog.LevelDebug)
 
 	cfg := &config.Plugin{
-		Version: "2023.1.0",
+		Version: "2023.3.0",
 		Path:    "configs/.rr-centrifugo-init.yaml",
 		Prefix:  "rr",
 	}
@@ -42,14 +40,12 @@ func TestCentrifugoPlugiInit(t *testing.T) {
 	}()
 
 	l, oLogger := mocklogger.ZapTestLogger(zap.DebugLevel)
-	_ = l
 	err = cont.RegisterAll(
+		l,
 		cfg,
 		&centrifuge.Plugin{},
 		&server.Plugin{},
-		&logger.Plugin{},
 		&rpc.Plugin{},
-		// l,
 	)
 	assert.NoError(t, err)
 
@@ -110,13 +106,22 @@ func TestCentrifugoPlugiInit(t *testing.T) {
 
 	err = client.Connect()
 	assert.NoError(t, err)
-	time.Sleep(time.Second * 10)
+
+	subscription, err := client.NewSubscription("test")
+	assert.NoError(t, err)
+
+	err = subscription.Subscribe()
+	assert.NoError(t, err)
+	time.Sleep(time.Second * 2)
+	err = subscription.Unsubscribe()
+	assert.NoError(t, err)
+	client.Close()
+
+	time.Sleep(time.Second * 2)
 	stopCh <- struct{}{}
+	_ = cmd.Process.Kill()
 	wg.Wait()
 
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was started").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("pipeline was stopped").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("job was pushed successfully").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("job processing was started").Len())
-	require.Equal(t, 2, oLogger.FilterMessageSnippet("delivery channel was closed, leaving the rabbit listener").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("got connect proxy request").Len())
+	require.Equal(t, 1, oLogger.FilterMessageSnippet("got subscribe proxy request").Len())
 }
