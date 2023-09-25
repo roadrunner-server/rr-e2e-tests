@@ -30,7 +30,7 @@ require (
 	github.com/roadrunner-server/config/v4 v4.4.3
 	github.com/roadrunner-server/endure/v2 v2.4.2
 	github.com/roadrunner-server/errors v1.3.0
-	github.com/roadrunner-server/fileserver/v4 v4.1.3
+	github.com/roadrunner-server/fileserver/v4 v4.1.4
 	github.com/roadrunner-server/goridge/v3 v3.8.1
 	github.com/roadrunner-server/grpc/v4 v4.5.0-beta.1
 	github.com/roadrunner-server/gzip/v4 v4.1.3
