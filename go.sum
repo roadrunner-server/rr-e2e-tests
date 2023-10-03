@@ -1258,8 +1258,8 @@ github.com/roadrunner-server/amqp/v4 v4.8.4 h1:HAREZ7nBymMSjQpSDGYaMTSELutTAB3gV
 github.com/roadrunner-server/amqp/v4 v4.8.4/go.mod h1:Easjf2zW/6SDPdgQEdpFFP7LLCpQXUuVyUHtqatZbcY=
 github.com/roadrunner-server/api/v4 v4.8.0 h1:wsANwein0dD3q9OQi8L6XGjgEkEn/23mAJ4ZphavfLM=
 github.com/roadrunner-server/api/v4 v4.8.0/go.mod h1:FhCdSyHWBJfyZ0yuggVE72WYKcmAOsGuJbC3dvzaMOg=
-github.com/roadrunner-server/app-logger/v4 v4.1.0 h1:+NRiRDXE/gwAl6ROGcvcSVUST9+KhleP1T9SAmd8GAA=
-github.com/roadrunner-server/app-logger/v4 v4.1.0/go.mod h1:X1Z4Pnuou5mE0l1ZZzKfdnqG7sRhtSm/asOM5wPdoTg=
+github.com/roadrunner-server/app-logger/v4 v4.2.0 h1:OLW0o03weUchfKNgpQrVJWRYoXImaS4LsJzszwZyDWw=
+github.com/roadrunner-server/app-logger/v4 v4.2.0/go.mod h1:kh2PJJ3p2ZCx2dimVfdqQdwYSsjxRLz/e0AHhhFLiPM=
 github.com/roadrunner-server/beanstalk/v4 v4.5.2 h1:gQ1Dqtolk3ecXts+MjTjF11xMHca7BpeHVn+d5w91r8=
 github.com/roadrunner-server/beanstalk/v4 v4.5.2/go.mod h1:ZWPj6Sinhr4G9cJi4EQWqgUIbsRCVvcbWhh+H+m3bM0=
 github.com/roadrunner-server/boltdb/v4 v4.7.1 h1:QM9rdpMea7yyGvoO0PQICEbqV/us/yp40nszO2kLdo4=
