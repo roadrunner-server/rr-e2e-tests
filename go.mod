@@ -33,7 +33,7 @@ require (
 	github.com/roadrunner-server/fileserver/v4 v4.1.3
 	github.com/roadrunner-server/goridge/v3 v3.8.1
 	github.com/roadrunner-server/grpc/v4 v4.5.0-beta.1
-	github.com/roadrunner-server/gzip/v4 v4.1.3
+	github.com/roadrunner-server/gzip/v4 v4.1.4
 	github.com/roadrunner-server/headers/v4 v4.2.4
 	github.com/roadrunner-server/http/v4 v4.4.0-beta.1
 	github.com/roadrunner-server/informer/v4 v4.3.0-beta.1
