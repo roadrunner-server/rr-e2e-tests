@@ -15,10 +15,10 @@
 
 # Tests status
 
-| Plugin                                                                  | Plugin                                                                             |
-|-------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| ![](https://github.com/roadrunner-server/amqp/workflows/amqp/badge.svg) | ![](https://github.com/roadrunner-server/amqp/workflows/amqp_durability/badge.svg) |
-|                                                                         |                                                                                    |
+| Plugin                                                                                                                   | Plugin                                                                                                                                      |
+|--------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| ![https://github.com/roadrunner-server/amqp/actions](https://github.com/roadrunner-server/amqp/workflows/amqp/badge.svg) | ![https://github.com/roadrunner-server/rr-e2e-tests/actions](https://github.com/roadrunner-server/amqp/workflows/amqp_durability/badge.svg) |
+|                                                                                                                          |                                                                                                                                             |
 
 ## License:
 
