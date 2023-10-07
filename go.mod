@@ -43,7 +43,7 @@ require (
 	github.com/roadrunner-server/lock/v4 v4.5.1
 	github.com/roadrunner-server/logger/v4 v4.2.3
 	github.com/roadrunner-server/memcached/v4 v4.3.2
-	github.com/roadrunner-server/memory/v4 v4.6.3
+	github.com/roadrunner-server/memory/v4 v4.6.4
 	github.com/roadrunner-server/metrics/v4 v4.1.5
 	github.com/roadrunner-server/nats/v4 v4.5.4
 	github.com/roadrunner-server/otel/v4 v4.3.1
