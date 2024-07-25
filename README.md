@@ -29,7 +29,7 @@
 | ![](https://github.com/roadrunner-server/config/actions/workflows/linux.yml/badge.svg)      | ![](https://github.com/roadrunner-server/kv/actions/workflows/linux.yml/badge.svg)                   | ![](https://github.com/roadrunner-server/service/actions/workflows/linux.yml/badge.svg)         |
 | ![](https://github.com/roadrunner-server/gzip/actions/workflows/linux.yml/badge.svg)        | ![](https://github.com/roadrunner-server/logger/actions/workflows/linux.yml/badge.svg)               | ![](https://github.com/roadrunner-server/tcp/actions/workflows/linux.yml/badge.svg)             |
 | ![](https://github.com/roadrunner-server/headers/actions/workflows/linux.yml/badge.svg)     | ![](https://github.com/roadrunner-server/lock/actions/workflows/linux.yml/badge.svg)                 | ![](https://github.com/roadrunner-server/otel/actions/workflows/linux.yml/badge.svg)            |
-| ![](https://github.com/roadrunner-server/informer/actions/workflows/linux.yml/badge.svg)    | ![](https://github.com/roadrunner-server/memcached/actions/workflows/linux.yml/badge.svg)            | ![](https://github.com/roadrunner-server/jobs/actions/workflows/linux.yml/badge.svg)            |
+| ![](https://github.com/roadrunner-server/informer/actions/workflows/linux.yml/badge.svg)    | ![](https://github.com/roadrunner-server/memcached/actions/workflows/linux.yml/badge.svg)            | ![](https://github.com/roadrunner-server/jobs/actions/workflows/linux.yml/badge.svg)            | ![](https://github.com/roadrunner-server/google-pub-sub/actions/workflows/linux.yml/badge.svg) |
 
 
 #### Previous tests
