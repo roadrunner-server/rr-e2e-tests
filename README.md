@@ -1,4 +1,4 @@
-# RoadRunner end-to-end plugins tests
+# RoadRunner tests dashboard
 <p align="center">
  <a href="https://roadrunner.dev" target="_blank">
   <picture>
